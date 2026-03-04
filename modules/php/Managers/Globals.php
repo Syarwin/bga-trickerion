@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+
 class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals
 {
     protected static $data = [];
@@ -18,7 +20,9 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
 
     public static function getUiData(int $playerId) {
         //it is possible to filter sam data here, if needed
-        return self::getAll();
+        return array_merge(self::getAll(), [
+            "isDarkAlley" => self::isDarkAlley(),
+        ]);
     }
 
     /*
@@ -31,6 +35,11 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
 
     */
 
+    public static function isDarkAlley() {
+        $isDarkAlley = Game::$instance->tableOptions->get(Globals::OPTION_DARK_ALLEY);
+        return $isDarkAlley == 1;
+    }
+
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
@@ -40,4 +49,6 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
      ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
     */
+
+    const OPTION_DARK_ALLEY = 120;
 }
