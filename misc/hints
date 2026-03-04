@@ -1,0 +1,4 @@
+to get contents of a class:
+
+// echo file_get_contents("/var/tournoi/release/tournoi-260219-1710-gs/www/Bga/GameFramework/GamestateMachine.php");
+// die();
