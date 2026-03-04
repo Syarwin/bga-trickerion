@@ -16,17 +16,15 @@
  */
 declare(strict_types=1);
 
-namespace Bga\Games\Trickerion;
+namespace Bga\Games\trickerionlegendsofillusion;
 
-use Bga\Games\Trickerion\Managers\Globals;
-use Bga\Games\Trickerion\Framework\Db\Log;
-use Bga\Games\Trickerion\Framework\Engine\Engine;
-use Bga\Games\Trickerion\Framework\TurnOrderManager;
-use Bga\Games\Trickerion\Managers\Cards;
-use Bga\Games\Trickerion\Managers\Pairs;
-use Bga\Games\Trickerion\Managers\Players;
-use Bga\Games\Trickerion\States\EndRound;
-use Bga\Games\Trickerion\States\PlayerTurn;
+use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\States\ChooseMagician;
+use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -59,8 +57,6 @@ class Game extends \Bga\GameFramework\Table
             // Force to clear cached informations
             Globals::fetch();
             Players::invalidate();
-            Cards::invalidate();
-            Pairs::invalidate();
         });
 
         $this->bga->notify->addDecorator(function($message, $args) {
@@ -145,8 +141,6 @@ class Game extends \Bga\GameFramework\Table
         return [
             'players' => Players::getUiData($playerId),
             'globals' => Globals::getUiData($playerId),
-            'cards' => Cards::getUiData($playerId),
-            'pairs' => Pairs::getUiData($playerId),
         ];
     }
 
@@ -158,12 +152,11 @@ class Game extends \Bga\GameFramework\Table
     {
         Globals::setupNewGame($players, $options);
         Players::setupNewGame($players);
-        Cards::setupNewGame();
 
         Log::enable();
         $this->activeNextPlayer();
         
-        return TurnOrderManager::lauchDefault("turn", PlayerTurn::class, EndRound::class, true);
+        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, null/*EndRound::class*/, false);
     }
 
     /////////////////////////////////////////////////////////////

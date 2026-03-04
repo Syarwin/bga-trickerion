@@ -1,0 +1,34 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * Trickerion implementation : © <Your name here> <Your email address here>
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * Trickerion.css
+ *
+ * Trickerion stylesheet
+ *
+ */
+
+#game_play_area {
+    --zoom: 1;
+    --gap: calc(var(--zoom) * 10px);
+}
+
+#player_boards {
+    --zoom: 0.5;
+    --gap: calc(var(--zoom) * 10px);
+}
+
+/* missing tailwind*/
+.gap-\(--gap\) {
+    gap: var(--gap);
+}
+
+#logs .log.cancel {
+    text-decoration: line-through;
+    filter: contrast(0.5);
+}

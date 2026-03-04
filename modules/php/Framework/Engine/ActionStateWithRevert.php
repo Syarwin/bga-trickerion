@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\Trickerion\Framework\Engine;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine;
 
 use Bga\GameFramework\States\PossibleAction;
-use Bga\Games\Trickerion\Framework\Db\Log;
-use Bga\Games\Trickerion\Framework\Managers\Config;
-use Bga\Games\Trickerion\Game;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Config;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 class ActionStateWithRevert extends ActionState
 {

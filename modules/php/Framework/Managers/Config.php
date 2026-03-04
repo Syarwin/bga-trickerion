@@ -1,8 +1,8 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework\Managers;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Managers;
 
-use Bga\Games\Trickerion\Framework\Db\Globals;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals;
 
 class Config extends Globals
 {

@@ -1,21 +1,21 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework\Managers;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Managers;
 
-use Bga\Games\Trickerion\Framework\Models\Player;
-use Bga\Games\Trickerion\Game;
+use Bga\Games\trickerionlegendsofillusion\Framework\Models\Player;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 /*
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
  */
-class Players extends \Bga\Games\Trickerion\Framework\Db\CachedDB_Manager
+class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedDB_Manager
 {
     protected static $table = 'player';
     protected static $primary = 'player_id';
     protected static function cast($row)
     {
-        return new \Bga\Games\Trickerion\Framework\Models\Player($row);
+        return new \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player($row);
     }
 
     public static function setupNewGame($players)

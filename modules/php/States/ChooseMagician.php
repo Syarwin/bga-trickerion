@@ -7,37 +7,38 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
-class ConfirmTurn extends ActionStateWithRevert
+class ChooseMagician extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
     ) {
         parent::__construct($game,
-            id: States::ST_CONFIRM_TURN,
+            id: States::ST_CHOOSE_MAGICIAN,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must finalize their decisions.'),
-            descriptionMyTurn: clienttranslate('${you} must finalize your decisions. When you do you won\'t be able to undo past this point'),
+            description: clienttranslate('${actplayer} must choose a magician'),
+            descriptionMyTurn: clienttranslate('${you} must choose a magician'),
         );
     }
 
-    public function onEnteringState(int $activePlayerId)
+    public function getActionArgs(int $activePlayerId): array
     {
-        //TODO reimplement
-        // // Check user preference to bypass if DISABLED is picked
-        // $pref = Players::getActive()->getPref(Preferences::OPTION_CONFIRM);
-        // if ($pref == Preferences::OPTION_DISABLED) {
-        //     $this->actConfirmTurn();
-        // }
-    }
+        $args = [];
+        return $args;
+    }    
 
+    /**
+     * Player must resolve the choice.
+     *
+     * @throws UserException
+     */
     #[PossibleAction]
-    public function actConfirmTurn()
+    public function actChooseMagician(int $activePlayerId, int $magicianId)
     {
-        return Engine::confirm();
+        
+        return $this->resolve(["magicianId" => $magicianId]);
     }
 
     /**
@@ -55,5 +56,5 @@ class ConfirmTurn extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }
+    }    
 }

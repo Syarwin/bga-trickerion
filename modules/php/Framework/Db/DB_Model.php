@@ -1,6 +1,6 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Db;
-use \Bga\Games\Trickerion\Game;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
+use \Bga\Games\trickerionlegendsofillusion\Game;
 
 abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 {

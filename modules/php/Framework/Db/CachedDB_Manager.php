@@ -1,5 +1,5 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Db;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 class CachedDB_Manager extends DB_Manager
 {

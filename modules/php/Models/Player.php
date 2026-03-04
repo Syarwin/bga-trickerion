@@ -1,15 +1,15 @@
 <?php
 
-namespace Bga\Games\Trickerion\Models;
+namespace Bga\Games\trickerionlegendsofillusion\Models;
 
-use Bga\Games\Trickerion\Managers\Globals;
-use Bga\Games\Trickerion\Managers\Pairs;
+use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
+use Bga\Games\trickerionlegendsofillusion\Managers\Pairs;
 
 /**
  * Class representing a Player
  *
  */
-class Player extends \Bga\Games\Trickerion\Framework\Models\Player
+class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player
 {
     protected $table = 'player';
     protected $primary = 'player_id';

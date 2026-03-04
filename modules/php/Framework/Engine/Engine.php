@@ -1,17 +1,17 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework\Engine;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine;
 
 use Bga\GameFramework\VisibleSystemException;
-use Bga\Games\Trickerion\Framework\Db\Log;
-use Bga\Games\Trickerion\Framework\Engine\Constants\States;
-use Bga\Games\Trickerion\Framework\Managers\Config;
-use Bga\Games\Trickerion\Framework\Managers\Players;
-use Bga\Games\Trickerion\Framework\TurnOrderManager;
-use Bga\Games\Trickerion\Game;
-use Bga\Games\Trickerion\States\ConfirmPartialTurn;
-use Bga\Games\Trickerion\States\ConfirmTurn;
-use Bga\Games\Trickerion\States\ResolveChoice;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Config;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\States\ConfirmPartialTurn;
+use Bga\Games\trickerionlegendsofillusion\States\ConfirmTurn;
+use Bga\Games\trickerionlegendsofillusion\States\ResolveChoice;
 
 /*
  * Engine: a class that allows to handle complex flow

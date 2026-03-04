@@ -1,5 +1,5 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Engine;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine;
 
 /*
  * XorNode: a class that represent an Node with a choice (parallel) with a unique possibility

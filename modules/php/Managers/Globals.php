@@ -1,8 +1,8 @@
 <?php
 
-namespace Bga\Games\Trickerion\Managers;
+namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
-class Globals extends \Bga\Games\Trickerion\Framework\Db\Globals
+class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals
 {
     protected static $data = [];
     protected static $initialized = false;

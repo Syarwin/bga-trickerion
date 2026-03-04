@@ -1,12 +1,12 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework;
+namespace Bga\Games\trickerionlegendsofillusion\Framework;
 
 use Bga\GameFramework\VisibleSystemException;
-use Bga\Games\Trickerion\Framework\Engine\Constants\States;
-use Bga\Games\Trickerion\Framework\Managers\Config;
-use Bga\Games\Trickerion\Framework\Managers\Players;
-use Bga\Games\Trickerion\Game;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Config;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 class TurnOrderManager
 {

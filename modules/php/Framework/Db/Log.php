@@ -1,9 +1,9 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Db;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 use Bga\GameFramework\VisibleSystemException;
-use Bga\Games\Trickerion\Framework\Managers\Players;
-use Bga\Games\Trickerion\Game;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 /**
  * Class that allows to log DB change: useful for undo feature

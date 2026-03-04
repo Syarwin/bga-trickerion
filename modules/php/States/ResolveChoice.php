@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\Trickerion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
-use Bga\Games\Trickerion\Framework\Engine\ActionStateWithRevert;
-use Bga\Games\Trickerion\Framework\Engine\Constants\States;
-use Bga\Games\Trickerion\Framework\Engine\Engine;
-use Bga\Games\Trickerion\Framework\Engine\XorNode;
-use Bga\Games\Trickerion\Game;
-use Bga\Games\Trickerion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\XorNode;
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 class ResolveChoice extends ActionStateWithRevert
 {

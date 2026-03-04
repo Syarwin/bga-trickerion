@@ -1,5 +1,5 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Engine;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine;
 
 use Bga\GameFramework\VisibleSystemException;
 
@@ -392,7 +392,7 @@ class AbstractNode
   {
     $this->info['choice'] = $childIndex;
     $child = $this->children[$this->info['choice']];
-    if (!$auto && !($child instanceof \Bga\Games\Trickerion\Framework\Engine\LeafNode)) {
+    if (!$auto && !($child instanceof \Bga\Games\trickerionlegendsofillusion\Framework\Engine\LeafNode)) {
       $child->enforceMandatory();
     }
   }

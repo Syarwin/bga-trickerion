@@ -1,12 +1,12 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework\Db;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 /*
  * Globals
  */
 
-abstract class Globals extends \Bga\Games\Trickerion\Framework\Db\DB_Manager
+abstract class Globals extends DB_Manager
 {
     protected static $initialized = false;
     protected static $data = [];

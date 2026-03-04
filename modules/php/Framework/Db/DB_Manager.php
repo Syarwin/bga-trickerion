@@ -1,6 +1,6 @@
 <?php
-namespace Bga\Games\Trickerion\Framework\Db;
-use \Bga\Games\Trickerion\Game;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
+use \Bga\Games\trickerionlegendsofillusion\Game;
 
 class DB_Manager extends \APP_DbObject
 {

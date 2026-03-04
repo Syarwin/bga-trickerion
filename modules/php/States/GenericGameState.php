@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\Trickerion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
-use Bga\Games\Trickerion\Framework\Engine\Constants\States;
-use Bga\Games\Trickerion\Game;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 class GenericGameState extends GameState
 {

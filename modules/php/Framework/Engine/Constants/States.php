@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Bga\Games\Trickerion\Framework\Engine\Constants;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants;
 
 class States {
     //ENGINE STATES

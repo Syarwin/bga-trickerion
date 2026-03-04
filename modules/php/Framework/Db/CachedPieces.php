@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\Trickerion\Framework\Db;
+namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 use Bga\GameFramework\VisibleSystemException;
 

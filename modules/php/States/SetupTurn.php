@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\Trickerion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
-use Bga\Games\Trickerion\Framework\Engine\Engine;
-use Bga\Games\Trickerion\Game;
-use Bga\Games\Trickerion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
-class PlayerTurn extends GameState
+class SetupTurn extends GameState
 {
     function __construct(
         protected Game $game,
     ) {
         parent::__construct($game,
-            id: States::ST_PLAYER_TURN,
+            id: States::ST_SETUP_TURN,
             type: StateType::GAME,
         );
     }
@@ -32,7 +32,7 @@ class PlayerTurn extends GameState
                     "type" => Engine::NODE_PARALLEL,
                     "children" => [
                         [
-                            // "state" => DrawOrPair::class,
+                            "state" => ChooseMagician::class,
                             "args" => [
                             ]
                         ]
