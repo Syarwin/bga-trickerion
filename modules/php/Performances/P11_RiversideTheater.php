@@ -49,8 +49,8 @@ class P11_RiversideTheater extends Performance
             ],
         ];
         $this->bonus = [
-            "fame" => 1,
-            "coins" => 0,
+            "fame" => 0,
+            "coins" => 2,
             "shards" => 0
         ];
     }

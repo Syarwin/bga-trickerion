@@ -4,23 +4,37 @@ namespace Bga\Games\trickerionlegendsofillusion\Performances;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
-class P12_RiversideTheater extends Performance
+class P18_GrandMagorian extends Performance
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'P12_RiversideTheater';
-        $this->theater = Performance::THEATER_RIVERSIDE;
-        $this->name = clienttranslate('Riverside Theater');
+        $this->type = 'P18_GrandMagorian';
+        $this->theater = Performance::THEATER_GRAND_MAGORIAN;
+        $this->name = clienttranslate('Grand Magorian');
         $this->slots = [
+            "0.0" => [
+                "x" => 0,
+                "y" => 0,
+                "links" => [
+                    [
+                        "direction" => self::LINK_DIRECTION_RIGHT,
+                        "shard" => false
+                    ]
+                ]
+            ],
             "1.0" => [
                 "x" => 1,
                 "y" => 0,
                 "links" => [
                     [
+                        "direction" => self::LINK_DIRECTION_LEFT,
+                        "shard" => false
+                    ],
+                    [
                         "direction" => self::LINK_DIRECTION_DOWN,
-                        "shard" => true
-                    ]
+                        "shard" => false
+                    ],
                 ]
             ],
             "1.1" => [
@@ -29,11 +43,11 @@ class P12_RiversideTheater extends Performance
                 "links" => [
                     [
                         "direction" => self::LINK_DIRECTION_UP,
-                        "shard" => true
+                        "shard" => false
                     ],
                     [
                         "direction" => self::LINK_DIRECTION_LEFT,
-                        "shard" => false
+                        "shard" => true
                     ],
                 ]
             ],
@@ -43,15 +57,15 @@ class P12_RiversideTheater extends Performance
                 "links" => [
                     [
                         "direction" => self::LINK_DIRECTION_RIGHT,
-                        "shard" => false
+                        "shard" => true
                     ],
                 ]
             ],
         ];
         $this->bonus = [
-            "fame" => 0,
-            "coins" => 0,
-            "shards" => 1
+            "fame" => 2,
+            "coins" => 1,
+            "shards" => 0
         ];
     }
 }

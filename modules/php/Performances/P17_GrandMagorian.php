@@ -4,35 +4,35 @@ namespace Bga\Games\trickerionlegendsofillusion\Performances;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
-class P12_RiversideTheater extends Performance
+class P17_GrandMagorian extends Performance
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'P12_RiversideTheater';
-        $this->theater = Performance::THEATER_RIVERSIDE;
-        $this->name = clienttranslate('Riverside Theater');
+        $this->type = 'P17_GrandMagorian';
+        $this->theater = Performance::THEATER_GRAND_MAGORIAN;
+        $this->name = clienttranslate('Grand Magorian');
         $this->slots = [
             "1.0" => [
                 "x" => 1,
                 "y" => 0,
                 "links" => [
                     [
-                        "direction" => self::LINK_DIRECTION_DOWN,
+                        "direction" => self::LINK_DIRECTION_LEFT,
                         "shard" => true
                     ]
                 ]
             ],
-            "1.1" => [
-                "x" => 1,
-                "y" => 1,
+            "0.0" => [
+                "x" => 0,
+                "y" => 0,
                 "links" => [
                     [
-                        "direction" => self::LINK_DIRECTION_UP,
+                        "direction" => self::LINK_DIRECTION_RIGHT,
                         "shard" => true
                     ],
                     [
-                        "direction" => self::LINK_DIRECTION_LEFT,
+                        "direction" => self::LINK_DIRECTION_DOWN,
                         "shard" => false
                     ],
                 ]
@@ -42,16 +42,30 @@ class P12_RiversideTheater extends Performance
                 "y" => 1,
                 "links" => [
                     [
+                        "direction" => self::LINK_DIRECTION_UP,
+                        "shard" => false
+                    ],
+                    [
                         "direction" => self::LINK_DIRECTION_RIGHT,
+                        "shard" => false
+                    ],
+                ]
+            ],
+            "1.1" => [
+                "x" => 1,
+                "y" => 1,
+                "links" => [
+                    [
+                        "direction" => self::LINK_DIRECTION_LEFT,
                         "shard" => false
                     ],
                 ]
             ],
         ];
         $this->bonus = [
-            "fame" => 0,
-            "coins" => 0,
-            "shards" => 1
+            "fame" => 2,
+            "coins" => 1,
+            "shards" => 0
         ];
     }
 }

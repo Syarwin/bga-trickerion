@@ -4,14 +4,14 @@ namespace Bga\Games\trickerionlegendsofillusion\Performances;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
-class P12_RiversideTheater extends Performance
+class P19_GrandMagorian extends Performance
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'P12_RiversideTheater';
-        $this->theater = Performance::THEATER_RIVERSIDE;
-        $this->name = clienttranslate('Riverside Theater');
+        $this->type = 'P19_GrandMagorian';
+        $this->theater = Performance::THEATER_GRAND_MAGORIAN;
+        $this->name = clienttranslate('Grand Magorian');
         $this->slots = [
             "1.0" => [
                 "x" => 1,
@@ -32,7 +32,21 @@ class P12_RiversideTheater extends Performance
                         "shard" => true
                     ],
                     [
+                        "direction" => self::LINK_DIRECTION_DOWN,
+                        "shard" => false
+                    ],
+                    [
                         "direction" => self::LINK_DIRECTION_LEFT,
+                        "shard" => false
+                    ],
+                ]
+            ],
+            "1.2" => [
+                "x" => 1,
+                "y" => 2,
+                "links" => [
+                    [
+                        "direction" => self::LINK_DIRECTION_UP,
                         "shard" => false
                     ],
                 ]
@@ -49,7 +63,7 @@ class P12_RiversideTheater extends Performance
             ],
         ];
         $this->bonus = [
-            "fame" => 0,
+            "fame" => 1,
             "coins" => 0,
             "shards" => 1
         ];
