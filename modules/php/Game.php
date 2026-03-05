@@ -23,6 +23,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\States\ChooseMagician;
 use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
 
@@ -141,6 +142,7 @@ class Game extends \Bga\GameFramework\Table
         return [
             'players' => Players::getUiData($playerId),
             'globals' => Globals::getUiData($playerId),
+            'tricks' => Tricks::getUiData($playerId),
         ];
     }
 
@@ -152,6 +154,7 @@ class Game extends \Bga\GameFramework\Table
     {
         Globals::setupNewGame($players, $options);
         Players::setupNewGame($players);
+        Tricks::setupNewGame();
 
         Log::enable();
         $this->activeNextPlayer();

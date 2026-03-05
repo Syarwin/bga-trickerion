@@ -5,26 +5,28 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T16_WindowToTheOtherworld extends Trick
+class T40_Levitation extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T16_WindowToTheOtherworld';
-        $this->category = Trick::CATEGORY_SPIRITUAL;
-        $this->name = clienttranslate('Window to the Otherworld');
+        $this->type = 'T40_Levitation';
+        $this->category = Trick::CATEGORY_MECHANICAL;
+        $this->name = clienttranslate('Levitation');
         $this->componentRequirements = [
-            Components::MIRROR,
+            Components::ROPE,
             Components::PETROLEUM,
-            Components::METAL,
-            Components::METAL,
+            Components::PETROLEUM,
+            Components::GLASS,
+            Components::GLASS,
+            Components::GLASS,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;
         $this->level = 1;
         $this->yields = [
-            "fame" => 3,
-            "coins" => 2,
+            "fame" => 2,
+            "coins" => 3,
             "shards" => 0
         ];
     }

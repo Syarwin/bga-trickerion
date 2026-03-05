@@ -5,27 +5,28 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T26_StocksEscape extends Trick
+class T41_MechanicalHornet extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T26_StocksEscape';
-        $this->category = Trick::CATEGORY_ESCAPE;
-        $this->name = clienttranslate('Stocks Escape');
+        $this->type = 'T41_MechanicalHornet';
+        $this->category = Trick::CATEGORY_MECHANICAL;
+        $this->name = clienttranslate('Mechanical Hornet');
         $this->componentRequirements = [
-            Components::WOOD,
-            Components::WOOD,
+            Components::COG,
+            Components::PETROLEUM,
+            Components::METAL,
             Components::METAL,
             Components::METAL,
         ];
-        $this->preparationCost = 1;
+        $this->preparationCost = 2;
         $this->slots = 2;
-        $this->level = 1;
+        $this->level = 2;
         $this->yields = [
-            "fame" => 0,
-            "coins" => 1,
-            "shards" => 1
+            "fame" => 4,
+            "coins" => 3,
+            "shards" => 0
         ];
     }
 }

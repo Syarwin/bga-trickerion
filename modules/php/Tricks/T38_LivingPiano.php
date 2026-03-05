@@ -5,29 +5,26 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T4_CardManipulation extends Trick
+class T38_LivingPiano extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T4_CardManipulation';
-        $this->category = Trick::CATEGORY_OPTICAL;
-        $this->name = clienttranslate('Card Manipulation');
+        $this->type = 'T38_LivingPiano';
+        $this->category = Trick::CATEGORY_MECHANICAL;
+        $this->name = clienttranslate('Living Piano');
         $this->componentRequirements = [
+            Components::ANIMAL,
+            Components::GLASS,
             Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
         ];
         $this->preparationCost = 1;
-        $this->slots = 2;
+        $this->slots = 3;
         $this->level = 1;
         $this->yields = [
             "fame" => 1,
             "coins" => 1,
-            "shards" => 1
+            "shards" => 0
         ];
     }
 }

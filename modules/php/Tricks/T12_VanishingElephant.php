@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tactics;
+namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
@@ -25,7 +25,7 @@ class T12_VanishingElephant extends Trick
         ];
         $this->preparationCost = 2;
         $this->slots = 2;
-        $this->level = 2;
+        $this->level = 3;
         $this->yields = [
             "fame" => 9,
             "coins" => 4,
