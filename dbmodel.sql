@@ -17,14 +17,12 @@ CREATE TABLE IF NOT EXISTS `log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- CREATE TABLE IF NOT EXISTS `card` (
---   `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---   `card_location` varchar(32) NOT NULL,
---   `card_state` int(10),
---   `player_id` int(10),
---   `card_color` varchar(16) NOT NULL,
---   `card_value` int(10) NOT NULL,
---   PRIMARY KEY (`card_id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+CREATE TABLE IF NOT EXISTS `trick` (
+  `trick_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `trick_type` varchar(32) NOT NULL,
+  `trick_location` varchar(32) NOT NULL,
+  `trick_state` int(10),
+  `player_id` int(10),
+  `trick_symbol_marker` varchar(16) NOT NULL,
+  PRIMARY KEY (`trick_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
