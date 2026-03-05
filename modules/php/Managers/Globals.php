@@ -9,6 +9,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     protected static $data = [];
     protected static $initialized = false;
     protected static $variables = [
+        "marketRow" => "obj"
     ];
 
     /*
@@ -16,6 +17,13 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     */
     public static function setupNewGame($players, $options)
     {
+        MarketRow::init();
+        MarketRow::setBuyArea([
+            Components::WOOD,
+            Components::METAL,
+            Components::GLASS,
+            Components::FABRIC,
+        ]);
     }
 
     public static function getUiData(int $playerId) {
