@@ -1,0 +1,34 @@
+<?php
+
+namespace Bga\Games\trickerionlegendsofillusion\Tactics;
+
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Trick;
+
+class T31_Walled extends Trick
+{
+    public function __construct($row)
+    {
+        parent::__construct($row);
+        $this->type = 'T31_Walled';
+        $this->category = Trick::CATEGORY_ESCAPE;
+        $this->name = clienttranslate('Walled');
+        $this->componentRequirements = [
+            Components::PADDLOCK,
+            Components::WOOD,
+            Components::WOOD,
+            Components::WOOD,
+            Components::METAL,
+            Components::METAL,
+            Components::METAL,
+        ];
+        $this->preparationCost = 1;
+        $this->slots = 2;
+        $this->level = 2;
+        $this->yields = [
+            "fame" => 3,
+            "coins" => 2,
+            "shards" => 1
+        ];
+    }
+}
