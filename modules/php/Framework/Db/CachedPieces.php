@@ -421,12 +421,24 @@ class CachedPieces extends DB_Manager
 
     public static function insertOnTop($id, $location)
     {
+        if (is_array($id)) {
+            foreach ($id as $i) {
+                self::insertOnTop($i, $location);
+            }
+            return;
+        }
         $pos = self::getExtremePosition(true, $location);
         self::move($id, $location, $pos + 1);
     }
 
     public static function insertAtBottom($id, $location)
     {
+        if (is_array($id)) {
+            foreach ($id as $i) {
+                self::insertAtBottom($i, $location);
+            }
+            return;
+        }
         $pos = self::getExtremePosition(false, $location);
         self::move($id, $location, $pos - 1);
     }
