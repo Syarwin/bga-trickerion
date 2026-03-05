@@ -5,12 +5,12 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T5_SelfDecapitation extends Trick
+class T05_SelfDecapitation extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T5_SelfDecapitation';
+        $this->type = 'T05_SelfDecapitation';
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Self Decapitation');
         $this->componentRequirements = [

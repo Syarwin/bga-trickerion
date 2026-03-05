@@ -5,31 +5,31 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T8_FishingInTheAir extends Trick
+class T07_ShatteredMirror extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T8_FishingInTheAir';
+        $this->type = 'T07_ShatteredMirror';
         $this->category = Trick::CATEGORY_OPTICAL;
-        $this->name = clienttranslate('Fishing in the Air');
+        $this->name = clienttranslate('Shattered Mirror');
         $this->componentRequirements = [
-            Components::ROPE,
-            Components::ROPE,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::ANIMAL,
+            Components::MIRROR,
+            Components::MIRROR,
             Components::WOOD,
             Components::WOOD,
             Components::WOOD,
+            Components::GLASS,
+            Components::GLASS,
+            Components::GLASS,
         ];
         $this->preparationCost = 2;
-        $this->slots = 3;
+        $this->slots = 2;
         $this->level = 2;
         $this->yields = [
-            "fame" => 3,
-            "coins" => 4,
-            "shards" => 1
+            "fame" => 5,
+            "coins" => 3,
+            "shards" => 0
         ];
     }
 }

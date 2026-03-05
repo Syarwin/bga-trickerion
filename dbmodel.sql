@@ -26,3 +26,11 @@ CREATE TABLE IF NOT EXISTS `trick` (
   `trick_symbol_marker` varchar(16) NOT NULL,
   PRIMARY KEY (`trick_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `performance` (
+  `performance_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `performance_type` varchar(32) NOT NULL,
+  `performance_location` varchar(32) NOT NULL,
+  `performance_state` int(10),
+  PRIMARY KEY (`performance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

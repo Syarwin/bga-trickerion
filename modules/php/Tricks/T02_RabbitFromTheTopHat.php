@@ -5,24 +5,25 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T1_EnchantedButterflies extends Trick
+class T02_RabbitFromTheTopHat extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T1_EnchantedButterflies';
+        $this->type = 'T02_RabbitFromTheTopHat';
         $this->category = Trick::CATEGORY_OPTICAL;
-        $this->name = clienttranslate('Enchanted Butterflies');
+        $this->name = clienttranslate('Rabbit from the Top Hat');
         $this->componentRequirements = [
+            Components::ANIMAL,
             Components::FABRIC,
-            Components::FABRIC,
+            Components::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;
         $this->level = 1;
         $this->yields = [
-            "fame" => 2,
-            "coins" => 0,
+            "fame" => 3,
+            "coins" => 1,
             "shards" => 0
         ];
     }

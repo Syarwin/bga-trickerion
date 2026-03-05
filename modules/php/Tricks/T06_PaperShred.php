@@ -5,12 +5,12 @@ namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
-class T6_PaperShred extends Trick
+class T06_PaperShred extends Trick
 {
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->type = 'T6_PaperShred';
+        $this->type = 'T06_PaperShred';
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Paper Shred');
         $this->componentRequirements = [
