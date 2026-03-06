@@ -30,6 +30,18 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     */
 
+    public function incFame(int $count) {
+        $this->incScore($count);
+    }
+
+    public function getFame() {
+        return $this->getScore();
+    }
+
+    public function setFame(int $count) {
+        $this->setScore($count);
+    }
+
     public function incComponent(string $component, int $count, string $defaultLocation) {
         $component = Components::getAll()
             ->where("type", $component)

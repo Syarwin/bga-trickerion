@@ -79,7 +79,7 @@ class ChooseMagician extends ActionStateWithRevert
                         "state" => LearnTrick::class,
                         "args" => [
                             "sourceName" => clienttranslate("setup"),
-                            "types" => [ Character::TYPE_ASSISTANT, Character::TYPE_ENGINEER, Character::TYPE_MANAGER]
+                            "categories" => [ $magician->getFavoriteTrickCategory()]
                         ]
                     ],
                     [

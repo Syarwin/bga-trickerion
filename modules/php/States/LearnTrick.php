@@ -10,7 +10,7 @@ use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
@@ -40,11 +40,16 @@ class LearnTrick extends ActionStateWithRevert
 
     public function getActionArgs(int $activePlayerId): array
     {
-        /* @var Magician $playerMagician */
-        $playerMagician = Magicians::getFiltered($activePlayerId, Magicians::LOCATION_PLAYER)->first();
+        $availableTricks = Tricks::getInLocation(Tricks::LOCATION_AVAILABLE);
 
-        $availableTricks = Tricks::getInLocation(Tricks::LOCATION_AVAILABLE)
-            ->where("category", $playerMagician->getFavoriteTrickCategory());
+        $availableCategories = $this->getNodeArgs("categories", null);
+            
+        if (!is_null($availableCategories)) {
+            $availableTricks = $availableTricks->where("category", $availableCategories);
+        }
+
+        $player = Players::get($activePlayerId);
+        $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getFame());
 
         $args = [
             "availableTricks" => $availableTricks->toArray(),
@@ -68,8 +73,9 @@ class LearnTrick extends ActionStateWithRevert
             throw new UserException(clienttranslate("You cannot take this trick."));
         }
 
-        $trick->learnTrick($activePlayerId);
+        $location = $this->getNodeArgs("location", Tricks::LOCATION_PLAYER_BOARD);
 
+        $trick->learnTrick($activePlayerId, $location);
         return $this->resolve(["trickId" => $trickId]);
     }
 
