@@ -34,3 +34,12 @@ CREATE TABLE IF NOT EXISTS `performance` (
   `performance_state` int(10),
   PRIMARY KEY (`performance_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `assignment` (
+  `assignment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `assignment_type` varchar(32) NOT NULL,
+  `assignment_location` varchar(32) NOT NULL,
+  `assignment_state` int(10),
+  `player_id` int(10),
+  PRIMARY KEY (`assignment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

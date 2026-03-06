@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A26_MassRecruitment extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Mass Recruitment');
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_HIRE_CHARACTER;
+        $this->abilityText = [
+            clienttranslate('If you hire an Apprentice, you may pay 3 ${COIN} to hire a second one. This costs no additional ${ACTION_POINT} and is independent from the die rolls.'),
+        ];
     }
 }

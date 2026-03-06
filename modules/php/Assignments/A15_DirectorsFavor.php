@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A15_DirectorsFavor extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate("Director's Favor");
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_RESCHEDULE;
+        $this->abilityText = [
+            clienttranslate('Instead of moving your own ${TRICK_MARKER}, you may move an opponent\'s ${TRICK_MARKER}.'),
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A13_GrandPremiere extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Grand Premiere');
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_PERFORM;
+        $this->abilityText = [
+            clienttranslate('If one of your own ${TRICK_MARKER} in your Performance is performed for the first time in the game, double that Trick\'s ${COIN}, ${FAME}, or ${SHARD} Yield for this Performance (choose one).'),
+        ];
     }
 }

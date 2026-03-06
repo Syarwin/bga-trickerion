@@ -31,7 +31,7 @@ class Tricks extends CachedPieces
     public static function getUiData($playerId = null)
     {
         return [
-            "available" => self::getInLocation(self::LOCATION_AVAILABLE),
+            "available" => self::getInLocation(self::LOCATION_AVAILABLE)->toArray(),
         ];
     }
 

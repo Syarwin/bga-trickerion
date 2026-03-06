@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A07_OrchestralInterlude extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Orchestral Interlude');
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_SET_UP_TRICK;
+        $this->abilityText = [
+            clienttranslate('You receive your Trick\'s ${LINK} payment for each ${TRICK_MARKER} connecting to the ${TRICK_MARKER} you set up (even if the category symbols don\'t match).'),
+        ];
     }
 }

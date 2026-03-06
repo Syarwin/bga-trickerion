@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A10_BuyingTime extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Buying Time');
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_SET_UP_TRICK;
+        $this->abilityText = [
+            clienttranslate('After setting up the ${TRICK_MARKER}, you may switch the position of two Performance cards and receive 3 ${COIN}.'),
+        ];
     }
 }

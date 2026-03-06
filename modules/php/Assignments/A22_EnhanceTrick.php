@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A22_EnhanceTrick extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Enhance Trick');
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
+        $this->abilityText = [
+            clienttranslate('You may place one of your ${SHARD} on the prepared Trick. It is considered spent. That Trick\'s ${FAME} and ${COIN} Yields are increased by 1 for the remainder of the game.'),
+        ];
     }
 }

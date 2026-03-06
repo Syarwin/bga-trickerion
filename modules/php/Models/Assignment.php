@@ -18,13 +18,13 @@ namespace Bga\Games\trickerionlegendsofillusion\Models;
  */
 class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
-    protected $table = 'trick';
-    protected $primary = 'trick_id';
+    protected $table = 'assignment';
+    protected $primary = 'assignment_id';
     protected $attributes = [
-        'id' => ['trick_id', 'int'],
-        'type' => ['trick_type', "string"],
-        'location' => 'trick_location',
-        'state' => ['trick_state', 'int'],
+        'id' => ['assignment_id', 'int'],
+        'type' => ['assignment_type', "string"],
+        'location' => 'assignment_location',
+        'state' => ['assignment_state', 'int'],
         'playerId' => ['player_id', 'int'],
     ];
 
@@ -76,4 +76,7 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
     const TARGET_ACTION_BUY = 'buy';
     const TARGET_ACTION_ORDER = 'order';
     const TARGET_ACTION_QUICK_ORDER = 'quick-order';
+
+    const STATE_FACE_DOWN = 10;
+    const STATE_FACE_UP = 20;
 }

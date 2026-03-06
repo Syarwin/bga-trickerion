@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A27_HypnoticMotivation extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Hypnotic Motivation');
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_HIRE_CHARACTER;
+        $this->abilityText = [
+            clienttranslate('You immediately receive the hired ${GENERIC_CHARACTER}. You may place an Assignment card from your hand below it and place it during this \'Place Characters\' phase.'),
+        ];
     }
 }

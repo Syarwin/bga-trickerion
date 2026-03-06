@@ -32,7 +32,7 @@ class Performances extends CachedPieces
     public static function getUiData($playerId = null)
     {
         return [
-            "active" => self::getInLocation(self::LOCATION_ACTIVE),
+            "active" => self::getInLocation(self::LOCATION_ACTIVE)->toArray(),
             "deck" => self::getInLocation(self::LOCATION_DECK)->map(function($performance) {
                 return [
                     "state" => $performance->getState(),
@@ -79,7 +79,7 @@ class Performances extends CachedPieces
         }
 
         $nrPlayers = Players::count();
-        self::insertAtBottom(self::getRandomIdsForTheater(Performance::THEATER_RIVERSIDE, $nrPlayers - 1), self::LOCATION_ACTIVE);
+        self::insertOnTop(self::getRandomIdsForTheater(Performance::THEATER_RIVERSIDE, $nrPlayers - 1), self::LOCATION_ACTIVE);
     }
 
     private static function getRandomIdsForTheater($theater, $count = 2) {

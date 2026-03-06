@@ -22,6 +22,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
@@ -145,6 +146,7 @@ class Game extends \Bga\GameFramework\Table
             'globals' => Globals::getUiData($playerId),
             'tricks' => Tricks::getUiData($playerId),
             'performances' => Performances::getUiData($playerId),
+            'assignments' => Assignments::getUiData($playerId),
         ];
     }
 
@@ -158,6 +160,7 @@ class Game extends \Bga\GameFramework\Table
         Players::setupNewGame($players);
         Tricks::setupNewGame();
         Performances::setupNewGame();
+        Assignments::setupNewGame();
 
         Log::enable();
         $this->activeNextPlayer();

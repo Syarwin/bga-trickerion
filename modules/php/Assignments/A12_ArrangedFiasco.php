@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A12_ArrangedFiasco extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Arranged Fiasco');
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_PERFORM;
+        $this->abilityText = [
+            clienttranslate('When you ${PERFORM}, you receive +1 ${FAME} for each of your own ${TRICK_MARKER}, while other players receive -1 ${FAME} for each of their ${TRICK_MARKER}.'),
+        ];
     }
 }

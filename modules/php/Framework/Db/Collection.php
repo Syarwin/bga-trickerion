@@ -167,24 +167,6 @@ class Collection extends \ArrayObject
             });
     }
 
-    public function whereIn($field, $value = [])
-    {
-        return $this->filter(function ($obj) use ($field, $value) {
-            $method = 'get' . ucfirst($field);
-            $objValue = $obj->$method();
-            return in_array($objValue, $value);
-        });
-    }
-    
-    public function whereNotIn($field, $value = [])
-    {
-        return $this->filter(function ($obj) use ($field, $value) {
-            $method = 'get' . ucfirst($field);
-            $objValue = $obj->$method();
-            return !in_array($objValue, $value);
-        });
-    }
-
     public function whereNot($field, $value)
     {
         return is_null($value)

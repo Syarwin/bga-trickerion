@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -14,6 +14,8 @@ class A35_Empower extends Assignment
         $this->name = clienttranslate('Empower');
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->abilityText = [
+            clienttranslate('If you use \'Enhance Character\' by paying a ${SHARD} when you place this ${GENERIC_CHARACTER}, you receive 3 additional ${ACTION_POINT} instead of the usual 1.'),
+        ];
     }
 }

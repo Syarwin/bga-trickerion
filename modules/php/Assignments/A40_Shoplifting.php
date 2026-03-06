@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A40_Shoplifting extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Shoplifting');
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_BUY;
+        $this->abilityText = [
+            clienttranslate('You may take one of the bought ${COMPONENT} directly from the Market Row instead of the supply, without paying its ${COIN} price. The ${COMPONENT} is removed from the Market Row\'s stock and replaced with a Basic ${COMPONENT} of your choice.'),
+        ];
     }
 }

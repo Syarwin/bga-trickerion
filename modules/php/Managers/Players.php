@@ -2,9 +2,6 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
-use Bga\Games\trickerionlegendsofillusion\Models\Player;
-use Bga\Games\trickerionlegendsofillusion\Game;
-
 /*
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class

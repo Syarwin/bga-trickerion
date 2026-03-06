@@ -37,7 +37,7 @@ $assignmentTypes = [
 	"A34_Interest",
 	"A35_Empower",
 	"A36_ComponentSale",
-	"A37_SMuggledGoods",
+	"A37_SmuggledGoods",
 	"A38_BarterWithPower",
 	"A39_WorkshopExhibition",
 	"A40_Shoplifting",

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A38_BarterWithPower extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Barter with Power');
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_BUY;
+        $this->abilityText = [
+            clienttranslate('As one \'Buy\' Action, you may return a ${SHARD} to the supply and receive any number of ${COMPONENT} available at the Market Row for a total ${COIN} value of 4 or less without paying any ${COIN}.'),
+        ];
     }
 }

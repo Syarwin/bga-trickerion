@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\trickerionlegendsofillusion\Tricks;
+namespace Bga\Games\trickerionlegendsofillusion\Assignments;
 
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -13,7 +13,9 @@ class A32_Investments extends Assignment
         $this->category = Assignment::CATEGORY_SPECIAL;
         $this->name = clienttranslate('Investments');
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [];
+        $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
+        $this->abilityText = [
+            clienttranslate('You may immediately spend any amount of the received ${COIN} to buy up to three ${COMPONENT} available at the Market Row.'),
+        ];
     }
 }
