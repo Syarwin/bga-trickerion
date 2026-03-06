@@ -43,3 +43,11 @@ CREATE TABLE IF NOT EXISTS `assignment` (
   `player_id` int(10),
   PRIMARY KEY (`assignment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `prophecy` (
+  `prophecy_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prophecy_type` varchar(32) NOT NULL,
+  `prophecy_location` varchar(32) NOT NULL,
+  `prophecy_state` int(10),
+  PRIMARY KEY (`prophecy_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

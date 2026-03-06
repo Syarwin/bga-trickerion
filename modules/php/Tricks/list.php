@@ -16,6 +16,7 @@ $trickTypes = [
 
     "T13_MindReading",
     "T14_BreathOfLife",
+    "T15_SpiritHand",
     "T16_WindowToTheOtherworld",
     "T17_FloatingTable",
     "T18_FutureSight",
