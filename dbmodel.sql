@@ -7,6 +7,23 @@
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.
 -- -----
 
+ALTER TABLE `player` ADD `player_component_wood` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_glass` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_metal` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_fabric` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_rope` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_petroleum` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_saw` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_animal` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_paddlock` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_mirror` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_disguise` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_component_cog` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_shards` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_coins` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_initiative` int(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `player_color_name` varchar(32) NOT NULL DEFAULT 'unknown';
+
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `move_id` int(10) NOT NULL,
