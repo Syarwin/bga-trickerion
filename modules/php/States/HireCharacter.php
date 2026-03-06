@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
 class HireCharacter extends ActionStateWithRevert
@@ -40,8 +41,18 @@ class HireCharacter extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $sourceName = $this->getNodeArgs("sourceName", "");
+
+        $types = $this->getNodeArgs("types", null);
+
+        $availableCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_SUPPLY);
+
+        if (!is_null($types)) {
+            $availableCharacters = $availableCharacters->where("type", $types);
+        }
+
         $args = [
-            "sourceName" => $sourceName
+            "sourceName" => $sourceName,
+            "availableCharacters" => $availableCharacters->toArray()
         ];
         return $args;
     }    
@@ -52,10 +63,14 @@ class HireCharacter extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actHireCharacter(int $activePlayerId, string $characterId)
+    public function actHireCharacter(int $activePlayerId, string $characterType)
     {
         Log::step();
-        
+
+        $location = $this->getNodeArgs("location", Characters::LOCATION_IDLE_PLAYER_BOARD);
+        Characters::hire($characterType, $activePlayerId, $location);
+
+        return $this->resolve(["type" => $characterType]);
     }
 
     /**
