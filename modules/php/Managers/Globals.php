@@ -9,7 +9,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     protected static $data = [];
     protected static $initialized = false;
     protected static $variables = [
-        "marketRow" => "obj"
+        "marketRow" => "obj",
+        "currentTurn" => "int"
     ];
 
     /*
@@ -24,6 +25,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
             Components::GLASS,
             Components::FABRIC,
         ]);
+
+        self::setCurrentTurn(1);
     }
 
     public static function getUiData(int $playerId) {
