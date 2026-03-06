@@ -60,3 +60,13 @@ CREATE TABLE IF NOT EXISTS `magician` (
   `player_id` int(10),
   PRIMARY KEY (`magician_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `trick_marker` (
+  `trick_marker_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `trick_marker_location` varchar(32) NOT NULL,
+  `trick_marker_state` int(10),
+  `player_id` int(10),
+  `trick_marker_suit` varchar(32) NOT NULL,
+  `trick_id` int(10),
+  PRIMARY KEY (`trick_marker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

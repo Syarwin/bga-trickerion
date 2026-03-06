@@ -69,7 +69,7 @@ class Performances extends CachedPieces
         }
 
         // Create the tricks
-        self::create($performances, self::LOCATION_BOX);
+        self::create($performances, self::LOCATION_BOX, 0);
 
         self::insertAtBottom(self::getRandomIdsForTheater(Performance::THEATER_RIVERSIDE), self::LOCATION_DECK);
         self::insertAtBottom(self::getRandomIdsForTheater(Performance::THEATER_GRAND_MAGORIAN), self::LOCATION_DECK);
