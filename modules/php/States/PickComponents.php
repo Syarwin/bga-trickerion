@@ -77,13 +77,23 @@ class PickComponents extends ActionStateWithRevert
         $pickingComponents[] = $component;
         Globals::setPickingComponents($pickingComponents);
 
+        $totalPickedValue = 0;
+        foreach ($pickingComponents as $component) {
+            $totalPickedValue += Component::getCost($component);
+        }
+
+        $totalValue = $this->getNodeArgs("totalValue", 2);
+
+        if ($totalPickedValue >= $totalValue) {
+            return $this->actDone($activePlayerId);
+        }
+
         return Engine::proceed();
     }
 
     #[PossibleAction]
     public function actDone(int $activePlayerId)
     {
-        Log::step();
         $pickingComponents = Globals::getPickingComponents();
 
         /** @var Player $player */
@@ -96,7 +106,7 @@ class PickComponents extends ActionStateWithRevert
         }
         Globals::setPickingComponents([]);
         
-        return Engine::proceed();
+        return $this->resolve(["components" => $pickingComponents]);
     }
 
     /**
