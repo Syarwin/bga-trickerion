@@ -33,6 +33,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         //it is possible to filter sam data here, if needed
         return array_merge(self::getAll(), [
             "isDarkAlley" => self::isDarkAlley(),
+            "isBeginnersSetup" => self::isBeginnersSetup(),
         ]);
     }
 
@@ -50,6 +51,11 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         $isDarkAlley = Game::$instance->tableOptions->get(Globals::OPTION_DARK_ALLEY);
         return $isDarkAlley == 1;
     }
+    
+    public static function isBeginnersSetup() {
+        $isBeginnersSetup = Game::$instance->tableOptions->get(Globals::OPTION_BEGINNERS_SETUP);
+        return $isBeginnersSetup == 1;
+    }
 
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
@@ -62,4 +68,5 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     */
 
     const OPTION_DARK_ALLEY = 120;
+    const OPTION_BEGINNERS_SETUP = 110;
 }

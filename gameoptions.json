@@ -1,4 +1,18 @@
 {
+    "110": {
+        "name": "First time setup for beginners",
+        "values": {
+            "0": {
+                "nobeginner": true,
+                "name": "No"
+            },
+            "1": {
+                "name": "Yes",
+                "tmdisplay": "Beginners' setup"
+            }
+        },
+        "default": 1
+    },
     "120": {
         "name": "Dark alley",
         "values": {

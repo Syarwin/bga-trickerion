@@ -21,7 +21,6 @@ namespace Bga\Games\trickerionlegendsofillusion;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
-use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
@@ -30,7 +29,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
-use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
+use Bga\Games\trickerionlegendsofillusion\States\FinishSetup;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -176,7 +175,7 @@ class Game extends \Bga\GameFramework\Table
         Log::enable();
         $this->activeNextPlayer();
         
-        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, null/*EndRound::class*/, false);
+        return FinishSetup::class;
     }
 
     /////////////////////////////////////////////////////////////

@@ -10,13 +10,13 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
-class SetupTurn extends GameState
+class AdvertiseTurn extends GameState
 {
     function __construct(
         protected Game $game,
     ) {
         parent::__construct($game,
-            id: States::ST_SETUP_TURN,
+            id: States::ST_ADVERTISE_TURN,
             type: StateType::GAME,
         );
     }
@@ -25,12 +25,12 @@ class SetupTurn extends GameState
     {
         $this->game->giveExtraTime($activePlayerId);
         $newNode = [
-            "state" => ChooseMagician::class,
+            "state" => Advertise::class,
             "args" => [
             ]
         ];
 
-        Engine::setup($newNode, ['order' => "turn"]);
+        Engine::setup($newNode, ["order" => "turn"]);
         return Engine::proceed();
 
     }    
