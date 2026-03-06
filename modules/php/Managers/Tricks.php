@@ -9,7 +9,7 @@ class Tricks extends CachedPieces
     protected static $datas = null;
     protected static $table = 'trick';
     protected static $prefix = 'trick_';
-    protected static $customFields = ["trick_type", "player_id", "trick_symbol_marker"];
+    protected static $customFields = ["trick_type", "player_id", "trick_suit"];
     protected static $autoIncrement = true;
     protected static $autoremovePrefix = false;
     protected static $autoreshuffle = false;
@@ -33,7 +33,7 @@ class Tricks extends CachedPieces
         return [
             "available" => self::getInLocation(self::LOCATION_AVAILABLE)->toArray(),
             "player" => Players::getAll()->map(function($player) {
-                return self::getInLocation(self::LOCATION_PLAYER, $player->id)->toArray();
+                return self::getFiltered($player->id, self::LOCATION_PLAYER_ALL)->toArray();
             }),
         ];
     }
@@ -99,6 +99,8 @@ class Tricks extends CachedPieces
   */
 
     const LOCATION_AVAILABLE = 'available';
-    const LOCATION_PLAYER = 'player';
+    const LOCATION_PLAYER_ALL = "%-board";
+    const LOCATION_PLAYER_BOARD = 'player-board';
+    const LOCATION_ENGINEER_BOARD = 'engineer-board';
     const LOCATION_BOX = 'box';
 }

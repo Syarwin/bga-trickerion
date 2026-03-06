@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T46_HorrorSaws extends Trick
@@ -14,13 +14,13 @@ class T46_HorrorSaws extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Horror Saws');
         $this->componentRequirements = [
-            Components::COG,
-            Components::COG,
-            Components::SAW,
-            Components::SAW,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::COG,
+            Component::COG,
+            Component::SAW,
+            Component::SAW,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

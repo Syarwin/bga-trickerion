@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T15_SpiritHand extends Trick
@@ -14,11 +14,11 @@ class T15_SpiritHand extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Spirit Hand');
         $this->componentRequirements = [
-            Components::ANIMAL,
-            Components::ROPE,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::ANIMAL,
+            Component::ROPE,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

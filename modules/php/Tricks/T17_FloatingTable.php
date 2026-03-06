@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T17_FloatingTable extends Trick
@@ -14,16 +14,16 @@ class T17_FloatingTable extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Floating Table');
         $this->componentRequirements = [
-            Components::PETROLEUM,
-            Components::ROPE,
-            Components::ROPE,
-            Components::ROPE,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::PETROLEUM,
+            Component::ROPE,
+            Component::ROPE,
+            Component::ROPE,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

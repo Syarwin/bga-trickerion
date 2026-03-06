@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T03_PubInABottle extends Trick
@@ -14,11 +14,11 @@ class T03_PubInABottle extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Pub-In-A-Bottle');
         $this->componentRequirements = [
-            Components::ROPE,
-            Components::SAW,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::ROPE,
+            Component::SAW,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T38_LivingPiano extends Trick
@@ -14,9 +14,9 @@ class T38_LivingPiano extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Living Piano');
         $this->componentRequirements = [
-            Components::ANIMAL,
-            Components::GLASS,
-            Components::WOOD,
+            Component::ANIMAL,
+            Component::GLASS,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 3;

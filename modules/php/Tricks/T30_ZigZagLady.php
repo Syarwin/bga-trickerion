@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T30_ZigZagLady extends Trick
@@ -14,11 +14,11 @@ class T30_ZigZagLady extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Zig Zag Lady');
         $this->componentRequirements = [
-            Components::PETROLEUM,
-            Components::FABRIC,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::PETROLEUM,
+            Component::FABRIC,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 3;

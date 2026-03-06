@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T27_BurningMummy extends Trick
@@ -14,10 +14,10 @@ class T27_BurningMummy extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Burning Mummy');
         $this->componentRequirements = [
-            Components::PETROLEUM,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::PETROLEUM,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 1;

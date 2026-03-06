@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T09_Mutilation extends Trick
@@ -14,14 +14,14 @@ class T09_Mutilation extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Mutilation');
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::SAW,
-            Components::SAW,
-            Components::MIRROR,
-            Components::MIRROR,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::DISGUISE,
+            Component::SAW,
+            Component::SAW,
+            Component::MIRROR,
+            Component::MIRROR,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

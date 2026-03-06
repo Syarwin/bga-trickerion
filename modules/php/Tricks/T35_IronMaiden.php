@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T35_IronMaiden extends Trick
@@ -14,14 +14,14 @@ class T35_IronMaiden extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Iron Maiden');
         $this->componentRequirements = [
-            Components::PADDLOCK,
-            Components::PADDLOCK,
-            Components::SAW,
-            Components::SAW,
-            Components::SAW,
-            Components::METAL,
-            Components::METAL,
-            Components::METAL,
+            Component::PADDLOCK,
+            Component::PADDLOCK,
+            Component::SAW,
+            Component::SAW,
+            Component::SAW,
+            Component::METAL,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

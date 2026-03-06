@@ -2,6 +2,9 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+
 /**
  * Tactics: all utility functions concerning a tactics
  * 
@@ -29,7 +32,7 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         'location' => 'trick_location',
         'state' => ['trick_state', 'int'],
         'playerId' => ['player_id', 'int'],
-        'symbolMarker' => ['trick_symbol_marker', 'string'],
+        'suit' => ['trick_suit', 'string'],
     ];
 
     protected $staticAttributes = [
@@ -51,6 +54,21 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public function learnTrick($playerId, $location) {
+        $this->setLocation($location);
+        $this->setPlayerId($playerId);
+
+        $usedSuits = Tricks::getFiltered($playerId, Tricks::LOCATION_PLAYER_ALL)->pluck("suit")->toArray();
+
+        //find first Trick marker suit that is not used
+        $this->setSuit(TrickMarker::getFirstAvailableSuit($usedSuits));
+
+        Game::get()->bga->notify->all("trickLearned", clienttranslate('${player_name} learns ${trick}'), [
+            "player_id" => $playerId,
+            "trick" => $this,
+        ]);
+    }
 
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T10_StairsOfWater extends Trick
@@ -14,13 +14,13 @@ class T10_StairsOfWater extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Stairs of Water');
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::COG,
-            Components::PETROLEUM,
-            Components::PETROLEUM,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::MIRROR,
+            Component::COG,
+            Component::PETROLEUM,
+            Component::PETROLEUM,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 3;
         $this->slots = 3;

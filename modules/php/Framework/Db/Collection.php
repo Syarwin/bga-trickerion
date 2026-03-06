@@ -94,6 +94,14 @@ class Collection extends \ArrayObject
         return in_array($t, $this->getArrayCopy());
     }
 
+    public function pluck($field)
+    {
+        return $this->map(function ($elem) use ($field) {
+            $method = 'get' . ucfirst($field);
+            return $elem->$method();
+        });
+    }
+
     public function group(array|string $properties) {
         if (!is_array($properties)) {
             $properties = [$properties];

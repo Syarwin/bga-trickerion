@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T45_AztecLady extends Trick
@@ -14,12 +14,12 @@ class T45_AztecLady extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Aztec Lady');
         $this->componentRequirements = [
-            Components::PADDLOCK,
-            Components::COG,
-            Components::COG,
-            Components::SAW,
-            Components::GLASS,
-            Components::GLASS,
+            Component::PADDLOCK,
+            Component::COG,
+            Component::COG,
+            Component::SAW,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 2;
         $this->slots = 3;

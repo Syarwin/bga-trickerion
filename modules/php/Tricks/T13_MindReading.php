@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T13_MindReading extends Trick
@@ -14,8 +14,8 @@ class T13_MindReading extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Mind Reading');
         $this->componentRequirements = [
-            Components::GLASS,
-            Components::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 1;
         $this->slots = 3;

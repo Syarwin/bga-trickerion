@@ -70,13 +70,19 @@ class ActionState extends \Bga\GameFramework\States\GameState
         return Engine::getNextUnresolved();
     }
 
-    public function getNodeArgs() {
+    public function getNodeArgs($field = null, $default = null) {
+        $args = [];
+
         $node = $this->getNode();
-        if ($node === null) {
-            return [];
+        if ($node !== null) {
+            $args = $node->getArgs();
         }
 
-        return $node->getArgs();
+        if ($field !== null) {
+            return $args[$field] ?? $default;
+        }
+
+        return $args;
     }
 
     public function isAutomatic() {

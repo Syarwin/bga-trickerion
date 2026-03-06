@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 
 /**
@@ -13,21 +14,6 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     protected $table = 'player';
     protected $primary = 'player_id';
     protected $customAttributes = [
-        Components::WOOD => ["player_component_" . Components::WOOD, "int"],
-        Components::GLASS => ["player_component_" . Components::GLASS, "int"],
-        Components::METAL => ["player_component_" . Components::METAL, "int"],
-        Components::FABRIC => ["player_component_" . Components::FABRIC, "int"],
-        
-        Components::ROPE => ["player_component_" . Components::ROPE, "int"],
-        Components::PETROLEUM => ["player_component_" . Components::PETROLEUM, "int"],
-        Components::SAW => ["player_component_" . Components::SAW, "int"],
-        Components::ANIMAL => ["player_component_" . Components::ANIMAL, "int"],
-
-        Components::PADDLOCK => ["player_component_" . Components::PADDLOCK, "int"],
-        Components::MIRROR => ["player_component_" . Components::MIRROR, "int"],
-        Components::DISGUISE => ["player_component_" . Components::DISGUISE, "int"],
-        Components::COG => ["player_component_" . Components::COG, "int"],
-
         "shards" => ["player_shards", "int"],
         "coins" => ["player_coins", "int"],
         "initiative" => ["player_initiative", "int"],
@@ -44,13 +30,22 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     */
 
-    public static function setComponent($component, $value) {
-        $method = "set" . \ucfirst($component);
-        self::$method($value);
-    }
+    public function incComponent(string $component, int $count, string $defaultLocation) {
+        $component = Components::getAll()
+            ->where("type", $component)
+            ->where("playerId", $this->id)
+            ->first();
 
-    public static function incComponent($component, $value) {
-        $method = "inc" . \ucfirst($component);
-        self::$method($value);
+        if ($component->getCount() === 0) {
+            $component->setLocation($defaultLocation);
+        }
+
+        $component->incCount($count);
+
+        Game::get()->bga->notify->all("componentChanged", clienttranslate('${player_name} gets ${count} ${component}'), [
+            "player_id" => $this->id,
+            "count" => $count,
+            "component" => $component,
+        ]);
     }
 }

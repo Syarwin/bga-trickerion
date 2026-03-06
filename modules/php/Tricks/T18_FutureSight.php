@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T18_FutureSight extends Trick
@@ -14,11 +14,11 @@ class T18_FutureSight extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Future Sight');
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::METAL,
-            Components::METAL,
+            Component::MIRROR,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 1;

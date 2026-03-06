@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T43_VanishingBirdCage extends Trick
@@ -14,11 +14,11 @@ class T43_VanishingBirdCage extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Vanishing Bird Cage');
         $this->componentRequirements = [
-            Components::COG,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::COG,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

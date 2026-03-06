@@ -21,15 +21,18 @@ namespace Bga\Games\trickerionlegendsofillusion;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
-use Bga\Games\trickerionlegendsofillusion\States\FinishSetup;
+use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
+use Bga\Games\trickerionlegendsofillusion\States\TurnPreparation;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -153,6 +156,7 @@ class Game extends \Bga\GameFramework\Table
             "magicians" => Magicians::getUiData($playerId),
             "trickMarkers" => TrickMarkers::getUiData($playerId),
             "characters" => Characters::getUiData($playerId),
+            "components" => Components::getUiData($playerId),
         ];
     }
 
@@ -171,11 +175,12 @@ class Game extends \Bga\GameFramework\Table
         Magicians::setupNewGame();
         TrickMarkers::setupNewGame();
         Characters::setupNewGame();
+        Components::setupNewGame();
 
         Log::enable();
         $this->activeNextPlayer();
         
-        return FinishSetup::class;
+        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, TurnPreparation::class, false);
     }
 
     /////////////////////////////////////////////////////////////

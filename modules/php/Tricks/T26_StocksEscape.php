@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T26_StocksEscape extends Trick
@@ -14,10 +14,10 @@ class T26_StocksEscape extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Stocks Escape');
         $this->componentRequirements = [
-            Components::WOOD,
-            Components::WOOD,
-            Components::METAL,
-            Components::METAL,
+            Component::WOOD,
+            Component::WOOD,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

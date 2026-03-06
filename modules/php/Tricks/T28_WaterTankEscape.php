@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T28_WaterTankEscape extends Trick
@@ -14,11 +14,11 @@ class T28_WaterTankEscape extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Water Tank Escape');
         $this->componentRequirements = [
-            Components::ROPE,
-            Components::GLASS,
-            Components::GLASS,
-            Components::METAL,
-            Components::METAL,
+            Component::ROPE,
+            Component::GLASS,
+            Component::GLASS,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

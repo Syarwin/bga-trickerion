@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T01_EnchantedButterflies extends Trick
@@ -14,8 +14,8 @@ class T01_EnchantedButterflies extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Enchanted Butterflies');
         $this->componentRequirements = [
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

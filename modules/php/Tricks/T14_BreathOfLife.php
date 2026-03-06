@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T14_BreathOfLife extends Trick
@@ -14,10 +14,10 @@ class T14_BreathOfLife extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Breath of Life');
         $this->componentRequirements = [
-            Components::SAW,
-            Components::METAL,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::SAW,
+            Component::METAL,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 1;

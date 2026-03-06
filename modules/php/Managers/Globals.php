@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals
 {
@@ -10,7 +11,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     protected static $initialized = false;
     protected static $variables = [
         "marketRow" => "obj",
-        "currentTurn" => "int"
+        "currentTurn" => "int",
+        "pickingComponents" => "obj"
     ];
 
     /*
@@ -20,13 +22,14 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     {
         MarketRow::init();
         MarketRow::setBuyArea([
-            Components::WOOD,
-            Components::METAL,
-            Components::GLASS,
-            Components::FABRIC,
+            Component::WOOD,
+            Component::METAL,
+            Component::GLASS,
+            Component::FABRIC,
         ]);
 
         self::setCurrentTurn(1);
+        self::setPickingComponents([]);
     }
 
     public static function getUiData(int $playerId) {

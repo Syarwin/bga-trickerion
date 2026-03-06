@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T34_AssistantsRevenge extends Trick
@@ -14,13 +14,13 @@ class T34_AssistantsRevenge extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate("Assistant's Revenge");
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::MIRROR,
-            Components::SAW,
-            Components::SAW,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::MIRROR,
+            Component::MIRROR,
+            Component::SAW,
+            Component::SAW,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 1;
         $this->slots = 1;

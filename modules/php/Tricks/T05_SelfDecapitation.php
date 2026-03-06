@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T05_SelfDecapitation extends Trick
@@ -14,11 +14,11 @@ class T05_SelfDecapitation extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Self Decapitation');
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::SAW,
-            Components::METAL,
-            Components::METAL,
-            Components::METAL,
+            Component::DISGUISE,
+            Component::SAW,
+            Component::METAL,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 3;

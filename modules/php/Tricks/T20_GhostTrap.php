@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T20_GhostTrap extends Trick
@@ -14,18 +14,18 @@ class T20_GhostTrap extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate('Ghost Trap');
         $this->componentRequirements = [
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 2;
         $this->slots = 3;

@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T23_SkeletonDance extends Trick
@@ -14,13 +14,13 @@ class T23_SkeletonDance extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Skeleton Dance");
         $this->componentRequirements = [
-            Components::COG,
-            Components::COG,
-            Components::ROPE,
-            Components::ROPE,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::COG,
+            Component::COG,
+            Component::ROPE,
+            Component::ROPE,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 3;
         $this->slots = 3;

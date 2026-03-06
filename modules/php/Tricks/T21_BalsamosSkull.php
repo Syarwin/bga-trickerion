@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T21_BalsamosSkull extends Trick
@@ -14,12 +14,12 @@ class T21_BalsamosSkull extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Balsamo's Skull");
         $this->componentRequirements = [
-            Components::PADDLOCK,
-            Components::ROPE,
-            Components::ROPE,
-            Components::METAL,
-            Components::METAL,
-            Components::METAL,
+            Component::PADDLOCK,
+            Component::ROPE,
+            Component::ROPE,
+            Component::METAL,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 2;
         $this->slots = 3;

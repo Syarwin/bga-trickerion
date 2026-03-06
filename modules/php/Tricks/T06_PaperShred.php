@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T06_PaperShred extends Trick
@@ -14,12 +14,12 @@ class T06_PaperShred extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Paper Shred');
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::SAW,
-            Components::SAW,
-            Components::METAL,
-            Components::METAL,
-            Components::METAL,
+            Component::MIRROR,
+            Component::SAW,
+            Component::SAW,
+            Component::METAL,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

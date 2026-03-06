@@ -2,29 +2,41 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+
 /**
- * Trick Marker: all utility functions concerning a trick marker
+ * Component: all utility functions concerning a component
  * 
- * @property int $id The id of the trick marker
- * @property string $location The location of the trick marker
- * @property int $state The state of the trick marker
- * @property string $suit The suit of the trick marker
- * @property int $playerId The player id of the trick marker
+ * @property int $id The id of the component
+ * @property string $type The type of the component
+ * @property string $location The location of the component
+ * @property int $state The state of the component
+ * @property int $playerId The player id of the component
+ * @property int $count The count of the component
+ * @property int $cost The cost of the component
  */
-class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
+class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
-    protected $table = 'trick_marker';
-    protected $primary = 'trick_marker_id';
+    protected $table = 'component';
+    protected $primary = 'component_id';
     protected $attributes = [
-        'id' => ['trick_marker_id', 'int'],
-        'location' => 'trick_marker_location',
-        'state' => ['trick_marker_state', 'int'],
-        'suit' => ['trick_marker_suit', "string"],
+        'id' => ['component_id', 'int'],
+        'type' => ['component_type', "string"],
+        'location' => ['component_location', 'string'],
+        'state' => ['component_state', 'int'],
         'playerId' => ['player_id', 'int'],
-        'trickId' => ['trick_id', 'int'],
+        'count' => ['component_count', 'int'],
     ];
 
-    protected $staticAttributes = [];
+    protected $staticAttributes = [
+        ['cost', 'int']
+    ];
+
+    public function __construct($row)
+    {
+        parent::__construct($row);
+        $this->cost = self::getCost($row['component_type']);
+    }
 
     /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
@@ -36,18 +48,18 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
 
     */
 
-    public static function getFirstAvailableSuit($usedSymbols) {
-         $allSuits = [TrickMarker::SUIT_SPADES, TrickMarker::SUIT_HEARTS, TrickMarker::SUIT_DIAMONDS, TrickMarker::SUIT_CLUBS];
-         foreach ($allSuits as $suit) {
-             if (!in_array($suit, $usedSymbols, true)) {
-                 return $suit;
-             }
-         }
-         throw new \Exception("No available suit found");
+    public static function getCost(string $componentType): int
+    {
+        return match ($componentType) {
+            self::WOOD, self::GLASS, self::METAL, self::FABRIC => 1,
+            self::ROPE, self::PETROLEUM, self::SAW, self::ANIMAL => 2,
+            self::PADDLOCK, self::MIRROR, self::DISGUISE, self::COG => 3,
+            default => throw new \InvalidArgumentException("Unknown component: $componentType"),
+        };
     }
 
     /*
-    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
+     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
     ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
     ██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║   ╚════██║
@@ -56,8 +68,18 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
 
     */    
 
-    const SUIT_SPADES = 'spades';
-    const SUIT_HEARTS = 'hearts';
-    const SUIT_DIAMONDS = 'diamonds';
-    const SUIT_CLUBS = 'clubs';
+    const WOOD = "wood";
+    const GLASS = "glass";
+    const METAL = "metal";
+    const FABRIC = "fabric";
+    
+    const ROPE = "rope";
+    const PETROLEUM = "petroleum";
+    const SAW = "saw";
+    const ANIMAL = "animal";
+
+    const PADDLOCK = "paddlock";
+    const MIRROR = "mirror";
+    const DISGUISE = "disguise";
+    const COG = "cog";
 }

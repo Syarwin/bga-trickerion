@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T36_TransportedMan extends Trick
@@ -14,13 +14,13 @@ class T36_TransportedMan extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Transported Man');
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::DISGUISE,
-            Components::PETROLEUM,
-            Components::PETROLEUM,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::DISGUISE,
+            Component::DISGUISE,
+            Component::PETROLEUM,
+            Component::PETROLEUM,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

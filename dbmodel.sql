@@ -7,18 +7,6 @@
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.
 -- -----
 
-ALTER TABLE `player` ADD `player_component_wood` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_glass` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_metal` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_fabric` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_rope` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_petroleum` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_saw` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_animal` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_paddlock` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_mirror` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_disguise` int(10) NOT NULL DEFAULT 0;
-ALTER TABLE `player` ADD `player_component_cog` int(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `player_shards` int(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `player_coins` int(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `player_initiative` int(10) NOT NULL DEFAULT 0;
@@ -40,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `trick` (
   `trick_location` varchar(32) NOT NULL,
   `trick_state` int(10),
   `player_id` int(10),
-  `trick_symbol_marker` varchar(16) NOT NULL,
+  `trick_suit` varchar(16) NOT NULL,
   PRIMARY KEY (`trick_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -95,4 +83,14 @@ CREATE TABLE IF NOT EXISTS `character` (
   `player_id` int(10),
   `character_type` varchar(32) NOT NULL,
   PRIMARY KEY (`character_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `component` (
+  `component_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `component_location` varchar(32) NOT NULL,
+  `component_state` int(10),
+  `player_id` int(10),
+  `component_type` varchar(32) NOT NULL,
+  `component_count` int(10),
+  PRIMARY KEY (`component_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

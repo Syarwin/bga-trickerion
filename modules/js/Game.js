@@ -21,6 +21,7 @@ import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, initUt
 import { ResolveChoice } from "./framework/states/ResolveChoice.js";
 import { overrideGamePrototype } from "./framework/overrideGamePrototype.js";
 import { DummyEnd } from "./states/DummyEnd.js";
+import { ChooseMagician } from "./states/ChooseMagician.js";
 
 export class Game {
     constructor(bga) {
@@ -31,6 +32,7 @@ export class Game {
         this.bga.states.register('ConfirmPartialTurn', new ConfirmTurn(this, bga));
         this.bga.states.register('ResolveChoice', new ResolveChoice(this, bga));
         this.bga.states.register('DummyEnd', new DummyEnd(this, bga));
+        this.bga.states.register('ChooseMagician', new ChooseMagician(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        

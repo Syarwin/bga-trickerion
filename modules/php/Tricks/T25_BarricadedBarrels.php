@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T25_BarricadedBarrels extends Trick
@@ -14,8 +14,8 @@ class T25_BarricadedBarrels extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Barricaded Barrels');
         $this->componentRequirements = [
-            Components::WOOD,
-            Components::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

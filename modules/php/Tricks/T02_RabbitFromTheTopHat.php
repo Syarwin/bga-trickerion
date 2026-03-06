@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T02_RabbitFromTheTopHat extends Trick
@@ -14,9 +14,9 @@ class T02_RabbitFromTheTopHat extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Rabbit from the Top Hat');
         $this->componentRequirements = [
-            Components::ANIMAL,
-            Components::FABRIC,
-            Components::METAL,
+            Component::ANIMAL,
+            Component::FABRIC,
+            Component::METAL,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T44_BulletCatch extends Trick
@@ -14,12 +14,12 @@ class T44_BulletCatch extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Bullet Catch');
         $this->componentRequirements = [
-            Components::PETROLEUM,
-            Components::PETROLEUM,
-            Components::ROPE,
-            Components::ROPE,
-            Components::METAL,
-            Components::METAL,
+            Component::PETROLEUM,
+            Component::PETROLEUM,
+            Component::ROPE,
+            Component::ROPE,
+            Component::METAL,
+            Component::METAL,
         ];
         $this->preparationCost = 2;
         $this->slots = 3;

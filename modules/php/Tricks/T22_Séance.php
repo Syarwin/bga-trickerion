@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T22_Séance extends Trick
@@ -14,14 +14,14 @@ class T22_Séance extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Séance");
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::PETROLEUM,
-            Components::PETROLEUM,
-            Components::GLASS,
-            Components::GLASS,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::MIRROR,
+            Component::PETROLEUM,
+            Component::PETROLEUM,
+            Component::GLASS,
+            Component::GLASS,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

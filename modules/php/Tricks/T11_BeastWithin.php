@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T11_BeastWithin extends Trick
@@ -14,14 +14,14 @@ class T11_BeastWithin extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Beast Within');
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::MIRROR,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::DISGUISE,
+            Component::MIRROR,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

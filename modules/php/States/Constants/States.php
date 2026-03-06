@@ -14,6 +14,8 @@ class States {
 
     //ACTION STATES
     const ST_ADVERTISE = 100;
+    const ST_PICK_COMPONENTS = 200;
+    const ST_LEARN_TRICK = 205;
     const ST_CHOOSE_MAGICIAN = 805;
     //SETUP STATES
     const ST_FINISH_SETUP = 800;

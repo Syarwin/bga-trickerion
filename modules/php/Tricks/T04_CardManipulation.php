@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T04_CardManipulation extends Trick
@@ -14,12 +14,12 @@ class T04_CardManipulation extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Card Manipulation');
         $this->componentRequirements = [
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

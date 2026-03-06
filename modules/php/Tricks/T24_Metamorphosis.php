@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T24_Metamorphosis extends Trick
@@ -14,18 +14,18 @@ class T24_Metamorphosis extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Metamorphosis");
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::DISGUISE,
-            Components::DISGUISE,
-            Components::ROPE,
-            Components::ROPE,
-            Components::ROPE,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::DISGUISE,
+            Component::DISGUISE,
+            Component::DISGUISE,
+            Component::ROPE,
+            Component::ROPE,
+            Component::ROPE,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 3;
         $this->slots = 3;

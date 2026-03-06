@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T40_Levitation extends Trick
@@ -14,12 +14,12 @@ class T40_Levitation extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Levitation');
         $this->componentRequirements = [
-            Components::ROPE,
-            Components::PETROLEUM,
-            Components::PETROLEUM,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::ROPE,
+            Component::PETROLEUM,
+            Component::PETROLEUM,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

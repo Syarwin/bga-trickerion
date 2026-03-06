@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T39_ChineseSticks extends Trick
@@ -14,10 +14,10 @@ class T39_ChineseSticks extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Chinese Sticks');
         $this->componentRequirements = [
-            Components::ROPE,
-            Components::ROPE,
-            Components::WOOD,
-            Components::WOOD,
+            Component::ROPE,
+            Component::ROPE,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

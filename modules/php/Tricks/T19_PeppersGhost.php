@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T19_PeppersGhost extends Trick
@@ -14,12 +14,12 @@ class T19_PeppersGhost extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Pepper's Ghost");
         $this->componentRequirements = [
-            Components::DISGUISE,
-            Components::DISGUISE,
-            Components::SAW,
-            Components::SAW,
-            Components::GLASS,
-            Components::GLASS,
+            Component::DISGUISE,
+            Component::DISGUISE,
+            Component::SAW,
+            Component::SAW,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

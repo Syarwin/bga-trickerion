@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T12_VanishingElephant extends Trick
@@ -14,14 +14,14 @@ class T12_VanishingElephant extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Vanishing Elephant');
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::PADDLOCK,
-            Components::PADDLOCK,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::MIRROR,
+            Component::PADDLOCK,
+            Component::PADDLOCK,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

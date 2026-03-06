@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T33_BuriedAlive extends Trick
@@ -14,12 +14,12 @@ class T33_BuriedAlive extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Buried Alive');
         $this->componentRequirements = [
-            Components::PADDLOCK,
-            Components::PADDLOCK,
-            Components::PADDLOCK,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::PADDLOCK,
+            Component::PADDLOCK,
+            Component::PADDLOCK,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 2;

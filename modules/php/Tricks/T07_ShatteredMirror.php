@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T07_ShatteredMirror extends Trick
@@ -14,14 +14,14 @@ class T07_ShatteredMirror extends Trick
         $this->category = Trick::CATEGORY_OPTICAL;
         $this->name = clienttranslate('Shattered Mirror');
         $this->componentRequirements = [
-            Components::MIRROR,
-            Components::MIRROR,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
-            Components::GLASS,
-            Components::GLASS,
-            Components::GLASS,
+            Component::MIRROR,
+            Component::MIRROR,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
+            Component::GLASS,
+            Component::GLASS,
+            Component::GLASS,
         ];
         $this->preparationCost = 2;
         $this->slots = 2;

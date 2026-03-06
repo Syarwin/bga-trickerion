@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T42_SawingTheAssistantInHalf extends Trick
@@ -14,12 +14,12 @@ class T42_SawingTheAssistantInHalf extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Sawing the Assistant in Half');
         $this->componentRequirements = [
-            Components::SAW,
-            Components::SAW,
-            Components::SAW,
-            Components::WOOD,
-            Components::WOOD,
-            Components::WOOD,
+            Component::SAW,
+            Component::SAW,
+            Component::SAW,
+            Component::WOOD,
+            Component::WOOD,
+            Component::WOOD,
         ];
         $this->preparationCost = 1;
         $this->slots = 3;

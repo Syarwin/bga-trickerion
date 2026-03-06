@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
 class Characters extends CachedPieces
@@ -89,6 +90,19 @@ class Characters extends CachedPieces
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public static function hire(string $type, int $playerId, string $location) {
+        $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY)
+            ->where("type", $type)
+            ->first();
+        
+        $character->setLocation($location);
+
+        Game::get()->bga->notify->all("characterHired", clienttranslate('${player_name} hires ${character}'), [
+            "player_id" => $playerId,
+            "character" => $character
+        ]);
+    }
 
 
     /*

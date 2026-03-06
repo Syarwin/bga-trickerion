@@ -2,7 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
-use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T48_Hellhound extends Trick
@@ -14,14 +14,14 @@ class T48_Hellhound extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Hellhound');
         $this->componentRequirements = [
-            Components::PADDLOCK,
-            Components::PADDLOCK,
-            Components::PETROLEUM,
-            Components::ANIMAL,
-            Components::ANIMAL,
-            Components::FABRIC,
-            Components::FABRIC,
-            Components::FABRIC
+            Component::PADDLOCK,
+            Component::PADDLOCK,
+            Component::PETROLEUM,
+            Component::ANIMAL,
+            Component::ANIMAL,
+            Component::FABRIC,
+            Component::FABRIC,
+            Component::FABRIC
         ];
         $this->preparationCost = 2;
         $this->slots = 2;
