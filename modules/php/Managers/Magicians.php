@@ -4,12 +4,12 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
 
-class Tricks extends CachedPieces
+class Magicians extends CachedPieces
 {
     protected static $datas = null;
-    protected static $table = 'trick';
-    protected static $prefix = 'trick_';
-    protected static $customFields = ["trick_type", "player_id", "trick_symbol_marker"];
+    protected static $table = 'magician';
+    protected static $prefix = 'magician_';
+    protected static $customFields = ["magician_type", "player_id"];
     protected static $autoIncrement = true;
     protected static $autoremovePrefix = false;
     protected static $autoreshuffle = false;
@@ -19,12 +19,12 @@ class Tricks extends CachedPieces
 
     protected static function cast($raw)
     {
-        return self::getTrickInstance($raw["trick_type"], $raw);
+        return self::getMagicianInstance($raw["magician_type"], $raw);
     }
 
-    public static function getTrickInstance($type, $data = null)
+    public static function getMagicianInstance($type, $data = null)
     {
-        $className = "Bga\Games\\trickerionlegendsofillusion\Tricks\\$type";
+        $className = "Bga\Games\\trickerionlegendsofillusion\Magicians\\$type";
         return new $className($data);
     }
 
@@ -33,7 +33,7 @@ class Tricks extends CachedPieces
         return [
             "available" => self::getInLocation(self::LOCATION_AVAILABLE)->toArray(),
             "player" => Players::getAll()->map(function($player) {
-                return self::getInLocation(self::LOCATION_PLAYER, $player->id)->toArray();
+                return self::getInLocation(self::LOCATION_PLAYER, $player->id)->first();
             }),
         ];
     }
@@ -51,30 +51,20 @@ class Tricks extends CachedPieces
     public static function setupNewGame()
     {
         // Load list of cards
-        include dirname(__FILE__) . '/../Tricks/list.php';
+        include dirname(__FILE__) . '/../Magicians/list.php';
 
         // Create cards
-        $tricks = [];
-        foreach ($trickTypes as $type) {
-            $trick = self::getTrickInstance($type);
-
-            $location = self::LOCATION_AVAILABLE;
-
-            if ($trick->getLevel() === 3 && !Globals::isDarkAlley()) {
-                $location = self::LOCATION_BOX;
-            }
-
+        $magicians = [];
+        foreach ($magicianTypes as $type) {
             $data = [
-                'trick_type' => $type,
-                'location' => $location,
-                'nbr' => 1,
+                'magician_type' => $type,
             ];
 
-            $tricks[] = $data;
+            $magicians[] = $data;
         }
 
-        // Create the tricks
-        self::create($tricks, null);
+        // Create the magicians
+        self::create($magicians, self::LOCATION_AVAILABLE);
     }
 
     /*
@@ -100,5 +90,4 @@ class Tricks extends CachedPieces
 
     const LOCATION_AVAILABLE = 'available';
     const LOCATION_PLAYER = 'player';
-    const LOCATION_BOX = 'box';
 }

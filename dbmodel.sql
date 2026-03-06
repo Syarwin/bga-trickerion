@@ -51,3 +51,12 @@ CREATE TABLE IF NOT EXISTS `prophecy` (
   `prophecy_state` int(10),
   PRIMARY KEY (`prophecy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `magician` (
+  `magician_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `magician_type` varchar(32) NOT NULL,
+  `magician_location` varchar(32) NOT NULL,
+  `magician_state` int(10),
+  `player_id` int(10),
+  PRIMARY KEY (`magician_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
