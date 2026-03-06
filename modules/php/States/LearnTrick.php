@@ -7,6 +7,7 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
@@ -17,17 +18,24 @@ class LearnTrick extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
+            node: $node,
             id: States::ST_LEARN_TRICK,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must learn a trick'),
-            descriptionMyTurn: clienttranslate('${you} must learn a trick'),
+            description: clienttranslate('${actplayer} must learn a trick (${sourceName})'),
+            descriptionMyTurn: clienttranslate('${you} must learn a trick (${sourceName})'),
         );
     }
 
     public function getDescription() {
-        return clienttranslate("Learn a trick");
+        return [
+            "log" => clienttranslate('Learn a trick (${sourceName})'),
+            "args" => [
+                "sourceName" => $this->getNodeArgs("sourceName")
+            ]
+        ];
     }
 
     public function getActionArgs(int $activePlayerId): array
@@ -39,7 +47,8 @@ class LearnTrick extends ActionStateWithRevert
             ->where("category", $playerMagician->getFavoriteTrickCategory());
 
         $args = [
-            "availableTricks" => $availableTricks->toArray()
+            "availableTricks" => $availableTricks->toArray(),
+            "sourceName" => $this->getNodeArgs("sourceName")
         ];
         return $args;
     }    

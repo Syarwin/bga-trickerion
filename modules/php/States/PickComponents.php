@@ -8,6 +8,7 @@ use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
@@ -22,8 +23,10 @@ class PickComponents extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
+            node: $node,
             id: States::ST_PICK_COMPONENTS,
             type: StateType::ACTIVE_PLAYER,
             description: clienttranslate('${actplayer} must pick components to put in ${location} with a total value of ${totalValue} (remaining: ${remainingValue})'),

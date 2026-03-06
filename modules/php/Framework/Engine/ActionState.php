@@ -21,6 +21,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         public array $transitions = [],
         public bool $updateGameProgression = false,
         public string|int|null $initialPrivate = null,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
             id: $id,
@@ -67,6 +68,10 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function getNode() {
+        if ($this->node !== null) {
+            return $this->node;
+        }
+
         return Engine::getNextUnresolved();
     }
 
@@ -75,8 +80,17 @@ class ActionState extends \Bga\GameFramework\States\GameState
 
         $node = $this->getNode();
         if ($node !== null) {
-            $args = $node->getArgs();
+            // var_dump("inside");
+            // var_dump("<br>");
+            // var_dump($node->getArgs());
+            // var_dump("<br>");
+            $args = $node->getArgs() ?? [];
         }
+
+        // var_dump(static::class);
+        // var_dump("<br>");
+        // var_dump($args);
+        // var_dump("<hr>");
 
         if ($field !== null) {
             return $args[$field] ?? $default;
@@ -90,13 +104,11 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function isOptional() {
-        $args = $this->getNodeArgs();
-        return $args["optional"] ?? false;
+        return $this->getNodeArgs("optional", false);
     }
 
     public function isIrreversible() {
-        $args = $this->getNodeArgs();
-        return $args["irreversible"] ?? false;
+        return $this->getNodeArgs("irreversible", false);
     }
 
     public function isDoable() {
@@ -104,8 +116,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function isIndependent() {
-        $args = $this->getNodeArgs();
-        return $args["independent"] ?? false;
+        return $this->getNodeArgs("independent", false);
     }
 
     public function getDescription() {

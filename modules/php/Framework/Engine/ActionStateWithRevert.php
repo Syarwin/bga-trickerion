@@ -21,6 +21,7 @@ class ActionStateWithRevert extends ActionState
         public array $transitions = [],
         public bool $updateGameProgression = false,
         public string|int|null $initialPrivate = null,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
             id: $id,
@@ -31,6 +32,7 @@ class ActionStateWithRevert extends ActionState
             transitions: $transitions,
             updateGameProgression: $updateGameProgression,
             initialPrivate: $initialPrivate,
+            node: $node
         );
     }
 

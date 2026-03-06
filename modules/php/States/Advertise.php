@@ -6,6 +6,7 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
@@ -14,8 +15,10 @@ class Advertise extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
+            node: $node,
             id: States::ST_ADVERTISE,
             type: StateType::ACTIVE_PLAYER,
             description: clienttranslate('${actplayer} must decide whether to advertise'),

@@ -6,6 +6,7 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
@@ -15,8 +16,10 @@ class ConfirmTurn extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
+            node: $node,
             id: States::ST_CONFIRM_TURN,
             type: StateType::ACTIVE_PLAYER,
             description: clienttranslate('${actplayer} must finalize their decisions.'),

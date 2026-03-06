@@ -8,19 +8,23 @@ use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
 class ChooseMagician extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
+        protected ?AbstractNode $node = null
     ) {
         parent::__construct($game,
+            node: $node,
             id: States::ST_CHOOSE_MAGICIAN,
             type: StateType::ACTIVE_PLAYER,
             description: clienttranslate('${actplayer} must choose a magician'),
@@ -72,7 +76,27 @@ class ChooseMagician extends ActionStateWithRevert
                         "state" => PickComponents::class,
                     ],
                     [
-                        "state" => LearnTrick::class
+                        "state" => LearnTrick::class,
+                        "args" => [
+                            "sourceName" => clienttranslate("setup"),
+                            "types" => [ Character::TYPE_ASSISTANT, Character::TYPE_ENGINEER, Character::TYPE_MANAGER]
+                        ]
+                    ],
+                    [
+                        "type" => Engine::NODE_SEQUENTIAL,
+                        "customDescription" => clienttranslate('Hire character'),
+                        "children" => [
+                            [
+                                "state" => HireCharacter::class,
+                                "args" => [
+                                    "sourceName" => clienttranslate("setup"),
+                                    "types" => [ Character::TYPE_ASSISTANT, Character::TYPE_ENGINEER, Character::TYPE_MANAGER]
+                                ]
+                            ],
+                            [
+                                "state" => HiredCharacterSetup::class
+                            ]
+                        ]
                     ]
                 ]
             ]);

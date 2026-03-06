@@ -7,14 +7,13 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
-class ConfirmPartialTurn extends ActionStateWithRevert
+class HireCharacter extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -22,31 +21,41 @@ class ConfirmPartialTurn extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_CONFIRM_PARTIAL_TURN,
+            id: States::ST_HIRE_CHARACTER,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must confirm switch to ${player_name}'),
-            descriptionMyTurn: clienttranslate('${you} must confirm switch to ${player_name}'),
+            description: clienttranslate('${actplayer} must hire a character (${sourceName})'),
+            descriptionMyTurn: clienttranslate('${you} must hire a character (${sourceName})'),
         );
+    }
+
+    public function getDescription() {
+        return [
+            "log" => clienttranslate('Hire a character (${sourceName})'),
+            "args" => [
+                "sourceName" => $this->getNodeArgs("sourceName")
+            ]
+        ];
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $node = $this->getNode();
-        return [
-            "player_name" => Players::get($node->getPlayerId())->getName(),
-            "player_id" => $node->getPlayerId(),
+        $sourceName = $this->getNodeArgs("sourceName", "");
+        $args = [
+            "sourceName" => $sourceName
         ];
-    }
+        return $args;
+    }    
 
     /**
-     * Player must confirm the turn.
+     * Player must resolve the choice.
      *
      * @throws UserException
      */
     #[PossibleAction]
-    public function actConfirmTurn()
+    public function actHireCharacter(int $activePlayerId, string $characterId)
     {
-        return Engine::confirmPartialTurn();
+        Log::step();
+        
     }
 
     /**
@@ -64,5 +73,5 @@ class ConfirmPartialTurn extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }
+    }    
 }
