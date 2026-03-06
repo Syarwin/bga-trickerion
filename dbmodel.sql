@@ -87,3 +87,12 @@ CREATE TABLE IF NOT EXISTS `trick_marker` (
   `trick_id` int(10),
   PRIMARY KEY (`trick_marker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `character` (
+  `character_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `character_location` varchar(32) NOT NULL,
+  `character_state` int(10),
+  `player_id` int(10),
+  `character_type` varchar(32) NOT NULL,
+  PRIMARY KEY (`character_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
