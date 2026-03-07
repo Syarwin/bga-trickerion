@@ -51,9 +51,16 @@ class ActionState extends \Bga\GameFramework\States\GameState
     {
         $args = [];
 
-        if ($this->getNode() !== null && $this->getNode()->getType() === Engine::NODE_LEAF) {
-            $args['optionalAction'] = $this->getNode()->isOptional();
+        $isOptional = $this->isOptional();
+
+        if (is_null($isOptional)){
+            $isOptional = false;
+            if ($this->getNode() !== null && $this->getNode()->getType() === Engine::NODE_LEAF) {
+                $isOptional = $this->getNode()->isOptional();
+            } 
         }
+                
+        $args['optionalAction'] = $isOptional;
 
         if ($this->getCustomStateDescription() !== null) {
             $args['customStateDescription'] = $this->getCustomStateDescription();
@@ -80,17 +87,8 @@ class ActionState extends \Bga\GameFramework\States\GameState
 
         $node = $this->getNode();
         if ($node !== null) {
-            // var_dump("inside");
-            // var_dump("<br>");
-            // var_dump($node->getArgs());
-            // var_dump("<br>");
             $args = $node->getArgs() ?? [];
         }
-
-        // var_dump(static::class);
-        // var_dump("<br>");
-        // var_dump($args);
-        // var_dump("<hr>");
 
         if ($field !== null) {
             return $args[$field] ?? $default;
@@ -104,7 +102,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function isOptional() {
-        return $this->getNodeArgs("optional", false);
+        return null;
     }
 
     public function isIrreversible() {

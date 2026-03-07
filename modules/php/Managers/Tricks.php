@@ -86,7 +86,22 @@ class Tricks extends CachedPieces
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+    public static function getPreparebleTricks(int $playerId) {
+        $player = Players::get($playerId);
+        
+        return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
+            ->filter(function($trick) use ($player) {
+                $cost = $trick->getTrickCost();
 
+                foreach ($cost as $component => $count) {
+                    if (!$player->hasEnoughComponents($component, $count)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+    }
 
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

@@ -29,6 +29,10 @@ class ConfirmPartialTurn extends ActionStateWithRevert
         );
     }
 
+    public function isOptional() {
+        return false;
+    }
+
     public function getActionArgs(int $activePlayerId): array
     {
         $node = $this->getNode();

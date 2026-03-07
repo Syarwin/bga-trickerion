@@ -59,4 +59,17 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
             "component" => $component,
         ]);
     }
+
+    public function hasEnoughComponents(string $componentType, int $count): bool {
+        $component = Components::getAll()
+            ->where("type", $componentType)
+            ->where("playerId", $this->id)
+            ->first();
+
+        if (!$component->getLocation() === Components::LOCATION_MANAGER_BOARD){
+            return ($component->getCount() + 1) >= $count; // +1 because we can use the component from the manager board 
+        }
+
+        return $component->getCount() >= $count;
+    }
 }

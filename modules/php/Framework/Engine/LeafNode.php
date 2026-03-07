@@ -37,7 +37,7 @@ class LeafNode extends AbstractNode
 
     public function isOptional()
     {
-        return $this->getStateInstance()->isOptional();
+        return $this->getStateInstance()->isOptional() ?? false;
     }
 
     public function isIrreversible($player = null)

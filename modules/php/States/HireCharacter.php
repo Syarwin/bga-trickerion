@@ -24,23 +24,36 @@ class HireCharacter extends ActionStateWithRevert
             node: $node,
             id: States::ST_HIRE_CHARACTER,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must hire a character (${sourceName})'),
-            descriptionMyTurn: clienttranslate('${you} must hire a character (${sourceName})'),
+            description: clienttranslate('${actplayer} must hire a character'),
+            descriptionMyTurn: clienttranslate('${you} must hire a character'),
         );
     }
 
+    public function getCustomStateDescription() {
+        if (!is_null($this->getNodeArgs("sourceName"))) {
+            return [
+                "description" => clienttranslate('${actplayer} must hire a character (${sourceName})'),
+                "descriptionMyTurn" => clienttranslate('${you} must hire a character (${sourceName})'),
+            ];
+        }
+        return null;
+    }
+
     public function getDescription() {
-        return [
-            "log" => clienttranslate('Hire a character (${sourceName})'),
-            "args" => [
-                "sourceName" => $this->getNodeArgs("sourceName")
-            ]
-        ];
+        if (!is_null($this->getNodeArgs("sourceName"))) {
+            return [
+                "log" => clienttranslate('Hire a character (${sourceName})'),
+                "args" => [
+                    "sourceName" => $this->getNodeArgs("sourceName", "")
+                ]
+            ];
+        }
+        return clienttranslate('Hire a character');
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $sourceName = $this->getNodeArgs("sourceName", "");
+        $sourceName = $this->getNodeArgs("sourceName");
 
         $types = $this->getNodeArgs("types", null);
 

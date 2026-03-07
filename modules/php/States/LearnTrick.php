@@ -24,18 +24,31 @@ class LearnTrick extends ActionStateWithRevert
             node: $node,
             id: States::ST_LEARN_TRICK,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must learn a trick (${sourceName})'),
-            descriptionMyTurn: clienttranslate('${you} must learn a trick (${sourceName})'),
+            description: clienttranslate('${actplayer} must learn a trick'),
+            descriptionMyTurn: clienttranslate('${you} must learn a trick'),
         );
     }
 
+    public function getCustomStateDescription() {
+        if (!is_null($this->getNodeArgs("sourceName"))) {
+            return [
+                "description" => clienttranslate('${actplayer} must learn a trick (${sourceName})'),
+                "descriptionMyTurn" => clienttranslate('${you} must learn a trick (${sourceName})'),
+            ];
+        }
+        return null;
+    }
+
     public function getDescription() {
-        return [
-            "log" => clienttranslate('Learn a trick (${sourceName})'),
-            "args" => [
-                "sourceName" => $this->getNodeArgs("sourceName")
-            ]
-        ];
+        if (!is_null($this->getNodeArgs("sourceName"))) {
+            return [
+                "log" => clienttranslate('Learn a trick (${sourceName})'),
+                "args" => [
+                    "sourceName" => $this->getNodeArgs("sourceName", "")
+                ]
+            ];
+        }
+        return clienttranslate('Learn a trick');
     }
 
     public function getActionArgs(int $activePlayerId): array

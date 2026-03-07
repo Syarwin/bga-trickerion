@@ -70,11 +70,10 @@ class Prophecies extends CachedPieces
 
         // Create the tricks
         self::create($prophecies, self::LOCATION_DECK);
-
         self::shuffle(self::LOCATION_DECK);
 
-        //TODO this goes after players choose magicians
-        self::insertOnTop(self::getTopOf(self::LOCATION_DECK, 3)->getIds(), self::LOCATION_PENDING);
+        // Pending prophecies are revealed after the players pick magicians, tricks, components and characters
+        // see FinishSetup class
     }
 
     /*
