@@ -6,8 +6,10 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
 class TurnPreparation extends GameState
@@ -26,8 +28,19 @@ class TurnPreparation extends GameState
         //roll dice
         //adjust initiative
 
-        //start avertising turn
+        //start advertising turn
+        return TurnOrderManager::launchDefault("turn", [self::class, "startAdvertiseTurn"], StartAssignment::class, false);
+    }
 
-        return TurnOrderManager::lauchDefault("turn", AdvertiseTurn::class, StartAssignment::class, false);
-    }    
+    public static function startAdvertiseTurn() {
+        Game::get()->giveExtraTime(Players::getActiveId());
+        $newNode = [
+            "state" => Advertise::class,
+            "args" => [
+            ]
+        ];
+
+        Engine::setup($newNode, ["order" => "turn"]);
+        return Engine::proceed();
+    }
 }

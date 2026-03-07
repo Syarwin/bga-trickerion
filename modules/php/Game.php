@@ -180,7 +180,7 @@ class Game extends \Bga\GameFramework\Table
         Log::enable();
         $this->activeNextPlayer();
         
-        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, FinishEngineerSetup::class, false);
+        return TurnOrderManager::launchDefault("turn", SetupTurn::class, FinishEngineerSetup::class, false);
     }
 
     /////////////////////////////////////////////////////////////

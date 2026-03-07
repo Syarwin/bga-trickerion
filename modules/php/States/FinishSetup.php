@@ -37,9 +37,11 @@ class FinishSetup extends GameState
             ])->toArray()
         ];
 
-        Engine::setup($node, ["state" => TurnPreparation::class]);
-        $next = Engine::proceed();
+        Engine::setup($node, [self::class, "setupPendingProphecies"]);
+        return Engine::proceed();
+    }
 
+    public static function setupPendingProphecies() {
         if (Globals::isIncludeProphecies()) {
             $pendingProphecies = Prophecies::getTopOf(Prophecies::LOCATION_DECK, 3);
             Prophecies::insertOnTop($pendingProphecies->getIds(), Prophecies::LOCATION_PENDING);
@@ -47,6 +49,7 @@ class FinishSetup extends GameState
                 "prophecies" => $pendingProphecies->toArray()
             ]);
         }
-        return $next;
-    }    
+
+        return TurnPreparation::class;
+    }
 }

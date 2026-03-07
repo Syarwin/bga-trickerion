@@ -35,7 +35,7 @@ class TurnOrderManager
         self::define($name, null, $startCallback, $endCallback, $loop);
     }
 
-    public static function lauchDefault($name, $startCallback, $endCallback, $loop = false)
+    public static function launchDefault($name, $startCallback, $endCallback, $loop = false)
     {
         self::defineDefault($name, $startCallback, $endCallback, $loop);
         return self::proceed($name);
