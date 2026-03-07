@@ -50,7 +50,7 @@ class Prophecies extends CachedPieces
     /* Creation of the cards */
     public static function setupNewGame()
     {
-        if (!Globals::isDarkAlley()) {
+        if (!Globals::isIncludeProphecies()) {
             return;
         }
 

@@ -26,5 +26,26 @@
             }
         },
         "default": 0
+    },
+    "125": {
+        "name": "Include prophecies",
+        "values": {
+            "0": {
+                "name": "No",
+                "tmdisplay": "No prophecies"
+            },
+            "1": {
+                "name": "Yes",
+                "nobeginner": true
+            }
+        },
+        "default": 1,
+        "displaycondition": [
+            {
+                "type": "otheroption",
+                "id": 120,
+                "value": 1
+            }
+        ]
     }
 }

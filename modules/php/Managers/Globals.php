@@ -59,6 +59,11 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         $isBeginnersSetup = Game::$instance->tableOptions->get(Globals::OPTION_BEGINNERS_SETUP);
         return $isBeginnersSetup == 1;
     }
+    
+    public static function isIncludeProphecies() {
+        $isIncludeProphecies = Game::$instance->tableOptions->get(Globals::OPTION_INCLUDE_PROPHECIES);
+        return $isIncludeProphecies == 1 && self::isDarkAlley();
+    }
 
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
@@ -70,6 +75,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
 
     */
 
+     const OPTION_BEGINNERS_SETUP = 110;
     const OPTION_DARK_ALLEY = 120;
-    const OPTION_BEGINNERS_SETUP = 110;
+    const OPTION_INCLUDE_PROPHECIES = 125;
 }
