@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
  */
 class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedDB_Manager
 {
+    protected static $datas = null;
     protected static $table = 'player';
     protected static $primary = 'player_id';
     protected static function cast($row)

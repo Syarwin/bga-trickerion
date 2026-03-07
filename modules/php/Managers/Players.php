@@ -8,6 +8,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
  */
 class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players
 {
+    protected static $datas = null;
     protected static function cast($row)
     {
         return new \Bga\Games\trickerionlegendsofillusion\Models\Player($row);

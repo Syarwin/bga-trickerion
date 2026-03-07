@@ -6,31 +6,24 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
-class SetupTurn extends GameState
+class FinishSetup extends GameState
 {
     function __construct(
         protected Game $game,
     ) {
         parent::__construct($game,
-            id: States::ST_SETUP_TURN,
+            id: States::ST_FINISH_SETUP,
             type: StateType::GAME,
         );
     }
 
     function onEnteringState(int $activePlayerId)
     {
-        $this->game->giveExtraTime($activePlayerId);
-        $newNode = [
-            "state" => ChooseMagician::class,
-            "args" => [
-            ]
-        ];
+        
 
-        Engine::setup($newNode, ['order' => "turn"]);
-        return Engine::proceed();
+        return TurnPreparation::class;
     }    
 }

@@ -20,6 +20,7 @@ class States {
     const ST_HIRED_CHARACTER_SETUP = 211;
     const ST_CHOOSE_MAGICIAN = 805;
     //SETUP STATES
-    const ST_FINISH_SETUP = 800;
     const ST_SETUP_TURN = 810;
+    const ST_FINISH_ENGINEER_SETUP = 820;
+    const ST_FINISH_SETUP = 830;
 }

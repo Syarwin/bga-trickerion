@@ -8,6 +8,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 /**
  * Class representing a Player
  *
+ * @property int $fame The fame of the players (same as score)
  */
 class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player
 {
@@ -20,6 +21,16 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         "colorName" => ["player_color_name", "str"],
     ];
 
+    protected $staticAttributes = [
+        ["fame", "int"]
+    ];
+
+    public function __construct($row)
+    {
+        parent::__construct($row);
+        $this->fame = $row['player_score'];
+    }
+
     /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
@@ -29,18 +40,6 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
-
-    public function incFame(int $count) {
-        $this->incScore($count);
-    }
-
-    public function getFame() {
-        return $this->getScore();
-    }
-
-    public function setFame(int $count) {
-        $this->setScore($count);
-    }
 
     public function incComponent(string $component, int $count, string $defaultLocation) {
         $component = Components::getAll()

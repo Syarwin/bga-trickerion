@@ -31,8 +31,8 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+use Bga\Games\trickerionlegendsofillusion\States\FinishEngineerSetup;
 use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
-use Bga\Games\trickerionlegendsofillusion\States\TurnPreparation;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -180,7 +180,7 @@ class Game extends \Bga\GameFramework\Table
         Log::enable();
         $this->activeNextPlayer();
         
-        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, TurnPreparation::class, false);
+        return TurnOrderManager::lauchDefault("turn", SetupTurn::class, FinishEngineerSetup::class, false);
     }
 
     /////////////////////////////////////////////////////////////
