@@ -33,7 +33,7 @@ class Characters extends CachedPieces
             "hiredSpecialists" => Players::getAll()->map(function($player) {
                 return self::getAll()
                     ->where('playerId', $player->id)
-                    ->where('type', [Character::TYPE_ENGINEER, Character::TYPE_MANAGER, Character::TYPE_ASSISTANT])
+                    ->where('specialist', true)
                     ->whereNot('location', self::LOCATION_SUPPLY)
                     ->map(function($character) use ($player) {
                         return $character->getType();
@@ -95,6 +95,10 @@ class Characters extends CachedPieces
         $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY)
             ->where("type", $type)
             ->first();
+
+        if ($character->isSpecialist()) {
+            $location = Character::getSpecialistLocation($type);
+        }
         
         $character->setLocation($location);
 

@@ -50,9 +50,12 @@ class HireCharacter extends ActionStateWithRevert
             $availableCharacters = $availableCharacters->where("type", $types);
         }
 
+        $availableCharacterTypes = $availableCharacters->pluck('type')->toArray(); 
+        $availableCharacterTypes = array_unique($availableCharacterTypes);
+
         $args = [
             "sourceName" => $sourceName,
-            "availableCharacters" => $availableCharacters->toArray()
+            "availableCharacterTypes" => $availableCharacterTypes
         ];
         return $args;
     }    
@@ -66,6 +69,11 @@ class HireCharacter extends ActionStateWithRevert
     public function actHireCharacter(int $activePlayerId, string $characterType)
     {
         Log::step();
+
+        $availableCharacterTypes = $this->getActionArgs($activePlayerId)["availableCharacterTypes"];
+        if (!in_array($characterType, $availableCharacterTypes)) {
+            throw new UserException("You cannot hire this character");
+        }
 
         $location = $this->getNodeArgs("location", Characters::LOCATION_IDLE_PLAYER_BOARD);
         Characters::hire($characterType, $activePlayerId, $location);

@@ -9,8 +9,8 @@ export class HireCharacter {
      */
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            for (const character of args.availableCharacters) {
-                this.bga.statusBar.addActionButton(character.type, () => this.bga.actions.performAction("actHireCharacter", { characterType: character.type }));
+            for (const characterType of args.availableCharacterTypes) {
+                this.bga.statusBar.addActionButton(characterType, () => this.bga.actions.performAction("actHireCharacter", { characterType }));
             }
         }
     }
