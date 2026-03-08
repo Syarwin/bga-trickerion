@@ -12,7 +12,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
     protected static $variables = [
         "marketRow" => "obj",
         "currentTurn" => "int",
-        "pickingComponents" => "obj"
+        "pickingComponents" => "obj",
+        "dice" => "obj",
     ];
 
     /*
@@ -27,6 +28,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
             Component::GLASS,
             Component::FABRIC,
         ]);
+
+        Dice::init();
 
         self::setCurrentTurn(1);
         self::setPickingComponents([]);

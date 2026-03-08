@@ -11,6 +11,15 @@ export const logOverride = {
     },
     component: (args) => {
         return args.component.type
+    },
+    dice: (args) => {
+        const allDice = [
+            ...args.dice.trick,
+            ...args.dice.character,
+            ...args.dice.money
+        ]
+
+        return allDice.join(", ");
     }
 }
 

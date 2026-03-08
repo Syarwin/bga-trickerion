@@ -9,6 +9,7 @@ use Bga\GameFramework\States\GameState;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
@@ -26,6 +27,8 @@ class TurnPreparation extends GameState
     function onEnteringState(int $activePlayerId)
     {
         //roll dice
+        Dice::roll();
+
         //adjust initiative
 
         //start advertising turn
