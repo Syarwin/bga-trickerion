@@ -38,8 +38,6 @@ export class AssignCharacters {
      * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
      */
     onLeavingState(args, isCurrentPlayerActive) {
-        alert("in");
-        this.bga.statusBar.removeActionButtons();
     }
 
     /**
