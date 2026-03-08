@@ -2,6 +2,10 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\GameFramework\NotificationMessage;
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
+
 /**
  * Assignment: all utility functions concerning an assignment
  * 
@@ -45,6 +49,24 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public function assignToCharacter(Character $character) {
+        $this->setLocation(Assignments::LOCATION_ASSIGNED_FACEDOWN);
+        $this->setState($character->getId());
+
+
+        Game::get()->bga->notify->all('assignmentAssigned', clienttranslate('${player_name} assigned a card to ${characterName}'), [
+            'player_id' => $this->getPlayerId(),
+            'characterName' => $character->getName(),
+            '_private' => [
+                $this->getPlayerId() => new NotificationMessage(clienttranslate('You assigned ${_private.assignment_name} to ${characterName}'), [
+                    'assignment' => $this,
+                    'assignment_name' => $this->getName(),
+                    'i18n' => ['assignment_name']
+                ]),
+            ],
+        ]);
+    }
 
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

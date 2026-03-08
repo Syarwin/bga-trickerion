@@ -37,8 +37,8 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->actionPoints = self::getActionPoints($this->type);
-        $this->name = self::getName($this->type);
+        $this->actionPoints = self::getCharacterActionPoints($this->type);
+        $this->name = self::getCharacterName($this->type);
         $this->specialist = in_array($this->type, [self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT]);
     }
 
@@ -52,7 +52,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
     */
 
-    private static function getActionPoints($type)
+    private static function getCharacterActionPoints($type)
     {
         return [
             self::TYPE_MAGICIAN => 3,
@@ -63,7 +63,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ][$type];
     }   
 
-    private static function getName($type)
+    private static function getCharacterName($type)
     {
         return [
             self::TYPE_MAGICIAN => clienttranslate('Magician'),

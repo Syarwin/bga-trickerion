@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Bga\Games\trickerionlegendsofillusion\States;
 
+use Bga\GameFramework\Actions\Types\IntArrayParam;
+use Bga\GameFramework\NotificationMessage;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
+use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
 class AssignCharacters extends GameState
@@ -23,12 +29,79 @@ class AssignCharacters extends GameState
     }
 
     function getArgs(int $activePlayerId): array  {
-        return [];
+        $availableAssignmentCards = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_HAND);
+        
+        $assignedAssignments = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_ANY);
+        $usedCharacterIds = $assignedAssignments->pluck("state")->toArray();
+
+        $unassignedCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_IDLE_ANY)
+            ->whereNot("id", $usedCharacterIds);
+
+        return [
+            "availableAssignments" => $availableAssignmentCards->toArray(),
+            "availableCharacters" => $unassignedCharacters->toArray()
+        ];
     }
 
     #[PossibleAction] 
-    public function actAssignCharacter(int $cardId, int $characterId)
-    {        
+    public function actAssignCharacter(int $assignmentId, int $characterId, array $args, int $activePlayerId)
+    {       
+        $assignment = Assignments::get($assignmentId);
+        $character = Characters::get($characterId);
+
+        if (!in_array($assignment, $args["availableAssignments"])) {
+            throw new UserException("This assignment is not available");
+        }
+
+        if (!in_array($character, $args["availableCharacters"])) {
+            throw new UserException("This character is not available");
+        }
+
+        $assignment->assignToCharacter($character);
+        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
+    }
+    
+    #[PossibleAction] 
+    public function actAssignCharacters(#[IntArrayParam()] $assignmentIds, #[IntArrayParam()] $characterIds, array $args, int $activePlayerId)
+    {
+        if (count($assignmentIds) !== count($characterIds)) {
+            throw new UserException("You must assign the same number of characters and assignments");
+        }
+
+        for ($i = 0; $i < count($assignmentIds); $i++) {
+            $this->actAssignCharacter($assignmentIds[$i], $characterIds[$i], $args, $activePlayerId);
+        }
+
+        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
+    }
+
+    #[PossibleAction] 
+    public function actDone(int $activePlayerId)
+    {
+        Game::get()->bga->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
+            'player_id' => $activePlayerId,
+        ]);
+        $this->game->gamestate->setPlayerNonMultiactive($activePlayerId, PlaceCharacters::class );
+    }
+    
+    #[PossibleAction] 
+    public function actReset(int $activePlayerId)
+    {
+        $assignments = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_ANY)
+            ->ForEach(function(Assignment $assignment) {
+                $assignment->setLocation(Assignments::LOCATION_HAND);
+            });
+
+        Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
+            'player_id' => $activePlayerId,
+             '_private' => [
+                $activePlayerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
+                    "assignments" => $assignments->toArray()
+                ]),
+             ],
+        ]);
+
+        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
     }
 
     /**

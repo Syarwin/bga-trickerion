@@ -10,6 +10,8 @@ class States {
     const ST_TURN_PREPARATION = 10;
     const ST_START_ASSIGNMENT = 40;
     const ST_ASSIGN_CHARACTERS = 50;
+    const ST_PLACE_CHARACTERS = 60;
+    const ST_PERFORMANCE_PHASE = 70;
 
     //ACTION STATES
     const ST_ADVERTISE = 100;
