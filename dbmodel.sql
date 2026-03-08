@@ -85,6 +85,14 @@ CREATE TABLE IF NOT EXISTS `character` (
   PRIMARY KEY (`character_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `poster` (
+  `poster_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `poster_location` varchar(32) NOT NULL,
+  `poster_state` int(10),
+  `player_id` int(10),
+  PRIMARY KEY (`poster_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `component` (
   `component_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `component_location` varchar(32) NOT NULL,

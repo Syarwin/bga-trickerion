@@ -28,6 +28,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
@@ -157,6 +158,7 @@ class Game extends \Bga\GameFramework\Table
             "trickMarkers" => TrickMarkers::getUiData($playerId),
             "characters" => Characters::getUiData($playerId),
             "components" => Components::getUiData($playerId),
+            "posters" => Posters::getUiData($playerId),
         ];
     }
 
@@ -176,7 +178,8 @@ class Game extends \Bga\GameFramework\Table
         TrickMarkers::setupNewGame();
         Characters::setupNewGame();
         Components::setupNewGame();
-
+        Posters::setupNewGame();
+    
         Log::enable();
         $this->activeNextPlayer();
         

@@ -26,6 +26,7 @@ import { LearnTrick } from "./states/LearnTrick.js";
 import { PickComponents } from "./states/PickComponents.js";
 import { HireCharacter } from "./states/HireCharacter.js";
 import { PrepareTrick } from "./states/PrepareTrick.js";
+import { Advertise } from "./states/Advertise.js";
 
 export class Game {
     constructor(bga) {
@@ -41,6 +42,7 @@ export class Game {
         this.bga.states.register('PickComponents', new PickComponents(this, bga));
         this.bga.states.register('HireCharacter', new HireCharacter(this, bga));
         this.bga.states.register('PrepareTrick', new PrepareTrick(this, bga));
+        this.bga.states.register('Advertise', new Advertise(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        
