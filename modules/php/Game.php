@@ -79,15 +79,15 @@ class Game extends \Bga\GameFramework\Table
                 unset($args['player2']);
             }
             if (isset($args['players'])) {
-                $args = [];
+                $newArgs = [];
                 $logs = [];
                 foreach ($args['players'] as $i => $player) {
                     $logs[] = '${player_name' . $i . '}';
-                    $args['player_name' . $i] = $player->getName();
+                    $newArgs['player_name' . $i] = $player->getName();
                 }
                 $args['players_names'] = [
                     'log' => join(', ', $logs),
-                    'args' => $args,
+                    'args' => $newArgs,
                 ];
                 $args['i18n'][] = 'players_names';
                 unset($args['players']);

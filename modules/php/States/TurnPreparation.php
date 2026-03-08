@@ -10,6 +10,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
+use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
@@ -30,9 +31,13 @@ class TurnPreparation extends GameState
         Dice::roll();
 
         //adjust initiative
+        $turn = Globals::getCurrentTurn();
+        if ($turn > 1) {
+            Players::adjustInitiative();
+        }
 
         //start advertising turn
-        return TurnOrderManager::launchDefault("turn", [self::class, "startAdvertiseTurn"], StartAssignment::class, false);
+        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startAdvertiseTurn"], StartAssignment::class, false);
     }
 
     public static function startAdvertiseTurn() {

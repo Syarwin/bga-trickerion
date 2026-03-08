@@ -8,7 +8,6 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 /**
  * Class representing a Player
  *
- * @property int $fame The fame of the players (same as score)
  */
 class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player
 {
@@ -22,13 +21,11 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     ];
 
     protected $staticAttributes = [
-        ["fame", "int"]
     ];
 
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->fame = $row['player_score'];
     }
 
     /*

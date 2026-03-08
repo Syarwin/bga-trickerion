@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+
 /*
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
@@ -41,6 +43,27 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
             "cc7f17" => "orange",
             "85902b" => "green",
         ][$color] ?? "unknown";
+    }
+
+    public static function getOrderByInitiative() {
+        return self::getAll()->orderBy("initiative", "ASC")->pluck("id")->toArray();
+    }
+
+    public static function adjustInitiative() {
+        $players = self::getAll()
+            ->orderBy("initiative", "ASC")
+            ->orderBy("score", "ASC")
+            ->toArray();
+
+        $initiative = 1;
+        foreach ($players as $player) {
+            $player->setInitiative($initiative);
+            $initiative += 1;
+        }
+
+        Game::get()->bga->notify->all("initiativeAdjusted", clienttranslate('New initiative order: ${players_names}'), [
+            "players" => $players,
+        ]);
     }
 
 }

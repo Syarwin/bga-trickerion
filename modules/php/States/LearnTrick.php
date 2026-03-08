@@ -62,7 +62,7 @@ class LearnTrick extends ActionStateWithRevert
         }
 
         $player = Players::get($activePlayerId);
-        $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getFame());
+        $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getScore());
 
         $args = [
             "availableTricks" => $availableTricks->toArray(),
