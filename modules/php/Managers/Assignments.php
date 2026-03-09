@@ -167,7 +167,12 @@ class Assignments extends CachedPieces
     }
 
     public static function getAvailableAssignments($playerId = null) {
-        return ($playerId === null ? self::getInLocation(self::LOCATION_ASSIGNED_FACEUP) : self::getFiltered($playerId, self::LOCATION_ASSIGNED_FACEUP))
+        $facupAssignments = self::getInLocation(self::LOCATION_ASSIGNED_FACEUP);
+        if ($playerId !== null) {
+            $facupAssignments = $facupAssignments->where("playerId", $playerId);
+        }
+
+        return $facupAssignments
             ->filter(function($assignment) {
                 return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
                     ->where("id", $assignment->getState())

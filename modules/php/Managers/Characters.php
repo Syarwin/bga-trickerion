@@ -175,7 +175,7 @@ class Characters extends CachedPieces
         ]);
     }
 
-    public static function getTheaterDayPlayerId($location) {
+    public static function getTheaterPlayerForDay($location) {
         if (!self::isTheaterLocation($location)) {
             return null;
         }
@@ -187,7 +187,16 @@ class Characters extends CachedPieces
         return is_null($character) ? null : $character->getPlayerId();
     }
 
-    
+    public static function getTheaterDayForPlayer($playerId) {
+        $character = self::getFiltered($playerId, "board-theater-%")
+            ->first();
+            
+        if ($character === null) {
+            return null;
+        }
+
+        return explode("-", $character->getLocation())[2];
+    }
 
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
