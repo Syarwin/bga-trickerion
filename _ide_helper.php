@@ -992,7 +992,7 @@ namespace Bga\GameFramework {
          * @param int $playerId the player id
          * @param int $newStateId the new state id
          */
-        final public function setPrivateState(int $playerId, int $newStateId): void
+        final public function setPrivateState(int $playerId, int|string $newStateId): void
         {
             //
         }

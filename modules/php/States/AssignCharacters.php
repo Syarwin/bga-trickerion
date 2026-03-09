@@ -15,6 +15,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States\PlaceCharacters;
 
 class AssignCharacters extends GameState
 {
@@ -24,17 +25,17 @@ class AssignCharacters extends GameState
         parent::__construct($game,
             id: States::ST_ASSIGN_CHARACTERS,
             type: StateType::PRIVATE,
-            descriptionMyTurn: clienttranslate('${you} must assign your characters')
+            descriptionMyTurn: clienttranslate('${you} must assign your characters'),
         );
     }
 
-    function getArgs(int $activePlayerId): array  {
-        $availableAssignmentCards = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_HAND);
+    function getArgs(int $playerId): array  {
+        $availableAssignmentCards = Assignments::getFiltered($playerId, Assignments::LOCATION_HAND);
         
-        $assignedAssignments = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_ANY);
+        $assignedAssignments = Assignments::getFiltered($playerId, Assignments::LOCATION_ASSIGNED_ANY);
         $usedCharacterIds = $assignedAssignments->pluck("state")->toArray();
 
-        $unassignedCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_IDLE_ANY)
+        $unassignedCharacters = Characters::getFiltered($playerId, Characters::LOCATION_IDLE_ANY)
             ->whereNot("id", $usedCharacterIds);
 
         return [
@@ -44,7 +45,7 @@ class AssignCharacters extends GameState
     }
 
     #[PossibleAction] 
-    public function actAssignCharacter(int $assignmentId, int $characterId, array $args, int $activePlayerId)
+    public function actAssignCharacter(int $assignmentId, int $characterId, array $args, int $currentPlayerId)
     {       
         $assignment = Assignments::get($assignmentId);
         $character = Characters::get($characterId);
@@ -58,50 +59,50 @@ class AssignCharacters extends GameState
         }
 
         $assignment->assignToCharacter($character);
-        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
+        $this->game->gamestate->nextPrivateState($currentPlayerId, self::class);
     }
     
     #[PossibleAction] 
-    public function actAssignCharacters(#[IntArrayParam()] $assignmentIds, #[IntArrayParam()] $characterIds, array $args, int $activePlayerId)
+    public function actAssignCharacters(#[IntArrayParam()] $assignmentIds, #[IntArrayParam()] $characterIds, array $args, int $currentPlayerId)
     {
         if (count($assignmentIds) !== count($characterIds)) {
             throw new UserException("You must assign the same number of characters and assignments");
         }
 
         for ($i = 0; $i < count($assignmentIds); $i++) {
-            $this->actAssignCharacter($assignmentIds[$i], $characterIds[$i], $args, $activePlayerId);
+            $this->actAssignCharacter($assignmentIds[$i], $characterIds[$i], $args, $currentPlayerId);
         }
 
-        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
+        $this->game->gamestate->setPrivateState($currentPlayerId, self::class);
     }
 
     #[PossibleAction] 
-    public function actDone(int $activePlayerId)
+    public function actDone(int $currentPlayerId)
     {
         Game::get()->bga->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
-            'player_id' => $activePlayerId,
+            'player_id' => $currentPlayerId,
         ]);
-        $this->game->gamestate->setPlayerNonMultiactive($activePlayerId, PlaceCharacters::class );
+        $this->game->gamestate->setPlayerNonMultiactive($currentPlayerId, PlaceCharacters::class );
     }
     
     #[PossibleAction] 
-    public function actReset(int $activePlayerId)
+    public function actReset(int $currentPlayerId)
     {
-        $assignments = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_ANY)
+        $assignments = Assignments::getFiltered($currentPlayerId, Assignments::LOCATION_ASSIGNED_ANY)
             ->ForEach(function(Assignment $assignment) {
                 $assignment->setLocation(Assignments::LOCATION_HAND);
             });
 
         Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
-            'player_id' => $activePlayerId,
+            'player_id' => $currentPlayerId,
              '_private' => [
-                $activePlayerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
+                $currentPlayerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
                     "assignments" => $assignments->toArray()
                 ]),
              ],
         ]);
 
-        $this->game->gamestate->nextPrivateState($activePlayerId, self::class);
+        $this->game->gamestate->nextPrivateState($currentPlayerId, self::class);
     }
 
     /**
