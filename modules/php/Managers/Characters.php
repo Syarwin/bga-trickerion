@@ -19,7 +19,7 @@ class Characters extends CachedPieces
     
     public static function autoreshuffleListener($location) {}
 
-    protected static function cast($raw)
+    public static function cast($raw)
     {
         return new Character($raw);
     }

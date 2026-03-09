@@ -4,6 +4,11 @@
 /** @noinspection PhpInconsistentReturnPointsInspection */
 /** @noinspection PhpUnreachableStatementInspection */
 
+namespace {   
+    abstract class APP_DbObject {
+    }
+}
+
 namespace Bga\GameFramework\Actions {
     #[\Attribute]
     class CheckAction {
@@ -2590,7 +2595,7 @@ namespace Bga\GameFramework\Components {
          * @return Deck a new Deck object
          */
         public function createDeck(string $tableName): Deck {
-            return new class extends Deck{}();
+            return (new class extends Deck{})();
         }
     }
 
@@ -2610,7 +2615,7 @@ namespace Bga\GameFramework\Components\Counters {
          * @return PlayerCounter a new PlayerCounter object
          */
         public function createPlayerCounter(string $name, ?int $min = 0, ?int $max = null): PlayerCounter {
-            return new class extends PlayerCounter {}();
+            return (new class extends PlayerCounter {})();
         }
 
         /**
@@ -2622,7 +2627,7 @@ namespace Bga\GameFramework\Components\Counters {
          * @return TableCounter a new TableCounter object
          */
         public function createTableCounter(string $name, ?int $min = 0, ?int $max = null): TableCounter {
-            return new class extends TableCounter{}();
+            return (new class extends TableCounter{})();
         }
     }
 
@@ -2865,7 +2870,7 @@ namespace Bga\GameFramework\GameResult {
 }
 
 namespace {
-    exit("This file should not be included, only analyzed by your IDE");
+    //exit("This file should not be included, only analyzed by your IDE");
 
     /**
      * Dummy value, for autocomplete.
@@ -2886,7 +2891,7 @@ namespace {
      */
     function clienttranslate(string $text): string
     {
-        return ''; 
+        return $text; 
     }
 
     /**
