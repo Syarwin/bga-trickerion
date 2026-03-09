@@ -82,7 +82,7 @@ class AssignCharacters extends GameState
         Game::get()->bga->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
             'player_id' => $currentPlayerId,
         ]);
-        $this->game->gamestate->setPlayerNonMultiactive($currentPlayerId, PlaceCharacters::class );
+        $this->game->gamestate->setPlayerNonMultiactive($currentPlayerId, PlaceCharacters::class);
     }
     
     #[PossibleAction] 

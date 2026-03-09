@@ -166,6 +166,24 @@ class Assignments extends CachedPieces
         ][$boardLocation];
     }
 
+    public static function getAvailableAssignments($playerId = null) {
+        return ($playerId === null ? self::getInLocation(self::LOCATION_ASSIGNED_FACEUP) : self::getFiltered($playerId, self::LOCATION_ASSIGNED_FACEUP))
+            ->filter(function($assignment) {
+                return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
+                    ->where("id", $assignment->getState())
+                    ->count() > 0;
+            })
+            ->map(function($assignment) {
+                $character = Characters::get($assignment->getState());
+                $possibleLocations = $character->getPossibleLocations($assignment->getBoardLocation());
+
+                return [
+                    "assignment" => $assignment,
+                    "character" => $character,
+                    "possibleLocations" => $possibleLocations
+                ];
+            })->toArray();
+    }
 
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

@@ -82,6 +82,27 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ][$type];
     }
 
+    public function getPossibleLocations($boardLocation) {
+        return Characters::getPossibleLocations($this->type, $boardLocation)
+            ->filter(function($location) {
+                $isOccupied = Characters::getInLocation($location)->first() !== null;
+
+                if (Characters::isWorkshopLocation($location)) {
+                    $isOccupied = Characters::getFiltered($this->getPlayerId(), $location)->first() !== null;
+                }
+
+                $isOtherPlayerInTheaterDay = false;
+                if (Characters::isTheaterLocation($location)) {
+                    $playerInTheater = null;
+                    $playerInTheater = Characters::getTheaterDayPlayerId($location);
+
+                    $isOtherPlayerInTheaterDay = $playerInTheater !== null && $playerInTheater != $this->playerId;
+                }            
+                
+                return !$isOccupied && !$isOtherPlayerInTheaterDay;
+            })->toArray();
+    }
+
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

@@ -3,7 +3,9 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
 class Characters extends CachedPieces
@@ -28,7 +30,7 @@ class Characters extends CachedPieces
     {
         return [
             "supply" => self::getInLocation(self::LOCATION_SUPPLY)->toArray(),
-            "occupied" => self::getInLocation(self::LOCATION_OCCUPIED_ANY)->toArray(),
+            "board" => self::getInLocation(self::LOCATION_BOARD_ANY)->toArray(),
             "idle" => self::getInLocation(self::LOCATION_IDLE_ANY)->toArray(),
             "hiredSpecialists" => Players::getAll()->map(function($player) {
                 return self::getAll()
@@ -108,6 +110,84 @@ class Characters extends CachedPieces
         ]);
     }
 
+    public static function getPossibleLocations($type, $boardLocation) {
+        $locations = [
+            Assignment::BOARD_LOCATION_DOWNTOWN => [
+                self::LOCATION_BOARD_DOWNTOWN_1,
+                self::LOCATION_BOARD_DOWNTOWN_2,
+                self::LOCATION_BOARD_DOWNTOWN_3,
+                self::LOCATION_BOARD_DOWNTOWN_4
+            ],
+            Assignment::BOARD_LOCATION_MARKET_ROW => [
+                self::LOCATION_BOARD_MARKET_ROW_1,
+                self::LOCATION_BOARD_MARKET_ROW_2,
+                self::LOCATION_BOARD_MARKET_ROW_3,
+                self::LOCATION_BOARD_MARKET_ROW_4
+            ],
+            Assignment::BOARD_LOCATION_THEATER => 
+                $type == Character::TYPE_MAGICIAN ? [
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN,
+                ] : [
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+                ],
+            Assignment::BOARD_LOCATION_WORKSHOP => [
+                self::LOCATION_BOARD_WORKSHOP_1,
+                self::LOCATION_BOARD_WORKSHOP_2,
+            ],
+            Assignment::BOARD_LOCATION_DARK_ALLEY => [
+                self::LOCATION_BOARD_DARK_ALLEY_1,
+                self::LOCATION_BOARD_DARK_ALLEY_2,
+                self::LOCATION_BOARD_DARK_ALLEY_3,
+                self::LOCATION_BOARD_DARK_ALLEY_4,
+            ],
+        ][$boardLocation];
+
+        return new Collection($locations);
+    }
+
+    public static function isTheaterLocation($location) {
+        return in_array($location, [
+            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
+            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
+            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
+            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN,
+        ]);
+    }
+
+    public static function isWorkshopLocation($location) {
+        return in_array($location, [
+            self::LOCATION_BOARD_WORKSHOP_1,
+            self::LOCATION_BOARD_WORKSHOP_2,
+        ]);
+    }
+
+    public static function getTheaterDayPlayerId($location) {
+        if (!self::isTheaterLocation($location)) {
+            return null;
+        }
+
+        $day = explode("-", $location)[2];
+        $character = self::getInLocation("board-theater-{$day}-%")
+            ->first();
+            
+        return is_null($character) ? null : $character->getPlayerId();
+    }
+
+    
 
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
@@ -120,17 +200,34 @@ class Characters extends CachedPieces
     */
 
     const LOCATION_SUPPLY = 'supply';
-    const LOCATION_IDLE_ANY = 'idle-%';
-    const LOCATION_OCCUPIED_ANY = 'occupied-%';
     
+    const LOCATION_IDLE_ANY = 'idle-%';
     const LOCATION_IDLE_PLAYER_BOARD = 'idle-player-board';
     const LOCATION_IDLE_MANAGER_BOARD = 'idle-manager-board';
     const LOCATION_IDLE_ASSISTANT_BOARD = 'idle-assistant-board';
     const LOCATION_IDLE_ENGINEER_BOARD = 'idle-engineer-board';
-
-    const LOCATION_OCCUPIED_DOWNTOWN = 'occupied-downtown';
-    const LOCATION_OCCUPIED_MARKET_ROW = 'occupied-market-row';
-    const LOCATION_OCCUPIED_THEATER = 'occupied-theater';
-    const LOCATION_OCCUPIED_WORKSHOP = 'occupied-workshop';
-    const LOCATION_OCCUPIED_DARK_ALLEY = 'occupied-dark-alley';
+    
+    const LOCATION_BOARD_ANY = 'board-%';
+    const LOCATION_BOARD_DOWNTOWN_1 = 'board-downtown-1';
+    const LOCATION_BOARD_DOWNTOWN_2 = 'board-downtown-2';
+    const LOCATION_BOARD_DOWNTOWN_3 = 'board-downtown-3';
+    const LOCATION_BOARD_DOWNTOWN_4 = 'board-downtown-4';
+    const LOCATION_BOARD_MARKET_ROW_1 = 'board-market-row-1';
+    const LOCATION_BOARD_MARKET_ROW_2 = 'board-market-row-2';
+    const LOCATION_BOARD_MARKET_ROW_3 = 'board-market-row-3';
+    const LOCATION_BOARD_MARKET_ROW_4 = 'board-market-row-4';
+    const LOCATION_BOARD_THEATER_THURSDAY_BASIC = 'board-theater-thursday-basic';
+    const LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN = 'board-theater-thursday-magician';
+    const LOCATION_BOARD_THEATER_FRIDAY_BASIC = 'board-theater-friday-basic';
+    const LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN = 'board-theater-friday-magician';
+    const LOCATION_BOARD_THEATER_SATURDAY_BASIC = 'board-theater-saturday-basic';
+    const LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN = 'board-theater-saturday-magician';
+    const LOCATION_BOARD_THEATER_SUNDAY_BASIC = 'board-theater-sunday-basic';
+    const LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN = 'board-theater-sunday-magician';
+    const LOCATION_BOARD_WORKSHOP_1 = 'board-workshop-1';
+    const LOCATION_BOARD_WORKSHOP_2 = 'board-workshop-2';
+    const LOCATION_BOARD_DARK_ALLEY_1 = 'board-dark-alley-1';
+    const LOCATION_BOARD_DARK_ALLEY_2 = 'board-dark-alley-2';
+    const LOCATION_BOARD_DARK_ALLEY_3 = 'board-dark-alley-3';
+    const LOCATION_BOARD_DARK_ALLEY_4 = 'board-dark-alley-4';
 }

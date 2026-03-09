@@ -15,6 +15,7 @@ class States {
 
     //ACTION STATES
     const ST_ADVERTISE = 100;
+    const ST_PLACE_CHARACTER = 120;
     const ST_PICK_COMPONENTS = 200;
     const ST_LEARN_TRICK = 205;
     const ST_HIRE_CHARACTER = 210;
