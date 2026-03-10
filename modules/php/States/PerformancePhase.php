@@ -44,7 +44,7 @@ class PerformancePhase extends GameState
             }, ["thursday", "friday", "saturday", "sunday"]),
         ];
 
-        Engine::setup($node, StartAssignment::class);
+        Engine::setup($node, ["state" => EndTurnPhase::class]);
         return Engine::proceed();
     }
 }

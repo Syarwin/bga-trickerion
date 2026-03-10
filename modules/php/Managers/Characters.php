@@ -218,6 +218,28 @@ class Characters extends CachedPieces
             }, []);
     }
 
+    public static function return() {
+        $allCharacters = self::getAll()
+            ->whereNot("location", self::LOCATION_SUPPLY)
+            ->update("location", self::LOCATION_IDLE_PLAYER_BOARD);
+
+        $allCharacters->where("specialist", true)
+            ->forEach(function($character) {
+                $character->setLocation(Character::getSpecialistLocation($character->getType()));
+
+                if ($character->getType() === Character::TYPE_ASSISTANT) {
+                    Characters::getFiltered($character->getPlayerId(), self::LOCATION_IDLE_PLAYER_BOARD)
+                        ->where("type", Character::TYPE_APPRENTICE)
+                        ->first()
+                        ->setLocation(self::LOCATION_IDLE_ASSISTANT_BOARD);
+                }
+            });
+
+        Game::get()->bga->notify->all("charactersReturned", clienttranslate('All characters return to respective players boards'), [
+            "characters" => $allCharacters->toArray(),
+        ]);
+    }
+
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

@@ -65,22 +65,16 @@ class Posters extends CachedPieces
 
     */
 
-    public static function hire(string $type, int $playerId, string $location) {
-        $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY)
-            ->where("type", $type)
-            ->first();
-
-        if ($character->isSpecialist()) {
-            $location = Character::getSpecialistLocation($type);
-        }
+    public static function return()
+    {
+        $posters = self::getInLocation(self::LOCATION_BOARD)
+            ->update("location", self::LOCATION_SUPPLY);
         
-        $character->setLocation($location);
-
-        Game::get()->bga->notify->all("characterHired", clienttranslate('${player_name} hires ${character}'), [
-            "player_id" => $playerId,
-            "character" => $character
+        Game::get()->notify->all("postersReturned", clienttranslate('Posters are returned to supply'), [
+            "posters" => $posters->toArray(),
         ]);
     }
+
 
 
     /*

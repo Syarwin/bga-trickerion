@@ -27,14 +27,17 @@ class TurnPreparation extends GameState
 
     function onEnteringState(int $activePlayerId)
     {
-        //roll dice
-        Dice::roll();
+        $turn = Globals::getCurrentTurn();
+        $this->notify->all("message", clienttranslate('Turn ${turn} begins'), ["turn" => $turn]);
 
         //adjust initiative
         $turn = Globals::getCurrentTurn();
         if ($turn > 1) {
             Players::adjustInitiative();
         }
+
+        //roll dice
+        Dice::roll();
 
         //start advertising turn
         return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startAdvertiseTurn"], StartAssignment::class, false);
