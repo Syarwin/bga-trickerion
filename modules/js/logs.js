@@ -20,6 +20,9 @@ export const logOverride = {
         ]
 
         return allDice.join(", ");
+    },
+    performance: (args) => {
+        return args.performance.type;
     }
 }
 

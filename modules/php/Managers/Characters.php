@@ -175,27 +175,47 @@ class Characters extends CachedPieces
         ]);
     }
 
+    private static function getLocationDay($location) {
+        if (!self::isTheaterLocation($location)) {
+            return null;
+        }
+
+        return explode("-", $location)[2];
+    }
+
     public static function getTheaterPlayerForDay($location) {
         if (!self::isTheaterLocation($location)) {
             return null;
         }
 
-        $day = explode("-", $location)[2];
-        $character = self::getInLocation("board-theater-{$day}-%")
+        $day = self::getLocationDay($location);
+        $character = self::getInLocation(self::LOCATION_BOARD_DAY_ANY($day))
             ->first();
             
         return is_null($character) ? null : $character->getPlayerId();
     }
 
     public static function getTheaterDayForPlayer($playerId) {
-        $character = self::getFiltered($playerId, "board-theater-%")
+        $character = self::getFiltered($playerId, self::LOCATION_BOARD_THEATER_ANY)
             ->first();
             
         if ($character === null) {
             return null;
         }
 
-        return explode("-", $character->getLocation())[2];
+        return self::getLocationDay($character->getLocation());
+    }
+
+    public static function getPerformingPlayers() {
+        return Characters::getAll()
+            ->where("location", self::LOCATION_BOARD_THEATER_MAGICIAN)
+            ->reduce(function($carry, $character) {
+                if ($character->getType() === Character::TYPE_MAGICIAN) {
+                    $day = self::getLocationDay($character->getLocation());
+                    $carry[$day] = $character->getPlayerId();
+                }
+                return $carry;
+            }, []);
     }
 
     /*
@@ -217,6 +237,11 @@ class Characters extends CachedPieces
     const LOCATION_IDLE_ENGINEER_BOARD = 'idle-engineer-board';
     
     const LOCATION_BOARD_ANY = 'board-%';
+    const LOCATION_BOARD_THEATER_ANY = 'board-theater-%';
+    const LOCATION_BOARD_THEATER_MAGICIAN = 'board-theater-%-magician';
+    public static function LOCATION_BOARD_DAY_ANY($day) {
+        return "board-theater-{$day}-%";
+    }
     const LOCATION_BOARD_DOWNTOWN_1 = 'board-downtown-1';
     const LOCATION_BOARD_DOWNTOWN_2 = 'board-downtown-2';
     const LOCATION_BOARD_DOWNTOWN_3 = 'board-downtown-3';

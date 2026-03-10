@@ -6,8 +6,10 @@ namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
@@ -24,7 +26,25 @@ class PerformancePhase extends GameState
 
     function onEnteringState(int $activePlayerId)
     {
-        //start initiative turn order
-        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startPerformancePhaseTurn"], null, true);
+        $this->notify->all("message", clienttranslate('Performance Phase begins'), []);
+
+        $performances = Characters::getPerformingPlayers();
+
+        $node = [
+            "type" => Engine::NODE_SEQUENTIAL,
+            "children" => array_map(function($day) use ($performances) {
+                return [
+                    "state" => Performance::class,
+                    "playerId" => $performances[$day] ?? null,
+                    "args" => [ 
+                        "day" => $day,
+                        "skip" => !isset($performances[$day]),
+                    ]
+                ];
+            }, ["thursday", "friday", "saturday", "sunday"]),
+        ];
+
+        Engine::setup($node, StartAssignment::class);
+        return Engine::proceed();
     }
 }
