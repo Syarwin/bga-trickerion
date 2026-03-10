@@ -2,7 +2,9 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
+use Bga\GameFramework\NotificationMessage;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
 class Assignments extends CachedPieces
@@ -122,6 +124,22 @@ class Assignments extends CachedPieces
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public static function resetAssignments(int $playerId) {
+        $assignments = self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)
+            ->ForEach(function(Assignment $assignment) {
+                $assignment->setLocation(self::LOCATION_HAND);
+            });
+
+        Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
+            'player_id' => $playerId,
+             '_private' => [
+                $playerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
+                    "assignments" => $assignments->toArray()
+                ]),
+             ],
+        ]);
+    }
 
     private static function getInitialData($assignment) {
         if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {

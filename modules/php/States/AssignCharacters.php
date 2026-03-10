@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Bga\Games\trickerionlegendsofillusion\States;
 
 use Bga\GameFramework\Actions\Types\IntArrayParam;
-use Bga\GameFramework\NotificationMessage;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
@@ -13,7 +12,6 @@ use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
-use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\States\PlaceCharacters;
 
@@ -88,20 +86,7 @@ class AssignCharacters extends GameState
     #[PossibleAction] 
     public function actReset(int $currentPlayerId)
     {
-        $assignments = Assignments::getFiltered($currentPlayerId, Assignments::LOCATION_ASSIGNED_ANY)
-            ->ForEach(function(Assignment $assignment) {
-                $assignment->setLocation(Assignments::LOCATION_HAND);
-            });
-
-        Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
-            'player_id' => $currentPlayerId,
-             '_private' => [
-                $currentPlayerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
-                    "assignments" => $assignments->toArray()
-                ]),
-             ],
-        ]);
-
+        Assignments::resetAssignments($currentPlayerId);
         $this->game->gamestate->nextPrivateState($currentPlayerId, self::class);
     }
 

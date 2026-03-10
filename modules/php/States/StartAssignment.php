@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Bga\Games\trickerionlegendsofillusion\States;
 
+use Bga\GameFramework\Actions\CheckAction;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
+use Bga\GameFramework\States\PossibleAction;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
 
 class StartAssignment extends GameState
@@ -27,5 +30,14 @@ class StartAssignment extends GameState
     {
         $this->gamestate->setAllPlayersMultiactive();
         $this->gamestate->initializePrivateStateForAllActivePlayers(); 
-    }    
+    }   
+    
+    #[PossibleAction]
+    #[CheckAction(false)]
+    public function actChangeAssignment(int $currentPlayerId) {
+        $this->gamestate->checkPossibleAction('actChangeAssignment');
+        $this->game->gamestate->setPlayersMultiactive([$currentPlayerId], "", false);
+        Assignments::resetAssignments($currentPlayerId);
+        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+    }
 }

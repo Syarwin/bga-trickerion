@@ -17,6 +17,9 @@ export class PlaceCharacter {
                             this.bga.actions.performAction("actPlace", { characterId: assignment.character.id, locationId: location });
                         });
                     }
+                    this.bga.statusBar.addActionButton("Leave idle", () => {
+                        this.bga.actions.performAction("actLeaveIdle", { characterId: assignment.character.id });
+                    }, {color: "red"});
                     this.bga.statusBar.addActionButton("Cancel", () => {
                         this.bga.statusBar.removeActionButtons();
                         this.onEnteringState(args, isCurrentPlayerActive);
