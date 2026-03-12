@@ -13,7 +13,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
-use Bga\Games\trickerionlegendsofillusion\States;
+use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 
 class FinishEngineerSetup extends GameState

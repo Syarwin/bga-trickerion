@@ -9,7 +9,7 @@ use Bga\GameFramework\States\GameState;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
-use Bga\Games\trickerionlegendsofillusion\States;
+use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\Performance;
 
 class PerformancePhase extends GameState

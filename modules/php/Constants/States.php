@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Bga\Games\trickerionlegendsofillusion;
+namespace Bga\Games\trickerionlegendsofillusion\Constants;
 
 class States {
     //MAIN FLOW
