@@ -93,7 +93,7 @@ class PlaceCharacter extends ActionStateWithRevert
         LocationActions::init($locationId, $actionPoints);
 
         Engine::insertAsChild([
-            "state" => PlayLocationActions::class
+            "state" => PlayLocationAction::class
         ]);
 
         $this->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} (for ${actionPoints}) AP'), [

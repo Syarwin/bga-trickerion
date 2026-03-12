@@ -13,7 +13,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 
-class PlayLocationActions extends ActionStateWithRevert
+class PlayLocationAction extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -43,7 +43,7 @@ class PlayLocationActions extends ActionStateWithRevert
 
         if (LocationActions::getRemainingActionPoints() > 0) {
             Engine::insertAsSibling([
-                "state" => self::class
+                "state" => PlayLocationAction::class
             ]);
         }
             

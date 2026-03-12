@@ -56,7 +56,7 @@ class AssignCharacters extends GameState
         }
 
         $assignment->assignToCharacter($character);
-        $this->game->gamestate->nextPrivateState($currentPlayerId, self::class);
+        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
     }
     
     #[PossibleAction] 
@@ -70,7 +70,7 @@ class AssignCharacters extends GameState
             $this->actAssignCharacter($assignmentIds[$i], $characterIds[$i], $args, $currentPlayerId);
         }
 
-        $this->game->gamestate->setPrivateState($currentPlayerId, self::class);
+        $this->game->gamestate->setPrivateState($currentPlayerId, AssignCharacters::class);
     }
 
     #[PossibleAction] 
@@ -86,7 +86,7 @@ class AssignCharacters extends GameState
     public function actReset(int $currentPlayerId)
     {
         Assignments::resetAssignments($currentPlayerId);
-        $this->game->gamestate->nextPrivateState($currentPlayerId, self::class);
+        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
     }
 
     /**
