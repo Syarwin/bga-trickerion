@@ -12,7 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
-use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States;
 
 class HiredCharacterSetup extends ActionStateWithRevert
 {

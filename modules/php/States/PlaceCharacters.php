@@ -11,7 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States;
 
 class PlaceCharacters extends GameState
 {

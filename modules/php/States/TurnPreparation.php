@@ -12,7 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States;
 
 class TurnPreparation extends GameState
 {

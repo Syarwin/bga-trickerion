@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Bga\Games\trickerionlegendsofillusion\States\Constants;
+namespace Bga\Games\trickerionlegendsofillusion;
 
 class States {
     const ST_DUMMY_END = 999;

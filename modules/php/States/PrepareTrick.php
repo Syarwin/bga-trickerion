@@ -14,7 +14,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
-use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States;
 
 class PrepareTrick extends ActionStateWithRevert
 {

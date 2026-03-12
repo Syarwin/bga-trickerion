@@ -12,7 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
-use Bga\Games\trickerionlegendsofillusion\States\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\States;
 
 class LearnTrick extends ActionStateWithRevert
 {
