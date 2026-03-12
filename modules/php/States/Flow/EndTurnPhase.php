@@ -11,7 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\States;
-use Bga\Games\trickerionlegendsofillusion\States\DummyEnd;
+use Bga\Games\trickerionlegendsofillusion\States\Engine\DummyEnd;
 
 class EndTurnPhase extends GameState
 {

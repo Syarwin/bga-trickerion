@@ -3,9 +3,6 @@ declare(strict_types=1);
 namespace Bga\Games\trickerionlegendsofillusion;
 
 class States {
-    const ST_DUMMY_END = 999;
-    const ST_END_GAME = 99;
-
     //MAIN FLOW
     const ST_TURN_PREPARATION = 10;
     const ST_START_ASSIGNMENT = 40;

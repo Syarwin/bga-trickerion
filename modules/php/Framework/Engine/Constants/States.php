@@ -8,4 +8,6 @@ class States {
     const ST_CONFIRM_TURN = 903;
     const ST_CONFIRM_PARTIAL_TURN = 904;
     const ST_RESOLVE_CHOICE = 901;
+    const ST_DUMMY_END = 999;
+    const ST_END_GAME = 99;
 }

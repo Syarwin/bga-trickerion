@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
 
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\StateType;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\States;
 
 class DummyEnd extends \Bga\GameFramework\States\GameState
 {
