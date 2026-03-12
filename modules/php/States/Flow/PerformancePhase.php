@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Flow;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
@@ -10,6 +10,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\States;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\Performance;
 
 class PerformancePhase extends GameState
 {

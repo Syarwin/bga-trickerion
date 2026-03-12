@@ -23,11 +23,6 @@ class DummyEnd extends \Bga\GameFramework\States\GameState
         );
     }
 
-    /**
-     * Game state action, example content.
-     *
-     * The onEnteringState method of state `EndScore` is called just before the end of the game.
-     */
     public function onEnteringState() {
         Game::get()->gamestate->setAllPlayersMultiactive();
     }

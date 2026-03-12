@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;

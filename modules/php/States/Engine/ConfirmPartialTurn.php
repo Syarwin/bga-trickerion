@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
-use Bga\Games\trickerionlegendsofillusion\States;
 
-class Advertise extends ActionStateWithRevert
+class ConfirmPartialTurn extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -21,51 +22,35 @@ class Advertise extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_ADVERTISE,
+            id: States::ST_CONFIRM_PARTIAL_TURN,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must decide whether to advertise for ${cost} coins'),
-            descriptionMyTurn: clienttranslate('${you} must decide whether to advertise for ${cost} coins'),
+            description: clienttranslate('${actplayer} must confirm switch to ${player_name}'),
+            descriptionMyTurn: clienttranslate('${you} must confirm switch to ${player_name}'),
         );
+    }
+
+    public function isOptional() {
+        return false;
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $args = [
-            "cost" => Players::get($activePlayerId)->getInitiative(),
+        $node = $this->getNode();
+        return [
+            "player_name" => Players::get($node->getPlayerId())->getName(),
+            "player_id" => $node->getPlayerId(),
         ];
-        return $args;
-    }
-    
-    public function isOptional() {
-        return true;
     }
 
     /**
-     * Player must resolve the choice.
+     * Player must confirm the turn.
      *
      * @throws UserException
      */
     #[PossibleAction]
-    public function actAdvertise(int $activePlayerId, array $args)
+    public function actConfirmTurn()
     {
-        $fame = 2;
-
-        $player = Players::get($activePlayerId);
-        $player->incCoins(-$args['cost']);
-        $player->incScore($fame);
-        
-        $poster = Posters::getFiltered($activePlayerId, Posters::LOCATION_SUPPLY)
-            ->first()
-            ->setLocation(Posters::LOCATION_BOARD);
-
-        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives ${fame} fame'), [
-            "player_id" => $activePlayerId,
-            "poster" => $poster,
-            "cost" => $args['cost'],
-            "fame" => $fame
-        ]);
-
-        return $this->resolve(["advertise" => true]);
+        return Engine::confirmPartialTurn();
     }
 
     /**
@@ -83,5 +68,5 @@ class Advertise extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }    
+    }
 }

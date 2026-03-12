@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Flow;
 
 use Bga\GameFramework\Actions\CheckAction;
 use Bga\GameFramework\StateType;

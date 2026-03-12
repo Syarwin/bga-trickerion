@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
-use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\States;
 
-class Performance extends ActionStateWithRevert
+class Advertise extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -21,32 +21,24 @@ class Performance extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_PERFORMANCE,
+            id: States::ST_ADVERTISE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must choose a performance to perform for ${day}'),
-            descriptionMyTurn: clienttranslate('${you} must choose a performance to perform for ${day}'),
+            description: clienttranslate('${actplayer} must decide whether to advertise for ${cost} coins'),
+            descriptionMyTurn: clienttranslate('${you} must decide whether to advertise for ${cost} coins'),
         );
-    }
-
-    public function onEnteringState() {
-        $skip = $this->getNodeArgs("skip") ?? false;
-        if ($skip) {
-            $this->bga->notify->all("message", clienttranslate('No player is performing for ${day}, skipping'), [
-                "day" => $this->getNodeArgs("day"),
-            ]);
-
-            return $this->resolve(["skipped" => true, "automatic" => true]);
-        }
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
         $args = [
-            "day" => $this->getNodeArgs("day"),
-            "availablePerformances" => Performances::getInLocation(Performances::LOCATION_ACTIVE)->toArray()
+            "cost" => Players::get($activePlayerId)->getInitiative(),
         ];
         return $args;
-    }    
+    }
+    
+    public function isOptional() {
+        return true;
+    }
 
     /**
      * Player must resolve the choice.
@@ -54,13 +46,26 @@ class Performance extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actSelectPerformance(int $activePlayerId, int $performanceId)
+    public function actAdvertise(int $activePlayerId, array $args)
     {
-        $this->bga->notify->all("message", clienttranslate('${player_name} chooses performance ${performance}'), [
+        $fame = 2;
+
+        $player = Players::get($activePlayerId);
+        $player->incCoins(-$args['cost']);
+        $player->incScore($fame);
+        
+        $poster = Posters::getFiltered($activePlayerId, Posters::LOCATION_SUPPLY)
+            ->first()
+            ->setLocation(Posters::LOCATION_BOARD);
+
+        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives ${fame} fame'), [
             "player_id" => $activePlayerId,
-            "performance" => Performances::get($performanceId),
+            "poster" => $poster,
+            "cost" => $args['cost'],
+            "fame" => $fame
         ]);
-        return $this->resolve(["performanceId" => $performanceId]);
+
+        return $this->resolve(["advertise" => true]);
     }
 
     /**

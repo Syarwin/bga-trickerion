@@ -32,8 +32,8 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
-use Bga\Games\trickerionlegendsofillusion\States\FinishEngineerSetup;
-use Bga\Games\trickerionlegendsofillusion\States\SetupTurn;
+use Bga\Games\trickerionlegendsofillusion\States\Flow\FinishEngineerSetup;
+use Bga\Games\trickerionlegendsofillusion\States\Flow\SetupTurn;
 
 class Game extends \Bga\GameFramework\Table
 {

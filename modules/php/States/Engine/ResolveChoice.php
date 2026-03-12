@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
@@ -11,10 +11,11 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\XorNode;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
-class ConfirmPartialTurn extends ActionStateWithRevert
+class ResolveChoice extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -22,35 +23,51 @@ class ConfirmPartialTurn extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_CONFIRM_PARTIAL_TURN,
+            id: States::ST_RESOLVE_CHOICE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must confirm switch to ${player_name}'),
-            descriptionMyTurn: clienttranslate('${you} must confirm switch to ${player_name}'),
+            description: clienttranslate('${actplayer} must choose which effect to resolve'),
+            descriptionMyTurn: clienttranslate('${you} must choose which effect to resolve'),
         );
     }
 
-    public function isOptional() {
-        return false;
+    public function getCustomStateDescription()
+    {
+        if ($this->getNode() instanceof XorNode) {
+            return [
+                'description' => clienttranslate('${actplayer} must choose exactly one effect'),
+                'descriptionMyTurn' => clienttranslate('${you} must choose exactly one effect'),
+            ];
+        }
+
+        return null;
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $node = $this->getNode();
-        return [
-            "player_name" => Players::get($node->getPlayerId())->getName(),
-            "player_id" => $node->getPlayerId(),
-        ];
-    }
+        $player = Players::get($activePlayerId);
+        $args = array_merge($this->getNodeArgs() ?? [], [
+            'choices' => Engine::getNextChoices($player),
+            'allChoices' => Engine::getNextChoices($player, true),
+        ]);
+        $sourceId = $this->getNode()->getSourceId() ?? null;
+        if (!isset($args['source']) && !is_null($sourceId)) {
+            $args['sourceId'] = $sourceId;
+        }
+        //TODO reimplement anytimeActions
+        // $this->addArgsAnytimeAction($args, 'resolveChoice');
+        return $args;
+    }    
 
     /**
-     * Player must confirm the turn.
+     * Player must resolve the choice.
      *
      * @throws UserException
      */
     #[PossibleAction]
-    public function actConfirmTurn()
+    public function actChooseAction(int $activePlayerId, int $choiceId)
     {
-        return Engine::confirmPartialTurn();
+        $player = Players::get($activePlayerId);
+        return Engine::chooseNode($player, $choiceId);
     }
 
     /**

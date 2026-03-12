@@ -2,20 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\XorNode;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
+use Bga\Games\trickerionlegendsofillusion\States;
 
-class ResolveChoice extends ActionStateWithRevert
+class Performance extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -23,39 +21,30 @@ class ResolveChoice extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_RESOLVE_CHOICE,
+            id: States::ST_PERFORMANCE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must choose which effect to resolve'),
-            descriptionMyTurn: clienttranslate('${you} must choose which effect to resolve'),
+            description: clienttranslate('${actplayer} must choose a performance to perform for ${day}'),
+            descriptionMyTurn: clienttranslate('${you} must choose a performance to perform for ${day}'),
         );
     }
 
-    public function getCustomStateDescription()
-    {
-        if ($this->getNode() instanceof XorNode) {
-            return [
-                'description' => clienttranslate('${actplayer} must choose exactly one effect'),
-                'descriptionMyTurn' => clienttranslate('${you} must choose exactly one effect'),
-            ];
-        }
+    public function onEnteringState() {
+        $skip = $this->getNodeArgs("skip") ?? false;
+        if ($skip) {
+            $this->bga->notify->all("message", clienttranslate('No player is performing for ${day}, skipping'), [
+                "day" => $this->getNodeArgs("day"),
+            ]);
 
-        return null;
+            return $this->resolve(["skipped" => true, "automatic" => true]);
+        }
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $player = Players::get($activePlayerId);
-        $node = Engine::getNextUnresolved();
-        $args = array_merge($node->getArgs() ?? [], [
-            'choices' => Engine::getNextChoices($player),
-            'allChoices' => Engine::getNextChoices($player, true),
-        ]);
-        $sourceId = $node->getSourceId() ?? null;
-        if (!isset($args['source']) && !is_null($sourceId)) {
-            $args['sourceId'] = $sourceId;
-        }
-        //TODO reimplement anytimeActions
-        // $this->addArgsAnytimeAction($args, 'resolveChoice');
+        $args = [
+            "day" => $this->getNodeArgs("day"),
+            "availablePerformances" => Performances::getInLocation(Performances::LOCATION_ACTIVE)->toArray()
+        ];
         return $args;
     }    
 
@@ -65,10 +54,13 @@ class ResolveChoice extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actChooseAction(int $activePlayerId, int $choiceId)
+    public function actSelectPerformance(int $activePlayerId, int $performanceId)
     {
-        $player = Players::get($activePlayerId);
-        return Engine::chooseNode($player, $choiceId);
+        $this->bga->notify->all("message", clienttranslate('${player_name} chooses performance ${performance}'), [
+            "player_id" => $activePlayerId,
+            "performance" => Performances::get($performanceId),
+        ]);
+        return $this->resolve(["performanceId" => $performanceId]);
     }
 
     /**
@@ -86,5 +78,5 @@ class ResolveChoice extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }
+    }    
 }

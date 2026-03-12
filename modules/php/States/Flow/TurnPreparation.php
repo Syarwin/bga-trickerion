@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Flow;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
@@ -13,6 +13,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\States;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\Advertise;
 
 class TurnPreparation extends GameState
 {

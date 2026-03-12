@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States;
+namespace Bga\Games\trickerionlegendsofillusion\States\Flow;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\GameState;
@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\States;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 
 class FinishSetup extends GameState
 {

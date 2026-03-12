@@ -9,9 +9,9 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Config;
 use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\States\ConfirmPartialTurn;
-use Bga\Games\trickerionlegendsofillusion\States\ConfirmTurn;
-use Bga\Games\trickerionlegendsofillusion\States\ResolveChoice;
+use Bga\Games\trickerionlegendsofillusion\States\Engine\ConfirmPartialTurn;
+use Bga\Games\trickerionlegendsofillusion\States\Engine\ConfirmTurn;
+use Bga\Games\trickerionlegendsofillusion\States\Engine\ResolveChoice;
 
 /*
  * Engine: a class that allows to handle complex flow
