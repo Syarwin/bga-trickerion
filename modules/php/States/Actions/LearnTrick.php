@@ -13,6 +13,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 
 class LearnTrick extends ActionStateWithRevert
 {
@@ -79,6 +80,7 @@ class LearnTrick extends ActionStateWithRevert
     #[PossibleAction]
     public function actLearnTrick(int $activePlayerId, int $trickId)
     {
+        Log::step();
         /* @var Trick $trick */
         $trick = Tricks::get($trickId);
         $availableTricks = $this->getActionArgs($activePlayerId)["availableTricks"];

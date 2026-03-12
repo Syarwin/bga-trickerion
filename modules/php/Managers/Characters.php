@@ -126,19 +126,27 @@ class Characters extends CachedPieces
             ],
             Assignment::BOARD_LOCATION_THEATER => 
                 $type == Character::TYPE_MAGICIAN ? [
-                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_2,
                     self::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
-                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_2,
                     self::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
-                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_2,
                     self::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
-                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_2,
                     self::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN,
                 ] : [
-                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
-                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
-                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
-                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_2,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_2,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_2,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_1,
+                    self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_2,
                 ],
             Assignment::BOARD_LOCATION_WORKSHOP => [
                 self::LOCATION_BOARD_WORKSHOP_1,
@@ -157,13 +165,17 @@ class Characters extends CachedPieces
 
     public static function isTheaterLocation($location) {
         return in_array($location, [
-            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_2,
             self::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
-            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_2,
             self::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
-            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_2,
             self::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
-            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC,
+            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_2,
             self::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN,
         ]);
     }
@@ -240,6 +252,50 @@ class Characters extends CachedPieces
         ]);
     }
 
+    public static function getLocationActionPoints($location) {
+        return match ($location) {
+            self::LOCATION_BOARD_DOWNTOWN_1, 
+            self::LOCATION_BOARD_MARKET_ROW_1,
+            self::LOCATION_BOARD_DARK_ALLEY_1 => 2,
+
+            self::LOCATION_BOARD_DOWNTOWN_2, 
+            self::LOCATION_BOARD_DOWNTOWN_3,
+            self::LOCATION_BOARD_MARKET_ROW_2, 
+            self::LOCATION_BOARD_MARKET_ROW_3,
+            self::LOCATION_BOARD_DARK_ALLEY_2,
+            self::LOCATION_BOARD_DARK_ALLEY_3,
+            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_1, 
+            self::LOCATION_BOARD_THEATER_THURSDAY_BASIC_2,
+            self::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN => 1,
+
+            self::LOCATION_BOARD_WORKSHOP_1,
+            self::LOCATION_BOARD_WORKSHOP_2,
+            self::LOCATION_BOARD_DOWNTOWN_4,
+            self::LOCATION_BOARD_MARKET_ROW_4,
+            self::LOCATION_BOARD_DARK_ALLEY_4,
+            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_FRIDAY_BASIC_2,
+            self::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
+            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_SATURDAY_BASIC_2,
+            self::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN => 0,
+
+            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_1,
+            self::LOCATION_BOARD_THEATER_SUNDAY_BASIC_2,
+            self::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN => -1,
+
+            default => 0
+        };
+    }
+
+    public static function isCharacterHired($playerId, $characterType) {
+        return self::getAll()
+            ->where("playerId", $playerId)
+            ->where("type", $characterType)
+            ->whereNot("location", self::LOCATION_SUPPLY)
+            ->count() > 0;
+    }
+
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
@@ -272,13 +328,17 @@ class Characters extends CachedPieces
     const LOCATION_BOARD_MARKET_ROW_2 = 'board-market-row-2';
     const LOCATION_BOARD_MARKET_ROW_3 = 'board-market-row-3';
     const LOCATION_BOARD_MARKET_ROW_4 = 'board-market-row-4';
-    const LOCATION_BOARD_THEATER_THURSDAY_BASIC = 'board-theater-thursday-basic';
+    const LOCATION_BOARD_THEATER_THURSDAY_BASIC_1 = 'board-theater-thursday-basic-1';
+    const LOCATION_BOARD_THEATER_THURSDAY_BASIC_2 = 'board-theater-thursday-basic-2';
     const LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN = 'board-theater-thursday-magician';
-    const LOCATION_BOARD_THEATER_FRIDAY_BASIC = 'board-theater-friday-basic';
+    const LOCATION_BOARD_THEATER_FRIDAY_BASIC_1 = 'board-theater-friday-basic-1';
+    const LOCATION_BOARD_THEATER_FRIDAY_BASIC_2 = 'board-theater-friday-basic-2';
     const LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN = 'board-theater-friday-magician';
-    const LOCATION_BOARD_THEATER_SATURDAY_BASIC = 'board-theater-saturday-basic';
+    const LOCATION_BOARD_THEATER_SATURDAY_BASIC_1 = 'board-theater-saturday-basic-1';
+    const LOCATION_BOARD_THEATER_SATURDAY_BASIC_2 = 'board-theater-saturday-basic-2';
     const LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN = 'board-theater-saturday-magician';
-    const LOCATION_BOARD_THEATER_SUNDAY_BASIC = 'board-theater-sunday-basic';
+    const LOCATION_BOARD_THEATER_SUNDAY_BASIC_1 = 'board-theater-sunday-basic-1';
+    const LOCATION_BOARD_THEATER_SUNDAY_BASIC_2 = 'board-theater-sunday-basic-2';
     const LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN = 'board-theater-sunday-magician';
     const LOCATION_BOARD_WORKSHOP_1 = 'board-workshop-1';
     const LOCATION_BOARD_WORKSHOP_2 = 'board-workshop-2';

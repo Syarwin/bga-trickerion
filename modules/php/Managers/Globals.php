@@ -14,6 +14,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         "currentTurn" => "int",
         "pickingComponents" => "obj",
         "dice" => "obj",
+        "locationActions" => "obj",
     ];
 
     /*

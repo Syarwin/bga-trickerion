@@ -15,6 +15,10 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
 class PlaceCharacter extends ActionStateWithRevert
 {
@@ -64,6 +68,7 @@ class PlaceCharacter extends ActionStateWithRevert
     #[PossibleAction]
     public function actPlace(int $characterId, string $locationId, array $args, int $activePlayerId)
     {
+        Log::step();
         $character = Characters::get($characterId);
 
         if ($character->getPlayerId() !== $activePlayerId) {
@@ -83,13 +88,20 @@ class PlaceCharacter extends ActionStateWithRevert
         }
 
         $character->setLocation($locationId);
+        $actionPoints = Character::getCharacterActionPoints($character->getType()) + Characters::getLocationActionPoints($locationId);
+        $actionPoints = max(0, $actionPoints);
+        LocationActions::init($locationId, $actionPoints);
 
-        $this->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} (+${actionPoints})'), [
+        Engine::insertAsChild([
+            "state" => PlayLocationActions::class
+        ]);
+
+        $this->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} (for ${actionPoints}) AP'), [
             "player_id" => $activePlayerId,
             "character" => Characters::get($characterId),
             "locationId" => $locationId,
             "locationName" => $locationId,
-            "actionPoints" => 1
+            "actionPoints" => $actionPoints
         ]);
 
         return $this->resolve(["characterId" => $characterId, "locationId" => $locationId]);
@@ -98,6 +110,7 @@ class PlaceCharacter extends ActionStateWithRevert
     #[PossibleAction]
     public function actLeaveIdle(int $characterId, int $activePlayerId, array $args)
     {
+        Log::step();
         $assignment = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_FACEUP)
             ->where("state", $characterId)
             ->first();

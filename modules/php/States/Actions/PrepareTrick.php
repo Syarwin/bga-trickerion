@@ -15,6 +15,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 
 class PrepareTrick extends ActionStateWithRevert
 {
@@ -93,6 +94,7 @@ class PrepareTrick extends ActionStateWithRevert
     #[PossibleAction]
     public function actPrepareTrick(int $activePlayerId, int $trickId, array $args)
     {
+        Log::step();
         /* @var Trick $trick */
         $trick = Tricks::get($trickId);
         $availableTricks = $args["availableTricks"];

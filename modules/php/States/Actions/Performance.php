@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 
 class Performance extends ActionStateWithRevert
 {
@@ -56,6 +57,7 @@ class Performance extends ActionStateWithRevert
     #[PossibleAction]
     public function actSelectPerformance(int $activePlayerId, int $performanceId)
     {
+        Log::step();
         $this->bga->notify->all("message", clienttranslate('${player_name} chooses performance ${performance}'), [
             "player_id" => $activePlayerId,
             "performance" => Performances::get($performanceId),

@@ -94,6 +94,7 @@ class PickComponents extends ActionStateWithRevert
     #[PossibleAction]
     public function actDone(int $activePlayerId)
     {
+        Log::step();
         $pickingComponents = Globals::getPickingComponents();
 
         /** @var Player $player */

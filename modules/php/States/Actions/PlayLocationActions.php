@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
-use Bga\GameFramework\States\PossibleAction;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 
-class Advertise extends ActionStateWithRevert
+class PlayLocationActions extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -22,52 +21,33 @@ class Advertise extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_ADVERTISE,
+            id: States::ST_PLAY_LOCATION_ACTIONS,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must decide whether to advertise for ${cost} coins'),
-            descriptionMyTurn: clienttranslate('${you} must decide whether to advertise for ${cost} coins'),
+            description: clienttranslate('${actplayer} must play location actions (remaining AP: ${remainingAps})'),
+            descriptionMyTurn: clienttranslate('${you} must play location actions (remaining AP: ${remainingAps})'),
         );
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $args = [
-            "cost" => Players::get($activePlayerId)->getInitiative(),
-        ];
+        $args = [];
+        $args["availableActions"] = LocationActions::getActions($activePlayerId);
+        $args["remainingAps"] = LocationActions::getRemainingActionPoints();
         return $args;
-    }
-    
-    public function isOptional() {
-        return true;
-    }
+    }    
 
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actAdvertise(int $activePlayerId, array $args)
+    public function actPlayAction(int $activePlayerId, array $args, string $actionId)
     {
         Log::step();
-        $fame = 2;
+        LocationActions::playAction($activePlayerId, $actionId);
 
-        $player = Players::get($activePlayerId);
-        $player->incCoins(-$args['cost']);
-        $player->incScore($fame);
-        
-        $poster = Posters::getFiltered($activePlayerId, Posters::LOCATION_SUPPLY)
-            ->first()
-            ->setLocation(Posters::LOCATION_BOARD);
-
-        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives ${fame} fame'), [
-            "player_id" => $activePlayerId,
-            "poster" => $poster,
-            "cost" => $args['cost'],
-            "fame" => $fame
-        ]);
-
-        return $this->resolve(["advertise" => true]);
+        if (LocationActions::getRemainingActionPoints() > 0) {
+            Engine::insertAsSibling([
+                "state" => self::class
+            ]);
+        }
+            
+        return $this->resolve(["actionId" => $actionId]);
     }
 
     /**
@@ -85,5 +65,5 @@ class Advertise extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }    
+    }  
 }

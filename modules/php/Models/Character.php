@@ -39,7 +39,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         parent::__construct($row);
         $this->actionPoints = self::getCharacterActionPoints($this->type);
         $this->name = self::getCharacterName($this->type);
-        $this->specialist = in_array($this->type, [self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT]);
+        $this->specialist = self::isSpecialistType($this->type);
     }
 
     /*
@@ -51,17 +51,18 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+    private static function isSpecialistType($type) {
+        return in_array($type, [self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT]);
+    }
 
-    private static function getCharacterActionPoints($type)
-    {
-        return [
-            self::TYPE_MAGICIAN => 3,
-            self::TYPE_ENGINEER => 2,
-            self::TYPE_MANAGER => 2,
-            self::TYPE_ASSISTANT => 2,
-            self::TYPE_APPRENTICE => 1,
-        ][$type];
-    }   
+    public static function getCharacterActionPoints($type) {
+        return match ($type) {
+            Character::TYPE_APPRENTICE => 1,
+            Character::TYPE_ENGINEER, Character::TYPE_MANAGER, Character::TYPE_ASSISTANT => 2,
+            Character::TYPE_MAGICIAN => 3,
+            default => throw new \InvalidArgumentException("Unknown character type: $type"),
+        };
+    }
 
     private static function getCharacterName($type)
     {
