@@ -102,3 +102,9 @@ CREATE TABLE IF NOT EXISTS `component` (
   `component_count` int(10),
   PRIMARY KEY (`component_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `global_variables` (
+  `name` varchar(50) NOT NULL,
+  `value` JSON,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -12,7 +12,7 @@ abstract class Globals extends DB_Manager
     protected static $data = [];
     protected static $variables = [];
 
-    protected static $table = 'bga_globals';
+    protected static $table = 'global_variables';
     protected static $primary = 'name';
     protected static function cast($row)
     {
