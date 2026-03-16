@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
 
 class LocationActions
@@ -160,7 +161,7 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "set_die" => [
-                    "state" => null,
+                    "state" => SetDie::class,
                     "actionPoints" => 2,
                     "singleUse" => false
                 ],

@@ -15,7 +15,7 @@ use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 
-class RerollDie extends ActionStateWithRevert
+class SetDie extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -23,18 +23,18 @@ class RerollDie extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_REROLL_DIE,
+            id: States::ST_SET_DIE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must reroll a die'),
-            descriptionMyTurn: clienttranslate('${you} must reroll a die'),
+            description: clienttranslate('${actplayer} must set a die'),
+            descriptionMyTurn: clienttranslate('${you} must set a die'),
         );
     }
 
     public function getCustomStateDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "description" => clienttranslate('${actplayer} must reroll a die (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must reroll a die (${sourceName})'),
+                "description" => clienttranslate('${actplayer} must set a die (${sourceName})'),
+                "descriptionMyTurn" => clienttranslate('${you} must set a die (${sourceName})'),
             ];
         }
         return null;
@@ -43,13 +43,13 @@ class RerollDie extends ActionStateWithRevert
     public function getDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "log" => clienttranslate('Reroll die (${sourceName})'),
+                "log" => clienttranslate('Set die (${sourceName})'),
                 "args" => [
                     "sourceName" => $this->getNodeArgs("sourceName", "")
                 ]
             ];
         }
-        return clienttranslate('Reroll die');
+        return clienttranslate('Set die');
     }
 
     public function getActionArgs(int $activePlayerId): array
@@ -60,7 +60,21 @@ class RerollDie extends ActionStateWithRevert
         
         $args = [
             "sourceName" => $sourceName,
-            "availableDice" => $availableDice
+            "availableDice" => $availableDice,
+            "availableFaces" => [
+                Dice::DICE_TYPE_CHARACTER => [
+                    0 => Dice::getCharacterDieFaces(0),
+                    1 => Dice::getCharacterDieFaces(1)
+                ],
+                Dice::DICE_TYPE_TRICK => [
+                    0 => Dice::getTrickDieFaces(),
+                    1 => Dice::getTrickDieFaces()
+                ],
+                Dice::DICE_TYPE_MONEY => [
+                    0 => Dice::getMoneyDieFaces(),
+                    1 => Dice::getMoneyDieFaces()
+                ]
+            ]
         ];
         return $args;
     }    
@@ -71,18 +85,19 @@ class RerollDie extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actRerollDie(int $activePlayerId, string $dieType, string $dieFace)
+    public function actSetDie(int $activePlayerId, string $dieType, int $dieId, string $dieFace)
     {
         Log::step();
 
         $availableDice = $this->getActionArgs($activePlayerId)["availableDice"];
-        if (!array_key_exists($dieType, $availableDice) || !in_array($dieFace, $availableDice[$dieType])) {
-            throw new UserException("You cannot reroll this die");
+        $availableFaces = $this->getActionArgs($activePlayerId)["availableFaces"];
+        if (!array_key_exists($dieId, $availableDice[$dieType]) || !in_array($dieFace, $availableFaces[$dieType][$dieId])) {
+            throw new UserException("You cannot set this die to this face");
         }
 
-        Dice::rerollDie($dieType, $dieFace);
+        Dice::setDie($dieType, $dieId, $dieFace);
         
-        return $this->resolveIrreversible(["dieType" => $dieType, "dieFace" => $dieFace]);
+        return $this->resolveIrreversible(["dieType" => $dieType, "dieId" => $dieId, "dieFace" => $dieFace]);
     }
 
     /**
