@@ -13,6 +13,9 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
 class HireCharacter extends ActionStateWithRevert
 {
@@ -55,14 +58,26 @@ class HireCharacter extends ActionStateWithRevert
     {
         $sourceName = $this->getNodeArgs("sourceName");
 
-        $types = $this->getNodeArgs("types", null);
-
         $availableCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_SUPPLY);
+        
+        $types = $this->getNodeArgs("types", Character::getAllTypes());
 
-        if (!is_null($types)) {
-            $availableCharacters = $availableCharacters->where("type", $types);
+        $useDice = $this->getNodeArgs("useDice", false);
+        if ($useDice) {
+            foreach (Dice::getDice(Dice::DICE_TYPE_CHARACTER) as $die) {
+                if ($die == Dice::ANY) {
+                    $types = array_merge(
+                        Character::getAllTypes(),
+                        $types
+                    );
+                } else {
+                    $types[] = $die;
+                }
+            }
         }
 
+        $availableCharacters = $availableCharacters->where("type", $types);
+        
         $availableCharacterTypes = $availableCharacters->pluck('type')->toArray(); 
         $availableCharacterTypes = array_unique($availableCharacterTypes);
 
@@ -90,6 +105,26 @@ class HireCharacter extends ActionStateWithRevert
 
         $location = $this->getNodeArgs("location", Characters::LOCATION_IDLE_PLAYER_BOARD);
         Characters::hire($characterType, $activePlayerId, $location);
+
+        $useDice = $this->getNodeArgs("useDice", false);
+        if ($useDice) {
+            $allDice = Dice::getDice(Dice::DICE_TYPE_CHARACTER);
+            $dice = array_values(array_filter($allDice, function($die) use ($characterType) {
+                return $die == $characterType || $die == Dice::ANY;
+            }));
+
+            if (count($dice) == 1 || count($allDice) == 1) {
+                Dice::setDieUnavailable(Dice::DICE_TYPE_CHARACTER, $dice[0] ?? $allDice[0]);
+            } else {
+                Engine::insertAsChild([
+                    "state" => MakeDieUnavailable::class,
+                    "args" => [
+                        "dieType" => Dice::DICE_TYPE_CHARACTER,
+                        "sourceName" => clienttranslate("Hire Character")
+                    ]
+                ]);
+            }
+        }
 
         return $this->resolve(["type" => $characterType]);
     }

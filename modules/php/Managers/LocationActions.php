@@ -140,6 +140,10 @@ class LocationActions
                 ],
                 "hire_character" => [
                     "state" => HireCharacter::class,
+                    "args" => [
+                        "types" => [],
+                        "useDice" => true,
+                    ],
                     "actionPoints" => 3,
                     "singleUse" => false
                 ],

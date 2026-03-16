@@ -89,8 +89,7 @@ class ChooseMagician extends ActionStateWithRevert
                             [
                                 "state" => HireCharacter::class,
                                 "args" => [
-                                    "sourceName" => clienttranslate("setup"),
-                                    "types" => [ Character::TYPE_ASSISTANT, Character::TYPE_ENGINEER, Character::TYPE_MANAGER]
+                                    "sourceName" => clienttranslate("setup")
                                 ]
                             ],
                             [

@@ -129,7 +129,7 @@ class LearnTrick extends ActionStateWithRevert
                     "state" => MakeDieUnavailable::class,
                     "args" => [
                         "dieType" => Dice::DICE_TYPE_TRICK,
-                        "sourceName" => clienttranslate("LearnTrick")
+                        "sourceName" => clienttranslate("Learn Trick")
                     ]
                 ]);
             }
