@@ -10,6 +10,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
 
 class LocationActions
@@ -154,7 +155,7 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "reroll_die" => [
-                    "state" => null,
+                    "state" => RerollDie::class,
                     "actionPoints" => 1,
                     "singleUse" => false
                 ],

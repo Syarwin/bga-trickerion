@@ -13,9 +13,10 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
+use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
-class TakeCoins extends ActionStateWithRevert
+class RerollDie extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -23,18 +24,18 @@ class TakeCoins extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_TAKE_COINS,
+            id: States::ST_REROLL_DIE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must take coins'),
-            descriptionMyTurn: clienttranslate('${you} must take coins'),
+            description: clienttranslate('${actplayer} must reroll a die'),
+            descriptionMyTurn: clienttranslate('${you} must reroll a die'),
         );
     }
 
     public function getCustomStateDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "description" => clienttranslate('${actplayer} must take coins (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must take coins (${sourceName})'),
+                "description" => clienttranslate('${actplayer} must reroll a die (${sourceName})'),
+                "descriptionMyTurn" => clienttranslate('${you} must reroll a die (${sourceName})'),
             ];
         }
         return null;
@@ -43,24 +44,24 @@ class TakeCoins extends ActionStateWithRevert
     public function getDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "log" => clienttranslate('Take coins (${sourceName})'),
+                "log" => clienttranslate('Reroll die (${sourceName})'),
                 "args" => [
                     "sourceName" => $this->getNodeArgs("sourceName", "")
                 ]
             ];
         }
-        return clienttranslate('Take coins');
+        return clienttranslate('Reroll die');
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
         $sourceName = $this->getNodeArgs("sourceName");
 
-        $availableCoins = Dice::getDice(Dice::DICE_TYPE_MONEY);
+        $availableDice = Globals::getDice();
         
         $args = [
             "sourceName" => $sourceName,
-            "availableCoins" => $availableCoins
+            "availableDice" => $availableDice
         ];
         return $args;
     }    
@@ -71,25 +72,18 @@ class TakeCoins extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actTakeCoins(int $activePlayerId, int $coins)
+    public function actRerollDie(int $activePlayerId, string $dieType, string $dieFace)
     {
         Log::step();
 
-        $availableCoins = $this->getActionArgs($activePlayerId)["availableCoins"];
-        if (!in_array($coins, $availableCoins)) {
-            throw new UserException("You cannot take this amount of coins");
+        $availableDice = $this->getActionArgs($activePlayerId)["availableDice"];
+        if (!array_key_exists($dieType, $availableDice) || !in_array($dieFace, $availableDice[$dieType])) {
+            throw new UserException("You cannot reroll this die");
         }
 
-        $player = Players::get($activePlayerId);
-        $player->addCoins($coins);
-
-        $allDice = Dice::getDice(Dice::DICE_TYPE_MONEY);
-        $dice = array_values(array_filter($allDice, function($die) use ($coins) {
-            return $die == $coins || $die == Dice::ANY;
-        }));
-        Dice::setDieUnavailable(Dice::DICE_TYPE_MONEY, $dice[0]);
-
-        return $this->resolve(["coins" => $coins]);
+        Dice::rerollDie($dieType, $dieFace);
+        
+        return $this->resolveIrreversible(["dieType" => $dieType, "dieFace" => $dieFace]);
     }
 
     /**

@@ -73,6 +73,35 @@ class Dice
         return $typeDice;
     }
 
+    public static function rerollDie(string $dieType, string|int $dieFace) {
+        $dice = Globals::getDice();
+        if (isset($dice[$dieType])) {
+            $dieIndex = array_search($dieFace, $dice[$dieType]);
+            if ($dieIndex !== false) {
+                // Reroll the die
+                switch ($dieType) {
+                    case self::DICE_TYPE_TRICK:
+                        $dice[$dieType][$dieIndex] = self::getRandomTrickDie();
+                        break;
+                    case self::DICE_TYPE_CHARACTER:
+                        $dice[$dieType][$dieIndex] = self::getRandomCharacterDie(1);
+                        break;
+                    case self::DICE_TYPE_MONEY:
+                        $dice[$dieType][$dieIndex] = self::getRandomMoneyDie();
+                        break;
+                }
+                Globals::setDice($dice);
+
+                Game::get()->bga->notify->all("dieRerolled", clienttranslate('${player_name} has rerolled ${dieFace} to ${newDieFace}'), [
+                    "player_id" => Players::getActiveId(),
+                    "dieFace" => $dieFace,
+                    "newDieFace" => $dice[$dieType][$dieIndex],
+                    "newDice" => $dice
+                ]);
+            }
+        }
+    }
+
     private static function getRandomTrickDie() {
         $i = bga_rand(0, 5);
         return [
