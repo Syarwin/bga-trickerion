@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
+use Bga\GameFramework\Actions\Types\IntArrayParam;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
@@ -53,6 +54,10 @@ class DrawAssignmentCards extends ActionStateWithRevert
         return clienttranslate('Draw assignment cards');
     }
 
+    public function isOptional() {
+        return count(DrawAssignmentCardsAction::getDrawnCards()) == 0;
+    }
+
     public function getActionArgs(int $activePlayerId): array
     {
         $drawnCards = DrawAssignmentCardsAction::getDrawnCards();
@@ -70,7 +75,7 @@ class DrawAssignmentCards extends ActionStateWithRevert
             ]
         ];
         return $args;
-    }    
+    }
 
     #[PossibleAction]
     public function actDrawAssignmentCards(int $activePlayerId, string $deckLocationId)
@@ -81,7 +86,7 @@ class DrawAssignmentCards extends ActionStateWithRevert
     }
     
     #[PossibleAction]
-    public function actDiscardCards(int $activePlayerId, array $cardIds)
+    public function actDiscardCards(int $activePlayerId, #[IntArrayParam()] array $cardIds)
     {
         Log::step();
         DrawAssignmentCardsAction::discardCards($activePlayerId, $cardIds);

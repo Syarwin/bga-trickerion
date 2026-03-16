@@ -23,6 +23,9 @@ export const logOverride = {
     },
     performance: (args) => {
         return args.performance.type;
+    },
+    assignments: (args) => {
+        return args.assignments.map(a => a.type).join(", ");
     }
 }
 

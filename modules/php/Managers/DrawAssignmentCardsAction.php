@@ -27,6 +27,7 @@ class DrawAssignmentCardsAction
         }
 
         $newCards = Assignments::pickForLocation(2, $deckLocationId, Assignments::LOCATION_DRAWN);
+        $newCards->update("playerId", $playerId);
         LocationActions::useActionPoints($currentCost);
         self::setAdditionalDrawCost();
 
@@ -34,7 +35,7 @@ class DrawAssignmentCardsAction
             "player_id" => $playerId,
             "count" => count($newCards),
             '_private' => [
-                $playerId => new NotificationMessage(clienttranslate('You draw ${assignments}'), [
+                $playerId => new NotificationMessage(clienttranslate('You draw ${_private.assignments}'), [
                     "assignments" => $newCards->toArray()
                 ]),
              ],
@@ -50,17 +51,17 @@ class DrawAssignmentCardsAction
             return count($group) / 2;
         })->toAssoc();
 
-        $discardedCards = Assignments::get($cardIds);
+        $discardedCards = Assignments::getMany($cardIds);
         $discardedCards->forEach(function($card) use ($playerId) {
-            if ($card->getPlayer() !== $playerId || $card->getLocation() !== Assignments::LOCATION_DRAWN) {
+            if ($card->getPlayerId() !== $playerId || $card->getLocation() !== Assignments::LOCATION_DRAWN) {
                 throw new UserException(clienttranslate("You can only discard cards that you just drew"));
             }
         });
-        
+
         $discardedCards->group("boardLocation")->forEach(function($group, $boardLocation) use ($toDiscardPerBoardLocation) {
             $toDiscard = $toDiscardPerBoardLocation[$boardLocation] ?? 0;
             if (count($group) !== $toDiscard) {
-                throw new UserException(clienttranslate('You must discard exactly ${n} cards from ${boardLocation}', [
+                throw new UserException(new NotificationMessage(clienttranslate('You must discard exactly ${n} cards from ${boardLocation}'), [
                     "n" => $toDiscard,
                     "boardLocation" => $boardLocation
                 ]));
@@ -74,6 +75,19 @@ class DrawAssignmentCardsAction
         $discardedCards->forEach(function($card) {
             Assignments::insertAtBottom($card->getId(), $card->getBoardLocation());
         });
+
+        $keptAssignments = Assignments::moveAllInLocation(Assignments::LOCATION_DRAWN, Assignments::LOCATION_HAND);
+
+        Game::get()->notify->all("assignmentsDiscarded", clienttranslate('${player_name} discarded ${count} of the drawn assignment cards'), [
+            "player_id" => $playerId,
+            "count" => $discardedCards->count(),
+            '_private' => [
+                $playerId => new NotificationMessage(clienttranslate('You discarded ${_private.assignments}'), [
+                    "assignments" => $discardedCards->toArray(),
+                    "keptAssignments" => $keptAssignments->toArray()
+                ]),
+             ],
+        ]);
     }
 
     public static function getCurrentCost() : int {

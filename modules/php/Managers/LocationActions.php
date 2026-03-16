@@ -48,7 +48,7 @@ class LocationActions
         
         //filter out one time actions that have already been used
         foreach ($availableActions as $actionKey => $action) {
-            if ($action["singleUse"] && self::isOneTimeActionUsed($actionKey)) {
+            if (($action["singleUse"] ?? false) && self::isOneTimeActionUsed($actionKey)) {
                 unset($availableActions[$actionKey]);
             }
 
@@ -80,7 +80,7 @@ class LocationActions
         $actionPoints = $selectedAction["actionPoints"] ?? 0;
         self::useActionPoints($actionPoints);
         
-        if ($selectedAction["singleUse"]) {
+        if (($selectedAction["singleUse"] ?? false)) {
             self::markOneTimeActionUsed($actionId);
         }
 
@@ -101,7 +101,7 @@ class LocationActions
                     "state" => DrawAssignmentCards::class,
                     //during action AP will be spent so minActionPoints indicates whether the action can be selected but will not spend AP immediately
                     "minActionPoints" => DrawAssignmentCardsAction::getCurrentCost(),
-                    "singleUse" => true 
+                    "singleUse" => false
                 ],
                 //draw_further_cards would be a part of draw_first_card (DrawAssignmentCards) action,
                 "fortune_telling" => [

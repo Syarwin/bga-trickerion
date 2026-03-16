@@ -12,6 +12,20 @@ export class DrawAssignmentCards {
             for (const locationId of args.availableLocations) {
                 this.bga.statusBar.addActionButton(`${locationId} (-${args.currentDrawCost} AP)`, () => this.bga.actions.performAction("actDrawAssignmentCards", { deckLocationId: locationId }));
             }
+
+            for (const card of args.drawnCards) {
+                const button = this.bga.statusBar.addActionButton(card.type, () => {
+                    button.classList.toggle("selected");
+                }, {color: "gray"});
+                button.dataset.cardId = card.id;
+            }
+
+            if (args.drawnCards.length > 0) {
+                this.bga.statusBar.addActionButton("Discard", () => {
+                    const selectedCardIds = Array.from(document.getElementById("generalactions").querySelectorAll(".bgabutton.selected")).map(button => button.dataset.cardId);
+                    this.bga.actions.performAction("actDiscardCards", { cardIds: selectedCardIds });
+                });
+            }
         }
     }
 
