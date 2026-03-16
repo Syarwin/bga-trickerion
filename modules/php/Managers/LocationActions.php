@@ -10,6 +10,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
 
 class LocationActions
 {
@@ -148,7 +149,7 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "take_coins" => [
-                    "state" => null,
+                    "state" => TakeCoins::class,
                     "actionPoints" => 3,
                     "singleUse" => false
                 ],

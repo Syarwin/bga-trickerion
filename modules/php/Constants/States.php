@@ -24,6 +24,7 @@ class States {
     const ST_ENHANCE_CHARACTER = 225;
     const ST_FORTUNE_TELLING = 230;
     const ST_MAKE_DIE_UNAVAILABLE = 235;
+    const ST_TAKE_COINS = 240;
     const ST_PERFORMANCE = 600;
     const ST_CHOOSE_MAGICIAN = 805;
     //SETUP STATES

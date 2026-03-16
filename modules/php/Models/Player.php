@@ -69,4 +69,14 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     public function getMagician() {
         return Magicians::getFiltered($this->getId(), Magicians::LOCATION_PLAYER)->first();
     }
+
+    public function addCoins(int $count) {
+        $this->incCoins($count);
+
+        Game::get()->bga->notify->all("coinsChanged", clienttranslate('${player_name} gets ${coins} coins'), [
+            "player_id" => $this->id,
+            "coins" => $count,
+            "newValue" => $this->getCoins(),
+        ]);
+    }
 }

@@ -46,7 +46,7 @@ class Dice
         ]);
     }
 
-    public static function setDieUnavailable(string $dieType, string $dieFace) {
+    public static function setDieUnavailable(string $dieType, string|int $dieFace) {
         $dice = Globals::getDice();
         if (isset($dice[$dieType])) {
             $dieIndex = array_search($dieFace, $dice[$dieType]);
