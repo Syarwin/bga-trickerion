@@ -7,6 +7,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\DrawAssignmentCards;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 
@@ -111,7 +112,7 @@ class LocationActions
                 ],
                 //draw_further_cards would be a part of draw_first_card (DrawAssignmentCards) action,
                 "fortune_telling" => [
-                    "state" => null,
+                    "state" => FortuneTelling::class,
                     "actionPoints" => 1,
                     "singleUse" => true
                 ],

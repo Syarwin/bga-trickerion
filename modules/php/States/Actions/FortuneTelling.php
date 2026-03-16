@@ -9,10 +9,9 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 
-class EnhanceCharacter extends ActionStateWithRevert
+class FortuneTelling extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -20,18 +19,25 @@ class EnhanceCharacter extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_ENHANCE_CHARACTER,
+            id: States::ST_FORTUNE_TELLING,
             type: StateType::GAME,
         );
     }
 
     function onEnteringState(int $activePlayerId)
     {
-        Players::get($activePlayerId)->incShards(-1);
-        LocationActions::incActionPoints(1);
-        
-        Game::get()->bga->notify->all("characterEnhanced", clienttranslate('${player_name} spends 1 shard to enhance a character (+1 AP)'), [
+        $UpdatedProphecies = Prophecies::getInLocation(Prophecies::LOCATION_PENDING)
+            ->forEach(function ($prophecy) {
+                $prophecy->incState(-1);
+
+                if ($prophecy->getState() <= 0) {
+                    $prophecy->setState(3);
+                }
+            });
+
+        Game::get()->bga->notify->all("propheciesUpdated", clienttranslate('${player_name} use fortune telling and rotated all pending prophecies clockwise'), [
             "player_id" => $activePlayerId,
+            "updatedProphecies" => $UpdatedProphecies->toArray(),
         ]);
 
         return $this->resolve();
