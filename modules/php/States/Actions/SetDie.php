@@ -97,7 +97,7 @@ class SetDie extends ActionStateWithRevert
 
         Dice::setDie($dieType, $dieId, $dieFace);
         
-        return $this->resolveIrreversible(["dieType" => $dieType, "dieId" => $dieId, "dieFace" => $dieFace]);
+        return $this->resolve(["dieType" => $dieType, "dieId" => $dieId, "dieFace" => $dieFace]);
     }
 
     /**

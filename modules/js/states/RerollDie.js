@@ -13,8 +13,9 @@ export class RerollDie {
         if (isCurrentPlayerActive) {
             for (const dieType in args.availableDice) {
 
-                for (const dieFace of args.availableDice[dieType]) {
-                    this.bga.statusBar.addActionButton(`${dieType}: ${dieFace}`, irreversibleAction(() => this.bga.actions.performAction("actRerollDie", { dieType, dieFace })));
+                for (let i = 0; i < args.availableDice[dieType].length; i++) {
+                    const dieFace = args.availableDice[dieType][i];
+                    this.bga.statusBar.addActionButton(`${dieType}: ${dieFace}`, irreversibleAction(() => this.bga.actions.performAction("actRerollDie", { dieType, dieId: i })));
                 }
             }
         }

@@ -71,18 +71,18 @@ class RerollDie extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actRerollDie(int $activePlayerId, string $dieType, string $dieFace)
+    public function actRerollDie(int $activePlayerId, string $dieType, int $dieId)
     {
         Log::step();
 
         $availableDice = $this->getActionArgs($activePlayerId)["availableDice"];
-        if (!array_key_exists($dieType, $availableDice) || !in_array($dieFace, $availableDice[$dieType])) {
+        if (!array_key_exists($dieType, $availableDice) || !array_key_exists($dieId, $availableDice[$dieType])) {
             throw new UserException("You cannot reroll this die");
         }
 
-        Dice::rerollDie($dieType, $dieFace);
+        Dice::rerollDie($dieType, $dieId);
         
-        return $this->resolveIrreversible(["dieType" => $dieType, "dieFace" => $dieFace]);
+        return $this->resolveIrreversible(["dieType" => $dieType, "dieId" => $dieId]);
     }
 
     /**

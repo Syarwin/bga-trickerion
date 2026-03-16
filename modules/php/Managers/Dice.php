@@ -56,7 +56,8 @@ class Dice
 
                 Game::get()->bga->notify->all("dieUnavailable", clienttranslate('${player_name} has turned ${dieFace} to "X"'), [
                     "player_id" => Players::getActiveId(),
-                    "dieFace" => $dieFace
+                    "dieFace" => $dieFace,
+                    "dieId" => $dieIndex,
                 ]);
             }
         }
@@ -73,21 +74,21 @@ class Dice
         return $typeDice;
     }
 
-    public static function rerollDie(string $dieType, string|int $dieFace) {
+    public static function rerollDie(string $dieType, int $dieId) {
         $dice = Globals::getDice();
         if (isset($dice[$dieType])) {
-            $dieIndex = array_search($dieFace, $dice[$dieType]);
-            if ($dieIndex !== false) {
+            if (isset($dice[$dieType][$dieId])) {
+                $dieFace = $dice[$dieType][$dieId];
                 // Reroll the die
                 switch ($dieType) {
                     case self::DICE_TYPE_TRICK:
-                        $dice[$dieType][$dieIndex] = self::getRandomTrickDie();
+                        $dice[$dieType][$dieId] = self::getRandomTrickDie();
                         break;
                     case self::DICE_TYPE_CHARACTER:
-                        $dice[$dieType][$dieIndex] = self::getRandomCharacterDie($dieIndex);
+                        $dice[$dieType][$dieId] = self::getRandomCharacterDie($dieId);
                         break;
                     case self::DICE_TYPE_MONEY:
-                        $dice[$dieType][$dieIndex] = self::getRandomMoneyDie();
+                        $dice[$dieType][$dieId] = self::getRandomMoneyDie();
                         break;
                 }
                 Globals::setDice($dice);
@@ -95,7 +96,7 @@ class Dice
                 Game::get()->bga->notify->all("dieRerolled", clienttranslate('${player_name} has rerolled ${dieFace} to ${newDieFace}'), [
                     "player_id" => Players::getActiveId(),
                     "dieFace" => $dieFace,
-                    "newDieFace" => $dice[$dieType][$dieIndex],
+                    "newDieFace" => $dice[$dieType][$dieId],
                     "newDice" => $dice
                 ]);
             }
