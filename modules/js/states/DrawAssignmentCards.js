@@ -1,3 +1,5 @@
+import { irreversibleAction } from "../framework/engine.js";
+
 export class DrawAssignmentCards {
     constructor(game, bga) {
         this.game = game;
@@ -10,7 +12,7 @@ export class DrawAssignmentCards {
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
             for (const locationId of args.availableLocations) {
-                this.bga.statusBar.addActionButton(`${locationId} (-${args.currentDrawCost} AP)`, () => this.bga.actions.performAction("actDrawAssignmentCards", { deckLocationId: locationId }));
+                this.bga.statusBar.addActionButton(`${locationId} (-${args.currentDrawCost} AP)`, irreversibleAction(() => this.bga.actions.performAction("actDrawAssignmentCards", { deckLocationId: locationId })));
             }
 
             for (const card of args.drawnCards) {

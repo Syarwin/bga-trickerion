@@ -121,7 +121,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         return null;
     }
 
-    protected function resolve($args = null) {
+    protected function resolve($args = []) {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveAction($args);
         } else {
@@ -129,7 +129,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         }
     }
 
-    protected function resolveIrreversible($args = null) {
+    protected function resolveIrreversible($args = []) {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveIrreversibleAction($args);
         } else {

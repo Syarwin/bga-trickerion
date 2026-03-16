@@ -29,6 +29,10 @@ class PlayLocationAction extends ActionStateWithRevert
         );
     }
 
+    public function isOptional() {
+        return true;
+    }
+
     public function getActionArgs(int $activePlayerId): array
     {
         $args = [];
@@ -37,17 +41,23 @@ class PlayLocationAction extends ActionStateWithRevert
         return $args;
     }    
 
+    public function onEnteringState(array $args, int $activePlayerId) {
+        if (count($args["availableActions"]) == 0) {
+            return $this->resolve([
+                "automatic" => true
+            ]);
+        }
+    }
+
     #[PossibleAction]
     public function actPlayAction(int $activePlayerId, array $args, string $actionId)
     {
         Log::step();
         LocationActions::playAction($activePlayerId, $actionId);
 
-        if (LocationActions::getRemainingActionPoints() > 0) {
-            Engine::insertAsSibling([
-                "state" => PlayLocationAction::class
-            ]);
-        }
+        Engine::insertAsSibling([
+            "state" => PlayLocationAction::class
+        ]);
             
         return $this->resolve(["actionId" => $actionId]);
     }

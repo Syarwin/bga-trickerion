@@ -28,7 +28,7 @@ class DrawAssignmentCardsAction
 
         $newCards = Assignments::pickForLocation(2, $deckLocationId, Assignments::LOCATION_DRAWN);
         $newCards->update("playerId", $playerId);
-        LocationActions::useActionPoints($currentCost);
+        LocationActions::incActionPoints(-$currentCost);
         self::setAdditionalDrawCost();
 
         Game::get()->notify->all("assignmentsDrawn", clienttranslate('${player_name} draws ${count} assignment cards'), [

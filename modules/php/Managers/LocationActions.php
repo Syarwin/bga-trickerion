@@ -6,6 +6,7 @@ use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\DrawAssignmentCards;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 
@@ -19,9 +20,9 @@ class LocationActions
         ]);
     }
 
-    public static function useActionPoints(int $points) {
+    public static function incActionPoints(int $points) {
         $locationActions = Globals::getLocationActions();
-        $locationActions["remainingActionPoints"] -= $points;
+        $locationActions["remainingActionPoints"] += $points;
         Globals::setLocationActions($locationActions);
     }
 
@@ -64,6 +65,11 @@ class LocationActions
             if ($actionPointsNeeded !== null && $actionPointsNeeded > self::getRemainingActionPoints()) {
                 unset($availableActions[$actionKey]);
             }
+
+            $shardCost = $action["shardCost"] ?? 0;
+            if ($shardCost > 0 && Players::get($playerId)->getShards() < $shardCost) {
+                unset($availableActions[$actionKey]);
+            }
         }
 
         return $availableActions;
@@ -78,7 +84,7 @@ class LocationActions
         $selectedAction = $availableActions[$actionId];
 
         $actionPoints = $selectedAction["actionPoints"] ?? 0;
-        self::useActionPoints($actionPoints);
+        self::incActionPoints(-$actionPoints);
         
         if (($selectedAction["singleUse"] ?? false)) {
             self::markOneTimeActionUsed($actionId);
@@ -110,8 +116,9 @@ class LocationActions
                     "singleUse" => true
                 ],
                 "enhance_character" => [
-                    "state" => null,
+                    "state" => EnhanceCharacter::class,
                     "actionPoints" => 0,
+                    "shardCost" => 1,
                     "singleUse" => true
                 ]
             ],
@@ -146,9 +153,10 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "enhance_character" => [
-                    "state" => null,
+                    "state" => EnhanceCharacter::class,
                     "actionPoints" => 0,
-                    "singleUse" => true
+                    "singleUse" => true,
+                    "shardCost" => 1
                 ]
             ],
 
@@ -173,9 +181,10 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "enhance_character" => [
-                    "state" => null,
+                    "state" => EnhanceCharacter::class,
                     "actionPoints" => 0,
-                    "singleUse" => true
+                    "singleUse" => true,
+                    "shardCost" => 1
                 ]
             ],
 
@@ -205,9 +214,10 @@ class LocationActions
                     "ifCharacterHired" => Character::TYPE_ASSISTANT
                 ],
                 "enhance_character" => [
-                    "state" => null,
+                    "state" => EnhanceCharacter::class,
                     "actionPoints" => 0,
-                    "singleUse" => true
+                    "singleUse" => true,
+                    "shardCost" => 1
                 ]
             ],
 

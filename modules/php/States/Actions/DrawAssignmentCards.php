@@ -82,6 +82,7 @@ class DrawAssignmentCards extends ActionStateWithRevert
     {
         Log::step();
         DrawAssignmentCardsAction::drawCards($activePlayerId, $deckLocationId);
+        Log::checkpoint();
         return Engine::proceed();
     }
     
