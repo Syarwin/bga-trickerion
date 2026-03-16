@@ -10,15 +10,15 @@ class Dice
 {
     public static function init() {
         Globals::setDice([
-            "trick" => [
+            self::DICE_TYPE_TRICK => [
                 self::NOT_AVAILABLE,
                 self::NOT_AVAILABLE,
             ],
-            "character" => [
+            self::DICE_TYPE_CHARACTER => [
                 self::NOT_AVAILABLE,
                 self::NOT_AVAILABLE,
             ],
-            "money" => [
+            self::DICE_TYPE_MONEY => [
                 self::NOT_AVAILABLE,
                 self::NOT_AVAILABLE,
             ]
@@ -27,15 +27,15 @@ class Dice
 
     public static function roll() {
         $dice = Globals::getDice();
-        $dice["trick"] = [
+        $dice[self::DICE_TYPE_TRICK] = [
             self::getRandomTrickDie(),
             self::getRandomTrickDie(),
         ];
-        $dice["character"] = [
+        $dice[self::DICE_TYPE_CHARACTER] = [
             self::getRandomCharacterDie(1),
             self::getRandomCharacterDie(2),
         ];
-        $dice["money"] = [
+        $dice[self::DICE_TYPE_MONEY] = [
             self::getRandomMoneyDie(),
             self::getRandomMoneyDie(),
         ];
@@ -44,6 +44,33 @@ class Dice
         Game::get()->bga->notify->all("rollDice", clienttranslate('Dice rolled: ${dice}'), [
             "dice" => $dice
         ]);
+    }
+
+    public static function setDieUnavailable(string $dieType, string $dieFace) {
+        $dice = Globals::getDice();
+        if (isset($dice[$dieType])) {
+            $dieIndex = array_search($dieFace, $dice[$dieType]);
+            if ($dieIndex !== false) {
+                $dice[$dieType][$dieIndex] = self::NOT_AVAILABLE;
+                Globals::setDice($dice);
+
+                Game::get()->bga->notify->all("dieUnavailable", clienttranslate('${player_name} has turned ${dieFace} to "X"'), [
+                    "player_id" => Players::getActiveId(),
+                    "dieFace" => $dieFace
+                ]);
+            }
+        }
+    }
+
+    public static function getDice(string $dieType, bool $onlyAvailable = true) {
+        $dice = Globals::getDice();
+        $typeDice = $dice[$dieType] ?? [self::NOT_AVAILABLE, self::NOT_AVAILABLE];
+        if ($onlyAvailable) {
+            return array_values(array_filter($typeDice, function($die) {
+                return $die !== self::NOT_AVAILABLE;
+            }));
+        }
+        return $typeDice;
     }
 
     private static function getRandomTrickDie() {
@@ -95,4 +122,8 @@ class Dice
 
     const ANY = "any";
     const NOT_AVAILABLE = "not-available";
+
+    const DICE_TYPE_TRICK = "trick";
+    const DICE_TYPE_CHARACTER = "character";
+    const DICE_TYPE_MONEY = "money";
 }

@@ -130,6 +130,11 @@ class LocationActions
             Characters::LOCATION_BOARD_DOWNTOWN_4 => [
                 "learn_trick" => [
                     "state" => LearnTrick::class,
+                    "args" => [
+                        "categories" => [],
+                        "useDice" => true,
+                        "canTakeFavoriteCategory" => true
+                    ],
                     "actionPoints" => 3,
                     "singleUse" => false
                 ],

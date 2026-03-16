@@ -4,6 +4,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Models;
 
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
 
 /**
  * Class representing a Player
@@ -63,5 +64,9 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         }
 
         return $component->getCount() >= $count;
+    }
+
+    public function getMagician() {
+        return Magicians::getFiltered($this->getId(), Magicians::LOCATION_PLAYER)->first();
     }
 }

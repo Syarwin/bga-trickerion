@@ -302,7 +302,7 @@ class CachedPieces extends DB_Manager
     /**
      * getFilteredQuery : many times the DB scheme has a pId and a type extra field, this allow for a shortcut for a query for these case
      */
-    public static function getFiltered($pId, $location = null, $type = null)
+    public static function getFiltered(int $pId, ?string $location = null, ?string $type = null)
     {
         return self::getSelectWhere(null, $location, null)
             ->where('playerId', $pId)

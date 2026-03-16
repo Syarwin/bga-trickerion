@@ -33,6 +33,7 @@ import { StartAssignment } from "./states/StartAssignment.js";
 import { Performance } from "./states/Performance.js";
 import { PlayLocationAction } from "./states/PlayLocationAction.js";
 import { DrawAssignmentCards } from "./states/DrawAssignmentCards.js";
+import { MakeDieUnavailable } from "./states/MakeDieUnavailable.js";
 
 export class Game {
     constructor(bga) {
@@ -55,6 +56,7 @@ export class Game {
         this.bga.states.register('Performance', new Performance(this, bga));
         this.bga.states.register('PlayLocationAction', new PlayLocationAction(this, bga));
         this.bga.states.register('DrawAssignmentCards', new DrawAssignmentCards(this, bga));
+        this.bga.states.register('MakeDieUnavailable', new MakeDieUnavailable(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        

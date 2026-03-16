@@ -14,6 +14,9 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
+use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class LearnTrick extends ActionStateWithRevert
 {
@@ -54,15 +57,35 @@ class LearnTrick extends ActionStateWithRevert
 
     public function getActionArgs(int $activePlayerId): array
     {
+        $player = Players::get($activePlayerId);
         $availableTricks = Tricks::getInLocation(Tricks::LOCATION_AVAILABLE);
 
-        $availableCategories = $this->getNodeArgs("categories", null);
-            
-        if (!is_null($availableCategories)) {
-            $availableTricks = $availableTricks->where("category", $availableCategories);
+        $availableCategories = $this->getNodeArgs("categories", Trick::getAllCategories());
+
+        $canTakeFavoriteCategory = $this->getNodeArgs("canTakeFavoriteCategory", false);
+        if ($canTakeFavoriteCategory) {
+            $favoriteCategory = $player->getMagician()->getFavoriteTrickCategory();
+            if (!in_array($favoriteCategory, $availableCategories)) {
+                $availableCategories[] = $favoriteCategory;
+            }
         }
 
-        $player = Players::get($activePlayerId);
+        $useDice = $this->getNodeArgs("useDice", false);
+        if ($useDice) {
+            foreach (Dice::getDice(Dice::DICE_TYPE_TRICK) as $die) {
+                if ($die == Dice::ANY) {
+                    $availableCategories = array_merge(
+                        Trick::getAllCategories(),
+                        $availableCategories
+                    );
+                } else {
+                    $availableCategories[] = $die;
+                }
+            }
+        }
+            
+        $availableTricks = $availableTricks->where("category", $availableCategories);
+
         $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getScore());
 
         $args = [
@@ -91,6 +114,27 @@ class LearnTrick extends ActionStateWithRevert
         $location = $this->getNodeArgs("location", Tricks::LOCATION_PLAYER_BOARD);
 
         $trick->learnTrick($activePlayerId, $location);
+
+        $useDice = $this->getNodeArgs("useDice", false);
+        if ($useDice) {
+            $allDice = Dice::getDice(Dice::DICE_TYPE_TRICK);
+            $dice = array_values(array_filter($allDice, function($die) use ($trick) {
+                return $die == $trick->getCategory() || $die == Dice::ANY;
+            }));
+
+            if (count($dice) == 1 || count($allDice) == 1) {
+                Dice::setDieUnavailable(Dice::DICE_TYPE_TRICK, $dice[0] ?? $allDice[0]);
+            } else {
+                Engine::insertAsChild([
+                    "state" => MakeDieUnavailable::class,
+                    "args" => [
+                        "dieType" => Dice::DICE_TYPE_TRICK,
+                        "sourceName" => clienttranslate("LearnTrick")
+                    ]
+                ]);
+            }
+        }
+
         return $this->resolve(["trickId" => $trickId]);
     }
 
