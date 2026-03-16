@@ -15,6 +15,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         "pickingComponents" => "obj",
         "dice" => "obj",
         "locationActions" => "obj",
+        "drawAssignmentCardsAction" => "obj"
     ];
 
     /*
@@ -31,6 +32,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         ]);
 
         Dice::init();
+        LocationActions::init();
+        drawAssignmentCardsAction::init();
 
         self::setCurrentTurn(1);
         self::setPickingComponents([]);

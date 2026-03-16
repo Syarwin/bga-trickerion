@@ -31,6 +31,8 @@ import { AssignCharacters } from "./states/AssignCharacters.js";
 import { PlaceCharacter } from "./states/PlaceCharacter.js";
 import { StartAssignment } from "./states/StartAssignment.js";
 import { Performance } from "./states/Performance.js";
+import { PlayLocationAction } from "./states/PlayLocationAction.js";
+import { DrawAssignmentCards } from "./states/DrawAssignmentCards.js";
 
 export class Game {
     constructor(bga) {
@@ -51,6 +53,8 @@ export class Game {
         this.bga.states.register('AssignCharacters', new AssignCharacters(this, bga));
         this.bga.states.register('StartAssignment', new StartAssignment(this, bga));
         this.bga.states.register('Performance', new Performance(this, bga));
+        this.bga.states.register('PlayLocationAction', new PlayLocationAction(this, bga));
+        this.bga.states.register('DrawAssignmentCards', new DrawAssignmentCards(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        

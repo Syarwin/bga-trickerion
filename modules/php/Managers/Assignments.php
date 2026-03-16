@@ -155,7 +155,7 @@ class Assignments extends CachedPieces
         }
     }
 
-    private static function getSpecialAssignmentInitialLocation($boardLocation) {
+    public static function getSpecialAssignmentInitialLocation($boardLocation) {
         return [
             Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DECK,
             Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DECK,
@@ -230,4 +230,5 @@ class Assignments extends CachedPieces
     const LOCATION_ASSIGNED_FACEUP = 'assigned-faceup';
     const LOCATION_ASSIGNED_FACEDOWN = 'assigned-facedown';
     const LOCATION_ASSIGNED_ANY = "assigned-%";
+    const LOCATION_DRAWN = 'drawn';
 }

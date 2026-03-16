@@ -5,6 +5,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\DrawAssignmentCards;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 
@@ -58,7 +59,9 @@ class LocationActions
                 }
             }
 
-            if ($action["actionPoints"] !== null && $action["actionPoints"] > self::getRemainingActionPoints()) {
+            $actionPointsNeeded = $action["minActionPoints"] ?? $action["actionPoints"];
+
+            if ($actionPointsNeeded !== null && $actionPointsNeeded > self::getRemainingActionPoints()) {
                 unset($availableActions[$actionKey]);
             }
         }
@@ -74,10 +77,9 @@ class LocationActions
 
         $selectedAction = $availableActions[$actionId];
 
-        if ($selectedAction["actionPoints"] !== null) {
-            self::useActionPoints($selectedAction["actionPoints"]);
-        }
-
+        $actionPoints = $selectedAction["actionPoints"] ?? 0;
+        self::useActionPoints($actionPoints);
+        
         if ($selectedAction["singleUse"]) {
             self::markOneTimeActionUsed($actionId);
         }
@@ -95,16 +97,13 @@ class LocationActions
             Characters::LOCATION_BOARD_DARK_ALLEY_2,
             Characters::LOCATION_BOARD_DARK_ALLEY_3,
             Characters::LOCATION_BOARD_DARK_ALLEY_4 => [
-                "draw_first_card" => [
-                    "state" => null,
-                    "actionPoints" => 1,
+                "draw_Assignment_cards" => [
+                    "state" => DrawAssignmentCards::class,
+                    //during action AP will be spent so minActionPoints indicates whether the action can be selected but will not spend AP immediately
+                    "minActionPoints" => DrawAssignmentCardsAction::getCurrentCost(),
                     "singleUse" => true 
                 ],
-                "draw_further_cards" => [
-                    "state" => null,
-                    "actionPoints" => 2,
-                    "singleUse" => false
-                ],
+                //draw_further_cards would be a part of draw_first_card (DrawAssignmentCards) action,
                 "fortune_telling" => [
                     "state" => null,
                     "actionPoints" => 1,

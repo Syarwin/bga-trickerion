@@ -17,6 +17,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Managers\DrawAssignmentCardsAction;
 use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
@@ -41,6 +42,7 @@ class PlaceCharacter extends ActionStateWithRevert
 
     public function onEnteringState(int $activePlayerId, array $args)
     {
+        DrawAssignmentCardsAction::init(); //it needs to be reset at the beginning of each placement
         $remainingUnassignedCharacters = count(Assignments::getAvailableAssignments());
         if ($remainingUnassignedCharacters == 0) {
             $this->bga->notify->all("message", clienttranslate('Players placed all of their characters.'), []);

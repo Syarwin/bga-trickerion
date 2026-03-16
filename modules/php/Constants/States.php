@@ -20,6 +20,7 @@ class States {
     const ST_HIRE_CHARACTER = 210;
     const ST_HIRED_CHARACTER_SETUP = 211;
     const ST_PREPARE_TRICK = 215;
+    const ST_DRAW_ASSIGNMENT_CARDS = 220;
     const ST_PERFORMANCE = 600;
     const ST_CHOOSE_MAGICIAN = 805;
     //SETUP STATES

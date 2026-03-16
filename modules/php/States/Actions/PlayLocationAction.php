@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
+use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\StateType;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
@@ -36,6 +37,7 @@ class PlayLocationAction extends ActionStateWithRevert
         return $args;
     }    
 
+    #[PossibleAction]
     public function actPlayAction(int $activePlayerId, array $args, string $actionId)
     {
         Log::step();
