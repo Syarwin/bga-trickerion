@@ -50,7 +50,7 @@ class Components extends CachedPieces
     {
         $components = [];
         foreach (Players::getAll() as $playerId => $_) {
-            foreach ([Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADDLOCK, Component::MIRROR, Component::DISGUISE, Component::COG] as $type) {
+            foreach (self::getAllComponents() as $type) {
                 $components[] = [
                     'player_id' => $playerId,
                     'component_type' => $type,
@@ -73,10 +73,15 @@ class Components extends CachedPieces
 
     */
 
+    public static function getAllComponents(): array
+    {
+        return [Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADDLOCK, Component::MIRROR, Component::DISGUISE, Component::COG];
+    }
+
     public static function getAffordableComponents(int $maxValue, ?array $limit = null): array
     {
         if (is_null($limit)) {
-            $limit = [Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADDLOCK, Component::MIRROR, Component::DISGUISE, Component::COG];
+            $limit = self::getAllComponents();
         }
 
         $components = [];

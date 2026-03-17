@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
@@ -185,7 +186,7 @@ class LocationActions
                 ],
                 //bargain is part of buy action and will be handled in that state
                 "order" => [
-                    "state" => null,
+                    "state" => OrderComponent::class,
                     "actionPoints" => 1,
                     "singleUse" => false
                 ],

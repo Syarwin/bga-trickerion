@@ -28,6 +28,7 @@ class States {
     const ST_REROLL_DIE = 245;
     const ST_SET_DIE = 250;
     const ST_BUY_COMPONENTS = 255;
+    const ST_ORDER_COMPONENT = 260;
     const ST_PERFORMANCE = 600;
     const ST_CHOOSE_MAGICIAN = 805;
     //SETUP STATES

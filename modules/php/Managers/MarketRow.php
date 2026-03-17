@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class MarketRow
 {
@@ -52,5 +53,35 @@ class MarketRow
             $buyArea[] = $quickOrder;
         }
         return $buyArea;
+    }
+
+    public static function getOrderableComponents() {
+        //all components that are not in buy area or order area
+        $marketRow = Globals::getMarketRow();
+        $unavailableComponents = array_merge($marketRow["buyArea"], $marketRow["orderArea"]);
+
+        $allComponents = Components::getAllComponents();
+        $orderableComponents = array_values(array_diff($allComponents, $unavailableComponents));
+        return $orderableComponents;
+    }
+
+    public static function getOrderSlots() {
+        $marketRow = Globals::getMarketRow();
+        $usedSlots = array_keys($marketRow["orderArea"]);
+        $allSlots = [0, 1, 2, 3];
+
+        return array_diff($allSlots, $usedSlots);
+    }
+
+    public static function addToOrder(string $component, int $slot) {
+        $marketRow = Globals::getMarketRow();
+        $marketRow["orderArea"][$slot] = $component;
+        Globals::setMarketRow($marketRow);
+
+        Game::get()->bga->notify->all("componentOrdered", clienttranslate('${player_name} ordered ${componentName}'), [
+            "player_id" => Players::getActiveId(),
+            "componentName" => Component::getComponentName($component),
+            "slot" => $slot
+        ]);
     }
 }
