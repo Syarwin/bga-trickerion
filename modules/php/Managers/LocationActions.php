@@ -5,6 +5,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\BuyComponents;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\DrawAssignmentCards;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
@@ -178,7 +179,7 @@ class LocationActions
             Characters::LOCATION_BOARD_MARKET_ROW_3,
             Characters::LOCATION_BOARD_MARKET_ROW_4 => [
                 "buy" => [
-                    "state" => null,
+                    "state" => BuyComponents::class,
                     "actionPoints" => 1,
                     "singleUse" => false
                 ],

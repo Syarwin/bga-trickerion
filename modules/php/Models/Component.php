@@ -35,7 +35,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     public function __construct($row)
     {
         parent::__construct($row);
-        $this->cost = self::getCost($row['component_type']);
+        $this->cost = self::getCostValue($row['component_type']);
     }
 
     /*
@@ -48,7 +48,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
     */
 
-    public static function getCost(string $componentType): int
+    public static function getCostValue(string $componentType): int
     {
         return match ($componentType) {
             self::WOOD, self::GLASS, self::METAL, self::FABRIC => 1,

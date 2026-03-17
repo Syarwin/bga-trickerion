@@ -172,4 +172,18 @@ export const staticData = {
   manager: {"actionPoints":2,"name":"Manager","specialist":true},
   engineer: {"actionPoints":2,"name":"Engineer","specialist":true},
   },
+  'components': {
+  wood: {"cost":1},
+  glass: {"cost":1},
+  metal: {"cost":1},
+  fabric: {"cost":1},
+  rope: {"cost":2},
+  petroleum: {"cost":2},
+  saw: {"cost":2},
+  animal: {"cost":2},
+  paddlock: {"cost":3},
+  mirror: {"cost":3},
+  disguise: {"cost":3},
+  cog: {"cost":3},
+  },
 }

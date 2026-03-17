@@ -28,12 +28,12 @@ function extractData($fieldName, $managerName, $folder, $listVariableName, $inst
     file_put_contents(FILENAME, "  },\n", FILE_APPEND);
 }
 
-function extractManualData($fieldName, $managerName, $dataList) {
+function extractManualData($fieldName, $managerName, $dataList, $nameField) {
     file_put_contents(FILENAME, "  '$fieldName': {\n", FILE_APPEND);
     foreach ($dataList as $data) {
         $class = "Bga\\Games\\trickerionlegendsofillusion\\Managers\\$managerName";
         $object = $class::cast($data);
-        file_put_contents(FILENAME, "  " . $data["character_type"] . ": " . json_encode($object->getStaticData()) . ",\n", FILE_APPEND);
+        file_put_contents(FILENAME, "  " . $data[$nameField] . ": " . json_encode($object->getStaticData()) . ",\n", FILE_APPEND);
     }
     file_put_contents(FILENAME, "  },\n", FILE_APPEND);
 }
@@ -51,6 +51,20 @@ extractManualData('characters', 'Characters', [
     [ "character_type" => "assistant" ],
     [ "character_type" => "manager" ],
     [ "character_type" => "engineer" ],
-]);
+], "character_type");
+extractManualData('components', 'Components', [
+    [ "component_type" => "wood" ],
+    [ "component_type" => "glass" ],
+    [ "component_type" => "metal" ],
+    [ "component_type" => "fabric" ],
+    [ "component_type" => "rope" ],
+    [ "component_type" => "petroleum" ],
+    [ "component_type" => "saw" ],
+    [ "component_type" => "animal" ],
+    [ "component_type" => "paddlock" ],
+    [ "component_type" => "mirror" ],
+    [ "component_type" => "disguise" ],
+    [ "component_type" => "cog" ],
+], "component_type");
 file_put_contents(FILENAME, "}\n", FILE_APPEND);
 

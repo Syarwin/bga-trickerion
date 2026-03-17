@@ -43,7 +43,7 @@ class PickComponents extends ActionStateWithRevert
         $pickingComponents = Globals::getPickingComponents();
         $totalPickedValue = 0;
         foreach ($pickingComponents as $component) {
-            $totalPickedValue += Component::getCost($component);
+            $totalPickedValue += Component::getCostValue($component);
         }
 
         $totalValue = $this->getNodeArgs("totalValue", 2);
@@ -79,7 +79,7 @@ class PickComponents extends ActionStateWithRevert
 
         $totalPickedValue = 0;
         foreach ($pickingComponents as $component) {
-            $totalPickedValue += Component::getCost($component);
+            $totalPickedValue += Component::getCostValue($component);
         }
 
         $totalValue = $this->getNodeArgs("totalValue", 2);

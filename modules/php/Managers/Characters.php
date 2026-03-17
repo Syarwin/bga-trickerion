@@ -296,6 +296,15 @@ class Characters extends CachedPieces
             ->count() > 0;
     }
 
+    public static function hasPlayerSpecialist(int $playerId, string $characterType): bool
+    {
+        return Characters::getAll()
+            ->where('playerId', $playerId)
+            ->where('type', $characterType)
+            ->whereNot('location', [self::LOCATION_SUPPLY, self::LOCATION_HIRED])
+            ->count() > 0;
+    }
+
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
@@ -307,6 +316,7 @@ class Characters extends CachedPieces
     */
 
     const LOCATION_SUPPLY = 'supply';
+    const LOCATION_HIRED = 'hired';
     
     const LOCATION_IDLE_ANY = 'idle-%';
     const LOCATION_IDLE_PLAYER_BOARD = 'idle-player-board';
