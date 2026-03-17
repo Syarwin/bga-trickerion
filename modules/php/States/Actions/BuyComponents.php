@@ -10,16 +10,12 @@ use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
-use Bga\Games\trickerionlegendsofillusion\Managers\Dice;
 use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
-use Bga\Games\trickerionlegendsofillusion\Models\Trick;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class BuyComponents extends ActionStateWithRevert
 {
@@ -75,7 +71,7 @@ class BuyComponents extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actBuyComponents(int $activePlayerId, array $args, string $component, string $locationId, int $count)
+    public function actBuyComponents(int $activePlayerId, array $args, string $component, string $locationId, int $count, int $bargain)
     {
         Log::step();
         if (!array_key_exists($component, $args["availableComponents"])) {
@@ -90,7 +86,12 @@ class BuyComponents extends ActionStateWithRevert
             throw new UserException(clienttranslate("Invalid count"));
         }
 
-        Components::addComponent($activePlayerId, $component, $locationId, $count);
+        $cost = Component::getCostValue($component) * $count;
+        if ($bargain > $args["remainingActionPoints"] || $bargain > $cost) {
+            throw new UserException(clienttranslate("Not enough action points to bargain"));
+        }
+
+        Components::addComponent($activePlayerId, $component, $locationId, $count, $bargain);
         return $this->resolve(["component" => $component, "locationId" => $locationId, "count" => $count]);
     }
 

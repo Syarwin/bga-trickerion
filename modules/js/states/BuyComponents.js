@@ -23,7 +23,33 @@ export class BuyComponents {
                             this.bga.statusBar.removeActionButtons();
                             for (let i=1; i<=args.availableComponents[component][location]; i++) {
                                 this.bga.statusBar.addActionButton(`Buy ${i}`, () => {
-                                    this.bga.actions.performAction("actBuyComponents", { component, locationId: location, count: i });
+                                    this.bga.statusBar.removeActionButtons();
+                                    const cost = staticData.components[component].cost * i;
+                                    this.bga.statusBar.addActionButton(`Buy for ${cost} coins`, () => {
+                                        this.bga.actions.performAction("actBuyComponents", { component, locationId: location, count: i, bargain: 0 });
+                                    });
+
+                                    if (args.remainingActionPoints > 0) {
+                                        this.bga.statusBar.addActionButton(`Bargain`, () => {
+                                            this.bga.statusBar.removeActionButtons();
+                                            const maxBargain = Math.min(args.remainingActionPoints, cost);
+
+                                            for (let bargain=1; bargain<=maxBargain; bargain++) {
+                                                this.bga.statusBar.addActionButton(`Bargain for ${bargain} coins`, () => {
+                                                    this.bga.actions.performAction("actBuyComponents", { component, locationId: location, count: i, bargain });
+                                                });
+                                            }
+                                            this.bga.statusBar.addActionButton("Cancel", () => {
+                                                this.bga.statusBar.removeActionButtons();
+                                                this.onEnteringState(args, isCurrentPlayerActive);
+                                            });    
+                                        });
+                                    }
+
+                                    this.bga.statusBar.addActionButton("Cancel", () => {
+                                        this.bga.statusBar.removeActionButtons();
+                                        this.onEnteringState(args, isCurrentPlayerActive);
+                                    });
                                 });
                             }
                             this.bga.statusBar.addActionButton("Cancel", () => {
