@@ -272,18 +272,18 @@ export const arrayGroupBy = (arr, callback) => {
 }
 
 export const setPlayerScore = (playerId, score, animate = true) => {
-    animate && gamegui.scoreCtrl[playerId].toValue(score);
-    !animate && gamegui.scoreCtrl[playerId].setValue(score);    
+    animate && gamegui.bga.playerPanels.getScoreCounter(playerId).toValue(score);
+    !animate && gamegui.bga.playerPanels.getScoreCounter(playerId).setValue(score);    
 }
 
 export const increasePlayerScore = (playerId, delta, animate = true) => {
-    const newScore = gamegui.scoreCtrl[playerId].getValue() + delta;
+    const newScore = gamegui.bga.playerPanels.getScoreCounter(playerId).getValue() + delta;
 
     setPlayerScore(playerId, newScore, animate);
 }
 
 export const disableScore = (playerId) => {
-    gamegui.scoreCtrl[playerId].disable();
+    gamegui.bga.playerPanels.getScoreCounter(playerId).disable();
 }
 
 export const orderPlayersWithCurrentPlayerFirst = (original) => {
