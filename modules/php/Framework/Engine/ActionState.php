@@ -82,6 +82,10 @@ class ActionState extends \Bga\GameFramework\States\GameState
 
     private function getAnytimeActions(): array
     {
+        if (!$this->getNodeArgs("addAnytimeActions", true)) {
+            return [];
+        }
+
         $freeActionsDir = __DIR__ . '/../../States/Actions/Anytime/';
         $namespace = 'Bga\\Games\\trickerionlegendsofillusion\\States\\Actions\\Anytime\\';
 
@@ -92,7 +96,6 @@ class ActionState extends \Bga\GameFramework\States\GameState
 
         $anytimeActions = [];
         foreach ($actions as $action) {
-            $action["args"]["isAnytimeAction"] = true;
             $tree = Engine::buildTree($action);
             if ($tree->isDoable(Players::getActiveId())) {
                 $anytimeActions[] = [
@@ -186,6 +189,9 @@ class ActionState extends \Bga\GameFramework\States\GameState
         Config::incEngineChoices();
         Engine::prependAtRoot([
             "state" => $actionId,
+            "args" => [
+                "addAnytimeActions" => false
+            ]
         ]);
 
         return Engine::proceed();

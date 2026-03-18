@@ -6,13 +6,17 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
+use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
-class DiscardComponent extends ActionStateWithRevert
+class DiscardComponents extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -34,6 +38,7 @@ class DiscardComponent extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $args = [
+            "availableComponents" => Components::getAll()->where("playerId", $activePlayerId)->whereNot("count", 0)->toArray()
         ];
         return $args;
     }
@@ -44,15 +49,26 @@ class DiscardComponent extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actDiscardComponent(int $activePlayerId, array $args, int $discardedComponentId)
+    public function actDiscardComponent(int $activePlayerId, array $args, int $componentId)
     {
         Log::step();
+        $availableIds = new Collection($args["availableComponents"]);
+        $availableIds = $availableIds->pluck("id")->toArray();
         
-        Game::get()->bga->notify->all("componentDiscarded", clienttranslate('${player_name} discards components'), [
-            
+        if (!in_array($componentId, $availableIds)) {
+            throw new UserException(clienttranslate("You cannot discard this component"));
+        }
+
+        $component = Components::get($componentId);
+        $component->setCount(0);
+        $component->setLocation(Components::LOCATION_PLAYER_BOARD);
+
+        Game::get()->bga->notify->all("componentDiscarded", clienttranslate('${player_name} discards all ${componentName}'), [
+            "player_id" => $activePlayerId,
+            "componentName" => Component::getComponentName($component->getType())
         ]);
 
-        return $this->resolve(["discardComponentId" => $discardedComponentId]);
+        return $this->resolve(["discardComponentId" => $componentId]);
     }
 
     /**
