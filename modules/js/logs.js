@@ -12,6 +12,9 @@ export const logOverride = {
     component: (args) => {
         return args.component.type
     },
+    secondComponent: (args) => {
+        return args.secondComponent.type;
+    },
     dice: (args) => {
         const allDice = [
             ...args.dice.trick,
