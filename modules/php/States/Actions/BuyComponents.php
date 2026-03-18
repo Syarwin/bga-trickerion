@@ -82,13 +82,13 @@ class BuyComponents extends ActionStateWithRevert
             throw new UserException(clienttranslate("You cannot place this component at this location"));
         }
 
-        if ($count < 1 || $count > $args["availableComponents"][$component][$locationId]) {
+        if ($count < 1 || $count > $args["availableComponents"][$component][$locationId]["max"]) {
             throw new UserException(clienttranslate("Invalid count"));
         }
 
-        $cost = Component::getCostValue($component) * $count;
+        $cost = $args["availableComponents"][$component][$locationId]["effectiveCost"] * $count;
         if ($bargain > $args["remainingActionPoints"] || $bargain > $cost) {
-            throw new UserException(clienttranslate("Not enough action points to bargain"));
+            throw new UserException(clienttranslate("Bargain is not correct"));
         }
 
         Components::addComponent($activePlayerId, $component, $locationId, $count, $bargain);

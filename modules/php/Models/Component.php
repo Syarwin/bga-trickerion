@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
 /**
@@ -59,6 +60,16 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             self::PADDLOCK, self::MIRROR, self::DISGUISE, self::COG => 3,
             default => throw new \InvalidArgumentException("Unknown component: $componentType"),
         };
+    }
+
+    public function getEffectiveCost() {
+        $baseCost = $this->getCost();
+
+        if ($this->getType() == MarketRow::getQuickOrder()) {
+            $baseCost++;
+        }
+        
+        return $baseCost;
     }
 
     public static function getComponentName(string $componentType): string

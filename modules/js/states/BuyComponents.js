@@ -21,10 +21,10 @@ export class BuyComponents {
                     for(const location in args.availableComponents[component]) {
                         this.bga.statusBar.addActionButton(`Place at ${location}`, () => {
                             this.bga.statusBar.removeActionButtons();
-                            for (let i=1; i<=args.availableComponents[component][location]; i++) {
+                            for (let i=1; i<=args.availableComponents[component][location].max; i++) {
                                 this.bga.statusBar.addActionButton(`Buy ${i}`, () => {
                                     this.bga.statusBar.removeActionButtons();
-                                    const cost = staticData.components[component].cost * i;
+                                    const cost = args.availableComponents[component][location].effectiveCost * i;
                                     this.bga.statusBar.addActionButton(`Buy for ${cost} coins`, () => {
                                         this.bga.actions.performAction("actBuyComponents", { component, locationId: location, count: i, bargain: 0 });
                                     });

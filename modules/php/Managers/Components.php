@@ -129,14 +129,17 @@ class Components extends CachedPieces
             $maxCounts[$component->getType()] = [];
             
             $playerCoins = $player->getCoins();
-            $componentCost = $component->getCost();
+            $componentCost = $component->getEffectiveCost();
             $maxAffordableByCoins = floor($playerCoins / $componentCost);
 
             foreach ($availableLocations as $location) {
                 $maxSpace = $location == Components::LOCATION_PLAYER_BOARD ? 3 : 2;
                 $availableSpace = $maxSpace - $component->getCount();
 
-                $maxCounts[$component->getType()][$location] = min($availableSpace, $maxAffordableByCoins);
+                $maxCounts[$component->getType()][$location] = [
+                    'max' => min($availableSpace, $maxAffordableByCoins),
+                    "effectiveCost" => $componentCost
+                ];
             }
         }
         return $maxCounts;
@@ -151,7 +154,7 @@ class Components extends CachedPieces
         $component->incCount($count);
         $component->setLocation($locationId); 
 
-        $cost = Component::getCostValue($component->getType()) * $count - $bargain;
+        $cost = $component->getEffectiveCost() * $count - $bargain;
         Players::get($playerId)->incCoins(-$cost);
         LocationActions::incActionPoints(-$bargain);
 
