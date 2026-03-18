@@ -109,7 +109,6 @@ class PrepareTrick extends ActionStateWithRevert
 
     private function prepareTrick(Trick $trick, $auto = false) {
         // assign tokens to the trick
-        $trick->getSuit();
         $slots = $trick->getSlots();
         if ($trick->getLocation() == Tricks::LOCATION_ENGINEER_BOARD && $slots < 4) {
             $slots += 1; // engineer space allows to prepare one additional trick marker

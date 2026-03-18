@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `trick` (
   `trick_location` varchar(32) NOT NULL,
   `trick_state` int(10),
   `player_id` int(10),
-  `trick_suit` varchar(16) NOT NULL,
+  `trick_suit` varchar(16) NULL,
   PRIMARY KEY (`trick_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

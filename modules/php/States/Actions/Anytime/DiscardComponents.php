@@ -38,7 +38,7 @@ class DiscardComponents extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $args = [
-            "availableComponents" => Components::getAll()->where("playerId", $activePlayerId)->whereNot("count", 0)->toArray()
+            "availableComponents" => Components::getFiltered($activePlayerId, Components::LOCATION_PLAYER_ANY)->whereNot("count", 0)->toArray()
         ];
         return $args;
     }
@@ -52,8 +52,7 @@ class DiscardComponents extends ActionStateWithRevert
     public function actDiscardComponent(int $activePlayerId, array $args, int $componentId)
     {
         Log::step();
-        $availableIds = new Collection($args["availableComponents"]);
-        $availableIds = $availableIds->pluck("id")->toArray();
+        $availableIds = Collection::from($args["availableComponents"])->pluck("id")->toArray();
         
         if (!in_array($componentId, $availableIds)) {
             throw new UserException(clienttranslate("You cannot discard this component"));

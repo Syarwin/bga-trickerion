@@ -2,7 +2,9 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
 /**
@@ -98,6 +100,24 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
             self::CATEGORY_OPTICAL,
             self::CATEGORY_SPIRITUAL,
         ];
+    }
+
+    public function getTrickMarkers() : Collection {
+        return TrickMarkers::getAll()->where("trickId", $this->getId());
+    }
+
+    public function discard() {
+        $trickMarkers = $this->getTrickMarkers()->update("trickId", null)->update("location", TrickMarkers::LOCATION_AVAILABLE);
+
+        Game::get()->bga->notify->all("trickDiscarded", clienttranslate('${player_name} discards ${trick}, and puts all trick markers back to supply'), [
+            "player_id" => $this->getPlayerId(),
+            "trick" => $this,
+            "markers" => $trickMarkers->toArray()
+        ]);
+
+        $this->setLocation(Tricks::LOCATION_AVAILABLE);
+        $this->setPlayerId(null);
+        $this->setSuit(null);
     }
 
     /*

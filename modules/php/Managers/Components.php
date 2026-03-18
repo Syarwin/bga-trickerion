@@ -186,4 +186,5 @@ class Components extends CachedPieces
 
     const LOCATION_PLAYER_BOARD = "player-board";
     const LOCATION_MANAGER_BOARD = "manager-board";
+    const LOCATION_PLAYER_ANY = "%-board";
 }

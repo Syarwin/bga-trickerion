@@ -226,6 +226,11 @@ class Collection extends \ArrayObject
         }
         return $this;
     }
+
+    public static function from(array $arr) : Collection
+    {
+        return new Collection($arr);
+    }
 }
 
 function like_match($pattern, $subject)

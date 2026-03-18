@@ -6,11 +6,14 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
 class DiscardTrick extends ActionStateWithRevert
 {
@@ -34,6 +37,7 @@ class DiscardTrick extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $args = [
+            "availableTricks" => Tricks::getFiltered($activePlayerId, Tricks::LOCATION_PLAYER_ALL)->toArray()
         ];
         return $args;
     }
@@ -44,15 +48,19 @@ class DiscardTrick extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actDiscardTrick(int $activePlayerId, array $args, int $discardedTrickId)
+    public function actDiscardTrick(int $activePlayerId, array $args, int $trickId)
     {
         Log::step();
-        
-        Game::get()->bga->notify->all("trickDiscarded", clienttranslate('${player_name} discards a trick'), [
-            
-        ]);
 
-        return $this->resolve(["discardTrickId" => $discardedTrickId]);
+        $availableIds = Collection::from($args["availableTricks"])->pluck("id")->toArray();
+        if (!in_array($trickId, $availableIds)) {
+            throw new UserException(clienttranslate("You cannot discard this trick"));
+        }
+
+        $trick = Tricks::get($trickId);
+        $trick->discard();
+
+        return $this->resolve(["discardTrickId" => $trickId]);
     }
 
     /**

@@ -42,6 +42,7 @@ import { OrderComponent } from "./states/OrderComponent.js";
 import { QuickOrderComponent } from "./states/QuickOrderComponent.js";
 import { AnytimeActions } from "./states/AnytimeActions.js";
 import { DiscardComponents } from "./states/DiscardComponents.js";
+import { DiscardTrick } from "./states/DiscardTrick.js";
 
 export class Game {
     constructor(bga) {
@@ -73,6 +74,7 @@ export class Game {
         this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
         this.bga.states.register('client_selectAnytimeAction', new AnytimeActions(this, bga));
         this.bga.states.register('DiscardComponents', new DiscardComponents(this, bga));
+        this.bga.states.register('DiscardTrick', new DiscardTrick(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        
