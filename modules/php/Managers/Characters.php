@@ -97,10 +97,6 @@ class Characters extends CachedPieces
         $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY)
             ->where("type", $type)
             ->first();
-
-        if ($character->isSpecialist()) {
-            $location = Character::getSpecialistLocation($type);
-        }
         
         $character->setLocation($location);
 
@@ -233,19 +229,18 @@ class Characters extends CachedPieces
     public static function return() {
         $allCharacters = self::getAll()
             ->whereNot("location", self::LOCATION_SUPPLY)
-            ->update("location", self::LOCATION_IDLE_PLAYER_BOARD);
-
-        $allCharacters->where("specialist", true)
             ->forEach(function($character) {
-                $character->setLocation(Character::getSpecialistLocation($character->getType()));
-
-                if ($character->getType() === Character::TYPE_ASSISTANT) {
-                    Characters::getFiltered($character->getPlayerId(), self::LOCATION_IDLE_PLAYER_BOARD)
-                        ->where("type", Character::TYPE_APPRENTICE)
-                        ->first()
-                        ->setLocation(self::LOCATION_IDLE_ASSISTANT_BOARD);
-                }
+                $character->setLocation(Character::getCharacterIdleLocation($character->getType()));
             });
+
+        Players::getAll()->forEach(function($player) {
+            if ($player->hasSpecialist(Character::TYPE_ASSISTANT)) {
+                Characters::getFiltered($player->getId(), self::LOCATION_IDLE_PLAYER_BOARD)
+                    ->where("type", Character::TYPE_APPRENTICE)
+                    ->first()
+                    ->setLocation(self::LOCATION_IDLE_ASSISTANT_BOARD);
+            }
+        });
 
         Game::get()->bga->notify->all("charactersReturned", clienttranslate('All characters return to respective players boards'), [
             "characters" => $allCharacters->toArray(),
@@ -296,15 +291,6 @@ class Characters extends CachedPieces
             ->count() > 0;
     }
 
-    public static function hasPlayerSpecialist(int $playerId, string $characterType): bool
-    {
-        return Characters::getAll()
-            ->where('playerId', $playerId)
-            ->where('type', $characterType)
-            ->whereNot('location', [self::LOCATION_SUPPLY, self::LOCATION_HIRED])
-            ->count() > 0;
-    }
-
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
@@ -316,7 +302,7 @@ class Characters extends CachedPieces
     */
 
     const LOCATION_SUPPLY = 'supply';
-    const LOCATION_HIRED = 'hired';
+    const LOCATION_INCOMING = 'incoming';
     
     const LOCATION_IDLE_ANY = 'idle-%';
     const LOCATION_IDLE_PLAYER_BOARD = 'idle-player-board';

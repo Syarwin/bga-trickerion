@@ -149,6 +149,7 @@ class LocationActions
                     "args" => [
                         "types" => [],
                         "useDice" => true,
+                        "location" => Characters::LOCATION_INCOMING
                     ],
                     "actionPoints" => 3,
                     "singleUse" => false

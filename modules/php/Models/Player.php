@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
 
@@ -78,5 +79,13 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
             "coins" => $count,
             "newValue" => $this->getCoins(),
         ]);
+    }
+
+    public function hasSpecialist(string $characterType): bool {
+        return Characters::getAll()
+            ->where('playerId', $this->id)
+            ->where('type', $characterType)
+            ->whereNot('location', [Characters::LOCATION_SUPPLY, Characters::LOCATION_INCOMING])
+            ->count() > 0;
     }
 }

@@ -103,7 +103,7 @@ class HireCharacter extends ActionStateWithRevert
             throw new UserException("You cannot hire this character");
         }
 
-        $location = $this->getNodeArgs("location", Characters::LOCATION_IDLE_PLAYER_BOARD);
+        $location = $this->getNodeArgs("location", Character::getCharacterIdleLocation($characterType));
         Characters::hire($characterType, $activePlayerId, $location);
 
         $useDice = $this->getNodeArgs("useDice", false);

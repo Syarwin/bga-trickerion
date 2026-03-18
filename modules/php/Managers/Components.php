@@ -104,8 +104,9 @@ class Components extends CachedPieces
 
     public static function getAvailableSlots(string $location, int $playerId): int
     {
+        $player = Players::get($playerId);
         $usedSlotCounts = self::getFiltered($playerId, $location)->count();
-        $totalSlotCounts = $location === self::LOCATION_PLAYER_BOARD ? 6 : (Characters::hasPlayerSpecialist($playerId, Character::TYPE_MANAGER) ? 2 : 0);
+        $totalSlotCounts = $location === self::LOCATION_PLAYER_BOARD ? 6 : ($player->hasSpecialist(Character::TYPE_MANAGER) ? 2 : 0);
         return $totalSlotCounts - $usedSlotCounts;
     }
 
@@ -120,7 +121,7 @@ class Components extends CachedPieces
                 ->first();
 
             $playerAvailableLocations = [Components::LOCATION_PLAYER_BOARD];
-            if (Characters::hasPlayerSpecialist($playerId, Character::TYPE_MANAGER)) {
+            if ($player->hasSpecialist(Character::TYPE_MANAGER)) {
                 $playerAvailableLocations[] = Components::LOCATION_MANAGER_BOARD;
             }
 
