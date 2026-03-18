@@ -147,6 +147,26 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         ]);
     }
 
+    public function move() {
+        $previousTrick = Tricks::getFiltered($this->getPlayerId(), Tricks::LOCATION_ENGINEER_BOARD)->first();
+        if ($previousTrick) {
+            $previousTrick->setLocation(Tricks::LOCATION_PLAYER_BOARD);
+        }
+
+        $this->setLocation(Tricks::LOCATION_ENGINEER_BOARD);
+
+        $message = clienttranslate('${player_name} moves ${trick} to the engineer board');
+        if ($previousTrick) {
+            $message = clienttranslate('${player_name} moves ${trick} to the engineer board, replacing ${previousTrick}');
+        }
+
+        Game::get()->bga->notify->all("trickMoved", $message, [
+            "player_id" => $this->getPlayerId(),
+            "trick" => $this,
+            "previousTrick" => $previousTrick
+        ]);
+    }
+
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
   ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

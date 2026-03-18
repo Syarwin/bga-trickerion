@@ -6,6 +6,9 @@ export const logOverride = {
     trick: (args) => {
         return args.trick.type
     },
+    previousTrick: (args) => {
+        return args.previousTrick?.type
+    },
     character: (args) => {
         return args.character.type
     },
@@ -13,7 +16,7 @@ export const logOverride = {
         return args.component.type
     },
     secondComponent: (args) => {
-        return args.secondComponent.type;
+        return args.secondComponent?.type;
     },
     dice: (args) => {
         const allDice = [

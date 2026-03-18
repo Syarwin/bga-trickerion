@@ -36,6 +36,7 @@ class States {
     const ST_ORDER_COMPONENT = 260;
     const ST_QUICK_ORDER_COMPONENT = 265;
     const ST_MOVE_COMPONENTS = 270;
+    const ST_MOVE_TRICK = 275;
     //free actions
     const ST_DISCARD_COMPONENT = 700;
     const ST_DISCARD_TRICK = 705;

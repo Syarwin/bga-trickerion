@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveComponents;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
@@ -215,8 +216,8 @@ class LocationActions
                     "minActionPoints" => 1,
                     "singleUse" => false
                 ],
-                "move_tricks" => [
-                    "state" => null,
+                "move_trick" => [
+                    "state" => MoveTrick::class,
                     "actionPoints" => 1,
                     "singleUse" => false,
                     "ifCharacterHired" => Character::TYPE_ENGINEER
