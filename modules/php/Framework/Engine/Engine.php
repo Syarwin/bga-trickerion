@@ -328,15 +328,23 @@ class Engine
     /**
      * Insert a new node at root level at the end of seq node
      */
-    public static function insertAtRoot($t, $last = true)
+    public static function appendAtRoot($t, $last = true)
     {
         self::ensureSeqRootNode();
         $node = self::buildTree($t);
-        if ($last) {
-            self::$tree->pushChild($node);
-        } else {
-            self::$tree->unshiftChild($node);
-        }
+        self::$tree->pushChild($node);
+        self::save();
+        return $node;
+    }
+    
+    /**
+     * Insert a new node at root level at the beginning of seq node
+     */
+    public static function prependAtRoot($t, $last = true)
+    {
+        self::ensureSeqRootNode();
+        $node = self::buildTree($t);
+        self::$tree->unshiftChild($node);
         self::save();
         return $node;
     }

@@ -78,11 +78,11 @@ export class StateProcessor {
         this.bga.gameui.updatePageTitle(currentState);
     }
 
-    openAnytimeActions(anytimeActions) {
+    openAnytimeActions(actions) {
         return () => {
-            this.bga.gameui.setClientState("client_selectAnytimeAction", {
+            this.bga.states.setClientState("client_selectAnytimeAction", {
                 descriptionmyturn: _("${you} may choose an action to perform"),
-                args: { anytimeActions }
+                args: {availableActions: actions }
             });
         }
     }

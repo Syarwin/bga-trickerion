@@ -2,20 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
+namespace Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
-use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\XorNode;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 
-class ResolveChoice extends ActionStateWithRevert
+class DiscardTrick extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -23,38 +20,23 @@ class ResolveChoice extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_RESOLVE_CHOICE,
+            id: States::ST_DISCARD_TRICK,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must choose which effect to resolve'),
-            descriptionMyTurn: clienttranslate('${you} must choose which effect to resolve'),
+            description: clienttranslate('${actplayer} must decide which trick to discard'),
+            descriptionMyTurn: clienttranslate('${you} must decide which trick to discard'),
         );
     }
 
-    public function getCustomStateDescription()
-    {
-        if ($this->getNode() instanceof XorNode) {
-            return [
-                'description' => clienttranslate('${actplayer} must choose exactly one effect'),
-                'descriptionMyTurn' => clienttranslate('${you} must choose exactly one effect'),
-            ];
-        }
-
-        return null;
+    public function getDescription() {
+        return clienttranslate('Discard trick');
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
-        $player = Players::get($activePlayerId);
-        $args = array_merge($this->getNodeArgs() ?? [], [
-            'choices' => Engine::getNextChoices($player),
-            'allChoices' => Engine::getNextChoices($player, true),
-        ]);
-        $sourceId = $this->getNode()->getSourceId() ?? null;
-        if (!isset($args['source']) && !is_null($sourceId)) {
-            $args['sourceId'] = $sourceId;
-        }
+        $args = [
+        ];
         return $args;
-    }    
+    }
 
     /**
      * Player must resolve the choice.
@@ -62,10 +44,15 @@ class ResolveChoice extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actChooseAction(int $activePlayerId, int $choiceId)
+    public function actDiscardTrick(int $activePlayerId, array $args, int $discardedTrickId)
     {
-        $player = Players::get($activePlayerId);
-        return Engine::chooseNode($player, $choiceId);
+        Log::step();
+        
+        Game::get()->bga->notify->all("trickDiscarded", clienttranslate('${player_name} discards a trick'), [
+            
+        ]);
+
+        return $this->resolve(["discardTrickId" => $discardedTrickId]);
     }
 
     /**
@@ -83,5 +70,5 @@ class ResolveChoice extends ActionStateWithRevert
      */
     function zombie(int $playerId) {
         
-    }
+    }    
 }

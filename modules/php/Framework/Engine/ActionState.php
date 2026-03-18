@@ -7,7 +7,11 @@ namespace Bga\Games\trickerionlegendsofillusion\Framework\Engine;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\VisibleSystemException;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Config;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+
 
 class ActionState extends \Bga\GameFramework\States\GameState
 {
@@ -66,12 +70,39 @@ class ActionState extends \Bga\GameFramework\States\GameState
             $args['customStateDescription'] = $this->getCustomStateDescription();
         }
 
+        $args['anytimeActions'] = $this->getAnytimeActions();
+
         return $args;
     }
 
     protected function getActionArgs(int $activePlayerId): array
     {
         return [];
+    }
+
+    private function getAnytimeActions(): array
+    {
+        $freeActionsDir = __DIR__ . '/../../States/Actions/Anytime/';
+        $namespace = 'Bga\\Games\\trickerionlegendsofillusion\\States\\Actions\\Anytime\\';
+
+        $actions = [];
+        foreach (glob($freeActionsDir . '*.php') as $file) {
+            $actions[] = ['state' => $namespace . basename($file, '.php')];
+        }
+
+        $anytimeActions = [];
+        foreach ($actions as $action) {
+            $action["args"]["isAnytimeAction"] = true;
+            $tree = Engine::buildTree($action);
+            if ($tree->isDoable(Players::getActiveId())) {
+                $anytimeActions[] = [
+                    'description' => $tree->getDescription(true),
+                    "id" => $action["state"]
+                ];
+            }
+        }
+
+        return $anytimeActions;
     }
 
     public function getNode() {
@@ -145,5 +176,18 @@ class ActionState extends \Bga\GameFramework\States\GameState
         }
 
         return Engine::resolve(Engine::PASS);
+    }
+
+    #[PossibleAction]
+    public function actAnytimeAction(string $actionId)
+    {
+        Log::step();
+
+        Config::incEngineChoices();
+        Engine::prependAtRoot([
+            "state" => $actionId,
+        ]);
+
+        return Engine::proceed();
     }
 }

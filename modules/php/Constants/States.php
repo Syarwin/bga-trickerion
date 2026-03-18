@@ -11,6 +11,11 @@ class States {
     const ST_PERFORMANCE_PHASE = 70;
     const ST_END_TURN_PHASE = 80;
 
+    //SETUP STATES
+    const ST_SETUP_TURN = 810;
+    const ST_FINISH_ENGINEER_SETUP = 820;
+    const ST_FINISH_SETUP = 830;
+
     //ACTION STATES
     const ST_ADVERTISE = 100;
     const ST_PLACE_CHARACTER = 120;
@@ -30,10 +35,11 @@ class States {
     const ST_BUY_COMPONENTS = 255;
     const ST_ORDER_COMPONENT = 260;
     const ST_QUICK_ORDER_COMPONENT = 265;
+    //free actions
+    const ST_DISCARD_COMPONENT = 700;
+    const ST_DISCARD_TRICK = 705;
+    //performance
     const ST_PERFORMANCE = 600;
+    //setup
     const ST_CHOOSE_MAGICIAN = 805;
-    //SETUP STATES
-    const ST_SETUP_TURN = 810;
-    const ST_FINISH_ENGINEER_SETUP = 820;
-    const ST_FINISH_SETUP = 830;
 }
