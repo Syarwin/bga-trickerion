@@ -35,9 +35,9 @@ class MarketRow
         $marketRow["quickOrder"] = $component;
         Globals::setMarketRow($marketRow);
 
-        Game::get()->bga->notify->all("marketRowSet", clienttranslate('${player_name} made a new component available through the quick order: ${component}'), [
+        Game::get()->bga->notify->all("marketRowSet", clienttranslate('${player_name} made a new component available through the quick order: ${componentName}'), [
             "player_id" => Players::getActiveId(),
-            "component" => $component
+            "componentName" => Component::getComponentName($component)
         ]);
     }
 
@@ -63,6 +63,20 @@ class MarketRow
         $allComponents = Components::getAllComponents();
         $orderableComponents = array_values(array_diff($allComponents, $unavailableComponents));
         return $orderableComponents;
+    }
+    
+    public static function getComponentsForQuickOrder() {
+        //all components that are not in buy area or order area
+        $marketRow = Globals::getMarketRow();
+        $unavailableComponents = $marketRow["buyArea"];
+
+        if (!is_null($marketRow["quickOrder"])) {
+            $unavailableComponents[] = $marketRow["quickOrder"];
+        }
+
+        $allComponents = Components::getAllComponents();
+        $componentsForQuickOrder = array_values(array_diff($allComponents, $unavailableComponents));
+        return $componentsForQuickOrder;
     }
 
     public static function getOrderSlots() {

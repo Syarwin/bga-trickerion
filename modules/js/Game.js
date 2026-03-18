@@ -39,6 +39,7 @@ import { RerollDie } from "./states/RerollDie.js";
 import { SetDie } from "./states/SetDie.js";
 import { BuyComponents } from "./states/BuyComponents.js";
 import { OrderComponent } from "./states/OrderComponent.js";
+import { QuickOrderComponent } from "./states/QuickOrderComponent.js";
 
 export class Game {
     constructor(bga) {
@@ -65,7 +66,9 @@ export class Game {
         this.bga.states.register('TakeCoins', new TakeCoins(this, bga));
         this.bga.states.register('RerollDie', new RerollDie(this, bga));
         this.bga.states.register('SetDie', new SetDie(this, bga));
+        this.bga.states.register('BuyComponents', new BuyComponents(this, bga));
         this.bga.states.register('OrderComponent', new OrderComponent(this, bga));
+        this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        

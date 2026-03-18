@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
@@ -191,7 +192,7 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "quick_order" => [
-                    "state" => null,
+                    "state" => QuickOrderComponent::class,
                     "actionPoints" => 2,
                     "singleUse" => false
                 ],

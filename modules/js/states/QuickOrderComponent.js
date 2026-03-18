@@ -1,4 +1,4 @@
-export class OrderComponent {
+export class QuickOrderComponent {
     constructor(game, bga) {
         this.game = game;
         this.bga = bga;
@@ -12,18 +12,7 @@ export class OrderComponent {
             console.dir(args);
             for (const component of args.availableComponents) {
                 const button = this.bga.statusBar.addActionButton(component, () => {
-                    this.bga.statusBar.removeActionButtons();
-
-                    for(const slot of args.availableOrderSlots) {
-                        this.bga.statusBar.addActionButton(`Place at ${slot}`, () => {
-                            this.bga.actions.performAction("actOrderComponents", { component, slotId: slot });
-                        });
-                    }
-
-                    this.bga.statusBar.addActionButton("Cancel", () => {
-                        this.bga.statusBar.removeActionButtons();
-                        this.onEnteringState(args, isCurrentPlayerActive);
-                    });
+                    this.bga.actions.performAction("actQuickOrderComponents", { component });
                 });
             }
         }
