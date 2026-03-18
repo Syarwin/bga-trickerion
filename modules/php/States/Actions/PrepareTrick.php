@@ -65,10 +65,10 @@ class PrepareTrick extends ActionStateWithRevert
 
     public function onEnteringState(int $activePlayerId) {
         if ($this->isAutomatic()) {
-            $availableTricks = Tricks::getPreparebleTricks($activePlayerId);
+            $availableTricks = Tricks::getPreparebleTricks($activePlayerId, false);
     
             $availableTricks->forEach(function(Trick $trick) {
-                $this->prepareTrick($trick, true);
+                $trick->prepare(false);
             });
     
             return $this->resolve(["trickIds" => $availableTricks->getIds()]);
@@ -102,34 +102,9 @@ class PrepareTrick extends ActionStateWithRevert
             throw new UserException(clienttranslate("You cannot prepare this trick."));
         }
 
-        $this->prepareTrick($trick);
+        $trick->prepare();
 
         return $this->resolve(["trickId" => $trickId]);
-    }
-
-    private function prepareTrick(Trick $trick, $auto = false) {
-        // assign tokens to the trick
-        $slots = $trick->getSlots();
-        if ($trick->getLocation() == Tricks::LOCATION_ENGINEER_BOARD && $slots < 4) {
-            $slots += 1; // engineer space allows to prepare one additional trick marker
-        }
-
-        $markers = TrickMarkers::getFiltered($trick->getPlayerId(), TrickMarkers::LOCATION_AVAILABLE)
-            ->where("suit", $trick->getSuit())
-            ->limit($slots)
-            ->update("location", TrickMarkers::LOCATION_PREPARED)
-            ->update("trickId", $trick->getId());
-
-        Game::get()->bga->notify->all("trickPrepared", clienttranslate('${player_name} prepares ${trick} and adds ${count} markers'), [
-            "player_id" => $trick->getPlayerId(),
-            "trick" => $trick,
-            "markers" => $markers->toArray(),
-            "count" => $markers->count()
-        ]);
-
-        if (!$auto) {
-            //TODO spend action points
-        }
     }
 
     /**

@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
@@ -53,6 +54,7 @@ class LocationActions
 
     public static function getActions($playerId) {
         $availableActions = self::getAvailableLocationActions();
+        $player = Players::get($playerId);
         
         //filter out one time actions that have already been used
         foreach ($availableActions as $actionKey => $action) {
@@ -62,7 +64,7 @@ class LocationActions
 
             if (isset($action["ifCharacterHired"])) {
                 $characterType = $action["ifCharacterHired"];
-                if (!Characters::isCharacterHired($playerId, $characterType)) {
+                if (!$player->hasSpecialist($characterType)) {
                     unset($availableActions[$actionKey]);
                 }
             }
@@ -74,7 +76,7 @@ class LocationActions
             }
 
             $shardCost = $action["shardCost"] ?? 0;
-            if ($shardCost > 0 && Players::get($playerId)->getShards() < $shardCost) {
+            if ($shardCost > 0 && $player->getShards() < $shardCost) {
                 unset($availableActions[$actionKey]);
             }
         }
@@ -208,8 +210,8 @@ class LocationActions
             Characters::LOCATION_BOARD_WORKSHOP_1,
             Characters::LOCATION_BOARD_WORKSHOP_2 => [
                 "prepare" => [
-                    "state" => null,
-                    "actionPoints" => 0,
+                    "state" => PrepareTrick::class,
+                    "minActionPoints" => 1,
                     "singleUse" => false
                 ],
                 "move_tricks" => [
