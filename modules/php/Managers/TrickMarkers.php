@@ -10,7 +10,7 @@ class TrickMarkers extends CachedPieces
     protected static $datas = null;
     protected static $table = 'trick_marker';
     protected static $prefix = 'trick_marker_';
-    protected static $customFields = ["player_id", "trick_marker_suit", "trick_id"];
+    protected static $customFields = ["player_id", "trick_marker_suit", "trick_id", "performance_slot_id" , "trick_marker_up_trick_type"];
     protected static $autoIncrement = true;
     protected static $autoremovePrefix = false;
     protected static $autoreshuffle = false;
@@ -69,6 +69,9 @@ class TrickMarkers extends CachedPieces
 
     */
 
+    public static function getOnPerformance($performanceId) {
+        return self::getInLocation(self::LOCATION_SCHEDULED, $performanceId);
+    }
 
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

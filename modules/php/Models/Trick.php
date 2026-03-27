@@ -120,6 +120,10 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         $this->setSuit(null);
     }
 
+    public function isPrepared() {
+        return $this->getTrickMarkers()->where("location", TrickMarkers::LOCATION_PREPARED)->count() > 0;
+    }
+
     public function prepare($spendActionPoints = true) {
         // assign tokens to the trick
         $slots = $this->getSlots();

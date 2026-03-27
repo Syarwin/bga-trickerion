@@ -12,7 +12,6 @@ namespace Bga\Games\trickerionlegendsofillusion\Models;
  * @property string $name The name of the performance
  * @property string $theater The theater of the performance
  * @property object $slots The slots payload of the performance
- * @property object $links The links payload of the performance
  * @property object $bonus The bonus payload of the performance
  */
 class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
@@ -30,7 +29,6 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         ['name', 'str'],
         ['theater', 'str'],
         ['slots', 'object'],
-        ['links', 'object'],
         ['bonus', 'object'],
     ];
 
@@ -43,6 +41,21 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public function getSlotDirections($slotId) {
+        return array_map(function($link) {
+            return $link["direction"];
+        }, $this->getSlots()[$slotId]["links"]);
+    }
+
+    public function getSlotLink($slotId, $direction) {
+        foreach ($this->getSlots()[$slotId]["links"] as $link) {
+            if ($link["direction"] === $direction) {
+                return $link;
+            }
+        }
+        throw new \Exception("Link not found for slot $slotId and direction $direction");
+    }
 
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

@@ -15,37 +15,38 @@
  *
  */
 
-import { ConfirmTurn } from './framework/states/ConfirmTurn.js';
-import { StateProcessor } from './framework/StateProcessor.js';
-import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, initUtils } from './framework/utils.js';
-import { ResolveChoice } from './framework/states/ResolveChoice.js';
-import { overrideGamePrototype } from './framework/overrideGamePrototype.js';
-import { DummyEnd } from './states/DummyEnd.js';
-import { ChooseMagician } from './states/ChooseMagician.js';
-import { LearnTrick } from './states/LearnTrick.js';
-import { PickComponents } from './states/PickComponents.js';
-import { HireCharacter } from './states/HireCharacter.js';
-import { PrepareTrick } from './states/PrepareTrick.js';
-import { Advertise } from './states/Advertise.js';
-import { AssignCharacters } from './states/AssignCharacters.js';
-import { PlaceCharacter } from './states/PlaceCharacter.js';
-import { StartAssignment } from './states/StartAssignment.js';
-import { Performance } from './states/Performance.js';
-import { PlayLocationAction } from './states/PlayLocationAction.js';
-import { DrawAssignmentCards } from './states/DrawAssignmentCards.js';
-import { MakeDieUnavailable } from './states/MakeDieUnavailable.js';
-import { TakeCoins } from './states/TakeCoins.js';
-import { RerollDie } from './states/RerollDie.js';
-import { SetDie } from './states/SetDie.js';
-import { BuyComponents } from './states/BuyComponents.js';
-import { OrderComponent } from './states/OrderComponent.js';
-import { QuickOrderComponent } from './states/QuickOrderComponent.js';
-import { AnytimeActions } from './states/AnytimeActions.js';
-import { DiscardComponents } from './states/DiscardComponents.js';
-import { DiscardTrick } from './states/DiscardTrick.js';
-import { MoveComponents } from './states/MoveComponents.js';
-import { MoveTrick } from './states/MoveTrick.js';
-import { MoveApprentice } from './states/MoveApprentice.js';
+import { ConfirmTurn } from "./framework/states/ConfirmTurn.js";
+import { StateProcessor } from "./framework/StateProcessor.js";
+import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, initUtils } from "./framework/utils.js";
+import { ResolveChoice } from "./framework/states/ResolveChoice.js";
+import { overrideGamePrototype } from "./framework/overrideGamePrototype.js";
+import { DummyEnd } from "./states/DummyEnd.js";
+import { ChooseMagician } from "./states/ChooseMagician.js";
+import { LearnTrick } from "./states/LearnTrick.js";
+import { PickComponents } from "./states/PickComponents.js";
+import { HireCharacter } from "./states/HireCharacter.js";
+import { PrepareTrick } from "./states/PrepareTrick.js";
+import { Advertise } from "./states/Advertise.js";
+import { AssignCharacters } from "./states/AssignCharacters.js";
+import { PlaceCharacter } from "./states/PlaceCharacter.js";
+import { StartAssignment } from "./states/StartAssignment.js";
+import { Performance } from "./states/Performance.js";
+import { PlayLocationAction } from "./states/PlayLocationAction.js";
+import { DrawAssignmentCards } from "./states/DrawAssignmentCards.js";
+import { MakeDieUnavailable } from "./states/MakeDieUnavailable.js";
+import { TakeCoins } from "./states/TakeCoins.js";
+import { RerollDie } from "./states/RerollDie.js";
+import { SetDie } from "./states/SetDie.js";
+import { BuyComponents } from "./states/BuyComponents.js";
+import { OrderComponent } from "./states/OrderComponent.js";
+import { QuickOrderComponent } from "./states/QuickOrderComponent.js";
+import { AnytimeActions } from "./states/AnytimeActions.js";
+import { DiscardComponents } from "./states/DiscardComponents.js";
+import { DiscardTrick } from "./states/DiscardTrick.js";
+import { MoveComponents } from "./states/MoveComponents.js";
+import { MoveTrick } from "./states/MoveTrick.js";
+import { MoveApprentice } from "./states/MoveApprentice.js";
+import { SetupTrick } from './states/SetupTrick.js';
 
 export class Game {
     constructor(bga) {
@@ -81,6 +82,7 @@ export class Game {
         this.bga.states.register('MoveTrick', new MoveTrick(this, bga));
         this.bga.states.register('MoveComponents', new MoveComponents(this, bga));
         this.bga.states.register('MoveApprentice', new MoveApprentice(this, bga));
+        this.bga.states.register('SetupTrick', new SetupTrick(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);

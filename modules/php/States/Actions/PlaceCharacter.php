@@ -79,7 +79,11 @@ class PlaceCharacter extends ActionStateWithRevert
 
         $assignment = $character->getAssignmentCard();
 
-        if (!in_array($assignment, $args["availableAssignments"])) {
+        $availableAssignments = array_map(function($availableAssignment) {
+            return $availableAssignment["assignment"];
+        }, $args["availableAssignments"]);
+        
+        if (!in_array($assignment, $availableAssignments)) {
             throw new UserException("You can only place a character with a valid assignment card");
         }
 

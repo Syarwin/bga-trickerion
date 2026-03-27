@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+
 /**
  * Trick Marker: all utility functions concerning a trick marker
  * 
@@ -22,6 +24,8 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         'suit' => ['trick_marker_suit', "string"],
         'playerId' => ['player_id', 'int'],
         'trickId' => ['trick_id', 'int'],
+        'slotId' => ['performance_slot_id', 'string'],
+        'upTrickType' => ['trick_marker_up_trick_type', 'string'],
     ];
 
     protected $staticAttributes = [];
@@ -44,6 +48,10 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
              }
          }
          throw new \Exception("No available suit found");
+    }
+
+    public function getTrick() {
+        return Tricks::get($this->getTrickId());
     }
 
     /*

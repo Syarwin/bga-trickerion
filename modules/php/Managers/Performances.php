@@ -98,6 +98,34 @@ class Performances extends CachedPieces
 
     */
 
+    public static function getPerformancesToSetupTrick($playerId)
+    {
+        return self::getInLocation(self::LOCATION_ACTIVE)
+            ->map(function($performance) use ($playerId) {
+                $performanceMarkers = TrickMarkers::getOnPerformance($performance->id);
+                $playerMarkers = $performanceMarkers->where("playerId", $playerId);
+
+                $playerSuits = $playerMarkers->pluck("suit")->toArray();
+                $possibleTricks = Tricks::getPrepared($playerId)->filter(function($trick) use ($playerSuits) {
+                    return !in_array($trick->getSuit(), $playerSuits);
+                });
+
+                $markerSlots = $playerMarkers->pluck("slotId")->toArray();
+                $allSlots = $performance->getSlots();
+
+                $availableSlots = array_filter($allSlots, function($key) use ($markerSlots) {
+                    return !in_array($key, $markerSlots);
+                }, ARRAY_FILTER_USE_KEY);
+
+                $availablePerformance = [
+                    "performance" => $performance,
+                    "possibleTricks" => $possibleTricks->toArray(),
+                    "possibleSlots" => $availableSlots
+                ];
+                
+                return $availablePerformance;
+            })->toArray();
+    }
 
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
