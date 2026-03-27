@@ -33,7 +33,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
 
         Dice::init();
         LocationActions::init();
-        drawAssignmentCardsAction::init();
+        DrawAssignmentCardsAction::init();
 
         self::setCurrentTurn(1);
         self::setPickingComponents([]);

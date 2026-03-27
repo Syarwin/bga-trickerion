@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\EnhanceCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\FortuneTelling;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\HireCharacter;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveApprentice;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveComponents;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
@@ -79,6 +80,15 @@ class LocationActions
 
             $shardCost = $action["shardCost"] ?? 0;
             if ($shardCost > 0 && $player->getShards() < $shardCost) {
+                unset($availableActions[$actionKey]);
+            }
+
+            $actionNode = Engine::buildTree([
+                "state" => $action["state"],
+                "args" => $action["args"] ?? []
+            ]);
+
+            if (!$actionNode->isDoable($playerId)) {
                 unset($availableActions[$actionKey]);
             }
         }
@@ -229,7 +239,7 @@ class LocationActions
                     "ifCharacterHired" => Character::TYPE_MANAGER
                 ],
                 "move_apprentice" => [
-                    "state" => null,
+                    "state" => MoveApprentice::class,
                     "actionPoints" => 1,
                     "singleUse" => false,
                     "ifCharacterHired" => Character::TYPE_ASSISTANT

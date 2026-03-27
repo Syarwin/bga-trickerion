@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 
 /**
@@ -26,6 +28,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         'state' => ['character_state', 'int'],
         'playerId' => ['player_id', 'int'],
         'type' => ['character_type', 'string'],
+        'onAssistantBoard' => ['character_on_assistant_board', 'bool'],
     ];
 
     protected $staticAttributes = [
@@ -128,6 +131,23 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
     public static function getAllTypes() {
         return [self::TYPE_MAGICIAN, self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT, self::TYPE_APPRENTICE];
+    }
+
+    public function getAssignmentCard() {
+        return Assignments::where("state", $this->getId())->first();
+    }
+
+    public function moveToAssistantBoard() {
+        $this->setLocation(Characters::LOCATION_IDLE_ASSISTANT_BOARD);
+        $this->setOnAssistantBoard(true);
+
+        $attachedAssignment = $this->getAssignmentCard();
+
+        Game::get()->notify->all("apprenticeMovedToAssistant", clienttranslate('${player_name} moves ${character} to their assistant board'), [
+            "player_id" => $this->getPlayerId(),
+            "character" => $this,
+            "attachedAssignment" => $attachedAssignment,
+        ]);
     }
 
     /*

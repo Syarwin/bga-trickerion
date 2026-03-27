@@ -143,7 +143,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         return $this->getNodeArgs("irreversible", false);
     }
 
-    public function isDoable() {
+    public function isDoable($playerId) {
         return true;
     }
 

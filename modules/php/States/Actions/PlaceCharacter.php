@@ -77,12 +77,10 @@ class PlaceCharacter extends ActionStateWithRevert
             throw new UserException("You can only place your own characters");
         }
 
-        $assignment = Assignments::getFiltered($activePlayerId, Assignments::LOCATION_ASSIGNED_FACEUP)
-            ->where("state", $characterId)
-            ->first();
+        $assignment = $character->getAssignmentCard();
 
-        if (is_null($assignment)) {
-            throw new UserException("You can only place a character that is currently assigned faceup");
+        if (!in_array($assignment, $args["availableAssignments"])) {
+            throw new UserException("You can only place a character with a valid assignment card");
         }
 
         if (!in_array($locationId, $character->getPossibleLocations($assignment->getBoardLocation()))) {
