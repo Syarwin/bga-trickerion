@@ -80,7 +80,7 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         ][$this->getLevel()];
     }
 
-    public function getTrickCost() {
+    public function getComponentsNeeded() {
         $cost = [];
 
         foreach ($this->componentRequirements as $component) {
@@ -118,6 +118,53 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         $this->setLocation(Tricks::LOCATION_AVAILABLE);
         $this->setPlayerId(null);
         $this->setSuit(null);
+    }
+
+    public function prepare($spendActionPoints = true) {
+        // assign tokens to the trick
+        $slots = $this->getSlots();
+        if ($this->getLocation() == Tricks::LOCATION_ENGINEER_BOARD && $slots < 4) {
+            $slots += 1; // engineer space allows to prepare one additional trick marker
+        }
+
+        $markers = TrickMarkers::getFiltered($this->getPlayerId(), TrickMarkers::LOCATION_AVAILABLE)
+            ->where("suit", $this->getSuit())
+            ->limit($slots)
+            ->update("location", TrickMarkers::LOCATION_PREPARED)
+            ->update("trickId", $this->getId());
+
+        $message = clienttranslate('${player_name} prepares ${trick} and adds ${count} markers');
+        if ($spendActionPoints) {
+            $message = clienttranslate('${player_name} prepares ${trick} for ${actionPoints} AP and adds ${count} markers');
+        }
+
+        Game::get()->bga->notify->all("trickPrepared", $message, [
+            "player_id" => $this->getPlayerId(),
+            "trick" => $this,
+            "markers" => $markers->toArray(),
+            "count" => $markers->count(),
+            "actionPoints" => $spendActionPoints ? $this->getPreparationCost() : null,
+        ]);
+    }
+
+    public function move() {
+        $previousTrick = Tricks::getFiltered($this->getPlayerId(), Tricks::LOCATION_ENGINEER_BOARD)->first();
+        if ($previousTrick) {
+            $previousTrick->setLocation(Tricks::LOCATION_PLAYER_BOARD);
+        }
+
+        $this->setLocation(Tricks::LOCATION_ENGINEER_BOARD);
+
+        $message = clienttranslate('${player_name} moves ${trick} to the engineer board');
+        if ($previousTrick) {
+            $message = clienttranslate('${player_name} moves ${trick} to the engineer board, replacing ${previousTrick}');
+        }
+
+        Game::get()->bga->notify->all("trickMoved", $message, [
+            "player_id" => $this->getPlayerId(),
+            "trick" => $this,
+            "previousTrick" => $previousTrick
+        ]);
     }
 
     /*

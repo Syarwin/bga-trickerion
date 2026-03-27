@@ -120,9 +120,11 @@ class Components extends CachedPieces
                 ->where("playerId", $playerId)
                 ->first();
 
-            $playerAvailableLocations = [Components::LOCATION_PLAYER_BOARD];
-            if ($player->hasSpecialist(Character::TYPE_MANAGER)) {
-                $playerAvailableLocations[] = Components::LOCATION_MANAGER_BOARD;
+            $playerAvailableLocations = [];
+            foreach ([self::LOCATION_PLAYER_BOARD, self::LOCATION_MANAGER_BOARD] as $location) {
+                if (self::getAvailableSlots($location, $playerId) > 0) {
+                    $playerAvailableLocations[] = $location;
+                }
             }
 
             $availableLocations = $component->getCount() > 0 ? [$component->getLocation()] : $playerAvailableLocations;

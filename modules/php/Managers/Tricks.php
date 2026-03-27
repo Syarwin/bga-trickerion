@@ -86,15 +86,29 @@ class Tricks extends CachedPieces
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
-    public static function getPreparebleTricks(int $playerId) {
+    public static function getPreparebleTricks(int $playerId, $checkActionPoints = true) {
         $player = Players::get($playerId);
         
         return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
-            ->filter(function($trick) use ($player) {
-                $cost = $trick->getTrickCost();
+            ->filter(function($trick) use ($player, $checkActionPoints) {
+                //check components
+                $cost = $trick->getComponentsNeeded();
 
                 foreach ($cost as $component => $count) {
                     if (!$player->hasEnoughComponents($component, $count)) {
+                        return false;
+                    }
+                }
+
+                //check that trick doesn't have markers on it already
+                if (TrickMarkers::getAll()->where("trickId", $trick->getId())->where("location", TrickMarkers::LOCATION_PREPARED)->count() > 0) {
+                    return false;
+                }
+
+                //check that the player has enough AP if needed
+                if ($checkActionPoints) {
+                    $actionPointsNeeded = $trick->getPreparationCost();
+                    if ($actionPointsNeeded > LocationActions::getRemainingActionPoints()) {
                         return false;
                     }
                 }

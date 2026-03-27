@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
@@ -89,6 +91,25 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             self::COG => clienttranslate("cog"),
             default => throw new \InvalidArgumentException("Unknown component: $componentType"),
         };
+    }
+
+    public function move(?int $toReplaceComponentId = null) {
+        if ($toReplaceComponentId !== null) {
+            $toReplaceComponent = Components::get($toReplaceComponentId);
+            $toReplaceComponent->setLocation(Components::LOCATION_PLAYER_BOARD);
+        }
+
+        $this->setLocation(Components::LOCATION_MANAGER_BOARD);
+
+        $message = $toReplaceComponentId === null
+            ? clienttranslate('${player_name} moves ${component} to the manager board')
+            : clienttranslate('${player_name} moves ${component} to the manager board, replacing ${secondComponent}');
+
+        Game::get()->bga->notify->all("trickPrepared", $message, [
+            "player_id" => $this->getPlayerId(),
+            "component" => $this,
+            "secondComponent" => $toReplaceComponentId === null ? null : $toReplaceComponent
+        ]);
     }
 
     /*
