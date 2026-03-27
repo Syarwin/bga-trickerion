@@ -82,6 +82,7 @@ export class Game {
         this.bga.states.register('MoveTrick', new MoveTrick(this, bga));
         this.bga.states.register('MoveComponents', new MoveComponents(this, bga));
         this.bga.states.register('MoveApprentice', new MoveApprentice(this, bga));
+        this.bga.states.register('SetupTrick', new SetupTrick(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);

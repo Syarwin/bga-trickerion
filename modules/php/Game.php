@@ -68,6 +68,15 @@ class Game extends \Bga\GameFramework\Table
             // Force to clear cached informations
             Globals::fetch();
             Players::invalidate();
+            Assignments::invalidate();
+            Characters::invalidate();
+            Components::invalidate();
+            Magicians::invalidate();
+            Performances::invalidate();
+            Posters::invalidate();
+            Prophecies::invalidate();
+            TrickMarkers::invalidate();
+            Tricks::invalidate();
         });
 
         $this->bga->notify->addDecorator(function ($message, $args) {

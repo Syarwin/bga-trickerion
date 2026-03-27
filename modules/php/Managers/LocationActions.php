@@ -19,6 +19,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\SetupTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
 
 class LocationActions
@@ -83,13 +84,15 @@ class LocationActions
                 unset($availableActions[$actionKey]);
             }
 
-            $actionNode = Engine::buildTree([
-                "state" => $action["state"],
-                "args" => $action["args"] ?? []
-            ]);
-
-            if (!$actionNode->isDoable($playerId)) {
-                unset($availableActions[$actionKey]);
+            if (!is_null($action["state"])){
+                $actionNode = Engine::buildTree([
+                    "state" => $action["state"],
+                    "args" => $action["args"] ?? []
+                ]);
+    
+                if (!$actionNode->isDoable($playerId)) {
+                    unset($availableActions[$actionKey]);
+                }
             }
         }
 
@@ -261,7 +264,7 @@ class LocationActions
             Characters::LOCATION_BOARD_THEATER_SUNDAY_BASIC_1,
             Characters::LOCATION_BOARD_THEATER_SUNDAY_BASIC_2 => [
                 "set_up_trick" => [
-                    "state" => null,
+                    "state" => SetupTrick::class,
                     "actionPoints" => 1,
                     "singleUse" => false
                 ],

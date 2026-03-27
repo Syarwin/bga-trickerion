@@ -73,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `trick_marker` (
   `player_id` int(10),
   `trick_marker_suit` varchar(32) NOT NULL,
   `trick_id` int(10),
+  `performance_slot_id` varchar(4),
+  `trick_marker_up_trick_type` varchar(32),
   PRIMARY KEY (`trick_marker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

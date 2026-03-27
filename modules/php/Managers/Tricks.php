@@ -101,7 +101,7 @@ class Tricks extends CachedPieces
                 }
 
                 //check that trick doesn't have markers on it already
-                if (TrickMarkers::getAll()->where("trickId", $trick->getId())->where("location", TrickMarkers::LOCATION_PREPARED)->count() > 0) {
+                if ($trick->isPrepared()) {
                     return false;
                 }
 
@@ -114,6 +114,13 @@ class Tricks extends CachedPieces
                 }
 
                 return true;
+            });
+    }
+
+    public static function getPrepared($playerId) {
+        return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
+            ->filter(function($trick) {
+                return $trick->isPrepared();
             });
     }
 
