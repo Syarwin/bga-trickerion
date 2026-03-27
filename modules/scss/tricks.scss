@@ -1,0 +1,67 @@
+#pagemaintitletext,
+#gameaction_status,
+.player-board {
+    .trick-card {
+        position: absolute;
+        left: 50%;
+    }
+}
+
+.log-trick-card-name {
+    font-style: italic;
+}
+
+.trick-card {
+    position: relative;
+    width: calc(var(--trickCardScale) * 375px);
+    height: calc(var(--trickCardScale) * 525px);
+
+    &.unselectable {
+        cursor: not-allowed;
+        // }
+        // [data-filter="0"] &.unselectable {
+        filter: grayscale(80%);
+        -webkit-transform: translateZ(0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
+    }
+
+    &.selectable {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+        box-shadow: 0px 0px 10px 0px #dbae00;
+    }
+
+    &.selected {
+        border: 2px solid rgb(60, 255, 0);
+        margin: -2px;
+        box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+        border-radius: 4px;
+    }
+
+    .trick-card-wrapper {
+        width: 373px;
+        height: 520px;
+        transform-origin: top left;
+        transform: scale(var(--trickCardScale));
+        border-radius: 8px;
+        box-shadow: 2px 2px 3px 1px black;
+        background-image: url("img/cards.jpg");
+        background-size: 600% 400%;
+        position: absolute;
+
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+    }
+
+    // @each $type in $cardTypes {
+    //     $i: index($cardTypes, $type) - 1;
+    //     &[data-type="#{$type}"] .trick-card-wrapper {
+    //         background-position-x: ($i % 6) * 100% / 5;
+    //         background-position-y: (($i - ($i % 6)) / 6) * 100% / 3;
+    //     }
+    // }
+}

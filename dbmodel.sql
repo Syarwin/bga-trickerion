@@ -1,7 +1,7 @@
 
 -- ------
 -- BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
--- Trickerion implementation : © <Your name here> <Your email address here>
+-- Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
 -- 
 -- This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.

@@ -1,0 +1,113 @@
+/**
+ *------
+ * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * Trickerion.scss
+ *
+ * Trickerion stylesheet
+ *
+ */
+
+html {
+    background-image: url("img/background.jpg");
+    // background-size: cover;
+    // background-attachment: fixed;
+}
+
+@import "modules/scss/nouislider";
+@import "modules/scss/variables";
+@import "modules/scss/tricks";
+@import "modules/scss/icons";
+@import "modules/scss/meeples";
+@import "modules/scss/central-board";
+@import "modules/scss/player-board";
+@import "modules/scss/player-panel";
+@import "modules/scss/modals";
+@import "modules/scss/log";
+
+.notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+.phantom {
+    visibility: hidden;
+}
+
+#pagemaintitletext {
+    position: relative;
+}
+
+#restartAction {
+    margin-left: 15px;
+}
+
+#btnUndoLastStep {
+    background: #d97050;
+}
+
+[data-undobuttons="0"] #btnUndoLastStep {
+    display: none;
+}
+[data-undobuttons="2"] #btnRestartTurn {
+    display: none;
+}
+
+#pagesubtitle:not(:empty) {
+    padding: 3px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#maintitlebar_content {
+    .action-button ~ .action-button {
+        margin-left: 15px;
+    }
+}
+
+#customActions .action-button.bgabutton,
+#customActions .bgabutton {
+    text-overflow: initial;
+}
+
+#ebd-body.help-mode {
+    .tooltipable {
+        cursor: help;
+    }
+}
+
+.help-marker {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    z-index: 900;
+    border: 1px solid black;
+    border-radius: 50%;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+#ebd-body:not(.help-mode) {
+    .help-marker {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* Hide the "You may note something for next time..." popup that would appear. */
+#turnBasedNotesIncent {
+    display: none;
+}

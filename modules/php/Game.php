@@ -1,8 +1,9 @@
 <?php
+
 /**
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * Trickerion implementation : © <Your name here> <Your email address here>
+ * Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -14,6 +15,7 @@
  *
  * In this PHP file, you are going to defines the rules of the game.
  */
+
 declare(strict_types=1);
 
 namespace Bga\Games\trickerionlegendsofillusion;
@@ -62,13 +64,13 @@ class Game extends \Bga\GameFramework\Table
         self::$instance = $this;
 
         Engine::boot();
-        Log::setResetCallback(function() {
+        Log::setResetCallback(function () {
             // Force to clear cached informations
             Globals::fetch();
             Players::invalidate();
         });
 
-        $this->bga->notify->addDecorator(function($message, $args) {
+        $this->bga->notify->addDecorator(function ($message, $args) {
             if (isset($args['player'])) {
                 $args['player_name'] = $args['player']->getName();
                 $args['player_id'] = $args['player']->getId();
@@ -130,9 +132,7 @@ class Game extends \Bga\GameFramework\Table
      * @param int $from_version
      * @return void
      */
-    public function upgradeTableDb($from_version)
-    {
-    }
+    public function upgradeTableDb($from_version) {}
 
     /*
      * Gather all information about current game situation (visible by the current player).
@@ -179,10 +179,10 @@ class Game extends \Bga\GameFramework\Table
         Characters::setupNewGame();
         Components::setupNewGame();
         Posters::setupNewGame();
-    
+
         Log::enable();
         $this->activeNextPlayer();
-        
+
         return TurnOrderManager::launchDefault("turn", SetupTurn::class, FinishEngineerSetup::class, false);
     }
 
@@ -201,8 +201,8 @@ class Game extends \Bga\GameFramework\Table
      * Here, jump to a state you want to test (by default, jump to next player state)
      * You can trigger it on Studio using the Debug button on the right of the top bar.
      */
-    public function debug_goToState(int $state = 3) {
+    public function debug_goToState(int $state = 3)
+    {
         $this->gamestate->jumpToState($state);
     }
-
 }

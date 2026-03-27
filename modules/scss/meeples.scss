@@ -1,0 +1,14 @@
+@import "_meeples.generated";
+
+#pagemaintitletext,
+#gameaction_status {
+    .trickerion-meeple {
+        position: absolute;
+        left: 50%;
+    }
+}
+
+.trickerion-meeple {
+    display: inline-block;
+    vertical-align: middle;
+}

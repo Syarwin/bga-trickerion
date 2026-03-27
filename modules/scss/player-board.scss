@@ -1,0 +1,17 @@
+.trickerion-player-board {
+  width: calc(var(--playerBoardScale) * 1403px);
+  height: calc(var(--playerBoardScale) * 1000px);
+
+  .player-mat-inner {
+    transform: scale(var(--playerBoardScale));
+    transform-origin: top left;
+    width: 1403px;
+    height: 1000px;
+    position: relative;
+    background-image: url("img/player-mat.jpg");
+    background-size: 100% auto;
+    margin: 0;
+    padding: 1px;
+    box-sizing: border-box;
+  }
+}

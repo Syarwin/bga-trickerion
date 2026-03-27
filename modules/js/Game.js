@@ -1,7 +1,7 @@
 /**
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * Trickerion implementation : © <Your name here> <Your email address here>
+ * Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -10,14 +10,18 @@
  * Game.js
  *
  * Trickerion user interface script
- * 
+ *
  * In this file, you are describing the logic of your user interface, in Javascript language.
  *
  */
 
 import { ConfirmTurn } from "./framework/states/ConfirmTurn.js";
 import { StateProcessor } from "./framework/StateProcessor.js";
-import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, initUtils } from "./framework/utils.js";
+import {
+    clearPersistantActionButtonsNode,
+    clearRestartActionButtonsNode,
+    initUtils,
+} from "./framework/utils.js";
 import { ResolveChoice } from "./framework/states/ResolveChoice.js";
 import { overrideGamePrototype } from "./framework/overrideGamePrototype.js";
 import { DummyEnd } from "./states/DummyEnd.js";
@@ -49,49 +53,87 @@ import { MoveTrick } from "./states/MoveTrick.js";
 export class Game {
     constructor(bga) {
         this.bga = bga;
-        
+
         // Declare the State classes
-        this.bga.states.register('ConfirmTurn', new ConfirmTurn(this, bga));
-        this.bga.states.register('ConfirmPartialTurn', new ConfirmTurn(this, bga));
-        this.bga.states.register('ResolveChoice', new ResolveChoice(this, bga));
-        this.bga.states.register('DummyEnd', new DummyEnd(this, bga));
-        this.bga.states.register('ChooseMagician', new ChooseMagician(this, bga));
-        this.bga.states.register('LearnTrick', new LearnTrick(this, bga));
-        this.bga.states.register('PickComponents', new PickComponents(this, bga));
-        this.bga.states.register('HireCharacter', new HireCharacter(this, bga));
-        this.bga.states.register('PrepareTrick', new PrepareTrick(this, bga));
-        this.bga.states.register('Advertise', new Advertise(this, bga));
-        this.bga.states.register('PlaceCharacter', new PlaceCharacter(this, bga));
-        this.bga.states.register('AssignCharacters', new AssignCharacters(this, bga));
-        this.bga.states.register('StartAssignment', new StartAssignment(this, bga));
-        this.bga.states.register('Performance', new Performance(this, bga));
-        this.bga.states.register('PlayLocationAction', new PlayLocationAction(this, bga));
-        this.bga.states.register('DrawAssignmentCards', new DrawAssignmentCards(this, bga));
-        this.bga.states.register('MakeDieUnavailable', new MakeDieUnavailable(this, bga));
-        this.bga.states.register('TakeCoins', new TakeCoins(this, bga));
-        this.bga.states.register('RerollDie', new RerollDie(this, bga));
-        this.bga.states.register('SetDie', new SetDie(this, bga));
-        this.bga.states.register('BuyComponents', new BuyComponents(this, bga));
-        this.bga.states.register('OrderComponent', new OrderComponent(this, bga));
-        this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
-        this.bga.states.register('client_selectAnytimeAction', new AnytimeActions(this, bga));
-        this.bga.states.register('DiscardComponents', new DiscardComponents(this, bga));
-        this.bga.states.register('DiscardTrick', new DiscardTrick(this, bga));
-        this.bga.states.register('MoveTrick', new MoveTrick(this, bga));
+        this.bga.states.register("ConfirmTurn", new ConfirmTurn(this, bga));
+        this.bga.states.register(
+            "ConfirmPartialTurn",
+            new ConfirmTurn(this, bga),
+        );
+        this.bga.states.register("ResolveChoice", new ResolveChoice(this, bga));
+        this.bga.states.register("DummyEnd", new DummyEnd(this, bga));
+        this.bga.states.register(
+            "ChooseMagician",
+            new ChooseMagician(this, bga),
+        );
+        this.bga.states.register("LearnTrick", new LearnTrick(this, bga));
+        this.bga.states.register(
+            "PickComponents",
+            new PickComponents(this, bga),
+        );
+        this.bga.states.register("HireCharacter", new HireCharacter(this, bga));
+        this.bga.states.register("PrepareTrick", new PrepareTrick(this, bga));
+        this.bga.states.register("Advertise", new Advertise(this, bga));
+        this.bga.states.register(
+            "PlaceCharacter",
+            new PlaceCharacter(this, bga),
+        );
+        this.bga.states.register(
+            "AssignCharacters",
+            new AssignCharacters(this, bga),
+        );
+        this.bga.states.register(
+            "StartAssignment",
+            new StartAssignment(this, bga),
+        );
+        this.bga.states.register("Performance", new Performance(this, bga));
+        this.bga.states.register(
+            "PlayLocationAction",
+            new PlayLocationAction(this, bga),
+        );
+        this.bga.states.register(
+            "DrawAssignmentCards",
+            new DrawAssignmentCards(this, bga),
+        );
+        this.bga.states.register(
+            "MakeDieUnavailable",
+            new MakeDieUnavailable(this, bga),
+        );
+        this.bga.states.register("TakeCoins", new TakeCoins(this, bga));
+        this.bga.states.register("RerollDie", new RerollDie(this, bga));
+        this.bga.states.register("SetDie", new SetDie(this, bga));
+        this.bga.states.register("BuyComponents", new BuyComponents(this, bga));
+        this.bga.states.register(
+            "OrderComponent",
+            new OrderComponent(this, bga),
+        );
+        this.bga.states.register(
+            "QuickOrderComponent",
+            new QuickOrderComponent(this, bga),
+        );
+        this.bga.states.register(
+            "client_selectAnytimeAction",
+            new AnytimeActions(this, bga),
+        );
+        this.bga.states.register(
+            "DiscardComponents",
+            new DiscardComponents(this, bga),
+        );
+        this.bga.states.register("DiscardTrick", new DiscardTrick(this, bga));
+        this.bga.states.register("MoveTrick", new MoveTrick(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
-        initUtils(this.bga.gameui);        
+        initUtils(this.bga.gameui);
     }
-    
-    setup( gamedatas ) {
+
+    setup(gamedatas) {
         this.gamedatas = gamedatas;
         this.render(gamedatas);
         this.setupNotifications();
         overrideGamePrototype(this.bga.gameui);
     }
 
-    render(gamedatas) {
-    }
+    render(gamedatas) {}
 
     onEnteringState(stateName, args) {
         this.stateProcessor.process(args.args, args);
@@ -104,7 +146,7 @@ export class Game {
 
     ///////////////////////////////////////////////////
     //// Utility methods
-    
+
     /*
     
         Here, you can defines some utility methods that you can use everywhere in your javascript
@@ -112,7 +154,6 @@ export class Game {
     
     */
 
-    
     ///////////////////////////////////////////////////
     //// Reaction to cometD notifications
 
@@ -126,20 +167,20 @@ export class Game {
     
     */
     setupNotifications() {
-        console.log( 'notifications subscriptions setup' );
-        
-        // automatically listen to the notifications, based on the `notif_xxx` function on this class. 
+        console.log("notifications subscriptions setup");
+
+        // automatically listen to the notifications, based on the `notif_xxx` function on this class.
         // Uncomment the logger param to see debug information in the console about notifications.
         this.bga.notifications.setupPromiseNotifications({
-            handlers: [this, ...this.bga.states.getStateClasses()], 
+            handlers: [this, ...this.bga.states.getStateClasses()],
         });
     }
 
     async notif_refreshUI(args) {
-        this.bga.gameArea.getElement().innerHTML = '';
+        this.bga.gameArea.getElement().innerHTML = "";
 
         for (const playerId in args.data.players) {
-            this.bga.playerPanels.getElement(playerId).innerHTML = '';
+            this.bga.playerPanels.getElement(playerId).innerHTML = "";
         }
 
         this.render(args.data);
@@ -149,10 +190,8 @@ export class Game {
         this.bga.gameui.cancelLogs(args.notifIds);
     }
 
-    
-    
     // TODO: from this point and below, you can write your game notifications handling methods
-    
+
     /*
     Example:
     async notif_cardPlayed( args ) {

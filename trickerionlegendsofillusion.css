@@ -1,34 +1,556 @@
+@charset "UTF-8";
 /**
  *------
- * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
- * Trickerion implementation : © <Your name here> <Your email address here>
+ * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  *
- * Trickerion.css
+ * Trickerion.scss
  *
  * Trickerion stylesheet
  *
  */
+html {
+  background-image: url("img/background.jpg"); }
 
-#game_play_area {
-    --zoom: 1;
-    --gap: calc(var(--zoom) * 10px);
-}
+/*! nouislider - 14.6.0 - 6/27/2020 */
+.noUi-target, .noUi-target * {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -ms-touch-action: none;
+  touch-action: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
-#player_boards {
-    --zoom: 0.5;
-    --gap: calc(var(--zoom) * 10px);
-}
+.noUi-target {
+  position: relative; }
 
-/* missing tailwind*/
-.gap-\(--gap\) {
-    gap: var(--gap);
-}
+.noUi-base, .noUi-connects {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1; }
 
-#logs .log.cancel {
-    text-decoration: line-through;
-    filter: contrast(0.5);
-}
+.noUi-connects {
+  overflow: hidden;
+  z-index: 0; }
+
+.noUi-connect, .noUi-origin {
+  will-change: transform;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: 0 0;
+  transform-style: flat; }
+
+.noUi-connect {
+  height: 100%;
+  width: 100%; }
+
+.noUi-origin {
+  height: 10%;
+  width: 10%; }
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+  left: 0;
+  right: auto; }
+
+.noUi-vertical .noUi-origin {
+  width: 0; }
+
+.noUi-horizontal .noUi-origin {
+  height: 0; }
+
+.noUi-handle {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute; }
+
+.noUi-touch-area {
+  height: 100%;
+  width: 100%; }
+
+.noUi-state-tap .noUi-connect, .noUi-state-tap .noUi-origin {
+  -webkit-transition: transform .3s;
+  transition: transform .3s; }
+
+.noUi-state-drag * {
+  cursor: inherit !important; }
+
+.noUi-horizontal {
+  height: 18px; }
+
+.noUi-horizontal .noUi-handle {
+  width: 34px;
+  height: 28px;
+  right: -17px;
+  top: -6px; }
+
+.noUi-vertical {
+  width: 18px; }
+
+.noUi-vertical .noUi-handle {
+  width: 28px;
+  height: 34px;
+  right: -6px;
+  top: -17px; }
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+  left: -17px;
+  right: auto; }
+
+.noUi-target {
+  background: #FAFAFA;
+  border-radius: 4px;
+  border: 1px solid #D3D3D3;
+  box-shadow: inset 0 1px 1px #F0F0F0,0 3px 6px -5px #BBB; }
+
+.noUi-connects {
+  border-radius: 3px; }
+
+.noUi-connect {
+  background: #3FB8AF; }
+
+.noUi-draggable {
+  cursor: ew-resize; }
+
+.noUi-vertical .noUi-draggable {
+  cursor: ns-resize; }
+
+.noUi-handle {
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  background: #FFF;
+  cursor: default;
+  box-shadow: inset 0 0 1px #FFF,inset 0 1px 7px #EBEBEB,0 3px 6px -3px #BBB; }
+
+.noUi-active {
+  box-shadow: inset 0 0 1px #FFF,inset 0 1px 7px #DDD,0 3px 6px -3px #BBB; }
+
+.noUi-handle:after, .noUi-handle:before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  background: #E8E7E6;
+  left: 14px;
+  top: 6px; }
+
+.noUi-handle:after {
+  left: 17px; }
+
+.noUi-vertical .noUi-handle:after, .noUi-vertical .noUi-handle:before {
+  width: 14px;
+  height: 1px;
+  left: 6px;
+  top: 14px; }
+
+.noUi-vertical .noUi-handle:after {
+  top: 17px; }
+
+[disabled] .noUi-connect {
+  background: #B8B8B8; }
+
+[disabled] .noUi-handle, [disabled].noUi-handle, [disabled].noUi-target {
+  cursor: not-allowed; }
+
+.noUi-pips, .noUi-pips * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.noUi-pips {
+  position: absolute;
+  color: #999; }
+
+.noUi-value {
+  position: absolute;
+  white-space: nowrap;
+  text-align: center; }
+
+.noUi-value-sub {
+  color: #ccc;
+  font-size: 10px; }
+
+.noUi-marker {
+  position: absolute;
+  background: #CCC; }
+
+.noUi-marker-sub {
+  background: #AAA; }
+
+.noUi-marker-large {
+  background: #AAA; }
+
+.noUi-pips-horizontal {
+  padding: 10px 0;
+  height: 80px;
+  top: 100%;
+  left: 0;
+  width: 100%; }
+
+.noUi-value-horizontal {
+  -webkit-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%); }
+
+.noUi-rtl .noUi-value-horizontal {
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%); }
+
+.noUi-marker-horizontal.noUi-marker {
+  margin-left: -1px;
+  width: 2px;
+  height: 5px; }
+
+.noUi-marker-horizontal.noUi-marker-sub {
+  height: 10px; }
+
+.noUi-marker-horizontal.noUi-marker-large {
+  height: 15px; }
+
+.noUi-pips-vertical {
+  padding: 0 10px;
+  height: 100%;
+  top: 0;
+  left: 100%; }
+
+.noUi-value-vertical {
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  padding-left: 25px; }
+
+.noUi-rtl .noUi-value-vertical {
+  -webkit-transform: translate(0, 50%);
+  transform: translate(0, 50%); }
+
+.noUi-marker-vertical.noUi-marker {
+  width: 5px;
+  height: 2px;
+  margin-top: -1px; }
+
+.noUi-marker-vertical.noUi-marker-sub {
+  width: 10px; }
+
+.noUi-marker-vertical.noUi-marker-large {
+  width: 15px; }
+
+.noUi-tooltip {
+  display: block;
+  position: absolute;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  background: #fff;
+  color: #000;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap; }
+
+.noUi-horizontal .noUi-tooltip {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 120%; }
+
+.noUi-vertical .noUi-tooltip {
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  top: 50%;
+  right: 120%; }
+
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(50%, 0);
+  transform: translate(50%, 0);
+  left: auto;
+  bottom: 10px; }
+
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(0, -18px);
+  transform: translate(0, -18px);
+  top: auto;
+  right: 28px; }
+
+:root {
+  --trickCardScale: 0.35; }
+
+#pagemaintitletext .trick-card,
+#gameaction_status .trick-card,
+.player-board .trick-card {
+  position: absolute;
+  left: 50%; }
+
+.log-trick-card-name {
+  font-style: italic; }
+
+.trick-card {
+  position: relative;
+  width: calc(var(--trickCardScale) * 375px);
+  height: calc(var(--trickCardScale) * 525px); }
+  .trick-card.unselectable {
+    cursor: not-allowed;
+    filter: grayscale(80%);
+    -webkit-transform: translateZ(0);
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden; }
+  .trick-card.selectable {
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 0px #dbae00; }
+    .trick-card.selectable:hover {
+      transform: scale(1.1); }
+  .trick-card.selected {
+    border: 2px solid #3cff00;
+    margin: -2px;
+    box-shadow: 0px 0px 10px 0px #2bff00;
+    border-radius: 4px; }
+  .trick-card .trick-card-wrapper {
+    width: 373px;
+    height: 520px;
+    transform-origin: top left;
+    transform: scale(var(--trickCardScale));
+    border-radius: 8px;
+    box-shadow: 2px 2px 3px 1px black;
+    background-image: url("img/cards.jpg");
+    background-size: 600% 400%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: baseline; }
+
+.icon-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.08em;
+  font-size: 1em; }
+
+#pagemaintitletext .trickerion-meeple,
+#gameaction_status .trickerion-meeple {
+  position: absolute;
+  left: 50%; }
+
+.trickerion-meeple {
+  display: inline-block;
+  vertical-align: middle; }
+
+.mobile_version #topbar {
+  margin-bottom: 0px; }
+.mobile_version #left-side-wrapper {
+  margin-top: 0px; }
+
+#trickerion-main-wrapper {
+  position: relative;
+  height: calc(100vh - 150px); }
+  #trickerion-main-wrapper #trickerion-board-controls {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: #bfdae8;
+    display: flex;
+    z-index: 200;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 3px black;
+    font-size: 20px; }
+    .mobile_version #trickerion-main-wrapper #trickerion-board-controls {
+      display: none; }
+    #trickerion-main-wrapper #trickerion-board-controls div {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none; }
+      #trickerion-main-wrapper #trickerion-board-controls div#board-reset {
+        font-size: 22px; }
+      #trickerion-main-wrapper #trickerion-board-controls div#board-lock-pan {
+        cursor: pointer; }
+        #trickerion-main-wrapper #trickerion-board-controls div#board-lock-pan input {
+          display: none; }
+        #trickerion-main-wrapper #trickerion-board-controls div#board-lock-pan i {
+          cursor: pointer;
+          position: relative; }
+          #trickerion-main-wrapper #trickerion-board-controls div#board-lock-pan i::after {
+            content: "\f09c";
+            right: -6px;
+            display: block;
+            position: absolute;
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 14px;
+            font-size: inherit;
+            text-rendering: auto;
+            bottom: -6px;
+            font-size: 14px; }
+        #trickerion-main-wrapper #trickerion-board-controls div#board-lock-pan input:checked + label i::after {
+          content: "\f023";
+          right: -8px; }
+  #trickerion-main-wrapper #trickerion-main-container {
+    position: relative;
+    border: 10px solid black;
+    background: #444;
+    overflow: hidden;
+    height: 100%;
+    box-sizing: border-box; }
+
+.trickerion-player-board {
+  width: calc(var(--playerBoardScale) * 1403px);
+  height: calc(var(--playerBoardScale) * 1000px); }
+  .trickerion-player-board .player-mat-inner {
+    transform: scale(var(--playerBoardScale));
+    transform-origin: top left;
+    width: 1403px;
+    height: 1000px;
+    position: relative;
+    background-image: url("img/player-mat.jpg");
+    background-size: 100% auto;
+    margin: 0;
+    padding: 1px;
+    box-sizing: border-box; }
+
+.player-board[data-order]::before {
+  content: attr(data-order);
+  position: absolute;
+  background: #fff;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid black;
+  z-index: 20;
+  top: 29px;
+  left: 3px;
+  font-size: 15px;
+  box-shadow: 0px 0px 1px black; }
+.player-board.inactive {
+  background: #cccaca;
+  opacity: 0.7; }
+  .player-board.inactive[data-order]::before {
+    background: #c0c0c0; }
+
+/* Specific log styling */
+#logs .log .timestamp {
+  color: black; }
+
+/* New undoable steps */
+#logs .log.notif_newUndoableStep {
+  margin-top: 0px; }
+  #logs .log.notif_newUndoableStep .roundedbox {
+    display: none;
+    text-align: center;
+    cursor: pointer;
+    background-color: #c4c2c2;
+    font-size: 12px;
+    padding: 2px 5px; }
+    #logs .log.notif_newUndoableStep .roundedbox::before, #logs .log.notif_newUndoableStep .roundedbox::after {
+      content: "\f0e2";
+      font: normal normal normal 12px/1 FontAwesome;
+      margin: 0px 10px; }
+  #logs .log.notif_newUndoableStep.selectable .roundedbox {
+    display: block; }
+
+.chatwindowlogs_zone .log.notif_newUndoableStep {
+  margin-bottom: -4px;
+  padding: 0px;
+  display: none !important; }
+  .chatwindowlogs_zone .log.notif_newUndoableStep.selectable {
+    display: block !important; }
+    .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner {
+      text-align: center;
+      cursor: pointer;
+      background-color: #c4c2c2;
+      font-size: 12px;
+      padding: 2px 5px; }
+      .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::before, .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::after {
+        content: "\f0e2";
+        font: normal normal normal 12px/1 FontAwesome;
+        margin: 0px 10px; }
+      .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner .msgtime {
+        display: none; }
+
+/* Cancelled notification messages */
+.log.cancel {
+  color: #c62828 !important;
+  text-decoration: line-through; }
+
+/* Desktop logs */
+.log.cancel .roundedbox {
+  background-color: rgba(240, 186, 117, 0.6) !important; }
+
+/* Mobile logs */
+.log.cancel.roundedbox {
+  background-color: #ef9a9a; }
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important; }
+
+.phantom {
+  visibility: hidden; }
+
+#pagemaintitletext {
+  position: relative; }
+
+#restartAction {
+  margin-left: 15px; }
+
+#btnUndoLastStep {
+  background: #d97050; }
+
+[data-undobuttons="0"] #btnUndoLastStep {
+  display: none; }
+
+[data-undobuttons="2"] #btnRestartTurn {
+  display: none; }
+
+#pagesubtitle:not(:empty) {
+  padding: 3px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+#maintitlebar_content .action-button ~ .action-button {
+  margin-left: 15px; }
+
+#customActions .action-button.bgabutton,
+#customActions .bgabutton {
+  text-overflow: initial; }
+
+#ebd-body.help-mode .tooltipable {
+  cursor: help; }
+
+.help-marker {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  z-index: 900;
+  border: 1px solid black;
+  border-radius: 50%; }
+  .help-marker svg {
+    width: 20px;
+    height: 20px; }
+
+#ebd-body:not(.help-mode) .help-marker {
+  opacity: 0;
+  pointer-events: none; }
+
+/* Hide the "You may note something for next time..." popup that would appear. */
+#turnBasedNotesIncent {
+  display: none; }
+
+/*# sourceMappingURL=trickerionlegendsofillusion.css.map */
