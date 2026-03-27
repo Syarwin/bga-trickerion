@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="2.244725mm"
+   height="5.0045056mm"
+   viewBox="0 0 2.244725 5.0045056"
+   version="1.1"
+   id="svg1422"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="action-point.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1424"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="23.94738"
+     inkscape:cx="4.6977999"
+     inkscape:cy="9.3329625"
+     inkscape:window-width="1920"
+     inkscape:window-height="1020"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1419">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1585">
+      <g
+         id="g1589"
+         transform="translate(-334.9748,-688.4194)">
+        <path
+           d="M 0,0 H 609.449 V 793.701 H 0 Z"
+           id="path1587" />
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath664">
+      <path
+         d="M 0,0 H 609.449 V 793.701 H 0 Z"
+         id="path662" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-80.564188,-131.82996)">
+    <g
+       id="g702"
+       transform="matrix(0.35277777,0,0,-0.35277777,82.440613,131.82996)"
+       style="fill:#000000;fill-opacity:1">
+      <path
+         d="m 0,0 h -2.61 l -2.709,-6.717 h 2.66 l -2.66,-7.469 6.363,9.223 h -2.856 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path704" />
+    </g>
+  </g>
+</svg>
