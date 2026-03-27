@@ -45,6 +45,7 @@ import { DiscardComponents } from "./states/DiscardComponents.js";
 import { DiscardTrick } from "./states/DiscardTrick.js";
 import { MoveComponents } from "./states/MoveComponents.js";
 import { MoveTrick } from "./states/MoveTrick.js";
+import { MoveApprentice } from "./states/MoveApprentice.js";
 
 export class Game {
     constructor(bga) {
@@ -78,6 +79,8 @@ export class Game {
         this.bga.states.register('DiscardComponents', new DiscardComponents(this, bga));
         this.bga.states.register('DiscardTrick', new DiscardTrick(this, bga));
         this.bga.states.register('MoveTrick', new MoveTrick(this, bga));
+        this.bga.states.register('MoveComponents', new MoveComponents(this, bga));
+        this.bga.states.register('MoveApprentice', new MoveApprentice(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);        

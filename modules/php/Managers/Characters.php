@@ -13,7 +13,7 @@ class Characters extends CachedPieces
     protected static $datas = null;
     protected static $table = 'character';
     protected static $prefix = 'character_';
-    protected static $customFields = ["player_id", "character_type"];
+    protected static $customFields = ["player_id", "character_type", "character_on_assistant_board"];
     protected static $autoIncrement = true;
     protected static $autoremovePrefix = false;
     protected static $autoreshuffle = false;
@@ -71,13 +71,11 @@ class Characters extends CachedPieces
         self::create($characters, self::LOCATION_SUPPLY, 0);
 
         foreach (Players::getAll() as $playerId => $_) {
-            self::getFiltered($playerId, self::LOCATION_SUPPLY)
-                ->where('type', Character::TYPE_MAGICIAN)
+            self::getFiltered($playerId, self::LOCATION_SUPPLY, Character::TYPE_MAGICIAN)
                 ->first()
                 ->setLocation(self::LOCATION_IDLE_PLAYER_BOARD);
 
-            self::getFiltered($playerId, self::LOCATION_SUPPLY)
-                ->where('type', Character::TYPE_APPRENTICE)
+            self::getFiltered($playerId, self::LOCATION_SUPPLY, Character::TYPE_APPRENTICE)
                 ->first()
                 ->setLocation(self::LOCATION_IDLE_PLAYER_BOARD);
         }
@@ -94,11 +92,14 @@ class Characters extends CachedPieces
     */
 
     public static function hire(string $type, int $playerId, string $location) {
-        $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY)
-            ->where("type", $type)
+        $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY, $type)
             ->first();
         
         $character->setLocation($location);
+
+        if ($type === Character::TYPE_APPRENTICE && $location === self::LOCATION_IDLE_ASSISTANT_BOARD) {
+            $character->setOnAssistantBoard(true);
+        }
 
         Game::get()->bga->notify->all("characterHired", clienttranslate('${player_name} hires ${character}'), [
             "player_id" => $playerId,
@@ -235,8 +236,7 @@ class Characters extends CachedPieces
 
         Players::getAll()->forEach(function($player) {
             if ($player->hasSpecialist(Character::TYPE_ASSISTANT)) {
-                Characters::getFiltered($player->getId(), self::LOCATION_IDLE_PLAYER_BOARD)
-                    ->where("type", Character::TYPE_APPRENTICE)
+                Characters::getFiltered($player->getId(), self::LOCATION_IDLE_PLAYER_BOARD, Character::TYPE_APPRENTICE)
                     ->first()
                     ->setLocation(self::LOCATION_IDLE_ASSISTANT_BOARD);
             }
@@ -281,6 +281,14 @@ class Characters extends CachedPieces
 
             default => 0
         };
+    }
+
+    public static function isAssistantApprenticeSlotAvailable($playerId) {
+        $isApprenticeOnAssistantBoard = self::getFiltered($playerId)
+            ->where("onAssistantBoard", true)
+            ->count() > 0;
+        
+        return !$isApprenticeOnAssistantBoard;
     }
 
     /*
