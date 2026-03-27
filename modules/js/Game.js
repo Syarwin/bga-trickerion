@@ -17,7 +17,7 @@
 
 import { ConfirmTurn } from './framework/states/ConfirmTurn.js';
 import { StateProcessor } from './framework/StateProcessor.js';
-import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, initUtils } from './framework/utils.js';
+import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, debug, initUtils } from './framework/utils.js';
 import { ResolveChoice } from './framework/states/ResolveChoice.js';
 import { overrideGamePrototype } from './framework/overrideGamePrototype.js';
 import { DummyEnd } from './states/DummyEnd.js';
@@ -46,6 +46,7 @@ import { DiscardTrick } from './states/DiscardTrick.js';
 import { MoveComponents } from './states/MoveComponents.js';
 import { MoveTrick } from './states/MoveTrick.js';
 import { MoveApprentice } from './states/MoveApprentice.js';
+import { board } from './Board.js';
 
 export class Game {
     constructor(bga) {
@@ -87,10 +88,12 @@ export class Game {
     }
 
     setup(gamedatas) {
+        debug('Setup', gamedatas);
         this.gamedatas = gamedatas;
         this.render(gamedatas);
         this.setupNotifications();
         overrideGamePrototype(this.bga.gameui);
+        board.init(gamedatas);
     }
 
     render(gamedatas) {}
@@ -129,10 +132,17 @@ export class Game {
     setupNotifications() {
         console.log('notifications subscriptions setup');
 
-        // automatically listen to the notifications, based on the `notif_xxx` function on this class.
-        // Uncomment the logger param to see debug information in the console about notifications.
         this.bga.notifications.setupPromiseNotifications({
+            prefix: 'notif_',
             handlers: [this, ...this.bga.states.getStateClasses()],
+            onStart: (notifName, msg, args) => {
+                $('pagemaintitletext').innerHTML = msg;
+                $('gameaction_status').innerHTML = msg;
+            },
+            onEnd: (notifName, msg, args) => {
+                $('pagemaintitletext').innerHTML = '';
+                $('gameaction_status').innerHTML = '';
+            },
         });
     }
 

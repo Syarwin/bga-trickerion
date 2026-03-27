@@ -1,87 +1,30 @@
-.mobile_version {
-    #topbar {
-        margin-bottom: 0px;
-    }
-    #left-side-wrapper {
-        margin-top: 0px;
-    }
-}
-
+$boardWidth: 4096px / 3;
+$boardHeight: 2887px / 3;
 #trickerion-main-wrapper {
     position: relative;
-    height: calc(100vh - 150px);
-
-    #trickerion-board-controls {
-        .mobile_version & {
-            display: none;
-        }
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        background: #bfdae8;
-        display: flex;
-        z-index: 200;
-        border-radius: 8px;
-        border: 1px solid black;
-        box-shadow: 1px 1px 3px black;
-        // translate: -50% 0;
-        font-size: 20px;
-
-        div {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            user-select: none;
-
-            &#board-reset {
-                font-size: 22px;
-            }
-            &#board-lock-pan {
-                cursor: pointer;
-                input {
-                    display: none;
-                }
-
-                i {
-                    cursor: pointer;
-                    position: relative;
-
-                    &::after {
-                        content: "\f09c";
-                        right: -6px;
-                        // content: "\f023";
-                        display: block;
-                        position: absolute;
-                        display: inline-block;
-                        font: normal normal normal 14px/1 FontAwesome;
-                        font-size: 14px;
-                        font-size: inherit;
-                        text-rendering: auto;
-                        bottom: -6px;
-                        font-size: 14px;
-                    }
-                }
-
-                input:checked + label i::after {
-                    content: "\f023";
-                    right: -8px;
-                }
-            }
-        }
-    }
 
     #trickerion-main-container {
         position: relative;
-        border: 10px solid black;
-        background: #444;
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        overflow: hidden;
-        height: 100%;
-        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+
+        #trickerion-board-wrapper {
+            #trickerion-board {
+                position: relative;
+                width: $boardWidth;
+                height: $boardHeight;
+
+                #board-background {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-image: url("img/board.jpg");
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
     }
 }
