@@ -47,6 +47,7 @@ import { MoveComponents } from './states/MoveComponents.js';
 import { MoveTrick } from './states/MoveTrick.js';
 import { MoveApprentice } from './states/MoveApprentice.js';
 import { board } from './Board.js';
+import { SetupTrick } from './states/SetupTrick.js';
 
 export class Game {
     constructor(bga) {

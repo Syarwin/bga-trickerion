@@ -25,7 +25,7 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         'playerId' => ['player_id', 'int'],
         'trickId' => ['trick_id', 'int'],
         'slotId' => ['performance_slot_id', 'string'],
-        'upTrickType' => ['trick_marker_up_trick_type', 'string'],
+        'topTrickCategory' => ['trick_marker_top_trick_category', 'string'],
     ];
 
     protected $staticAttributes = [];
@@ -54,6 +54,48 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         return Tricks::get($this->getTrickId());
     }
 
+    public function setDirection(string $direction) {
+        $trickCategory = $this->getTrick()->getCategory();
+        $topTrickCategory = match ($direction) {
+            Performance::LINK_DIRECTION_RIGHT => $this->getPreviousCategory($trickCategory),
+            Performance::LINK_DIRECTION_LEFT => $this->getNextCategory($trickCategory),
+            Performance::LINK_DIRECTION_DOWN => $this->getOppositeCategory($trickCategory),
+            Performance::LINK_DIRECTION_UP => $trickCategory,
+            default => null
+        };
+
+        $this->setTopTrickCategory($topTrickCategory);
+    }
+
+    private function getPreviousCategory($category) {
+        return match ($category) {
+            Trick::CATEGORY_ESCAPE => Trick::CATEGORY_OPTICAL,
+            Trick::CATEGORY_OPTICAL => Trick::CATEGORY_MECHANICAL,
+            Trick::CATEGORY_MECHANICAL => Trick::CATEGORY_SPIRITUAL,
+            Trick::CATEGORY_SPIRITUAL => Trick::CATEGORY_ESCAPE,
+            default => null
+        };
+    }
+
+    private function getNextCategory($category) {
+        return match ($category) {
+            Trick::CATEGORY_ESCAPE => Trick::CATEGORY_SPIRITUAL,
+            Trick::CATEGORY_SPIRITUAL => Trick::CATEGORY_MECHANICAL,
+            Trick::CATEGORY_MECHANICAL => Trick::CATEGORY_OPTICAL,
+            Trick::CATEGORY_OPTICAL => Trick::CATEGORY_ESCAPE,
+            default => null
+        };
+    }
+
+    private function getOppositeCategory($category) {
+        return match ($category) {
+            Trick::CATEGORY_ESCAPE => Trick::CATEGORY_MECHANICAL,
+            Trick::CATEGORY_MECHANICAL => Trick::CATEGORY_ESCAPE,
+            Trick::CATEGORY_OPTICAL => Trick::CATEGORY_SPIRITUAL,
+            Trick::CATEGORY_SPIRITUAL => Trick::CATEGORY_OPTICAL,
+            default => null
+        };
+    }
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
