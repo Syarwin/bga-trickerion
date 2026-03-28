@@ -10,14 +10,12 @@ use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
-use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
-use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
+use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
+use Bga\Games\trickerionlegendsofillusion\Models\TrickMarker;
 
-class SetupTrick extends ActionStateWithRevert
+class Reschedule extends ActionStateWithRevert
 {
     function __construct(
         protected Game $game,
@@ -25,18 +23,18 @@ class SetupTrick extends ActionStateWithRevert
     ) {
         parent::__construct($game,
             node: $node,
-            id: States::ST_SETUP_TRICK,
+            id: States::ST_RESCHEDULE,
             type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must setup a trick'),
-            descriptionMyTurn: clienttranslate('${you} must setup a trick'),
+            description: clienttranslate('${actplayer} must reschedule a trick'),
+            descriptionMyTurn: clienttranslate('${you} must reschedule a trick'),
         );
     }
 
     public function getCustomStateDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "description" => clienttranslate('${actplayer} must setup a trick (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must setup a trick (${sourceName})'),
+                "description" => clienttranslate('${actplayer} must reschedule a trick (${sourceName})'),
+                "descriptionMyTurn" => clienttranslate('${you} must reschedule a trick (${sourceName})'),
             ];
         }
         return null;
@@ -45,20 +43,21 @@ class SetupTrick extends ActionStateWithRevert
     public function getDescription() {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
-                "log" => clienttranslate('Setup a trick (${sourceName})'),
+                "log" => clienttranslate('Reschedule a trick (${sourceName})'),
                 "args" => [
                     "sourceName" => $this->getNodeArgs("sourceName", "")
                 ]
             ];
         }
-        return clienttranslate('Setup a trick');
+        return clienttranslate('Reschedule a trick');
     }
 
     public function getActionArgs(int $activePlayerId): array
     {
+        $availableTricks = TrickMarkers::getScheduled($activePlayerId);
         $args = [
-            "availablePerformances" => Performances::getActive()->toArray(),
-            "possibleTricksAndSlots" => Performances::getSetupData($activePlayerId)->toAssoc(),
+            "availableTrickMarkers" => $availableTricks->toArray(),
+            "possiblePerformances" => TrickMarkers::getRescheduleData($activePlayerId)->toAssoc(),
             "sourceName" => $this->getNodeArgs("sourceName", "")
         ];
         return $args;
@@ -70,33 +69,32 @@ class SetupTrick extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actSetupTrick(int $activePlayerId, int $trickId, int $performanceId, string $slotId, string $direction, array $args)
+    public function actRescheduleTrick(int $activePlayerId, int $trickMarkerId, int $performanceId, string $slotId, string $direction, array $args)
     {
         Log::step();
-        /* @var Trick $trick */
-        $trick = Tricks::get($trickId);
 
-        $performance = Performances::get($performanceId);
+        /* @var TrickMarker $trickMarker */
+        $trickMarker = TrickMarkers::get($trickMarkerId);
         
-        if (!in_array($performance, $args["availablePerformances"], true)) {
+        if (!in_array($trickMarker, $args["availableTrickMarkers"], true)) {
+            throw new UserException(clienttranslate("You cannot choose this trick marker."));
+        }
+        
+        if (!array_key_exists($performanceId, $args["possiblePerformances"][$trickMarkerId])) {
             throw new UserException(clienttranslate("You cannot choose this performance."));
         }
 
-        if (!in_array($trick, $args["possibleTricksAndSlots"][$performanceId]["possibleTricks"], true)) {
-            throw new UserException(clienttranslate("You cannot choose this trick."));
-        }
-
-        if (!array_key_exists($slotId, $args["possibleTricksAndSlots"][$performanceId]["possibleSlots"])) {
+        if (!array_key_exists($slotId, $args["possiblePerformances"][$trickMarkerId][$performanceId]["possibleSlots"])) {
             throw new UserException(clienttranslate("You cannot choose this slot."));
         }
-
-        if (!in_array($direction, $performance->getSlotDirections($slotId), true)) {
+        
+        if (!in_array($direction, $args["possiblePerformances"][$trickMarkerId][$performanceId]["performance"]->getSlotDirections($slotId), true)) {
             throw new UserException(clienttranslate("You cannot choose this direction."));
         }
 
-        $trick->setup($performance, $slotId, $direction);
+        $trickMarker->moveToPerformance($performanceId, $slotId, $direction);
 
-        return $this->resolve(["trickId" => $trickId, "performanceId" => $performanceId, "slotId" => $slotId, "direction" => $direction]);
+        return $this->resolve(["trickMarkerId" => $trickMarkerId, "performanceId" => $performanceId, "slotId" => $slotId, "direction" => $direction]);
     }
 
     /**

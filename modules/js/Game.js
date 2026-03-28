@@ -48,6 +48,7 @@ import { MoveTrick } from './states/MoveTrick.js';
 import { MoveApprentice } from './states/MoveApprentice.js';
 import { board } from './Board.js';
 import { SetupTrick } from './states/SetupTrick.js';
+import { Reschedule } from './states/Reschedule.js';
 
 export class Game {
     constructor(bga) {
@@ -84,6 +85,7 @@ export class Game {
         this.bga.states.register('MoveComponents', new MoveComponents(this, bga));
         this.bga.states.register('MoveApprentice', new MoveApprentice(this, bga));
         this.bga.states.register('SetupTrick', new SetupTrick(this, bga));
+        this.bga.states.register('Reschedule', new Reschedule(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
         initUtils(this.bga.gameui);

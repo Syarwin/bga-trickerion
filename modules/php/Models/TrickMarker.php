@@ -2,6 +2,9 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
+use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
 /**
@@ -52,6 +55,47 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
 
     public function getTrick() {
         return Tricks::get($this->getTrickId());
+    }
+
+    public function getPerformance() {
+        if ($this->getLocation() !== TrickMarkers::LOCATION_SCHEDULED) {
+            return null;
+        }
+
+        return Performances::get($this->getState());
+    }
+
+    public function setPerformance($performanceId, $slotId, $direction) {
+        $this->setState($performanceId);
+        $this->setSlotId($slotId);
+        $this->setDirection($direction);
+        $this->setLocation(TrickMarkers::LOCATION_SCHEDULED);
+    }
+
+    public function addToPerformance($performanceId, $slotId, $direction) {
+        $this->setPerformance($performanceId, $slotId, $direction);
+
+        Game::get()->bga->notify->all("trickMarkerAddedToPerformance", clienttranslate('${player_name} adds trick marker for ${trick} to ${performance}'), [
+            "player_id" => $this->getPlayerId(),
+            "trickMarker" => $this,
+            "trick" => $this->getTrick(),
+            "performance" => $this->getPerformance(),
+            "slotId" => $slotId,
+            "direction" => $direction
+        ]);
+    }
+    
+    public function moveToPerformance($performanceId, $slotId, $direction) {
+        $this->setPerformance($performanceId, $slotId, $direction);
+
+        Game::get()->bga->notify->all("trickMarkerMovedToPerformance", clienttranslate('${player_name} moves trick marker for ${trick} to ${performance}'), [
+            "player_id" => $this->getPlayerId(),
+            "trickMarker" => $this,
+            "trick" => $this->getTrick(),
+            "performance" => $this->getPerformance(),
+            "slotId" => $slotId,
+            "direction" => $direction
+        ]);
     }
 
     public function setDirection(string $direction) {

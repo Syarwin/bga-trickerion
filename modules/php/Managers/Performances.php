@@ -98,33 +98,24 @@ class Performances extends CachedPieces
 
     */
 
-    public static function getPerformancesToSetupTrick($playerId)
-    {
-        return self::getInLocation(self::LOCATION_ACTIVE)
-            ->map(function($performance) use ($playerId) {
-                $performanceMarkers = TrickMarkers::getOnPerformance($performance->id);
-                $playerMarkers = $performanceMarkers->where("playerId", $playerId);
+    public static function getActive() {
+        return self::getInLocation(self::LOCATION_ACTIVE);
+    }
 
-                $playerSuits = $playerMarkers->pluck("suit")->toArray();
-                $possibleTricks = Tricks::getPrepared($playerId)->filter(function($trick) use ($playerSuits) {
-                    return !in_array($trick->getSuit(), $playerSuits);
+    public static function getSetupData($playerId)
+    {
+        return self::getActive()
+            ->map(function(Performance $performance) use ($playerId) {
+                $possibleTricks = Tricks::getPrepared($playerId)->filter(function($trick) use ($performance) {
+                    return $performance->canAddTrick($trick);
                 });
 
-                $markerSlots = $playerMarkers->pluck("slotId")->toArray();
-                $allSlots = $performance->getSlots();
-
-                $availableSlots = array_filter($allSlots, function($key) use ($markerSlots) {
-                    return !in_array($key, $markerSlots);
-                }, ARRAY_FILTER_USE_KEY);
-
-                $availablePerformance = [
-                    "performance" => $performance,
+                $availableSlots = $performance->getAvailableSlots();
+                return [
                     "possibleTricks" => $possibleTricks->toArray(),
                     "possibleSlots" => $availableSlots
                 ];
-                
-                return $availablePerformance;
-            })->toArray();
+            });
     }
 
     /*

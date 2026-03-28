@@ -1,4 +1,4 @@
-export class SetupTrick {
+export class Reschedule {
     constructor(game, bga) {
         this.game = game;
         this.bga = bga;
@@ -9,18 +9,20 @@ export class SetupTrick {
      */
     onEnteringState(args, isCurrentPlayerActive) {
         if (isCurrentPlayerActive) {
-            for (const performance of args.availablePerformances) {
-                this.bga.statusBar.addActionButton(performance.type, () => {
+            for (const trickMarker of args.availableTrickMarkers) {
+                this.bga.statusBar.addActionButton(trickMarker.id, () => {
                     this.bga.statusBar.removeActionButtons();
-                    for (const trick of args.possibleTricksAndSlots[performance.id].possibleTricks) {
-                        this.bga.statusBar.addActionButton(trick.type, () => {
+                    for (const performanceId in args.possiblePerformances[trickMarker.id]) {
+                        const performance = args.possiblePerformances[trickMarker.id][performanceId].performance;
+                        this.bga.statusBar.addActionButton(performance.type, () => {
                             this.bga.statusBar.removeActionButtons();
-                            for (const slotId in args.possibleTricksAndSlots[performance.id].possibleSlots) {
+                            const possibleSlots = args.possiblePerformances[trickMarker.id][performanceId].possibleSlots;
+                            for (const slotId in possibleSlots) {
                                 this.bga.statusBar.addActionButton(slotId, () => {
                                     this.bga.statusBar.removeActionButtons();
-                                    for (const link of args.possibleTricksAndSlots[performance.id].possibleSlots[slotId].links) {
+                                    for (const link of possibleSlots[slotId].links) {
                                         this.bga.statusBar.addActionButton(link.direction, () => {
-                                            this.bga.actions.performAction("actSetupTrick", { trickId: trick.id, slotId: slotId, performanceId: performance.id, direction: link.direction });
+                                            this.bga.actions.performAction("actRescheduleTrick", { trickMarkerId: trickMarker.id, slotId: slotId, performanceId: performance.id, direction: link.direction });
                                         });
                                     }
 

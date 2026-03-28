@@ -73,6 +73,29 @@ class TrickMarkers extends CachedPieces
         return self::getInLocation(self::LOCATION_SCHEDULED, $performanceId);
     }
 
+    public static function getScheduled($playerId) {
+        return self::getFiltered($playerId, self::LOCATION_SCHEDULED);
+    }
+
+    public static function getRescheduleData($playerId) {
+        return self::getScheduled($playerId)
+            ->map(function($trickMarker) {
+                $trickMarker->setLocation("temp");
+                $performances = Performances::getActive()
+                    ->filter(function($performance) use ($trickMarker) {
+                        return $performance->canAddTrick($trickMarker->getTrick());
+                    });
+
+                $trickMarker->setLocation(self::LOCATION_SCHEDULED);
+                return $performances->map(function($performance) {
+                    return [
+                        "performance" => $performance,
+                        "possibleSlots" => $performance->getAvailableSlots(),
+                    ];
+                })->toAssoc();
+             });
+    }
+
     /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

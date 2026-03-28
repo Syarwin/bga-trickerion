@@ -18,6 +18,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\Reschedule;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetupTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
@@ -269,7 +270,7 @@ class LocationActions
                     "singleUse" => false
                 ],
                 "reschedule" => [
-                    "state" => null,
+                    "state" => Reschedule::class,
                     "actionPoints" => 1,
                     "singleUse" => false
                 ]

@@ -174,11 +174,8 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
     public function setup(Performance $performance, string $slotId, string $direction) {
         //trick marker should be set on the performance slot
         $trickMarker = $this->getTrickMarkers()->where("location", TrickMarkers::LOCATION_PREPARED)->first();
-        $trickMarker->setLocation(TrickMarkers::LOCATION_SCHEDULED);
-        $trickMarker->setState($performance->getId());
-        $trickMarker->setSlotId($slotId);
-        $trickMarker->setDirection($direction);
-
+        $trickMarker->addToPerformance($performance->getId(), $slotId, $direction);
+        
         //reward for linking the same symbol
 
         //reward for shard in the link

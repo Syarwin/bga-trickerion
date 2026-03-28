@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 
 /**
  * Performance: model utilities and metadata for a performance.
@@ -55,6 +56,25 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
             }
         }
         throw new \Exception("Link not found for slot $slotId and direction $direction");
+    }
+
+    public function canAddTrick(Trick $trick) : bool {
+        $performanceMarkers = TrickMarkers::getOnPerformance($this->getId());
+        $playerMarkers = $performanceMarkers->where("playerId", $trick->getPlayerId());
+        $playerSuits = $playerMarkers->pluck("suit")->toArray();
+        
+        return !in_array($trick->getSuit(), $playerSuits);
+    }
+
+    public function getAvailableSlots() {
+        $performanceMarkers = TrickMarkers::getOnPerformance($this->getId());
+        
+        $markerSlots = $performanceMarkers->pluck("slotId")->toArray();
+        $allSlots = $this->getSlots();
+
+        return array_filter($allSlots, function($key) use ($markerSlots) {
+            return !in_array($key, $markerSlots);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /*

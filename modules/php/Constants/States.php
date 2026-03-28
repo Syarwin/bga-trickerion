@@ -39,6 +39,7 @@ class States {
     const ST_MOVE_TRICK = 275;
     const ST_MOVE_APPRENTICE = 280;
     const ST_SETUP_TRICK = 285;
+    const ST_RESCHEDULE = 290;
     //free actions
     const ST_DISCARD_COMPONENT = 700;
     const ST_DISCARD_TRICK = 705;
