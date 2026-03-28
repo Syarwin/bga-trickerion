@@ -80,6 +80,26 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
             "newValue" => $this->getCoins(),
         ]);
     }
+    
+    public function addShards(int $count) {
+        $this->incShards($count);
+
+        Game::get()->bga->notify->all("shardsChanged", clienttranslate('${player_name} gets ${shards} shards'), [
+            "player_id" => $this->id,
+            "shards" => $count,
+            "newValue" => $this->getShards(),
+        ]);
+    }
+    
+    public function addFame(int $count) {
+        $this->incScore($count);
+
+        Game::get()->bga->notify->all("fameChanged", clienttranslate('${player_name} gets ${fame} fame'), [
+            "player_id" => $this->id,
+            "fame" => $count,
+            "newValue" => $this->getScore(),
+        ]);
+    }
 
     public function hasSpecialist(string $characterType): bool {
         return Characters::getAll()

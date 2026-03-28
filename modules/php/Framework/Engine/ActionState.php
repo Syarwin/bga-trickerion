@@ -140,7 +140,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function isIrreversible() {
-        return $this->getNodeArgs("irreversible", false);
+        return $this->getNode()->getInfo()["irreversible"] ?? false;
     }
 
     public function isDoable($playerId) {
@@ -148,7 +148,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
     }
 
     public function isIndependent() {
-        return $this->getNodeArgs("independent", false);
+        return $this->getNode()->getInfo()["independent"] ?? false;
     }
 
     public function getDescription() {

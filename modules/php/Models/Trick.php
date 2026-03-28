@@ -3,9 +3,12 @@
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\GetCoins;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\GetFame;
 
 /**
  * Tactics: all utility functions concerning a tactics
@@ -73,11 +76,12 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
     }
 
     public function getThreshold() {
-        return [
+        return match ($this->getLevel()) {
             1 => 1,
             2 => 16,
-            3 => 36
-        ][$this->getLevel()];
+            3 => 36,
+            default => throw new \Exception("Invalid trick level: " . $this->getLevel())
+        };
     }
 
     public function getComponentsNeeded() {
@@ -177,8 +181,29 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         $trickMarker->addToPerformance($performance->getId(), $slotId, $direction);
         
         //reward for linking the same symbol
+        $performance->addLinkRewards($slotId);
 
         //reward for shard in the link
+    }
+
+    public function getLinkRewardActions() {
+        return [
+            "type" => Engine::NODE_XOR,
+            "children" => [
+                [
+                    "state" => GetFame::class,
+                    "args" => [
+                        "amount" => $this->getLevel(),
+                    ]
+                ],
+                [
+                    "state" => GetCoins::class,
+                    "args" => [
+                        "amount" => $this->getLevel(),
+                    ]
+                ]
+            ]
+        ];
     }
 
     /*

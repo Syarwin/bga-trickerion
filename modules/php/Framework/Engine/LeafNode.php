@@ -70,6 +70,10 @@ class LeafNode extends AbstractNode
      */
     public function getDescription()
     {
+        if (isset($this->info['customDescription'])) {
+            return $this->info['customDescription'];
+        }
+
         $stateDescription = $this->getStateInstance()->getDescription();
 
         if ($stateDescription) {

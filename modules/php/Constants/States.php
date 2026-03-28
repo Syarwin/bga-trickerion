@@ -40,6 +40,9 @@ class States {
     const ST_MOVE_APPRENTICE = 280;
     const ST_SETUP_TRICK = 285;
     const ST_RESCHEDULE = 290;
+    const ST_GET_SHARDS = 295;
+    const ST_GET_COINS = 300;
+    const ST_GET_FAME = 305;
     //free actions
     const ST_DISCARD_COMPONENT = 700;
     const ST_DISCARD_TRICK = 705;

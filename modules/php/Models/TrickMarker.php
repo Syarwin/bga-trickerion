@@ -111,6 +111,16 @@ class TrickMarker extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         $this->setTopTrickCategory($topTrickCategory);
     }
 
+    public function getCategoryForDirection(string $direction) {
+        return match ($direction) {
+            Performance::LINK_DIRECTION_RIGHT => $this->getNextCategory($this->getTopTrickCategory()),
+            Performance::LINK_DIRECTION_LEFT => $this->getPreviousCategory($this->getTopTrickCategory()),
+            Performance::LINK_DIRECTION_DOWN => $this->getOppositeCategory($this->getTopTrickCategory()),
+            Performance::LINK_DIRECTION_UP => $this->getTopTrickCategory(),
+            default => null
+        };
+    }
+
     private function getPreviousCategory($category) {
         return match ($category) {
             Trick::CATEGORY_ESCAPE => Trick::CATEGORY_OPTICAL,

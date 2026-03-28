@@ -199,6 +199,10 @@ class AbstractNode
   /***********************
    *** Getters (sugar) ***
    ***********************/
+  public function getInfo() {
+    return $this->info;
+  }
+
   public function getState()
   {
     return $this->info['state'] ?? null;

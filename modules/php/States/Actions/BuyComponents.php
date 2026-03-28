@@ -15,7 +15,6 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
-use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class BuyComponents extends ActionStateWithRevert
 {

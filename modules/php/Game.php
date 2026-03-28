@@ -108,6 +108,10 @@ class Game extends \Bga\GameFramework\Table
             if (isset($args['player_id']) && !isset($args['player_name'])) {
                 $args['player_name'] = Players::get($args['player_id'])->getName();
             }
+            
+            if (isset($args['player_id2']) && !isset($args['player_name2'])) {
+                $args['player_name2'] = Players::get($args['player_id2'])->getName();
+            }
 
             return $args;
         });
