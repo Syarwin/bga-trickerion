@@ -117,11 +117,9 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                                 "player_name2" => Players::get($otherPlayerId)->getName(),
                             ]
                         ],
-                        "playerId" => $playerId, 
                         "children" => [
                             [
                                 "state" => GetShards::class,
-                                "playerId" => $playerId, 
                                 "independent" => true,
                                 "args" => [
                                     "amount" => 1
@@ -129,7 +127,6 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                             ],
                             [
                                 "state" => GetShards::class,
-                                "playerId" => $otherPlayerId,
                                 "customDescription" => [
                                     "log" => clienttranslate('${player_name} gets a shard'),
                                     "args" => [
@@ -138,7 +135,8 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                                 ],
                                 "independent" => true,
                                 "args" => [
-                                    "amount" => 1
+                                    "amount" => 1,
+                                    "playerId" => $otherPlayerId,
                                 ]
                             ],
                         ]
@@ -150,7 +148,6 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         if (count($rewardActions) > 0) {
             Engine::insertAsChild([
                 "type" => Engine::NODE_PARALLEL,
-                "playerId" => $playerId, 
                 "children" => $rewardActions
             ]);
         }

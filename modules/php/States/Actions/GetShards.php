@@ -42,9 +42,9 @@ class GetShards extends ActionStateWithRevert
         ];
     }
 
-    function onEnteringState(int $activePlayerId)
+    function onEnteringState()
     {
-        Players::get($activePlayerId)->addShards(1);
+        $this->getPlayer()->addShards(1);
         return $this->resolve();
     }    
 }

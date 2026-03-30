@@ -155,6 +155,15 @@ class ActionState extends \Bga\GameFramework\States\GameState
         return null;
     }
 
+    protected function getPlayerId() {
+        $argsPlayerId = $this->getNodeArgs("playerId");
+        return $argsPlayerId ?? Players::getActiveId();
+    }
+
+    protected function getPlayer() {
+        return Players::get($this->getPlayerId());
+    }
+
     protected function resolve($args = []) {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveAction($args);
