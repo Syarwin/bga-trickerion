@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
+use Bga\Games\trickerionlegendsofillusion\Framework\Algorithms\BreadthFirst;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
@@ -207,6 +209,8 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
     public function perform($performerId) {
         $trickMarkers = TrickMarkers::getOnPerformance($this->getId());
 
+        $trickMarkersToReturn = new Collection();
+
         foreach ($trickMarkers as $trickMarker) {
             $trick = $trickMarker->getTrick();
             $yields = $trick->getYields();
@@ -220,6 +224,9 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                 $message = clienttranslate('${player_name} performs ${trick} and gets ${yields} (day modifier applied)');
             }
 
+            $player = Players::get($trick->getPlayerId());
+            $player->addYields($yields);
+
             Game::get()->bga->notify->all("trickPerformed", $message, [
                 "player_id" => $trick->getPlayerId(),
                 "trick" => $trick,
@@ -227,8 +234,74 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                 "yieldModifier" => $yieldModifier,
             ]);
             
-            $trickMarker->setLocation(TrickMarkers::LOCATION_AVAILABLE);
+            $trickMarkersToReturn->append($trickMarker);
         }
+
+        $matchingLinks = $this->getNumberOfMatchingLinks();
+        $performer = Players::get($performerId);
+        $performer->addFame($matchingLinks);
+
+        $performer->addYields($this->getBonus());
+
+        TrickMarkers::returnToSupplies($trickMarkersToReturn);
+
+        Game::get()->bga->notify->all("trickMarkersReturned", clienttranslate('Trick markers from performance ${performance} are returned to players\' supplies'), [
+            "performance" => $this,
+            "trickMarkers" => $trickMarkersToReturn->toArray(),
+        ]);
+    }
+
+    private function getNumberOfMatchingLinks() {
+        $matchingLinks = 0;
+        foreach ($this->getAllLinks() as $link) {
+            if ($this->checkMatch($link["slotId"], $link["direction"])) {
+                $matchingLinks++;
+            }
+        }
+        return $matchingLinks;
+    }
+
+    private function getAllLinks() {
+        $allSlots = $this->getSlots();
+
+        // Convert each slot array to an object once, keyed by slot ID
+        $slotObjects = [];
+        foreach ($allSlots as $key => $slot) {
+            $slot['id'] = $key;
+            $slotObjects[$key] = (object) $slot;
+        }
+
+        $firstSlot = $slotObjects[array_key_first($allSlots)];
+
+        $nodePairs = BreadthFirst::getAllEdges($firstSlot, function($slot) use ($slotObjects) {
+            return array_map(function($link) use ($slot, $slotObjects) {
+                $linkedId = $this->getLinkedSlotId($slot->id, $link["direction"]);
+                return $slotObjects[$linkedId];
+            }, $slot->links);
+        });
+
+        return array_map(function($pair) {
+            $slotA = $pair[0];
+            $slotB = $pair[1];
+
+            return [
+                "slotId" => $slotA->id,
+                "direction" => self::getDirectionBetweenSlots($slotA, $slotB)
+            ];
+        }, $nodePairs);
+    }
+
+    private static function getDirectionBetweenSlots($slotA, $slotB) {
+        $dx = $slotB["x"] - $slotA["x"];
+        $dy = $slotB["y"] - $slotA["y"];
+
+        return match (true) {
+            $dy > 0 => self::LINK_DIRECTION_DOWN,
+            $dy < 0 => self::LINK_DIRECTION_UP,
+            $dx > 0 => self::LINK_DIRECTION_RIGHT,
+            $dx < 0 => self::LINK_DIRECTION_LEFT,
+            default => null
+        };
     }
 
     private static function getPerformanceModifier($playerId, $performerId = null) {

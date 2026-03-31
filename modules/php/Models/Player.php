@@ -106,6 +106,12 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         ]);
     }
 
+    public function addYields(array $yields) {
+        $this->addFame($yields["fame"] ?? 0);
+        $this->addCoins($yields["coins"] ?? 0);
+        $this->addShards($yields["shards"] ?? 0);
+    }
+
     public function hasSpecialist(string $characterType): bool
     {
         return Characters::getAll()
