@@ -87,7 +87,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         }
 
         $freeActionsDir = __DIR__ . '/../../States/Actions/Anytime/';
-        $namespace = 'Bga\\Games\\trickerionlegendsofillusion\\States\\Actions\\Anytime\\';
+        $namespace = 'Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime\\';
 
         $actions = [];
         foreach (glob($freeActionsDir . '*.php') as $file) {
@@ -155,6 +155,15 @@ class ActionState extends \Bga\GameFramework\States\GameState
         return null;
     }
 
+    protected function getPlayerId() {
+        $argsPlayerId = $this->getNodeArgs("playerId");
+        return $argsPlayerId ?? Players::getActiveId();
+    }
+
+    protected function getPlayer() {
+        return Players::get($this->getPlayerId());
+    }
+
     protected function resolve($args = []) {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveAction($args);
@@ -195,5 +204,14 @@ class ActionState extends \Bga\GameFramework\States\GameState
         ]);
 
         return Engine::proceed();
+    }
+
+    function zombie(int $playerId) {
+        Game::get()->bga->notify->all("message", clienttranslate('${player_name} is a zombie, skipping their turn'), [
+            "player_id" => $playerId,
+        ]);
+        return $this->resolve([
+            "automatic" => true
+        ]);
     }
 }

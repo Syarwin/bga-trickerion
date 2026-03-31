@@ -57,6 +57,6 @@ class ConfirmTurn extends ActionStateWithRevert
      * but use the $playerId passed in parameter and $this->game->getPlayerNameById($playerId) instead.
      */
     function zombie(int $playerId) {
-        
+        return Engine::confirm();
     }
 }

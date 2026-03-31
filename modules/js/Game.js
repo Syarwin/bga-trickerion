@@ -163,15 +163,4 @@ export class Game {
     async notif_clearTurn(args) {
         this.bga.gameui.cancelLogs(args.notifIds);
     }
-
-    // TODO: from this point and below, you can write your game notifications handling methods
-
-    /*
-    Example:
-    async notif_cardPlayed( args ) {
-        // Note: args contains the arguments specified during you "notifyAllPlayers" / "notifyPlayer" PHP call
-        
-        // TODO: play the card in the user interface.
-    }
-    */
 }

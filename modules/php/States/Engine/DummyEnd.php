@@ -47,11 +47,5 @@ class DummyEnd extends \Bga\GameFramework\States\GameState
      * but use the $playerId passed in parameter and $this->game->getPlayerNameById($playerId) instead.
      */
     public function zombie(int $playerId) {// Example of zombie level 0: return NextPlayer::class; or $this->actPass($playerId);
-
-        // // Example of zombie level 1:
-        // $args = $this->getArgs();
-        // $zombieChoice = $this->getRandomZombieChoice($args['playableCardsIds']); // random choice over possible moves
-        // return $this->actPlayCard($zombieChoice, $playerId, $args); // this function will return the transition to the next state
-        // 
     }
 }

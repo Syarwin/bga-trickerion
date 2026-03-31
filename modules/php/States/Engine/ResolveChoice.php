@@ -82,6 +82,9 @@ class ResolveChoice extends ActionStateWithRevert
      * but use the $playerId passed in parameter and $this->game->getPlayerNameById($playerId) instead.
      */
     function zombie(int $playerId) {
-        
+        $player = Players::get($playerId);
+        $choices = Engine::getNextChoices($player);
+        $choiceId = array_rand($choices);
+        return Engine::chooseNode($player, $choiceId);
     }
 }

@@ -4,6 +4,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\GameFramework\UserException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
+use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\BuyComponents;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\DrawAssignmentCards;
@@ -15,6 +16,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveApprentice;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveComponents;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\MoveTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\OrderComponent;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\PlayLocationAction;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\PrepareTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\QuickOrderComponent;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\RerollDie;
@@ -22,6 +24,7 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\Reschedule;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetDie;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\SetupTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
+use Bga\Games\trickerionlegendsofillusion\States\Engine\Actions\Message;
 
 class LocationActions
 {
@@ -30,6 +33,37 @@ class LocationActions
             "locationId" => $locationId,
             "remainingActionPoints" => $actionPoints,
             "oneTimeActionsUsed" => []
+        ]);
+    }
+
+    public static function resolvePlaceCharacter($character, $locationId) {
+        if (in_array($locationId, [
+            Characters::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
+            Characters::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
+            Characters::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
+            Characters::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN,
+        ])) {
+            Game::get()->bga->notify->all("message", clienttranslate('${player_name} is ready to perform during the performance phase!'), [
+                "player_id" => $character->getPlayerId(),
+            ]);
+
+            return;
+        }
+
+        $actionPoints = Character::getCharacterActionPoints($character->getType()) + Characters::getLocationActionPoints($locationId);
+        $actionPoints = max(0, $actionPoints);
+        LocationActions::init($locationId, $actionPoints);
+
+        Engine::insertAsChild([
+            "state" => PlayLocationAction::class
+        ]);
+
+        Game::get()->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} (for ${actionPoints}) AP'), [
+            "player_id" => $character->getPlayerId(),
+            "character" => Characters::get($character->getId()),
+            "locationId" => $locationId,
+            "locationName" => $locationId,
+            "actionPoints" => $actionPoints
         ]);
     }
 
@@ -272,17 +306,6 @@ class LocationActions
                 "reschedule" => [
                     "state" => Reschedule::class,
                     "actionPoints" => 1,
-                    "singleUse" => false
-                ]
-            ],
-
-            Characters::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
-            Characters::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
-            Characters::LOCATION_BOARD_THEATER_SATURDAY_MAGICIAN,
-            Characters::LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN => [
-                "magician_ready_to_perform" => [
-                    "state" => null,
-                    "actionPoints" => null,
                     "singleUse" => false
                 ]
             ],
