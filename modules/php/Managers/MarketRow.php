@@ -84,7 +84,7 @@ class MarketRow
         $usedSlots = array_keys($marketRow["orderArea"]);
         $allSlots = [0, 1, 2, 3];
 
-        return array_diff($allSlots, $usedSlots);
+        return array_values(array_diff($allSlots, $usedSlots));
     }
 
     public static function addToOrder(string $component, int $slot) {
