@@ -87,7 +87,7 @@ class ActionState extends \Bga\GameFramework\States\GameState
         }
 
         $freeActionsDir = __DIR__ . '/../../States/Actions/Anytime/';
-        $namespace = 'Bga\\Games\\trickerionlegendsofillusion\\States\\Actions\\Anytime\\';
+        $namespace = 'Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime\\';
 
         $actions = [];
         foreach (glob($freeActionsDir . '*.php') as $file) {
