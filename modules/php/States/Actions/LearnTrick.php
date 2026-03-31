@@ -122,7 +122,11 @@ class LearnTrick extends ActionStateWithRevert
                 return $die == $trick->getCategory() || $die == Dice::ANY;
             }));
 
-            if (count($dice) == 1 || count($allDice) == 1) {
+            if (count($dice) == 0) {
+                Game::get()->bga->notify->all("message", clienttranslate('${player_name} learned trick from his favourite category so no die is turned to \'x\''), [
+                    "player_id" => $activePlayerId,
+                ]);
+            } else if (count($dice) == 1 || count($allDice) == 1) {
                 Dice::setDieUnavailable(Dice::DICE_TYPE_TRICK, $dice[0] ?? $allDice[0]);
             } else {
                 Engine::insertAsChild([
