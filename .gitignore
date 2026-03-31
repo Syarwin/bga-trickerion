@@ -1,1 +1,5 @@
 sftp.json
+.gitignore
+.prettierrc
+.sass-cache/
+sync-css.sh

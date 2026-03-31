@@ -332,6 +332,454 @@ html {
   margin: 0 0.08em;
   font-size: 1em; }
 
+.meeple-trick-marker-green-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 0.000000% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-red-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 11.790715% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-green-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 23.581430% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-yellow-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 35.372144% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-blue-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 47.162859% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-red-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 58.953574% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-blue-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 70.744289% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-blue-spades {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 82.535004% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-blue-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 94.325718% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-green-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 0.000000% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-yellow-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 11.790715% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-yellow-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 23.581430% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-green-spades {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 35.372144% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-yellow-spades {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 47.162859% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-red-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 58.953574% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-trick-marker-red-spades {
+  background-image: url("img/meeples.png");
+  background-size: 981.168831% auto;
+  background-position: 70.744289% 17.797553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 154/154; }
+
+.meeple-component-petroleum {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 82.171680% 17.679558%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-animal {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 93.470286% 17.679558%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-fabric {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 0.000000% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-paddlock {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 11.298606% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-rope {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 22.597212% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-cog {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 33.895818% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-saw {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 45.194424% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-glass {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 56.493030% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-metal {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 67.791636% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-mirror {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 79.090242% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-wood {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 90.388848% 35.359116%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-component-disguise {
+  background-image: url("img/meeples.png");
+  background-size: 1020.945946% auto;
+  background-position: 0.000000% 52.375691%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/148; }
+
+.meeple-red-assistant {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 11.265545% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-yellow-engineer {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 22.238478% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-green-manager {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 33.211412% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-green-magician {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 44.184345% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-yellow-magician {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 55.157279% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-red-engineer {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 66.130212% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-blue-magician {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 77.103146% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-yellow-apprentice {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 88.076079% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-blue-manager {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 99.049012% 52.145215%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-green-apprentice {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 0.000000% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-blue-apprentice {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 10.972933% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-red-magician {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 21.945867% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-red-apprentice {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 32.918800% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-blue-engineer {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 43.891734% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-yellow-assistant {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 54.864667% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-green-assistant {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 65.837601% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-yellow-manager {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 76.810534% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-red-manager {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 87.783467% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-green-engineer {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 98.756401% 69.086909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-blue-assistant {
+  background-image: url("img/meeples.png");
+  background-size: 1049.305556% auto;
+  background-position: 0.000000% 85.588559%;
+  background-repeat: no-repeat;
+  aspect-ratio: 144/144; }
+
+.meeple-academy-marker-yellow-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 100.000000% 34.482759%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-yellow-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 10.822511% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-green-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 20.274170% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-red-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 29.725830% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-greeen-spades {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 39.177489% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-blue-spades {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 48.629149% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-blue-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 58.080808% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-blue-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 67.532468% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-red-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 76.984127% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-blue-clubs {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 86.435786% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-red-diamonds {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 95.887446% 83.836207%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-yellow-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 0.000000% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-green-spades {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 9.451659% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-red-spades {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 18.903319% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-green-hearts {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 28.354978% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
+.meeple-academy-marker-yellow-spades {
+  background-image: url("img/meeples.png");
+  background-size: 1208.800000% auto;
+  background-position: 37.806638% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/125; }
+
 #pagemaintitletext .trickerion-meeple,
 #gameaction_status .trickerion-meeple {
   position: absolute;
@@ -340,6 +788,258 @@ html {
 .trickerion-meeple {
   display: inline-block;
   vertical-align: middle; }
+
+.slot-market-costs {
+  background-image: url("img/slots.png");
+  background-size: 326.292135% auto;
+  background-position: 0.000000% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 445/256; }
+
+.slot-market-row {
+  background-image: url("img/slots.png");
+  background-size: 412.500000% auto;
+  background-position: 0.000000% 22.091062%;
+  background-repeat: no-repeat;
+  aspect-ratio: 352/290; }
+
+.slot-downtown {
+  background-image: url("img/slots.png");
+  background-size: 414.857143% auto;
+  background-position: 32.486388% 22.091062%;
+  background-repeat: no-repeat;
+  aspect-ratio: 350/290; }
+
+.slot-market-slot-3 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 59.008264% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-downtown-slot-1 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 79.504132% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-market-slot-1 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 100.000000% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-market-slot-4 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 0.000000% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-downtown-slot-2 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 20.495868% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-downtown-slot-4 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 40.991736% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-market-slot-2 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 61.487603% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-downtown-slot-3 {
+  background-image: url("img/slots.png");
+  background-size: 600.000000% auto;
+  background-position: 81.983471% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264; }
+
+.slot-market-component-slot {
+  background-image: url("img/slots.png");
+  background-size: 660.000000% auto;
+  background-position: 36.607143% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 220/218; }
+
+.slot-downtown-shard-boost {
+  background-image: url("img/slots.png");
+  background-size: 684.905660% auto;
+  background-position: 54.596774% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 212/143; }
+
+.slot-market-shard-boost {
+  background-image: url("img/slots.png");
+  background-size: 684.905660% auto;
+  background-position: 72.177419% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 212/143; }
+
+.slot-market-quick-order-slot {
+  background-image: url("img/slots.png");
+  background-size: 688.151659% auto;
+  background-position: 99.919420% 44.110672%;
+  background-repeat: no-repeat;
+  aspect-ratio: 211/211; }
+
+.slot-market-action-space {
+  background-image: url("img/slots.png");
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 63.790447%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/178; }
+
+.slot-downtown-action-space {
+  background-image: url("img/slots.png");
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 78.026214%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/179; }
+
+.slot-market-action-space-extended {
+  background-image: url("img/slots.png");
+  background-size: 854.117647% auto;
+  background-position: 16.770671% 63.790447%;
+  background-repeat: no-repeat;
+  aspect-ratio: 170/178; }
+
+.slot-market-action-order {
+  background-image: url("img/slots.png");
+  background-size: 849.122807% auto;
+  background-position: 86.885246% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 171/82; }
+
+.slot-downtown-action-set-die {
+  background-image: url("img/slots.png");
+  background-size: 864.285714% auto;
+  background-position: 30.451713% 60.570593%;
+  background-repeat: no-repeat;
+  aspect-ratio: 168/109; }
+
+.slot-downtown-action-hire-character {
+  background-image: url("img/slots.png");
+  background-size: 924.840764% auto;
+  background-position: 43.629344% 60.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 157/96; }
+
+.slot-downtown-action-learn-trick {
+  background-image: url("img/slots.png");
+  background-size: 949.019608% auto;
+  background-position: 16.551193% 73.386512%;
+  background-repeat: no-repeat;
+  aspect-ratio: 153/97; }
+
+.slot-market-action-quick-order {
+  background-image: url("img/slots.png");
+  background-size: 981.081081% auto;
+  background-position: 55.828221% 59.956553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/95; }
+
+.slot-downtown-action-take-coins {
+  background-image: url("img/slots.png");
+  background-size: 1052.173913% auto;
+  background-position: 67.123288% 59.568345%;
+  background-repeat: no-repeat;
+  aspect-ratio: 138/86; }
+
+.slot-downtown-die-slot-bank-B {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 89.328358%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/136; }
+
+.slot-downtown-die-slot-character-B {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137; }
+
+.slot-downtown-die-slot-trick-A {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137; }
+
+.slot-downtown-die-slot-character-A {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 21.749049% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137; }
+
+.slot-downtown-die-slot-trick-B {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 32.623574% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137; }
+
+.slot-downtown-die-slot-bank-A {
+  background-image: url("img/slots.png");
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 89.328358%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/136; }
+
+.slot-market-action-buy {
+  background-image: url("img/slots.png");
+  background-size: 1161.600000% auto;
+  background-position: 97.211756% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/62; }
+
+.slot-downtown-action-reroll-die {
+  background-image: url("img/slots.png");
+  background-size: 1190.163934% auto;
+  background-position: 28.120301% 72.858171%;
+  background-repeat: no-repeat;
+  aspect-ratio: 122/87; }
+
+.slot-market-quick-order-cost {
+  background-image: url("img/slots.png");
+  background-size: 1369.811321% auto;
+  background-position: 21.248143% 86.865022%;
+  background-repeat: no-repeat;
+  aspect-ratio: 106/98; }
+
+.slot-downtown-action-cost {
+  background-image: url("img/slots.png");
+  background-size: 1578.260870% auto;
+  background-position: 29.264706% 86.488439%;
+  background-repeat: no-repeat;
+  aspect-ratio: 92/92; }
+
+.slot-market-action-cost {
+  background-image: url("img/slots.png");
+  background-size: 1578.260870% auto;
+  background-position: 36.470588% 86.488439%;
+  background-repeat: no-repeat;
+  aspect-ratio: 92/92; }
+
+.slot-market-action-bargain {
+  background-image: url("img/slots.png");
+  background-size: 1595.604396% auto;
+  background-position: 49.742836% 10.582386%;
+  background-repeat: no-repeat;
+  aspect-ratio: 91/68; }
 
 #trickerion-main-wrapper {
   position: relative; }
@@ -352,6 +1052,7 @@ html {
       width: 1365.3333333333px;
       height: 962.3333333333px; }
       #trickerion-main-wrapper #trickerion-main-container #trickerion-board-wrapper #trickerion-board #board-background {
+        display: none;
         position: absolute;
         top: 0;
         left: 0;
@@ -360,6 +1061,98 @@ html {
         background-image: url("img/board.jpg");
         background-size: 100% 100%;
         background-repeat: no-repeat; }
+
+#board-downtown {
+  position: relative;
+  width: 700px;
+  height: 600px; }
+  #board-downtown #board-downtown-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 700px;
+    height: 600px;
+    transform-origin: top left;
+    background-image: url("img/board.jpg");
+    background-repeat: no-repeat;
+    background-size: 302% auto;
+    background-position: 25% -23%;
+    border: 1px solid #a2360c;
+    border-radius: 5px;
+    box-sizing: border-box; }
+    #board-downtown #board-downtown-inner #downtown-logo {
+      width: 100px;
+      position: absolute; }
+    #board-downtown #board-downtown-inner #dice-characters,
+    #board-downtown #board-downtown-inner #dice-tricks,
+    #board-downtown #board-downtown-inner #dice-banks {
+      width: 105px;
+      height: 50px;
+      position: absolute;
+      display: flex;
+      column-gap: 5px; }
+      #board-downtown #board-downtown-inner #dice-characters > div,
+      #board-downtown #board-downtown-inner #dice-tricks > div,
+      #board-downtown #board-downtown-inner #dice-banks > div {
+        width: 50px;
+        box-shadow: 1px 1px 2px black; }
+    #board-downtown #board-downtown-inner #dice-characters {
+      top: 326px;
+      left: 52px; }
+    #board-downtown #board-downtown-inner #dice-tricks {
+      top: 323px;
+      left: 300px; }
+    #board-downtown #board-downtown-inner #dice-banks {
+      top: 324px;
+      left: 548px; }
+    #board-downtown #board-downtown-inner .slot-downtown-action-space {
+      width: 100px;
+      position: absolute;
+      box-shadow: 1px 1px 3px black;
+      border-radius: 13px;
+      border: 1px solid black; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space div {
+        width: 75px;
+        margin: 8px auto; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost {
+        position: absolute;
+        width: 40px;
+        left: 30px;
+        bottom: -23px;
+        text-align: center;
+        box-shadow: 1px 1px 2px black;
+        border-radius: 50%;
+        font-weight: bold; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-learn-trick {
+        top: 380px;
+        left: 300px; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-hire-character {
+        top: 380px;
+        left: 53px; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-take-coins {
+        top: 380px;
+        left: 549px; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-reroll-die {
+        top: 340px;
+        left: 177px; }
+      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-set-die {
+        top: 340px;
+        left: 422px; }
+    #board-downtown #board-downtown-inner .action-slots {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      #board-downtown #board-downtown-inner .action-slots > div {
+        height: 100px; }
+      #board-downtown #board-downtown-inner .action-slots .slot-downtown-shard-boost {
+        height: 50px;
+        box-shadow: 1px 1px 3px black;
+        border-radius: 13px;
+        border: 1px solid black; }
 
 .trickerion-player-board {
   width: calc(var(--playerBoardScale) * 1403px);

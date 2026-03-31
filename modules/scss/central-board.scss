@@ -1,3 +1,5 @@
+@import "_slots.generated";
+
 $boardWidth: 4096px / 3;
 $boardHeight: 2887px / 3;
 #trickerion-main-wrapper {
@@ -15,6 +17,7 @@ $boardHeight: 2887px / 3;
                 height: $boardHeight;
 
                 #board-background {
+                    display: none;
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -24,6 +27,127 @@ $boardHeight: 2887px / 3;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                 }
+            }
+        }
+    }
+}
+
+$downtownWidth: 700px;
+$downtownHeight: 600px;
+#board-downtown {
+    position: relative;
+    width: $downtownWidth;
+    height: $downtownHeight;
+    #board-downtown-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $downtownWidth;
+        height: $downtownHeight;
+        transform-origin: top left;
+        background-image: url("img/board.jpg");
+        background-repeat: no-repeat;
+        background-size: 302% auto;
+        background-position: 25% -23%;
+        border: 1px solid #a2360c;
+        border-radius: 5px;
+        box-sizing: border-box;
+
+        #downtown-logo {
+            width: 100px;
+            position: absolute;
+        }
+
+        #dice-characters,
+        #dice-tricks,
+        #dice-banks {
+            width: 105px;
+            height: 50px;
+            position: absolute;
+            display: flex;
+            column-gap: 5px;
+
+            & > div {
+                width: 50px;
+                box-shadow: 1px 1px 2px black;
+            }
+        }
+
+        #dice-characters {
+            top: 326px;
+            left: 52px;
+        }
+        #dice-tricks {
+            top: 323px;
+            left: 300px;
+        }
+        #dice-banks {
+            top: 324px;
+            left: 548px;
+        }
+
+        .slot-downtown-action-space {
+            width: 100px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 13px;
+            border: 1px solid black;
+
+            div {
+                width: 75px;
+                margin: 8px auto;
+            }
+
+            .slot-downtown-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 30px;
+                bottom: -23px;
+                text-align: center;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-weight: bold;
+            }
+
+            &#market-learn-trick {
+                top: 380px;
+                left: 300px;
+            }
+            &#market-hire-character {
+                top: 380px;
+                left: 53px;
+            }
+            &#market-take-coins {
+                top: 380px;
+                left: 549px;
+            }
+            &#market-reroll-die {
+                top: 340px;
+                left: 177px;
+            }
+            &#market-set-die {
+                top: 340px;
+                left: 422px;
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+            }
+
+            .slot-downtown-shard-boost {
+                height: 50px;
+                box-shadow: 2px 2px 4px black;
+                border-radius: 10px;
             }
         }
     }

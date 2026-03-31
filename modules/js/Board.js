@@ -1,5 +1,7 @@
 export const board = {
     init: function (gamedatas) {
+        let nPlayers = Object.keys(gamedatas.players).length;
+
         $('game_play_area').insertAdjacentHTML(
             'beforeend',
             `
@@ -8,6 +10,7 @@ export const board = {
     <div id="trickerion-board-wrapper">
       <div id="trickerion-board">
         <div id="board-background"></div>
+        <div id="board-downtown"></div>
       </div>
     </div>
     <div id="trickerion-player-board-wrapper"></div>
@@ -23,6 +26,54 @@ export const board = {
   </symbol>
 </svg>
 `
+        );
+
+        ////////////////////
+        // DOWNTOWN
+        const downtownActions = {
+            'hire-character': 3,
+            'learn-trick': 3,
+            'take-coins': 3,
+            'set-die': 2,
+            'reroll-die': 1,
+        };
+        let actionsHTML = '';
+        Object.entries(downtownActions).forEach(([action, cost]) => {
+            actionsHTML += `<div id="market-${action}" class="slot-downtown-action-space">
+              <div class="slot-downtown-action-${action}"></div>
+              <div class="slot-downtown-action-cost">${cost}</div>
+            </div>`;
+        });
+        const downtownSlots = [2, 3, 4, 2];
+        let slotsHTML = '<div id="market-action-slots" class="action-slots">';
+        downtownSlots.forEach((n, i) => {
+            let j = i + 1;
+            if (n > nPlayers) return;
+            slotsHTML += `<div id="board-downtown-${j}" class="slot-downtown-slot-${j}"></div>`;
+        });
+        slotsHTML += '<div class="slot-downtown-shard-boost"></div>';
+        slotsHTML += '</div>';
+
+        $('board-downtown').insertAdjacentHTML(
+            'beforeend',
+            `
+        <div id="board-downtown-inner">
+          <div id="downtown-logo" class="slot-downtown"></div>
+          <div id="dice-characters">
+            <div id="die-character-0" class="slot-downtown-die-slot-character-A"></div>
+            <div id="die-character-1" class="slot-downtown-die-slot-character-B"></div>
+          </div>
+          <div id="dice-tricks">
+            <div id="die-trick-0" class="slot-downtown-die-slot-trick-A"></div>
+            <div id="die-trick-1" class="slot-downtown-die-slot-trick-B"></div>
+          </div>
+          <div id="dice-banks">
+            <div id="die-bank-0" class="slot-downtown-die-slot-bank-A"></div>
+            <div id="die-bank-1" class="slot-downtown-die-slot-bank-B"></div>
+          </div>
+          ${actionsHTML}
+          ${slotsHTML}
+        </div>`
         );
     },
 };

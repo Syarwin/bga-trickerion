@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Sprite Preview</title>
+<style>
+
+    body {
+      font-family: sans-serif;
+      background: #f8f8f8;
+      color: #333;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+    .tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 0.5rem;
+    }
+    .icon {
+      width: 100%;
+      max-width: 100px;
+      background-repeat: no-repeat;
+    }
+    .name {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      text-align: center;
+      word-break: break-all;
+    }
+    
+.sprite-market-costs {
+  background-image: url('../img/slots.png');
+  background-size: 326.292135% auto;
+  background-position: 0.000000% 0.000000%;
+  aspect-ratio: 445/256;
+  background-repeat: no-repeat;
+}
+.sprite-market-row {
+  background-image: url('../img/slots.png');
+  background-size: 412.500000% auto;
+  background-position: 0.000000% 22.091062%;
+  aspect-ratio: 352/290;
+  background-repeat: no-repeat;
+}
+.sprite-downtown {
+  background-image: url('../img/slots.png');
+  background-size: 414.857143% auto;
+  background-position: 32.486388% 22.091062%;
+  aspect-ratio: 350/290;
+  background-repeat: no-repeat;
+}
+.sprite-market-slot-3 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 59.008264% 21.617162%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-slot-1 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 79.504132% 21.617162%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-market-slot-1 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 100.000000% 21.617162%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-market-slot-4 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 0.000000% 46.039604%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-slot-2 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 20.495868% 46.039604%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-slot-4 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 40.991736% 46.039604%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-market-slot-2 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 61.487603% 46.039604%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-slot-3 {
+  background-image: url('../img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 81.983471% 46.039604%;
+  aspect-ratio: 242/264;
+  background-repeat: no-repeat;
+}
+.sprite-market-component-slot {
+  background-image: url('../img/slots.png');
+  background-size: 660.000000% auto;
+  background-position: 36.607143% 0.000000%;
+  aspect-ratio: 220/218;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-shard-boost {
+  background-image: url('../img/slots.png');
+  background-size: 684.905660% auto;
+  background-position: 54.596774% 0.000000%;
+  aspect-ratio: 212/143;
+  background-repeat: no-repeat;
+}
+.sprite-market-shard-boost {
+  background-image: url('../img/slots.png');
+  background-size: 684.905660% auto;
+  background-position: 72.177419% 0.000000%;
+  aspect-ratio: 212/143;
+  background-repeat: no-repeat;
+}
+.sprite-market-quick-order-slot {
+  background-image: url('../img/slots.png');
+  background-size: 688.151659% auto;
+  background-position: 99.919420% 44.110672%;
+  aspect-ratio: 211/211;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-space {
+  background-image: url('../img/slots.png');
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 63.790447%;
+  aspect-ratio: 209/178;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-space {
+  background-image: url('../img/slots.png');
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 78.026214%;
+  aspect-ratio: 209/179;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-space-extended {
+  background-image: url('../img/slots.png');
+  background-size: 854.117647% auto;
+  background-position: 16.770671% 63.790447%;
+  aspect-ratio: 170/178;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-order {
+  background-image: url('../img/slots.png');
+  background-size: 849.122807% auto;
+  background-position: 86.885246% 0.000000%;
+  aspect-ratio: 171/82;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-set-die {
+  background-image: url('../img/slots.png');
+  background-size: 864.285714% auto;
+  background-position: 30.451713% 60.570593%;
+  aspect-ratio: 168/109;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-hire-character {
+  background-image: url('../img/slots.png');
+  background-size: 924.840764% auto;
+  background-position: 43.629344% 60.000000%;
+  aspect-ratio: 157/96;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-learn-trick {
+  background-image: url('../img/slots.png');
+  background-size: 949.019608% auto;
+  background-position: 16.551193% 73.386512%;
+  aspect-ratio: 153/97;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-quick-order {
+  background-image: url('../img/slots.png');
+  background-size: 981.081081% auto;
+  background-position: 55.828221% 59.956553%;
+  aspect-ratio: 148/95;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-take-coins {
+  background-image: url('../img/slots.png');
+  background-size: 1052.173913% auto;
+  background-position: 67.123288% 59.568345%;
+  aspect-ratio: 138/86;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-bank-B {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 89.328358%;
+  aspect-ratio: 137/136;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-character-B {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 100.000000%;
+  aspect-ratio: 137/137;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-trick-A {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 100.000000%;
+  aspect-ratio: 137/137;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-character-A {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 21.749049% 100.000000%;
+  aspect-ratio: 137/137;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-trick-B {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 32.623574% 100.000000%;
+  aspect-ratio: 137/137;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-die-slot-bank-A {
+  background-image: url('../img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 89.328358%;
+  aspect-ratio: 137/136;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-buy {
+  background-image: url('../img/slots.png');
+  background-size: 1161.600000% auto;
+  background-position: 97.211756% 0.000000%;
+  aspect-ratio: 125/62;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-reroll-die {
+  background-image: url('../img/slots.png');
+  background-size: 1190.163934% auto;
+  background-position: 28.120301% 72.858171%;
+  aspect-ratio: 122/87;
+  background-repeat: no-repeat;
+}
+.sprite-market-quick-order-cost {
+  background-image: url('../img/slots.png');
+  background-size: 1369.811321% auto;
+  background-position: 21.248143% 86.865022%;
+  aspect-ratio: 106/98;
+  background-repeat: no-repeat;
+}
+.sprite-downtown-action-cost {
+  background-image: url('../img/slots.png');
+  background-size: 1578.260870% auto;
+  background-position: 29.264706% 86.488439%;
+  aspect-ratio: 92/92;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-cost {
+  background-image: url('../img/slots.png');
+  background-size: 1578.260870% auto;
+  background-position: 36.470588% 86.488439%;
+  aspect-ratio: 92/92;
+  background-repeat: no-repeat;
+}
+.sprite-market-action-bargain {
+  background-image: url('../img/slots.png');
+  background-size: 1595.604396% auto;
+  background-position: 49.742836% 10.582386%;
+  aspect-ratio: 91/68;
+  background-repeat: no-repeat;
+}
+</style>
+</head>
+<body>
+<h1>Sprite Preview</h1>
+<div class='grid'>
+<div class='tile'><div class='icon sprite-market-costs'></div><div class='name'>market-costs</div></div>
+<div class='tile'><div class='icon sprite-market-row'></div><div class='name'>market-row</div></div>
+<div class='tile'><div class='icon sprite-downtown'></div><div class='name'>downtown</div></div>
+<div class='tile'><div class='icon sprite-market-slot-3'></div><div class='name'>market-slot-3</div></div>
+<div class='tile'><div class='icon sprite-downtown-slot-1'></div><div class='name'>downtown-slot-1</div></div>
+<div class='tile'><div class='icon sprite-market-slot-1'></div><div class='name'>market-slot-1</div></div>
+<div class='tile'><div class='icon sprite-market-slot-4'></div><div class='name'>market-slot-4</div></div>
+<div class='tile'><div class='icon sprite-downtown-slot-2'></div><div class='name'>downtown-slot-2</div></div>
+<div class='tile'><div class='icon sprite-downtown-slot-4'></div><div class='name'>downtown-slot-4</div></div>
+<div class='tile'><div class='icon sprite-market-slot-2'></div><div class='name'>market-slot-2</div></div>
+<div class='tile'><div class='icon sprite-downtown-slot-3'></div><div class='name'>downtown-slot-3</div></div>
+<div class='tile'><div class='icon sprite-market-component-slot'></div><div class='name'>market-component-slot</div></div>
+<div class='tile'><div class='icon sprite-downtown-shard-boost'></div><div class='name'>downtown-shard-boost</div></div>
+<div class='tile'><div class='icon sprite-market-shard-boost'></div><div class='name'>market-shard-boost</div></div>
+<div class='tile'><div class='icon sprite-market-quick-order-slot'></div><div class='name'>market-quick-order-slot</div></div>
+<div class='tile'><div class='icon sprite-market-action-space'></div><div class='name'>market-action-space</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-space'></div><div class='name'>downtown-action-space</div></div>
+<div class='tile'><div class='icon sprite-market-action-space-extended'></div><div class='name'>market-action-space-extended</div></div>
+<div class='tile'><div class='icon sprite-market-action-order'></div><div class='name'>market-action-order</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-set-die'></div><div class='name'>downtown-action-set-die</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-hire-character'></div><div class='name'>downtown-action-hire-character</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-learn-trick'></div><div class='name'>downtown-action-learn-trick</div></div>
+<div class='tile'><div class='icon sprite-market-action-quick-order'></div><div class='name'>market-action-quick-order</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-take-coins'></div><div class='name'>downtown-action-take-coins</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-bank-B'></div><div class='name'>downtown-die-slot-bank-B</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-character-B'></div><div class='name'>downtown-die-slot-character-B</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-trick-A'></div><div class='name'>downtown-die-slot-trick-A</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-character-A'></div><div class='name'>downtown-die-slot-character-A</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-trick-B'></div><div class='name'>downtown-die-slot-trick-B</div></div>
+<div class='tile'><div class='icon sprite-downtown-die-slot-bank-A'></div><div class='name'>downtown-die-slot-bank-A</div></div>
+<div class='tile'><div class='icon sprite-market-action-buy'></div><div class='name'>market-action-buy</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-reroll-die'></div><div class='name'>downtown-action-reroll-die</div></div>
+<div class='tile'><div class='icon sprite-market-quick-order-cost'></div><div class='name'>market-quick-order-cost</div></div>
+<div class='tile'><div class='icon sprite-downtown-action-cost'></div><div class='name'>downtown-action-cost</div></div>
+<div class='tile'><div class='icon sprite-market-action-cost'></div><div class='name'>market-action-cost</div></div>
+<div class='tile'><div class='icon sprite-market-action-bargain'></div><div class='name'>market-action-bargain</div></div>
+</div>
+</body></html>

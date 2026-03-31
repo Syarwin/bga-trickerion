@@ -1,0 +1,434 @@
+// Auto-generated sprite mixins
+$slot-sprite-width: 1452px;
+$slot-sprite-height: 1476px;
+
+@mixin slot-market-costs {
+  background-image: url('img/slots.png');
+  background-size: 326.292135% auto;
+  background-position: 0.000000% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 445/256;
+}
+
+@mixin slot-market-row {
+  background-image: url('img/slots.png');
+  background-size: 412.500000% auto;
+  background-position: 0.000000% 22.091062%;
+  background-repeat: no-repeat;
+  aspect-ratio: 352/290;
+}
+
+@mixin slot-downtown {
+  background-image: url('img/slots.png');
+  background-size: 414.857143% auto;
+  background-position: 32.486388% 22.091062%;
+  background-repeat: no-repeat;
+  aspect-ratio: 350/290;
+}
+
+@mixin slot-market-slot-3 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 59.008264% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-downtown-slot-1 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 79.504132% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-market-slot-1 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 100.000000% 21.617162%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-market-slot-4 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 0.000000% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-downtown-slot-2 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 20.495868% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-downtown-slot-4 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 40.991736% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-market-slot-2 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 61.487603% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-downtown-slot-3 {
+  background-image: url('img/slots.png');
+  background-size: 600.000000% auto;
+  background-position: 81.983471% 46.039604%;
+  background-repeat: no-repeat;
+  aspect-ratio: 242/264;
+}
+
+@mixin slot-market-component-slot {
+  background-image: url('img/slots.png');
+  background-size: 660.000000% auto;
+  background-position: 36.607143% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 220/218;
+}
+
+@mixin slot-downtown-shard-boost {
+  background-image: url('img/slots.png');
+  background-size: 684.905660% auto;
+  background-position: 54.596774% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 212/143;
+}
+
+@mixin slot-market-shard-boost {
+  background-image: url('img/slots.png');
+  background-size: 684.905660% auto;
+  background-position: 72.177419% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 212/143;
+}
+
+@mixin slot-market-quick-order-slot {
+  background-image: url('img/slots.png');
+  background-size: 688.151659% auto;
+  background-position: 99.919420% 44.110672%;
+  background-repeat: no-repeat;
+  aspect-ratio: 211/211;
+}
+
+@mixin slot-market-action-space {
+  background-image: url('img/slots.png');
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 63.790447%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/178;
+}
+
+@mixin slot-downtown-action-space {
+  background-image: url('img/slots.png');
+  background-size: 694.736842% auto;
+  background-position: 0.000000% 78.026214%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/179;
+}
+
+@mixin slot-market-action-space-extended {
+  background-image: url('img/slots.png');
+  background-size: 854.117647% auto;
+  background-position: 16.770671% 63.790447%;
+  background-repeat: no-repeat;
+  aspect-ratio: 170/178;
+}
+
+@mixin slot-market-action-order {
+  background-image: url('img/slots.png');
+  background-size: 849.122807% auto;
+  background-position: 86.885246% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 171/82;
+}
+
+@mixin slot-downtown-action-set-die {
+  background-image: url('img/slots.png');
+  background-size: 864.285714% auto;
+  background-position: 30.451713% 60.570593%;
+  background-repeat: no-repeat;
+  aspect-ratio: 168/109;
+}
+
+@mixin slot-downtown-action-hire-character {
+  background-image: url('img/slots.png');
+  background-size: 924.840764% auto;
+  background-position: 43.629344% 60.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 157/96;
+}
+
+@mixin slot-downtown-action-learn-trick {
+  background-image: url('img/slots.png');
+  background-size: 949.019608% auto;
+  background-position: 16.551193% 73.386512%;
+  background-repeat: no-repeat;
+  aspect-ratio: 153/97;
+}
+
+@mixin slot-market-action-quick-order {
+  background-image: url('img/slots.png');
+  background-size: 981.081081% auto;
+  background-position: 55.828221% 59.956553%;
+  background-repeat: no-repeat;
+  aspect-ratio: 148/95;
+}
+
+@mixin slot-downtown-action-take-coins {
+  background-image: url('img/slots.png');
+  background-size: 1052.173913% auto;
+  background-position: 67.123288% 59.568345%;
+  background-repeat: no-repeat;
+  aspect-ratio: 138/86;
+}
+
+@mixin slot-downtown-die-slot-bank-B {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 89.328358%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/136;
+}
+
+@mixin slot-downtown-die-slot-character-B {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 0.000000% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137;
+}
+
+@mixin slot-downtown-die-slot-trick-A {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137;
+}
+
+@mixin slot-downtown-die-slot-character-A {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 21.749049% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137;
+}
+
+@mixin slot-downtown-die-slot-trick-B {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 32.623574% 100.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/137;
+}
+
+@mixin slot-downtown-die-slot-bank-A {
+  background-image: url('img/slots.png');
+  background-size: 1059.854015% auto;
+  background-position: 10.874525% 89.328358%;
+  background-repeat: no-repeat;
+  aspect-ratio: 137/136;
+}
+
+@mixin slot-market-action-buy {
+  background-image: url('img/slots.png');
+  background-size: 1161.600000% auto;
+  background-position: 97.211756% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 125/62;
+}
+
+@mixin slot-downtown-action-reroll-die {
+  background-image: url('img/slots.png');
+  background-size: 1190.163934% auto;
+  background-position: 28.120301% 72.858171%;
+  background-repeat: no-repeat;
+  aspect-ratio: 122/87;
+}
+
+@mixin slot-market-quick-order-cost {
+  background-image: url('img/slots.png');
+  background-size: 1369.811321% auto;
+  background-position: 21.248143% 86.865022%;
+  background-repeat: no-repeat;
+  aspect-ratio: 106/98;
+}
+
+@mixin slot-downtown-action-cost {
+  background-image: url('img/slots.png');
+  background-size: 1578.260870% auto;
+  background-position: 29.264706% 86.488439%;
+  background-repeat: no-repeat;
+  aspect-ratio: 92/92;
+}
+
+@mixin slot-market-action-cost {
+  background-image: url('img/slots.png');
+  background-size: 1578.260870% auto;
+  background-position: 36.470588% 86.488439%;
+  background-repeat: no-repeat;
+  aspect-ratio: 92/92;
+}
+
+@mixin slot-market-action-bargain {
+  background-image: url('img/slots.png');
+  background-size: 1595.604396% auto;
+  background-position: 49.742836% 10.582386%;
+  background-repeat: no-repeat;
+  aspect-ratio: 91/68;
+}
+.slot-market-costs {
+  @include slot-market-costs;
+}
+
+.slot-market-row {
+  @include slot-market-row;
+}
+
+.slot-downtown {
+  @include slot-downtown;
+}
+
+.slot-market-slot-3 {
+  @include slot-market-slot-3;
+}
+
+.slot-downtown-slot-1 {
+  @include slot-downtown-slot-1;
+}
+
+.slot-market-slot-1 {
+  @include slot-market-slot-1;
+}
+
+.slot-market-slot-4 {
+  @include slot-market-slot-4;
+}
+
+.slot-downtown-slot-2 {
+  @include slot-downtown-slot-2;
+}
+
+.slot-downtown-slot-4 {
+  @include slot-downtown-slot-4;
+}
+
+.slot-market-slot-2 {
+  @include slot-market-slot-2;
+}
+
+.slot-downtown-slot-3 {
+  @include slot-downtown-slot-3;
+}
+
+.slot-market-component-slot {
+  @include slot-market-component-slot;
+}
+
+.slot-downtown-shard-boost {
+  @include slot-downtown-shard-boost;
+}
+
+.slot-market-shard-boost {
+  @include slot-market-shard-boost;
+}
+
+.slot-market-quick-order-slot {
+  @include slot-market-quick-order-slot;
+}
+
+.slot-market-action-space {
+  @include slot-market-action-space;
+}
+
+.slot-downtown-action-space {
+  @include slot-downtown-action-space;
+}
+
+.slot-market-action-space-extended {
+  @include slot-market-action-space-extended;
+}
+
+.slot-market-action-order {
+  @include slot-market-action-order;
+}
+
+.slot-downtown-action-set-die {
+  @include slot-downtown-action-set-die;
+}
+
+.slot-downtown-action-hire-character {
+  @include slot-downtown-action-hire-character;
+}
+
+.slot-downtown-action-learn-trick {
+  @include slot-downtown-action-learn-trick;
+}
+
+.slot-market-action-quick-order {
+  @include slot-market-action-quick-order;
+}
+
+.slot-downtown-action-take-coins {
+  @include slot-downtown-action-take-coins;
+}
+
+.slot-downtown-die-slot-bank-B {
+  @include slot-downtown-die-slot-bank-B;
+}
+
+.slot-downtown-die-slot-character-B {
+  @include slot-downtown-die-slot-character-B;
+}
+
+.slot-downtown-die-slot-trick-A {
+  @include slot-downtown-die-slot-trick-A;
+}
+
+.slot-downtown-die-slot-character-A {
+  @include slot-downtown-die-slot-character-A;
+}
+
+.slot-downtown-die-slot-trick-B {
+  @include slot-downtown-die-slot-trick-B;
+}
+
+.slot-downtown-die-slot-bank-A {
+  @include slot-downtown-die-slot-bank-A;
+}
+
+.slot-market-action-buy {
+  @include slot-market-action-buy;
+}
+
+.slot-downtown-action-reroll-die {
+  @include slot-downtown-action-reroll-die;
+}
+
+.slot-market-quick-order-cost {
+  @include slot-market-quick-order-cost;
+}
+
+.slot-downtown-action-cost {
+  @include slot-downtown-action-cost;
+}
+
+.slot-market-action-cost {
+  @include slot-market-action-cost;
+}
+
+.slot-market-action-bargain {
+  @include slot-market-action-bargain;
+}
