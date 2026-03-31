@@ -30,6 +30,50 @@ html {
 @import "modules/scss/modals";
 @import "modules/scss/log";
 
+@font-face {
+    font-family: "Brandon Text";
+    src: url("img/fonts/BrandonText-Regular.eot");
+    src:
+        url("img/fonts/BrandonText-Regular.eot?#iefix") format("embedded-opentype"),
+        url("img/fonts/BrandonText-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("img/fonts/BrandonText-Black.eot");
+    src:
+        url("img/fonts/BrandonText-Black.eot?#iefix") format("embedded-opentype"),
+        url("img/fonts/BrandonText-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("img/fonts/BrandonText-Bold.eot");
+    src:
+        url("img/fonts/BrandonText-Bold.eot?#iefix") format("embedded-opentype"),
+        url("img/fonts/BrandonText-Bold.woff2") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text";
+    src: url("img/fonts/BrandonText-Medium.eot");
+    src:
+        url("img/fonts/BrandonText-Medium.eot?#iefix") format("embedded-opentype"),
+        url("img/fonts/BrandonText-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 .notransition {
     -webkit-transition: none !important;
     -moz-transition: none !important;

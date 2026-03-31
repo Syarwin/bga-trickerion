@@ -33,7 +33,7 @@ $boardHeight: 2887px / 3;
 }
 
 $downtownWidth: 700px;
-$downtownHeight: 400px;
+$downtownHeight: 360px;
 #board-downtown {
     position: relative;
     width: $downtownWidth;
@@ -48,15 +48,24 @@ $downtownHeight: 400px;
         background-image: url("img/board.jpg");
         background-repeat: no-repeat;
         background-size: 302% auto;
-        background-position: 25% 0%;
+        background-position: 25% 2%;
         border: 1px solid #a2360c;
         border-radius: 5px;
         box-sizing: border-box;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #c5c5c55c;
+        }
 
         #downtown-logo {
             width: 100px;
             position: absolute;
-            bottom: 6px;
+            bottom: 0px;
             left: 6px;
         }
 
@@ -76,15 +85,15 @@ $downtownHeight: 400px;
         }
 
         #dice-characters {
-            top: 126px;
+            top: 86px;
             left: 52px;
         }
         #dice-tricks {
-            top: 123px;
+            top: 83px;
             left: 300px;
         }
         #dice-banks {
-            top: 124px;
+            top: 83px;
             left: 548px;
         }
 
@@ -105,37 +114,59 @@ $downtownHeight: 400px;
                 width: 40px;
                 left: 30px;
                 bottom: -23px;
-                text-align: center;
                 box-shadow: 1px 1px 2px black;
                 border-radius: 50%;
-                font-weight: bold;
+                font-weight: 900;
+                font-family: "Brandon Text";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
             }
 
             &#market-learn-trick {
-                top: 180px;
+                top: 140px;
                 left: 300px;
             }
             &#market-hire-character {
-                top: 180px;
+                top: 140px;
                 left: 53px;
             }
             &#market-take-coins {
-                top: 180px;
+                top: 140px;
                 left: 549px;
             }
             &#market-reroll-die {
-                top: 140px;
+                top: 100px;
                 left: 177px;
             }
             &#market-set-die {
-                top: 140px;
+                top: 100px;
                 left: 422px;
             }
         }
 
         .action-slots {
             position: absolute;
-            bottom: 10px;
+            bottom: 5px;
             left: 81px;
             right: 10px;
             display: flex;
@@ -144,12 +175,68 @@ $downtownHeight: 400px;
 
             & > div {
                 height: 100px;
+                position: relative;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
             }
 
             .slot-downtown-shard-boost {
                 height: 50px;
                 box-shadow: 2px 2px 4px black;
                 border-radius: 10px;
+            }
+        }
+
+        #trick-decks {
+            position: absolute;
+            display: flex;
+            left: 7px;
+            right: 7px;
+            top: 7px;
+            justify-content: space-around;
+
+            .trick-deck {
+                width: 150px;
+                height: 45px;
+                border: 1px solid #504130;
+                border-radius: 6px;
+                background: #ffffffa8;
+                position: relative;
+                box-shadow: 1px 1px 3px black;
+                text-align: center;
+                font-family: "Brandon Text";
+                font-weight: 500;
+                cursor: zoom-in;
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                .trick-type {
+                    position: absolute;
+                    left: 40px;
+                    width: 65px;
+                    bottom: -25px;
+                }
             }
         }
     }

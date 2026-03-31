@@ -1,18 +1,18 @@
-import { logOverride, onLogAdded } from "../logs.js";
-import { getRandomId } from "./utils.js";
+import { logOverride, onLogAdded } from '../format.js';
+import { getRandomId } from './utils.js';
 
-export const overrideGamePrototype = function(gameui) {
+export const overrideGamePrototype = function (gameui) {
     gameui._notif_uid_to_log_id = {};
     gameui._notif_uid_to_mobile_log_id = {};
     gameui._last_notif = null;
 
-    gameui.format_string_recursive = function(log, args) {
+    gameui.format_string_recursive = function (log, args) {
         if (log && args && !args.processed) {
             args.processed = true;
-            
-            const replaceArgs = args => {
+
+            const replaceArgs = (args) => {
                 for (const arg in args) {
-                    if (arg == "_private") {
+                    if (arg == '_private') {
                         args[arg] = replaceArgs(args[arg]);
                     }
 
@@ -24,19 +24,19 @@ export const overrideGamePrototype = function(gameui) {
                 }
 
                 return args;
-            }
+            };
 
             args = replaceArgs(args);
         }
-        
+
         return gameui.constructor.prototype.format_string_recursive.call(this, log, args);
-    }
+    };
 
     /*
-    * [Undocumented] Called by BGA framework on any notification message
-    * Handle cancelling log messages for restart turn
-    */
-    gameui.onPlaceLogOnChannel = function(msg) {
+     * [Undocumented] Called by BGA framework on any notification message
+     * Handle cancelling log messages for restart turn
+     */
+    gameui.onPlaceLogOnChannel = function (msg) {
         const currentLogId = this.notifqueue.next_log_id;
         const currentMobileLogId = this.next_log_id;
         const res = gameui.constructor.prototype.onPlaceLogOnChannel.call(this, msg);
@@ -48,44 +48,44 @@ export const overrideGamePrototype = function(gameui) {
             msg,
         };
         return res;
-    }
+    };
 
     //const originalAddActionButton = this.bga.statusBar.constructor.prototype.addActionButton;
-    gameui.statusBar.addActionButton = function(label, callback, params = {}) {
+    gameui.statusBar.addActionButton = function (label, callback, params = {}) {
         const button = gameui.statusBar.constructor.prototype.addActionButton.call(this, label, callback, params);
-        
+
         if (!button.id) {
             button.id = `status-bar-button-${getRandomId()}`;
         }
-        
-        return button;
-    }
 
-    gameui.statusBar.addAttachedActionButton = function(attachTo, ...rest) {
+        return button;
+    };
+
+    gameui.statusBar.addAttachedActionButton = function (attachTo, ...rest) {
         const button = this.addActionButton(...rest);
         attachTo.appendChild(button);
         return button;
-    }
+    };
 
     dojo.connect(gameui.notifqueue, 'addToLog', () => {
         const notif = gameui._last_notif;
-        
+
         gameui.checkLogCancel(notif == null ? null : notif.msg.uid);
         addLogClass(notif);
         //addTooltipsToLog(gameui.getNotificationLogNode(notif), notif);
     });
 
-    gameui.checkLogCancel = function(notifId) {
+    gameui.checkLogCancel = function (notifId) {
         if (this.gamedatas.canceledNotifIds != null && this.gamedatas.canceledNotifIds.includes(notifId)) {
             this.cancelLogs([notifId]);
         }
-    }
+    };
 
-    gameui.cancelLogs = function(notifIds) {
+    gameui.cancelLogs = function (notifIds) {
         notifIds.forEach((uid) => {
             if (this._notif_uid_to_log_id.hasOwnProperty(uid)) {
                 const logId = this._notif_uid_to_log_id[uid];
-                const logNode = document.getElementById(`log_${logId}`); 
+                const logNode = document.getElementById(`log_${logId}`);
                 if (logNode) logNode.classList.add('cancel');
             }
             if (this._notif_uid_to_mobile_log_id.hasOwnProperty(uid)) {
@@ -94,9 +94,9 @@ export const overrideGamePrototype = function(gameui) {
                 if (logNode) logNode.classList.add('cancel');
             }
         });
-    }
+    };
 
-    const getNotificationLogNode = function(notif) {
+    const getNotificationLogNode = function (notif) {
         if (!notif) {
             return null;
         }
@@ -107,9 +107,9 @@ export const overrideGamePrototype = function(gameui) {
         }
 
         return logNode;
-    }
+    };
 
-    const addLogClass = function(notif) {
+    const addLogClass = function (notif) {
         if (!notif) {
             return;
         }
@@ -126,5 +126,5 @@ export const overrideGamePrototype = function(gameui) {
         if (onLogAdded && onLogAdded[type] && logNode) {
             onLogAdded[type](logNode, notif);
         }
-    }
-}
+    };
+};

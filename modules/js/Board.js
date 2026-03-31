@@ -1,3 +1,5 @@
+import { formatIcon } from './format.js';
+
 export const board = {
     init: function (gamedatas) {
         let nPlayers = Object.keys(gamedatas.players).length;
@@ -41,7 +43,7 @@ export const board = {
         Object.entries(downtownActions).forEach(([action, cost]) => {
             actionsHTML += `<div id="market-${action}" class="slot-downtown-action-space">
               <div class="slot-downtown-action-${action}"></div>
-              <div class="slot-downtown-action-cost">${cost}</div>
+              <div class="slot-downtown-action-cost">${cost}${formatIcon('action-point')}</div>
             </div>`;
         });
         const downtownSlots = [2, 3, 4, 2];
@@ -53,6 +55,16 @@ export const board = {
         });
         slotsHTML += '<div class="slot-downtown-shard-boost"></div>';
         slotsHTML += '</div>';
+
+        const trickDecks = ['mechanical', 'spiritual', 'escape', 'optical'];
+        let trickDecksHTML = '<div id="trick-decks">';
+        trickDecks.forEach((type) => {
+            trickDecksHTML += `<div id="trick-deck-${type}" class="trick-deck">
+              <div class="trick-type slot-${type}"></div>
+              <span class="trick-counter" id="trick-deck-${type}-counter">1</span> ${_('trick(s)')}
+            </div>`;
+        });
+        trickDecksHTML += '</div>';
 
         $('board-downtown').insertAdjacentHTML(
             'beforeend',
@@ -71,6 +83,7 @@ export const board = {
             <div id="die-bank-0" class="slot-downtown-die-slot-bank-A"></div>
             <div id="die-bank-1" class="slot-downtown-die-slot-bank-B"></div>
           </div>
+          ${trickDecksHTML}
           ${actionsHTML}
           ${slotsHTML}
         </div>`
