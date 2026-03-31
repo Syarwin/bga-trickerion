@@ -103,7 +103,10 @@ class AssignCharacters extends GameState
      * but use the $playerId passed in parameter and $this->game->getPlayerNameById($playerId) instead.
      */
     function zombie(int $playerId) {
-        
+        Game::get()->bga->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
+            'player_id' => $playerId,
+        ]);
+        $this->game->gamestate->setPlayerNonMultiactive($playerId, PlaceCharacters::class);
     }
 
 }

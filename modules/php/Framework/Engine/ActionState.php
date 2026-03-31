@@ -205,4 +205,13 @@ class ActionState extends \Bga\GameFramework\States\GameState
 
         return Engine::proceed();
     }
+
+    function zombie(int $playerId) {
+        Game::get()->bga->notify->all("message", clienttranslate('${player_name} is a zombie, skipping their turn'), [
+            "player_id" => $playerId,
+        ]);
+        return $this->resolve([
+            "automatic" => true
+        ]);
+    }
 }
