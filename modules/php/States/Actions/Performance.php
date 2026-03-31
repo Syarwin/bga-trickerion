@@ -55,13 +55,20 @@ class Performance extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actSelectPerformance(int $activePlayerId, int $performanceId)
+    public function actSelectPerformance(int $activePlayerId, int $performanceId, array $args)
     {
         Log::step();
+        $performance = Performances::get($performanceId);
+        if (!in_array($performance, $args["availablePerformances"])) {
+            throw new UserException(clienttranslate("This performance is not available"));
+        }
         $this->bga->notify->all("message", clienttranslate('${player_name} chooses performance ${performance}'), [
             "player_id" => $activePlayerId,
-            "performance" => Performances::get($performanceId),
+            "performance" => $performance,
         ]);
+
+        $performance->perform($activePlayerId);
+
         return $this->resolve(["performanceId" => $performanceId]);
     }    
 }

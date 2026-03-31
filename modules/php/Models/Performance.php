@@ -4,6 +4,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Models;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\GetShards;
@@ -203,6 +204,59 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         };
     }
 
+    public function perform($performerId) {
+        $trickMarkers = TrickMarkers::getOnPerformance($this->getId());
+
+        foreach ($trickMarkers as $trickMarker) {
+            $trick = $trickMarker->getTrick();
+            $yields = $trick->getYields();
+            $yieldModifier = self::getPerformanceModifier($trick->getPlayerId(), $performerId);
+
+            $message = clienttranslate('${player_name} performs ${trick} and gets ${yields}');
+            if ($yieldModifier) {
+                foreach ($yields as $yieldType => $amount) {
+                    $yields[$yieldType] = max($amount + ($yieldModifier[$yieldType] ?? 0), 0);
+                }
+                $message = clienttranslate('${player_name} performs ${trick} and gets ${yields} (day modifier applied)');
+            }
+
+            Game::get()->bga->notify->all("trickPerformed", $message, [
+                "player_id" => $trick->getPlayerId(),
+                "trick" => $trick,
+                "yields" => $yields,
+                "yieldModifier" => $yieldModifier,
+            ]);
+            
+            $trickMarker->setLocation(TrickMarkers::LOCATION_AVAILABLE);
+        }
+    }
+
+    private static function getPerformanceModifier($playerId, $performerId = null) {
+        $playersHasCharactersOnThursday = Characters::getFiltered($playerId, Characters::LOCATION_BOARD_DAY_ANY(self::DAY_THURSDAY))->count() > 0;
+        $playersHasCharactersOnSunday = Characters::getFiltered($playerId, Characters::LOCATION_BOARD_DAY_ANY(self::DAY_SUNDAY))->count() > 0;
+        $playersHasCharactersInTheater = Characters::getFiltered($playerId, Characters::LOCATION_BOARD_THEATER_ANY)->count() > 0;
+
+        if ($playersHasCharactersOnThursday) {
+            return [
+                "fame" => -1,
+                "coins" => -1,
+            ];
+        }
+
+        if ($playersHasCharactersOnSunday) {
+            return [
+                "fame" => 1,
+                "coins" => 1,
+            ];
+        }
+
+        if (!$playersHasCharactersInTheater && $performerId) {
+            return self::getPerformanceModifier($performerId);
+        }
+
+        return null;
+    }
+
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
@@ -221,4 +275,9 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
     const LINK_DIRECTION_RIGHT = 'right';
     const LINK_DIRECTION_UP = 'up';
     const LINK_DIRECTION_LEFT = 'left';
+
+    const DAY_THURSDAY = 'thursday';
+    const DAY_FRIDAY = 'friday';
+    const DAY_SATURDAY = 'saturday';
+    const DAY_SUNDAY = 'sunday';
 }

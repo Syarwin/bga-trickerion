@@ -36,7 +36,7 @@ class PlaceCharacters extends GameState
         ]);
 
         //start initiative turn order
-        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startPlaceCharacterTurn"], StartAssignment::class, true);
+        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startPlaceCharacterTurn"], PerformancePhase::class, true);
     }
 
     public static function startPlaceCharacterTurn()

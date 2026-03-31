@@ -311,11 +311,7 @@ class Characters extends CachedPieces
     const LOCATION_IDLE_ENGINEER_BOARD = 'idle-engineer-board';
     
     const LOCATION_BOARD_ANY = 'board-%';
-    const LOCATION_BOARD_THEATER_ANY = 'board-theater-%';
-    const LOCATION_BOARD_THEATER_MAGICIAN = 'board-theater-%-magician';
-    public static function LOCATION_BOARD_DAY_ANY($day) {
-        return "board-theater-{$day}-%";
-    }
+    
     const LOCATION_BOARD_DOWNTOWN_1 = 'board-downtown-1';
     const LOCATION_BOARD_DOWNTOWN_2 = 'board-downtown-2';
     const LOCATION_BOARD_DOWNTOWN_3 = 'board-downtown-3';
@@ -336,6 +332,11 @@ class Characters extends CachedPieces
     const LOCATION_BOARD_THEATER_SUNDAY_BASIC_1 = 'board-theater-sunday-basic-1';
     const LOCATION_BOARD_THEATER_SUNDAY_BASIC_2 = 'board-theater-sunday-basic-2';
     const LOCATION_BOARD_THEATER_SUNDAY_MAGICIAN = 'board-theater-sunday-magician';
+    const LOCATION_BOARD_THEATER_ANY = 'board-theater-%';
+    const LOCATION_BOARD_THEATER_MAGICIAN = 'board-theater-%-magician';
+    public static function LOCATION_BOARD_DAY_ANY($day) {
+        return "board-theater-{$day}-%";
+    }
     const LOCATION_BOARD_WORKSHOP_1 = 'board-workshop-1';
     const LOCATION_BOARD_WORKSHOP_2 = 'board-workshop-2';
     const LOCATION_BOARD_DARK_ALLEY_1 = 'board-dark-alley-1';
