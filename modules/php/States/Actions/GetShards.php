@@ -6,12 +6,11 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
-use Bga\Games\trickerionlegendsofillusion\Managers\Players;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AutomaticActionState;
 
-class GetShards extends ActionStateWithRevert
+class GetShards extends AutomaticActionState
 {
     function __construct(
         protected Game $game,

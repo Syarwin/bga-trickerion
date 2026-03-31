@@ -6,13 +6,13 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AutomaticActionState;
 use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
-class EnhanceCharacter extends ActionStateWithRevert
+class EnhanceCharacter extends AutomaticActionState
 {
     function __construct(
         protected Game $game,

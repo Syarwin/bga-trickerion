@@ -13,7 +13,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 
-class ActionState extends \Bga\GameFramework\States\GameState
+class ActionState extends AutomaticActionState
 {
     function __construct(
         protected Game $game,
@@ -36,11 +36,8 @@ class ActionState extends \Bga\GameFramework\States\GameState
             transitions: $transitions,
             updateGameProgression: $updateGameProgression,
             initialPrivate: $initialPrivate,
+            node: $node
         );
-    }
-
-    public function getCustomStateDescription() {
-        return null;
     }
 
     final public function getArgs(int $activePlayerId): array
@@ -106,78 +103,6 @@ class ActionState extends \Bga\GameFramework\States\GameState
         }
 
         return $anytimeActions;
-    }
-
-    public function getNode() {
-        if ($this->node !== null) {
-            return $this->node;
-        }
-
-        return Engine::getNextUnresolved();
-    }
-
-    public function getNodeArgs($field = null, $default = null) {
-        $args = [];
-
-        $node = $this->getNode();
-        if ($node !== null) {
-            $args = $node->getArgs() ?? [];
-        }
-
-        if ($field !== null) {
-            return $args[$field] ?? $default;
-        }
-
-        return $args;
-    }
-
-    public function isAutomatic() {
-        return $this->type === StateType::GAME;
-    }
-
-    public function isOptional() {
-        return null;
-    }
-
-    public function isIrreversible() {
-        return $this->getNode()->getInfo()["irreversible"] ?? false;
-    }
-
-    public function isDoable($playerId) {
-        return true;
-    }
-
-    public function isIndependent() {
-        return $this->getNode()->getInfo()["independent"] ?? false;
-    }
-
-    public function getDescription() {
-        return null;
-    }
-
-    protected function getPlayerId() {
-        $argsPlayerId = $this->getNodeArgs("playerId");
-        return $argsPlayerId ?? Players::getActiveId();
-    }
-
-    protected function getPlayer() {
-        return Players::get($this->getPlayerId());
-    }
-
-    protected function resolve($args = []) {
-        if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
-            return Engine::autoResolveAction($args);
-        } else {
-            return Engine::resolveAction($args);
-        }
-    }
-
-    protected function resolveIrreversible($args = []) {
-        if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
-            return Engine::autoResolveIrreversibleAction($args);
-        } else {
-            return Engine::resolveIrreversibleAction($args);
-        }
     }
 
     #[PossibleAction]

@@ -6,11 +6,11 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Engine\Actions;
 
 use Bga\GameFramework\StateType;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
-use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
+use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AutomaticActionState;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Game;
 
-class Message extends ActionStateWithRevert
+class Message extends AutomaticActionState
 {
     function __construct(
         protected Game $game,
