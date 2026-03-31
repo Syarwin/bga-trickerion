@@ -1065,18 +1065,18 @@ html {
 #board-downtown {
   position: relative;
   width: 700px;
-  height: 600px; }
+  height: 400px; }
   #board-downtown #board-downtown-inner {
     position: absolute;
     top: 0;
     left: 0;
     width: 700px;
-    height: 600px;
+    height: 400px;
     transform-origin: top left;
     background-image: url("img/board.jpg");
     background-repeat: no-repeat;
     background-size: 302% auto;
-    background-position: 25% -23%;
+    background-position: 25% 0%;
     border: 1px solid #a2360c;
     border-radius: 5px;
     box-sizing: border-box; }
@@ -1097,13 +1097,13 @@ html {
         width: 50px;
         box-shadow: 1px 1px 2px black; }
     #board-downtown #board-downtown-inner #dice-characters {
-      top: 326px;
+      top: 126px;
       left: 52px; }
     #board-downtown #board-downtown-inner #dice-tricks {
-      top: 323px;
+      top: 123px;
       left: 300px; }
     #board-downtown #board-downtown-inner #dice-banks {
-      top: 324px;
+      top: 124px;
       left: 548px; }
     #board-downtown #board-downtown-inner .slot-downtown-action-space {
       width: 100px;
@@ -1124,19 +1124,19 @@ html {
         border-radius: 50%;
         font-weight: bold; }
       #board-downtown #board-downtown-inner .slot-downtown-action-space#market-learn-trick {
-        top: 380px;
+        top: 180px;
         left: 300px; }
       #board-downtown #board-downtown-inner .slot-downtown-action-space#market-hire-character {
-        top: 380px;
+        top: 180px;
         left: 53px; }
       #board-downtown #board-downtown-inner .slot-downtown-action-space#market-take-coins {
-        top: 380px;
+        top: 180px;
         left: 549px; }
       #board-downtown #board-downtown-inner .slot-downtown-action-space#market-reroll-die {
-        top: 340px;
+        top: 140px;
         left: 177px; }
       #board-downtown #board-downtown-inner .slot-downtown-action-space#market-set-die {
-        top: 340px;
+        top: 140px;
         left: 422px; }
     #board-downtown #board-downtown-inner .action-slots {
       position: absolute;
@@ -1150,9 +1150,8 @@ html {
         height: 100px; }
       #board-downtown #board-downtown-inner .action-slots .slot-downtown-shard-boost {
         height: 50px;
-        box-shadow: 1px 1px 3px black;
-        border-radius: 13px;
-        border: 1px solid black; }
+        box-shadow: 2px 2px 4px black;
+        border-radius: 10px; }
 
 .trickerion-player-board {
   width: calc(var(--playerBoardScale) * 1403px);
