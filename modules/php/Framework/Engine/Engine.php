@@ -109,7 +109,7 @@ class Engine
         $playerId = $node->getPlayerId();
 
         //TODO handle multiple with specific node type
-        $player = Players::get($playerId);
+        $player = Players::get($playerId === self::PLAYER_ID_AUTO ? null : $playerId);
         if (
             $playerId != null &&
             $oldPlayerId != $playerId &&
@@ -121,7 +121,7 @@ class Engine
         }
 
         // Jump to resolveStack state to ensure we can change active playerId
-        if ($playerId != null && $oldPlayerId != $playerId) {
+        if ($playerId != null && $oldPlayerId != $playerId && $playerId != self::PLAYER_ID_AUTO) {
             Game::get()->gamestate->jumpToState(States::ST_GENERIC_GAME_STATE);
             Game::get()->gamestate->changeActivePlayer($playerId);
         }
@@ -457,4 +457,6 @@ class Engine
     const CANCEL = 97;
     const ZOMBIE = 98;
     const PASS = 99;
+
+    const PLAYER_ID_AUTO = 'auto';
 }

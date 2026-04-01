@@ -34,7 +34,7 @@ class PerformancePhase extends GameState
             "children" => array_map(function($day) use ($performances) {
                 return [
                     "state" => Performance::class,
-                    "playerId" => $performances[$day] ?? null,
+                    "playerId" => $performances[$day] ?? Engine::PLAYER_ID_AUTO,
                     "args" => [ 
                         "day" => $day,
                         "skip" => !isset($performances[$day]),

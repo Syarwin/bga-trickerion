@@ -29,6 +29,16 @@ class ConfirmPartialTurn extends ActionStateWithRevert
         );
     }
 
+    public function getCustomStateDescription() {
+        if ($this->getNode()->getPlayerId() == Engine::PLAYER_ID_AUTO) {
+            return [
+                "description" => clienttranslate('${actplayer} must finalize their decisions.'),
+                "descriptionMyTurn" => clienttranslate('${you} must finalize your decisions. When you do you won\'t be able to undo past this point'),
+            ];
+        }
+        return null;
+    }
+
     public function isOptional() {
         return false;
     }
@@ -37,7 +47,7 @@ class ConfirmPartialTurn extends ActionStateWithRevert
     {
         $node = $this->getNode();
         return [
-            "player_name" => Players::get($node->getPlayerId())->getName(),
+            "player_name" => $node->getPlayerId() == Engine::PLAYER_ID_AUTO ? "" : Players::get($node->getPlayerId())->getName(),
             "player_id" => $node->getPlayerId(),
         ];
     }
