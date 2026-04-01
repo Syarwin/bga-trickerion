@@ -32,12 +32,14 @@ $boardHeight: 2887px / 3;
     }
 }
 
-$downtownWidth: 700px;
-$downtownHeight: 360px;
+$downtownWidth: 600px;
+$downtownHeight: 340px;
 #board-downtown {
     position: relative;
     width: $downtownWidth;
     height: $downtownHeight;
+    margin: 5px 5px 10px 10px;
+
     #board-downtown-inner {
         position: absolute;
         top: 0;
@@ -47,11 +49,13 @@ $downtownHeight: 360px;
         transform-origin: top left;
         background-image: url("img/board.jpg");
         background-repeat: no-repeat;
-        background-size: 302% auto;
-        background-position: 25% 2%;
-        border: 1px solid #a2360c;
+        background-size: 330% auto;
+        background-position: 26% 2%;
+        border: 2px solid #683406;
         border-radius: 5px;
+        border-bottom-left-radius: 40px;
         box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
         &::before {
             content: "";
             position: absolute;
@@ -60,13 +64,15 @@ $downtownHeight: 360px;
             top: 0;
             bottom: 0;
             background: #c5c5c55c;
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
         }
 
         #downtown-logo {
             width: 100px;
             position: absolute;
-            bottom: 0px;
-            left: 6px;
+            bottom: -11px;
+            left: -16px;
         }
 
         #dice-characters,
@@ -86,38 +92,44 @@ $downtownHeight: 360px;
 
         #dice-characters {
             top: 86px;
-            left: 52px;
+            left: 28px;
         }
         #dice-tricks {
             top: 83px;
-            left: 300px;
+            left: 247px;
         }
         #dice-banks {
-            top: 83px;
-            left: 548px;
+            top: 86px;
+            left: 473px;
         }
 
         .slot-downtown-action-space {
-            width: 100px;
+            width: 90px;
             position: absolute;
             box-shadow: 1px 1px 3px black;
-            border-radius: 13px;
+            border-radius: 11px;
             border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
 
             div {
-                width: 75px;
-                margin: 8px auto;
+                width: 70px;
+                &.slot-downtown-action-reroll-die {
+                    width: 55px;
+                }
             }
 
             .slot-downtown-action-cost {
                 position: absolute;
                 width: 40px;
-                left: 30px;
+                left: 25px;
                 bottom: -23px;
                 box-shadow: 1px 1px 2px black;
                 border-radius: 50%;
-                font-weight: 900;
-                font-family: "Brandon Text";
+                font-family: "Brandon Text Black";
                 font-size: 20px;
                 display: flex;
                 flex-wrap: wrap;
@@ -142,32 +154,32 @@ $downtownHeight: 360px;
                 }
             }
 
-            &#market-learn-trick {
-                top: 140px;
-                left: 300px;
+            &#downtown-learn-trick {
+                top: 137px;
+                left: 255px;
             }
-            &#market-hire-character {
+            &#downtown-hire-character {
                 top: 140px;
-                left: 53px;
+                left: 34px;
             }
-            &#market-take-coins {
+            &#downtown-take-coins {
                 top: 140px;
-                left: 549px;
+                left: 478px;
             }
-            &#market-reroll-die {
+            &#downtown-reroll-die {
                 top: 100px;
-                left: 177px;
+                left: 146px;
             }
-            &#market-set-die {
+            &#downtown-set-die {
                 top: 100px;
-                left: 422px;
+                left: 366px;
             }
         }
 
         .action-slots {
             position: absolute;
             bottom: 5px;
-            left: 81px;
+            left: 10px;
             right: 10px;
             display: flex;
             justify-content: center;
@@ -176,6 +188,7 @@ $downtownHeight: 360px;
             & > div {
                 height: 100px;
                 position: relative;
+                margin: 0px -3px;
 
                 &.selectable {
                     cursor: pointer;
@@ -199,24 +212,27 @@ $downtownHeight: 360px;
                     }
                 }
             }
+        }
 
-            .slot-downtown-shard-boost {
-                height: 50px;
-                box-shadow: 2px 2px 4px black;
-                border-radius: 10px;
-            }
+        .slot-downtown-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
         }
 
         #trick-decks {
             position: absolute;
             display: flex;
-            left: 7px;
-            right: 7px;
+            left: 0px;
+            right: 0px;
             top: 7px;
             justify-content: space-around;
 
             .trick-deck {
-                width: 150px;
+                width: 130px;
                 height: 45px;
                 border: 1px solid #504130;
                 border-radius: 6px;
@@ -224,8 +240,7 @@ $downtownHeight: 360px;
                 position: relative;
                 box-shadow: 1px 1px 3px black;
                 text-align: center;
-                font-family: "Brandon Text";
-                font-weight: 500;
+                font-family: "Brandon Text Medium";
                 cursor: zoom-in;
                 &:hover {
                     transform: scale(1.1);
@@ -238,6 +253,221 @@ $downtownHeight: 360px;
                     bottom: -25px;
                 }
             }
+        }
+    }
+}
+
+$marketWidth: 560px;
+$marketHeight: 365px;
+#board-market-row {
+    position: relative;
+    width: $marketWidth;
+    height: $marketHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-market-row-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $marketWidth;
+        height: $marketHeight;
+        transform-origin: top left;
+        background-image: url("img/board.jpg");
+        background-repeat: no-repeat;
+        background-size: 360% auto;
+        background-position: 24% 93%;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #c5c5c55c;
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
+        }
+
+        #market-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-market-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-market-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#market-buy {
+                top: 165px;
+                left: 74px;
+            }
+            &#market-bargain {
+                top: 165px;
+                left: 153px;
+                @include slot-market-action-space-extended;
+                width: 73px;
+                border-left: none;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                box-shadow: 2px 1px 2px black;
+
+                .slot-market-action-bargain {
+                    width: 46px;
+                }
+            }
+            &#market-order {
+                top: 165px;
+                left: 410px;
+            }
+            &#market-quick-order {
+                top: 143px;
+                left: 262px;
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 5px;
+            left: 93px;
+            right: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+                position: relative;
+                margin: 0px -3px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        #buy-area,
+        #order-area {
+            position: absolute;
+            display: grid;
+            grid-template-columns: 70px 70px;
+            grid-template-rows: 70px 70px;
+            grid-gap: 10px 10px;
+
+            .slot-market-component-slot {
+                box-shadow: 1px 1px 2px black;
+            }
+        }
+        #buy-area {
+            top: 8px;
+            left: 78px;
+        }
+        #order-area {
+            top: 8px;
+            left: 384px;
+        }
+
+        #quick-order-slot {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            top: 60px;
+            left: 274px;
+            box-shadow: 1px 1px 2px black;
+        }
+
+        .slot-market-quick-order-cost {
+            position: absolute;
+            width: 50px;
+            left: 283px;
+            top: 10px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 12px;
+        }
+        .slot-market-costs {
+            position: absolute;
+            width: 156px;
+            transform: rotate(-90deg);
+            top: 52px;
+            left: -41px;
+            height: 61px;
+            background-position: 0% 6%;
+        }
+        .slot-market-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
         }
     }
 }

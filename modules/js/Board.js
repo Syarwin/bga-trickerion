@@ -13,6 +13,7 @@ export const board = {
       <div id="trickerion-board">
         <div id="board-background"></div>
         <div id="board-downtown"></div>
+        <div id="board-market-row"></div>
       </div>
     </div>
     <div id="trickerion-player-board-wrapper"></div>
@@ -41,7 +42,7 @@ export const board = {
         };
         let actionsHTML = '';
         Object.entries(downtownActions).forEach(([action, cost]) => {
-            actionsHTML += `<div id="market-${action}" class="slot-downtown-action-space">
+            actionsHTML += `<div id="downtown-${action}" class="slot-downtown-action-space">
               <div class="slot-downtown-action-${action}"></div>
               <div class="slot-downtown-action-cost">${cost}${formatIcon('action-point')}</div>
             </div>`;
@@ -53,7 +54,6 @@ export const board = {
             if (n > nPlayers) return;
             slotsHTML += `<div id="board-downtown-${j}" class="slot-downtown-slot-${j}"></div>`;
         });
-        slotsHTML += '<div class="slot-downtown-shard-boost"></div>';
         slotsHTML += '</div>';
 
         const trickDecks = ['mechanical', 'spiritual', 'escape', 'optical'];
@@ -86,6 +86,57 @@ export const board = {
           ${trickDecksHTML}
           ${actionsHTML}
           ${slotsHTML}
+          <div class="slot-downtown-shard-boost"></div>
+        </div>`
+        );
+
+        ////////////////////
+        // MARKET ROW
+        const marketActions = {
+            buy: 1,
+            bargain: 1,
+            order: 1,
+            'quick-order': 2,
+        };
+        actionsHTML = '';
+        Object.entries(marketActions).forEach(([action, cost]) => {
+            actionsHTML += `<div id="market-${action}" class="slot-market-action-space">
+              <div class="slot-market-action-${action}"></div>
+              <div class="slot-market-action-cost">${cost}${formatIcon('action-point')}</div>
+            </div>`;
+        });
+        const marketSlots = [2, 3, 4, 2];
+        slotsHTML = '<div id="market-action-slots" class="action-slots">';
+        marketSlots.forEach((n, i) => {
+            let j = i + 1;
+            if (n > nPlayers) return;
+            slotsHTML += `<div id="board-market-row-${j}" class="slot-market-slot-${j}"></div>`;
+        });
+        slotsHTML += '</div>';
+
+        let marketsHTML = '<div id="buy-area">';
+        for (let i = 0; i < 4; i++) {
+            marketsHTML += `<div id="buy-slot-${i}" class="slot-market-component-slot"></div>`;
+        }
+        marketsHTML += '</div>';
+        marketsHTML += '<div id="quick-order-slot" class="slot-market-quick-order-slot"></div>';
+        marketsHTML += '<div id="order-area">';
+        for (let i = 0; i < 4; i++) {
+            marketsHTML += `<div id="order-slot-${i}" class="slot-market-component-slot"></div>`;
+        }
+        marketsHTML += '</div>';
+
+        $('board-market-row').insertAdjacentHTML(
+            'beforeend',
+            `
+        <div id="board-market-row-inner">
+          <div id="market-logo" class="slot-market-row"></div>
+          <div class="slot-market-costs"></div>
+          <div class="slot-market-quick-order-cost"></div>
+          <div class="slot-market-shard-boost"></div>
+          ${actionsHTML}
+          ${slotsHTML}
+          ${marketsHTML}
         </div>`
         );
     },

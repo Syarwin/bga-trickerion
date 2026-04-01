@@ -14,33 +14,35 @@
  *
  */
 html {
-  background-image: url("img/background.jpg"); }
+  background-image: url("img/background.jpg");
+}
 
 /*! nouislider - 14.6.0 - 6/27/2020 */
 .noUi-target, .noUi-target * {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
-  -ms-touch-action: none;
   touch-action: none;
-  -ms-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 .noUi-target {
-  position: relative; }
+  position: relative;
+}
 
 .noUi-base, .noUi-connects {
   width: 100%;
   height: 100%;
   position: relative;
-  z-index: 1; }
+  z-index: 1;
+}
 
 .noUi-connects {
   overflow: hidden;
-  z-index: 0; }
+  z-index: 0;
+}
 
 .noUi-connect, .noUi-origin {
   will-change: transform;
@@ -52,91 +54,111 @@ html {
   -webkit-transform-origin: 0 0;
   -webkit-transform-style: preserve-3d;
   transform-origin: 0 0;
-  transform-style: flat; }
+  transform-style: flat;
+}
 
 .noUi-connect {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+}
 
 .noUi-origin {
   height: 10%;
-  width: 10%; }
+  width: 10%;
+}
 
 .noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
   left: 0;
-  right: auto; }
+  right: auto;
+}
 
 .noUi-vertical .noUi-origin {
-  width: 0; }
+  width: 0;
+}
 
 .noUi-horizontal .noUi-origin {
-  height: 0; }
+  height: 0;
+}
 
 .noUi-handle {
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  position: absolute; }
+  position: absolute;
+}
 
 .noUi-touch-area {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+}
 
 .noUi-state-tap .noUi-connect, .noUi-state-tap .noUi-origin {
-  -webkit-transition: transform .3s;
-  transition: transform .3s; }
+  transition: transform 0.3s;
+}
 
 .noUi-state-drag * {
-  cursor: inherit !important; }
+  cursor: inherit !important;
+}
 
 .noUi-horizontal {
-  height: 18px; }
+  height: 18px;
+}
 
 .noUi-horizontal .noUi-handle {
   width: 34px;
   height: 28px;
   right: -17px;
-  top: -6px; }
+  top: -6px;
+}
 
 .noUi-vertical {
-  width: 18px; }
+  width: 18px;
+}
 
 .noUi-vertical .noUi-handle {
   width: 28px;
   height: 34px;
   right: -6px;
-  top: -17px; }
+  top: -17px;
+}
 
 .noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
   left: -17px;
-  right: auto; }
+  right: auto;
+}
 
 .noUi-target {
   background: #FAFAFA;
   border-radius: 4px;
   border: 1px solid #D3D3D3;
-  box-shadow: inset 0 1px 1px #F0F0F0,0 3px 6px -5px #BBB; }
+  box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
+}
 
 .noUi-connects {
-  border-radius: 3px; }
+  border-radius: 3px;
+}
 
 .noUi-connect {
-  background: #3FB8AF; }
+  background: #3FB8AF;
+}
 
 .noUi-draggable {
-  cursor: ew-resize; }
+  cursor: ew-resize;
+}
 
 .noUi-vertical .noUi-draggable {
-  cursor: ns-resize; }
+  cursor: ns-resize;
+}
 
 .noUi-handle {
   border: 1px solid #D9D9D9;
   border-radius: 3px;
   background: #FFF;
   cursor: default;
-  box-shadow: inset 0 0 1px #FFF,inset 0 1px 7px #EBEBEB,0 3px 6px -3px #BBB; }
+  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+}
 
 .noUi-active {
-  box-shadow: inset 0 0 1px #FFF,inset 0 1px 7px #DDD,0 3px 6px -3px #BBB; }
+  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
+}
 
 .noUi-handle:after, .noUi-handle:before {
   content: "";
@@ -146,104 +168,124 @@ html {
   width: 1px;
   background: #E8E7E6;
   left: 14px;
-  top: 6px; }
+  top: 6px;
+}
 
 .noUi-handle:after {
-  left: 17px; }
+  left: 17px;
+}
 
 .noUi-vertical .noUi-handle:after, .noUi-vertical .noUi-handle:before {
   width: 14px;
   height: 1px;
   left: 6px;
-  top: 14px; }
+  top: 14px;
+}
 
 .noUi-vertical .noUi-handle:after {
-  top: 17px; }
+  top: 17px;
+}
 
 [disabled] .noUi-connect {
-  background: #B8B8B8; }
+  background: #B8B8B8;
+}
 
 [disabled] .noUi-handle, [disabled].noUi-handle, [disabled].noUi-target {
-  cursor: not-allowed; }
+  cursor: not-allowed;
+}
 
 .noUi-pips, .noUi-pips * {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 .noUi-pips {
   position: absolute;
-  color: #999; }
+  color: #999;
+}
 
 .noUi-value {
   position: absolute;
   white-space: nowrap;
-  text-align: center; }
+  text-align: center;
+}
 
 .noUi-value-sub {
   color: #ccc;
-  font-size: 10px; }
+  font-size: 10px;
+}
 
 .noUi-marker {
   position: absolute;
-  background: #CCC; }
+  background: #CCC;
+}
 
 .noUi-marker-sub {
-  background: #AAA; }
+  background: #AAA;
+}
 
 .noUi-marker-large {
-  background: #AAA; }
+  background: #AAA;
+}
 
 .noUi-pips-horizontal {
   padding: 10px 0;
   height: 80px;
   top: 100%;
   left: 0;
-  width: 100%; }
+  width: 100%;
+}
 
 .noUi-value-horizontal {
-  -webkit-transform: translate(-50%, 50%);
-  transform: translate(-50%, 50%); }
+  transform: translate(-50%, 50%);
+}
 
 .noUi-rtl .noUi-value-horizontal {
-  -webkit-transform: translate(50%, 50%);
-  transform: translate(50%, 50%); }
+  transform: translate(50%, 50%);
+}
 
 .noUi-marker-horizontal.noUi-marker {
   margin-left: -1px;
   width: 2px;
-  height: 5px; }
+  height: 5px;
+}
 
 .noUi-marker-horizontal.noUi-marker-sub {
-  height: 10px; }
+  height: 10px;
+}
 
 .noUi-marker-horizontal.noUi-marker-large {
-  height: 15px; }
+  height: 15px;
+}
 
 .noUi-pips-vertical {
   padding: 0 10px;
   height: 100%;
   top: 0;
-  left: 100%; }
+  left: 100%;
+}
 
 .noUi-value-vertical {
-  -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
-  padding-left: 25px; }
+  padding-left: 25px;
+}
 
 .noUi-rtl .noUi-value-vertical {
-  -webkit-transform: translate(0, 50%);
-  transform: translate(0, 50%); }
+  transform: translate(0, 50%);
+}
 
 .noUi-marker-vertical.noUi-marker {
   width: 5px;
   height: 2px;
-  margin-top: -1px; }
+  margin-top: -1px;
+}
 
 .noUi-marker-vertical.noUi-marker-sub {
-  width: 10px; }
+  width: 10px;
+}
 
 .noUi-marker-vertical.noUi-marker-large {
-  width: 15px; }
+  width: 15px;
+}
 
 .noUi-tooltip {
   display: block;
@@ -254,92 +296,98 @@ html {
   color: #000;
   padding: 5px;
   text-align: center;
-  white-space: nowrap; }
+  white-space: nowrap;
+}
 
 .noUi-horizontal .noUi-tooltip {
-  -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
   left: 50%;
-  bottom: 120%; }
+  bottom: 120%;
+}
 
 .noUi-vertical .noUi-tooltip {
-  -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
   top: 50%;
-  right: 120%; }
+  right: 120%;
+}
 
 .noUi-horizontal .noUi-origin > .noUi-tooltip {
-  -webkit-transform: translate(50%, 0);
   transform: translate(50%, 0);
   left: auto;
-  bottom: 10px; }
+  bottom: 10px;
+}
 
 .noUi-vertical .noUi-origin > .noUi-tooltip {
-  -webkit-transform: translate(0, -18px);
   transform: translate(0, -18px);
   top: auto;
-  right: 28px; }
+  right: 28px;
+}
 
 :root {
-  --trickCardScale: 0.35; }
+  --trickCardScale: 0.35;
+}
 
 #pagemaintitletext .trick-card,
 #gameaction_status .trick-card,
 .player-board .trick-card {
   position: absolute;
-  left: 50%; }
+  left: 50%;
+}
 
 .log-trick-card-name {
-  font-style: italic; }
+  font-style: italic;
+}
 
 .trick-card {
   position: relative;
   width: calc(var(--trickCardScale) * 375px);
-  height: calc(var(--trickCardScale) * 525px); }
-  .trick-card.unselectable {
-    cursor: not-allowed;
-    filter: grayscale(80%);
-    -webkit-transform: translateZ(0);
-    -webkit-perspective: 1000;
-    -webkit-backface-visibility: hidden; }
-  .trick-card.selectable {
-    cursor: pointer;
-    box-shadow: 0px 0px 10px 0px #dbae00; }
-    .trick-card.selectable:hover {
-      transform: scale(1.1); }
-  .trick-card.selected {
-    border: 2px solid #3cff00;
-    margin: -2px;
-    box-shadow: 0px 0px 10px 0px #2bff00;
-    border-radius: 4px; }
-  .trick-card .trick-card-wrapper {
-    width: 373px;
-    height: 520px;
-    transform-origin: top left;
-    transform: scale(var(--trickCardScale));
-    border-radius: 8px;
-    box-shadow: 2px 2px 3px 1px black;
-    background-image: url("img/cards.jpg");
-    background-size: 600% 400%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: baseline; }
+  height: calc(var(--trickCardScale) * 525px);
+}
+.trick-card.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.trick-card.selectable {
+  cursor: pointer;
+}
+.trick-card.selectable:hover {
+  transform: scale(1.1);
+}
+.trick-card.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.trick-card.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.trick-card .trick-card-wrapper {
+  width: 373px;
+  height: 520px;
+  transform-origin: top left;
+  transform: scale(var(--trickCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/cards.jpg");
+  background-size: 600% 400%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
 
 .icon-container {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0.08em;
-  font-size: 1em; }
+  font-size: 1em;
+}
 
-@font-face {
-  font-family: "icomoon";
-  src: url("img/fonts/icomoon.eot?e0nyns");
-  src: url("img/fonts/icomoon.eot?e0nyns#iefix") format("embedded-opentype"), url("img/fonts/icomoon.ttf?e0nyns") format("truetype"), url("img/fonts/icomoon.woff?e0nyns") format("woff"), url("img/fonts/icomoon.svg?e0nyns#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block; }
-[class^="svgicon-"],
+[class^=svgicon-],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "icomoon" !important;
@@ -351,1038 +399,1429 @@ html {
   line-height: 1;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .svgicon-end:before {
-  content: "\e910"; }
+  content: "\e910";
+}
 
 .svgicon-disk:before {
-  content: "\e90a"; }
+  content: "\e90a";
+}
 
 .svgicon-disk-apprentice:before {
-  content: "\e90b"; }
+  content: "\e90b";
+}
 
 .svgicon-disk-assistant:before {
-  content: "\e90c"; }
+  content: "\e90c";
+}
 
 .svgicon-disk-engineer:before {
-  content: "\e90d"; }
+  content: "\e90d";
+}
 
 .svgicon-disk-magician:before {
-  content: "\e90e"; }
+  content: "\e90e";
+}
 
 .svgicon-disk-manager:before {
-  content: "\e90f"; }
+  content: "\e90f";
+}
 
 .svgicon-other-players:before {
-  content: "\e91e"; }
+  content: "\e91e";
+}
 
 .svgicon-action-point:before {
-  content: "\e900"; }
+  content: "\e900";
+}
 
 .svgicon-active-player:before {
-  content: "\e901"; }
+  content: "\e901";
+}
 
 .svgicon-advertise:before {
-  content: "\e902"; }
+  content: "\e902";
+}
 
 .svgicon-apprentice:before {
-  content: "\e903"; }
+  content: "\e903";
+}
 
 .svgicon-assignment:before {
-  content: "\e904"; }
+  content: "\e904";
+}
 
 .svgicon-assistant:before {
-  content: "\e905"; }
+  content: "\e905";
+}
 
 .svgicon-coin:before {
-  content: "\e906"; }
+  content: "\e906";
+}
 
 .svgicon-component:before {
-  content: "\e907"; }
+  content: "\e907";
+}
 
 .svgicon-diamond-ring:before {
-  content: "\e908"; }
+  content: "\e908";
+}
 
 .svgicon-die:before {
-  content: "\e909"; }
+  content: "\e909";
+}
 
 .svgicon-engineer:before {
-  content: "\e917"; }
+  content: "\e917";
+}
 
 .svgicon-fame:before {
-  content: "\e918"; }
+  content: "\e918";
+}
 
 .svgicon-fame-threshold:before {
-  content: "\e919"; }
+  content: "\e919";
+}
 
 .svgicon-link:before {
-  content: "\e91a"; }
+  content: "\e91a";
+}
 
 .svgicon-link-shard:before {
-  content: "\e91b"; }
+  content: "\e91b";
+}
 
 .svgicon-magician:before {
-  content: "\e91c"; }
+  content: "\e91c";
+}
 
 .svgicon-manager:before {
-  content: "\e91d"; }
+  content: "\e91d";
+}
 
 .svgicon-perform:before {
-  content: "\e91f"; }
+  content: "\e91f";
+}
 
 .svgicon-performance:before {
-  content: "\e920"; }
+  content: "\e920";
+}
 
 .svgicon-shard:before {
-  content: "\e921"; }
+  content: "\e921";
+}
 
 .svgicon-special-assignment:before {
-  content: "\e922"; }
+  content: "\e922";
+}
 
 .svgicon-spend:before {
-  content: "\e923"; }
+  content: "\e923";
+}
 
 .svgicon-trick:before {
-  content: "\e924"; }
+  content: "\e924";
+}
 
 .svgicon-trick-marker:before {
-  content: "\e925"; }
+  content: "\e925";
+}
 
 .meeple-trick-marker-green-diamonds {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 0.000000% 0.000000%;
+  background-position: 0% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-red-diamonds {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 11.790715% 0.000000%;
+  background-position: 11.790715% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-green-hearts {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 23.581430% 0.000000%;
+  background-position: 23.58143% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-yellow-clubs {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 35.372144% 0.000000%;
+  background-position: 35.372144% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-blue-hearts {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 47.162859% 0.000000%;
+  background-position: 47.162859% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-red-hearts {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 58.953574% 0.000000%;
+  background-position: 58.953574% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-blue-clubs {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 70.744289% 0.000000%;
+  background-position: 70.744289% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-blue-spades {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 82.535004% 0.000000%;
+  background-position: 82.535004% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-blue-diamonds {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 94.325718% 0.000000%;
+  background-position: 94.325718% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-green-clubs {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 0.000000% 17.797553%;
+  background-position: 0% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-yellow-hearts {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 11.790715% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-yellow-diamonds {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 23.581430% 17.797553%;
+  background-position: 23.58143% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-green-spades {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 35.372144% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-yellow-spades {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 47.162859% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-red-clubs {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 58.953574% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-trick-marker-red-spades {
   background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 70.744289% 17.797553%;
   background-repeat: no-repeat;
-  aspect-ratio: 154/154; }
+  aspect-ratio: 154/154;
+}
 
 .meeple-component-petroleum {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 82.171680% 17.679558%;
+  background-position: 82.17168% 17.679558%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-animal {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 93.470286% 17.679558%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-fabric {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 0.000000% 35.359116%;
+  background-position: 0% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-paddlock {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 11.298606% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-rope {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 22.597212% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-cog {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 33.895818% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-saw {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 45.194424% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-glass {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 56.493030% 35.359116%;
+  background-position: 56.49303% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-metal {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 67.791636% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-mirror {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 79.090242% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-wood {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 90.388848% 35.359116%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-component-disguise {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 0.000000% 52.375691%;
+  background-position: 0% 52.375691%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/148; }
+  aspect-ratio: 148/148;
+}
 
 .meeple-red-assistant {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 11.265545% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-yellow-engineer {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 22.238478% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-green-manager {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 33.211412% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-green-magician {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 44.184345% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-yellow-magician {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 55.157279% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-red-engineer {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 66.130212% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-blue-magician {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 77.103146% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-yellow-apprentice {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 88.076079% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-blue-manager {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 99.049012% 52.145215%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-green-apprentice {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 0.000000% 69.086909%;
+  background-position: 0% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-blue-apprentice {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 10.972933% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-red-magician {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 21.945867% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-red-apprentice {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 32.918800% 69.086909%;
+  background-position: 32.9188% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-blue-engineer {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 43.891734% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-yellow-assistant {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 54.864667% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-green-assistant {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 65.837601% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-yellow-manager {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 76.810534% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-red-manager {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 87.783467% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-green-engineer {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 98.756401% 69.086909%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-blue-assistant {
   background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 0.000000% 85.588559%;
+  background-position: 0% 85.588559%;
   background-repeat: no-repeat;
-  aspect-ratio: 144/144; }
+  aspect-ratio: 144/144;
+}
 
 .meeple-academy-marker-yellow-diamonds {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 100.000000% 34.482759%;
+  background-size: 1208.8% auto;
+  background-position: 100% 34.482759%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-yellow-clubs {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 10.822511% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-green-diamonds {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 20.274170% 83.836207%;
+  background-size: 1208.8% auto;
+  background-position: 20.27417% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-red-hearts {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 29.725830% 83.836207%;
+  background-size: 1208.8% auto;
+  background-position: 29.72583% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-greeen-spades {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 39.177489% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-blue-spades {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 48.629149% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-blue-diamonds {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 58.080808% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-blue-hearts {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 67.532468% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-red-clubs {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 76.984127% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-blue-clubs {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 86.435786% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-red-diamonds {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
+  background-size: 1208.8% auto;
   background-position: 95.887446% 83.836207%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-yellow-hearts {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 0.000000% 100.000000%;
+  background-size: 1208.8% auto;
+  background-position: 0% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-green-spades {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 9.451659% 100.000000%;
+  background-size: 1208.8% auto;
+  background-position: 9.451659% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-red-spades {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 18.903319% 100.000000%;
+  background-size: 1208.8% auto;
+  background-position: 18.903319% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-green-hearts {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 28.354978% 100.000000%;
+  background-size: 1208.8% auto;
+  background-position: 28.354978% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 .meeple-academy-marker-yellow-spades {
   background-image: url("img/meeples.png");
-  background-size: 1208.800000% auto;
-  background-position: 37.806638% 100.000000%;
+  background-size: 1208.8% auto;
+  background-position: 37.806638% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/125; }
+  aspect-ratio: 125/125;
+}
 
 #pagemaintitletext .trickerion-meeple,
 #gameaction_status .trickerion-meeple {
   position: absolute;
-  left: 50%; }
+  left: 50%;
+}
 
 .trickerion-meeple {
   display: inline-block;
-  vertical-align: middle; }
+  vertical-align: middle;
+}
 
 .slot-market-costs {
   background-image: url("img/slots.png");
-  background-size: 348.764045% auto;
-  background-position: 0.000000% 0.000000%;
+  background-size: 366.516854% auto;
+  background-position: 0% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 445/256; }
+  aspect-ratio: 445/256;
+}
 
 .slot-market-row {
   background-image: url("img/slots.png");
-  background-size: 417.204301% auto;
-  background-position: 0.000000% 21.318145%;
+  background-size: 438.44086% auto;
+  background-position: 0% 20.61369%;
   background-repeat: no-repeat;
-  aspect-ratio: 372/310; }
+  aspect-ratio: 372/310;
+}
 
 .slot-downtown {
   background-image: url("img/slots.png");
-  background-size: 419.459459% auto;
-  background-position: 31.979695% 21.318145%;
+  background-size: 440.810811% auto;
+  background-position: 29.976209% 20.61369%;
   background-repeat: no-repeat;
-  aspect-ratio: 370/310; }
+  aspect-ratio: 370/310;
+}
 
 .slot-market-slot-3 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 58.449612% 20.876494%;
+  background-size: 622.519084% auto;
+  background-position: 55.076698% 20.200463%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-downtown-slot-1 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 79.224806% 20.876494%;
+  background-size: 622.519084% auto;
+  background-position: 74.653031% 20.200463%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-market-slot-1 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 100.000000% 20.876494%;
+  background-size: 622.519084% auto;
+  background-position: 94.229364% 20.200463%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-market-slot-4 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 0.000000% 46.055777%;
+  background-size: 622.519084% auto;
+  background-position: 0% 44.564379%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-downtown-slot-2 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 20.775194% 46.055777%;
+  background-size: 622.519084% auto;
+  background-position: 19.576333% 44.564379%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-downtown-slot-4 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 41.550388% 46.055777%;
+  background-size: 622.519084% auto;
+  background-position: 39.152666% 44.564379%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-market-slot-2 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 62.325581% 46.055777%;
+  background-size: 622.519084% auto;
+  background-position: 58.728999% 44.564379%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
+  aspect-ratio: 262/284;
+}
 
 .slot-downtown-slot-3 {
   background-image: url("img/slots.png");
-  background-size: 592.366412% auto;
-  background-position: 83.100775% 46.055777%;
+  background-size: 622.519084% auto;
+  background-position: 78.305332% 44.564379%;
   background-repeat: no-repeat;
-  aspect-ratio: 262/284; }
-
-.slot-market-component-slot {
-  background-image: url("img/slots.png");
-  background-size: 705.454545% auto;
-  background-position: 33.858859% 0.000000%;
-  background-repeat: no-repeat;
-  aspect-ratio: 220/218; }
-
-.slot-downtown-shard-boost {
-  background-image: url("img/slots.png");
-  background-size: 732.075472% auto;
-  background-position: 50.522388% 0.000000%;
-  background-repeat: no-repeat;
-  aspect-ratio: 212/143; }
-
-.slot-market-shard-boost {
-  background-image: url("img/slots.png");
-  background-size: 732.075472% auto;
-  background-position: 66.791045% 0.000000%;
-  background-repeat: no-repeat;
-  aspect-ratio: 212/143; }
-
-.slot-market-quick-order-slot {
-  background-image: url("img/slots.png");
-  background-size: 735.545024% auto;
-  background-position: 99.925429% 43.524096%;
-  background-repeat: no-repeat;
-  aspect-ratio: 211/211; }
+  aspect-ratio: 262/284;
+}
 
 .slot-optical {
   background-image: url("img/slots.png");
-  background-size: 739.047619% auto;
-  background-position: 0.000000% 62.898551%;
+  background-size: 776.666667% auto;
+  background-position: 31.738213% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 210/159; }
+  aspect-ratio: 210/159;
+}
 
 .slot-escape {
   background-image: url("img/slots.png");
-  background-size: 739.047619% auto;
-  background-position: 16.095380% 62.898551%;
+  background-size: 776.666667% auto;
+  background-position: 46.938776% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 210/159; }
+  aspect-ratio: 210/159;
+}
 
 .slot-mechanical {
   background-image: url("img/slots.png");
-  background-size: 739.047619% auto;
-  background-position: 32.190760% 62.898551%;
+  background-size: 776.666667% auto;
+  background-position: 62.139338% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 210/159; }
+  aspect-ratio: 210/159;
+}
+
+.slot-market-component-slot {
+  background-image: url("img/slots.png");
+  background-size: 776.666667% auto;
+  background-position: 94.299789% 42.12828%;
+  background-repeat: no-repeat;
+  aspect-ratio: 210/209;
+}
 
 .slot-spiritual {
   background-image: url("img/slots.png");
-  background-size: 739.047619% auto;
-  background-position: 48.286140% 62.898551%;
+  background-size: 776.666667% auto;
+  background-position: 77.339901% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 210/159; }
+  aspect-ratio: 210/159;
+}
 
 .slot-market-action-space {
   background-image: url("img/slots.png");
-  background-size: 742.583732% auto;
-  background-position: 0.000000% 75.900073%;
+  background-size: 780.382775% auto;
+  background-position: 0% 61.867427%;
   background-repeat: no-repeat;
-  aspect-ratio: 209/178; }
+  aspect-ratio: 209/178;
+}
+
+.slot-downtown-shard-boost {
+  background-image: url("img/slots.png");
+  background-size: 780.382775% auto;
+  background-position: 92.475387% 0%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/138;
+}
+
+.slot-market-shard-boost {
+  background-image: url("img/slots.png");
+  background-size: 780.382775% auto;
+  background-position: 15.11955% 60.15246%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/138;
+}
 
 .slot-downtown-action-space {
   background-image: url("img/slots.png");
-  background-size: 742.583732% auto;
-  background-position: 0.000000% 89.485294%;
+  background-size: 780.382775% auto;
+  background-position: 0% 74.982181%;
   background-repeat: no-repeat;
-  aspect-ratio: 209/179; }
+  aspect-ratio: 209/178;
+}
+
+.slot-market-quick-order-slot {
+  background-image: url("img/slots.png");
+  background-size: 799.509804% auto;
+  background-position: 0% 89.630167%;
+  background-repeat: no-repeat;
+  aspect-ratio: 204/202;
+}
 
 .slot-market-action-space-extended {
   background-image: url("img/slots.png");
-  background-size: 912.941176% auto;
-  background-position: 15.557164% 75.900073%;
+  background-size: 959.411765% auto;
+  background-position: 14.715948% 74.982181%;
   background-repeat: no-repeat;
-  aspect-ratio: 170/178; }
+  aspect-ratio: 170/178;
+}
 
 .slot-market-action-order {
   background-image: url("img/slots.png");
-  background-size: 907.602339% auto;
-  background-position: 80.593773% 0.000000%;
+  background-size: 953.80117% auto;
+  background-position: 30.890411% 11.007338%;
   background-repeat: no-repeat;
-  aspect-ratio: 171/82; }
+  aspect-ratio: 171/82;
+}
 
 .slot-downtown-action-set-die {
   background-image: url("img/slots.png");
-  background-size: 923.809524% auto;
-  background-position: 62.427746% 60.699301%;
+  background-size: 970.833333% auto;
+  background-position: 29.391661% 58.967391%;
   background-repeat: no-repeat;
-  aspect-ratio: 168/109; }
+  aspect-ratio: 168/109;
+}
 
 .slot-downtown-action-hire-character {
   background-image: url("img/slots.png");
-  background-size: 988.535032% auto;
-  background-position: 74.408602% 60.152460%;
+  background-size: 1038.853503% auto;
+  background-position: 40.976934% 58.451178%;
   background-repeat: no-repeat;
-  aspect-ratio: 157/96; }
+  aspect-ratio: 157/96;
+}
 
 .slot-downtown-action-learn-trick {
   background-image: url("img/slots.png");
-  background-size: 1014.379085% auto;
-  background-position: 27.948535% 71.636616%;
+  background-size: 1066.013072% auto;
+  background-position: 26.454668% 70.889488%;
   background-repeat: no-repeat;
-  aspect-ratio: 153/97; }
+  aspect-ratio: 153/97;
+}
 
 .slot-market-action-quick-order {
   background-image: url("img/slots.png");
-  background-size: 1048.648649% auto;
-  background-position: 85.541311% 60.110803%;
+  background-size: 1102.027027% auto;
+  background-position: 51.719488% 58.411844%;
   background-repeat: no-repeat;
-  aspect-ratio: 148/95; }
+  aspect-ratio: 148/95;
+}
 
 .slot-downtown-action-take-coins {
   background-image: url("img/slots.png");
-  background-size: 1124.637681% auto;
-  background-position: 95.827440% 59.738472%;
+  background-size: 1181.884058% auto;
+  background-position: 61.687877% 58.060201%;
   background-repeat: no-repeat;
-  aspect-ratio: 138/86; }
+  aspect-ratio: 138/86;
+}
 
 .slot-downtown-die-slot-bank-B {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 15.194346% 86.742694%;
+  background-size: 1190.510949% auto;
+  background-position: 14.056225% 85.536332%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/136; }
+  aspect-ratio: 137/136;
+}
 
 .slot-downtown-die-slot-character-B {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 0.000000% 100.000000%;
+  background-size: 1190.510949% auto;
+  background-position: 0% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/137; }
+  aspect-ratio: 137/137;
+}
 
 .slot-downtown-die-slot-trick-A {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 10.106007% 100.000000%;
+  background-size: 1190.510949% auto;
+  background-position: 9.57162% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/137; }
+  aspect-ratio: 137/137;
+}
 
 .slot-downtown-die-slot-character-A {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 20.212014% 100.000000%;
+  background-size: 1190.510949% auto;
+  background-position: 19.14324% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/137; }
+  aspect-ratio: 137/137;
+}
 
 .slot-downtown-die-slot-trick-B {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 30.318021% 100.000000%;
+  background-size: 1190.510949% auto;
+  background-position: 28.714859% 100%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/137; }
+  aspect-ratio: 137/137;
+}
 
 .slot-downtown-die-slot-bank-A {
   background-image: url("img/slots.png");
-  background-size: 1132.846715% auto;
-  background-position: 25.300353% 86.742694%;
+  background-size: 1190.510949% auto;
+  background-position: 23.627845% 85.536332%;
   background-repeat: no-repeat;
-  aspect-ratio: 137/136; }
+  aspect-ratio: 137/136;
+}
 
 .slot-market-action-buy {
   background-image: url("img/slots.png");
-  background-size: 1241.600000% auto;
-  background-position: 90.399439% 0.000000%;
+  background-size: 1304.8% auto;
+  background-position: 41.699867% 10.862409%;
   background-repeat: no-repeat;
-  aspect-ratio: 125/62; }
+  aspect-ratio: 125/62;
+}
 
 .slot-downtown-action-reroll-die {
   background-image: url("img/slots.png");
-  background-size: 1272.131148% auto;
-  background-position: 38.461538% 71.143251%;
+  background-size: 1336.885246% auto;
+  background-position: 36.447979% 70.414993%;
   background-repeat: no-repeat;
-  aspect-ratio: 122/87; }
+  aspect-ratio: 122/87;
+}
 
 .slot-market-quick-order-cost {
   background-image: url("img/slots.png");
-  background-size: 1464.150943% auto;
-  background-position: 34.647303% 84.455239%;
+  background-size: 1614.851485% auto;
+  background-position: 100% 0%;
   background-repeat: no-repeat;
-  aspect-ratio: 106/98; }
+  aspect-ratio: 101/94;
+}
 
 .slot-downtown-action-cost {
   background-image: url("img/slots.png");
-  background-size: 1686.956522% auto;
-  background-position: 41.986301% 84.105045%;
+  background-size: 1772.826087% auto;
+  background-position: 32.22872% 83.008731%;
   background-repeat: no-repeat;
-  aspect-ratio: 92/92; }
+  aspect-ratio: 92/92;
+}
 
 .slot-market-action-cost {
   background-image: url("img/slots.png");
-  background-size: 1686.956522% auto;
-  background-position: 48.698630% 84.105045%;
+  background-size: 1772.826087% auto;
+  background-position: 38.596491% 83.008731%;
   background-repeat: no-repeat;
-  aspect-ratio: 92/92; }
+  aspect-ratio: 92/92;
+}
 
 .slot-market-action-bargain {
   background-image: url("img/slots.png");
-  background-size: 1705.494505% auto;
-  background-position: 46.338125% 10.129164%;
+  background-size: 1792.307692% auto;
+  background-position: 87.012987% 52.412426%;
   background-repeat: no-repeat;
-  aspect-ratio: 91/68; }
+  aspect-ratio: 91/68;
+}
 
 #trickerion-main-wrapper {
-  position: relative; }
-  #trickerion-main-wrapper #trickerion-main-container {
-    position: relative;
-    display: flex;
-    justify-content: center; }
-    #trickerion-main-wrapper #trickerion-main-container #trickerion-board-wrapper #trickerion-board {
-      position: relative;
-      width: 1365.3333333333px;
-      height: 962.3333333333px; }
-      #trickerion-main-wrapper #trickerion-main-container #trickerion-board-wrapper #trickerion-board #board-background {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url("img/board.jpg");
-        background-size: 100% 100%;
-        background-repeat: no-repeat; }
+  position: relative;
+}
+#trickerion-main-wrapper #trickerion-main-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+#trickerion-main-wrapper #trickerion-main-container #trickerion-board-wrapper #trickerion-board {
+  position: relative;
+  width: 1365.3333333333px;
+  height: 962.3333333333px;
+}
+#trickerion-main-wrapper #trickerion-main-container #trickerion-board-wrapper #trickerion-board #board-background {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("img/board.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 
 #board-downtown {
   position: relative;
-  width: 700px;
-  height: 360px; }
-  #board-downtown #board-downtown-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 700px;
-    height: 360px;
-    transform-origin: top left;
-    background-image: url("img/board.jpg");
-    background-repeat: no-repeat;
-    background-size: 302% auto;
-    background-position: 25% 2%;
-    border: 1px solid #a2360c;
-    border-radius: 5px;
-    box-sizing: border-box; }
-    #board-downtown #board-downtown-inner::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background: #c5c5c55c; }
-    #board-downtown #board-downtown-inner #downtown-logo {
-      width: 100px;
-      position: absolute;
-      bottom: 0px;
-      left: 6px; }
-    #board-downtown #board-downtown-inner #dice-characters,
-    #board-downtown #board-downtown-inner #dice-tricks,
-    #board-downtown #board-downtown-inner #dice-banks {
-      width: 105px;
-      height: 50px;
-      position: absolute;
-      display: flex;
-      column-gap: 5px; }
-      #board-downtown #board-downtown-inner #dice-characters > div,
-      #board-downtown #board-downtown-inner #dice-tricks > div,
-      #board-downtown #board-downtown-inner #dice-banks > div {
-        width: 50px;
-        box-shadow: 1px 1px 2px black; }
-    #board-downtown #board-downtown-inner #dice-characters {
-      top: 86px;
-      left: 52px; }
-    #board-downtown #board-downtown-inner #dice-tricks {
-      top: 83px;
-      left: 300px; }
-    #board-downtown #board-downtown-inner #dice-banks {
-      top: 83px;
-      left: 548px; }
-    #board-downtown #board-downtown-inner .slot-downtown-action-space {
-      width: 100px;
-      position: absolute;
-      box-shadow: 1px 1px 3px black;
-      border-radius: 13px;
-      border: 1px solid black; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space div {
-        width: 75px;
-        margin: 8px auto; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost {
-        position: absolute;
-        width: 40px;
-        left: 30px;
-        bottom: -23px;
-        box-shadow: 1px 1px 2px black;
-        border-radius: 50%;
-        font-weight: 900;
-        font-family: "Brandon Text";
-        font-size: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center; }
-        #board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost i {
-          font-size: 15px; }
-        #board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost::before {
-          content: "\e923";
-          font-family: "icomoon" !important;
-          speak: never;
-          font-style: normal;
-          font-weight: normal;
-          font-variant: normal;
-          text-transform: none;
-          line-height: 1;
-          font-size: 8px;
-          margin: 2px 11px -16px; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-learn-trick {
-        top: 140px;
-        left: 300px; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-hire-character {
-        top: 140px;
-        left: 53px; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-take-coins {
-        top: 140px;
-        left: 549px; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-reroll-die {
-        top: 100px;
-        left: 177px; }
-      #board-downtown #board-downtown-inner .slot-downtown-action-space#market-set-die {
-        top: 100px;
-        left: 422px; }
-    #board-downtown #board-downtown-inner .action-slots {
-      position: absolute;
-      bottom: 5px;
-      left: 81px;
-      right: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center; }
-      #board-downtown #board-downtown-inner .action-slots > div {
-        height: 100px;
-        position: relative; }
-        #board-downtown #board-downtown-inner .action-slots > div.selectable {
-          cursor: pointer; }
-          #board-downtown #board-downtown-inner .action-slots > div.selectable::before {
-            content: "";
-            width: 59px;
-            height: 59px;
-            border-radius: 50%;
-            display: block;
-            position: absolute;
-            left: 15px;
-            top: 18px;
-            box-shadow: inset 0px 0px 13px 7px gold; }
-          #board-downtown #board-downtown-inner .action-slots > div.selectable:hover {
-            transform: scale(1.05); }
-            #board-downtown #board-downtown-inner .action-slots > div.selectable:hover::before {
-              box-shadow: inset 0px 0px 15px 12px gold; }
-      #board-downtown #board-downtown-inner .action-slots .slot-downtown-shard-boost {
-        height: 50px;
-        box-shadow: 2px 2px 4px black;
-        border-radius: 10px; }
-    #board-downtown #board-downtown-inner #trick-decks {
-      position: absolute;
-      display: flex;
-      left: 7px;
-      right: 7px;
-      top: 7px;
-      justify-content: space-around; }
-      #board-downtown #board-downtown-inner #trick-decks .trick-deck {
-        width: 150px;
-        height: 45px;
-        border: 1px solid #504130;
-        border-radius: 6px;
-        background: #ffffffa8;
-        position: relative;
-        box-shadow: 1px 1px 3px black;
-        text-align: center;
-        font-family: "Brandon Text";
-        font-weight: 500;
-        cursor: zoom-in; }
-        #board-downtown #board-downtown-inner #trick-decks .trick-deck:hover {
-          transform: scale(1.1); }
-        #board-downtown #board-downtown-inner #trick-decks .trick-deck .trick-type {
-          position: absolute;
-          left: 40px;
-          width: 65px;
-          bottom: -25px; }
+  width: 600px;
+  height: 340px;
+  margin: 5px 5px 10px 10px;
+}
+#board-downtown #board-downtown-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 340px;
+  transform-origin: top left;
+  background-image: url("img/board.jpg");
+  background-repeat: no-repeat;
+  background-size: 330% auto;
+  background-position: 26% 2%;
+  border: 2px solid #683406;
+  border-radius: 5px;
+  border-bottom-left-radius: 40px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 4px #595858;
+}
+#board-downtown #board-downtown-inner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(197, 197, 197, 0.3607843137);
+  border-radius: 5px;
+  border-bottom-left-radius: 40px;
+}
+#board-downtown #board-downtown-inner #downtown-logo {
+  width: 100px;
+  position: absolute;
+  bottom: -11px;
+  left: -16px;
+}
+#board-downtown #board-downtown-inner #dice-characters,
+#board-downtown #board-downtown-inner #dice-tricks,
+#board-downtown #board-downtown-inner #dice-banks {
+  width: 105px;
+  height: 50px;
+  position: absolute;
+  display: flex;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+}
+#board-downtown #board-downtown-inner #dice-characters > div,
+#board-downtown #board-downtown-inner #dice-tricks > div,
+#board-downtown #board-downtown-inner #dice-banks > div {
+  width: 50px;
+  box-shadow: 1px 1px 2px black;
+}
+#board-downtown #board-downtown-inner #dice-characters {
+  top: 86px;
+  left: 28px;
+}
+#board-downtown #board-downtown-inner #dice-tricks {
+  top: 83px;
+  left: 247px;
+}
+#board-downtown #board-downtown-inner #dice-banks {
+  top: 86px;
+  left: 473px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space {
+  width: 90px;
+  position: absolute;
+  box-shadow: 1px 1px 3px black;
+  border-radius: 11px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 16px;
+  box-sizing: border-box;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space div {
+  width: 70px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space div.slot-downtown-action-reroll-die {
+  width: 55px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost {
+  position: absolute;
+  width: 40px;
+  left: 25px;
+  bottom: -23px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 50%;
+  font-family: "Brandon Text Black";
+  font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost i {
+  font-size: 15px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space .slot-downtown-action-cost::before {
+  content: "\e923";
+  font-family: "icomoon" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 8px;
+  margin: 2px 11px -16px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space#downtown-learn-trick {
+  top: 137px;
+  left: 255px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space#downtown-hire-character {
+  top: 140px;
+  left: 34px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space#downtown-take-coins {
+  top: 140px;
+  left: 478px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space#downtown-reroll-die {
+  top: 100px;
+  left: 146px;
+}
+#board-downtown #board-downtown-inner .slot-downtown-action-space#downtown-set-die {
+  top: 100px;
+  left: 366px;
+}
+#board-downtown #board-downtown-inner .action-slots {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#board-downtown #board-downtown-inner .action-slots > div {
+  height: 100px;
+  position: relative;
+  margin: 0px -3px;
+}
+#board-downtown #board-downtown-inner .action-slots > div.selectable {
+  cursor: pointer;
+}
+#board-downtown #board-downtown-inner .action-slots > div.selectable::before {
+  content: "";
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  left: 15px;
+  top: 18px;
+  box-shadow: inset 0px 0px 13px 7px gold;
+}
+#board-downtown #board-downtown-inner .action-slots > div.selectable:hover {
+  transform: scale(1.05);
+}
+#board-downtown #board-downtown-inner .action-slots > div.selectable:hover::before {
+  box-shadow: inset 0px 0px 15px 12px gold;
+}
+#board-downtown #board-downtown-inner .slot-downtown-shard-boost {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  height: 42px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 8px;
+}
+#board-downtown #board-downtown-inner #trick-decks {
+  position: absolute;
+  display: flex;
+  left: 0px;
+  right: 0px;
+  top: 7px;
+  justify-content: space-around;
+}
+#board-downtown #board-downtown-inner #trick-decks .trick-deck {
+  width: 130px;
+  height: 45px;
+  border: 1px solid #504130;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.6588235294);
+  position: relative;
+  box-shadow: 1px 1px 3px black;
+  text-align: center;
+  font-family: "Brandon Text Medium";
+  cursor: zoom-in;
+}
+#board-downtown #board-downtown-inner #trick-decks .trick-deck:hover {
+  transform: scale(1.1);
+}
+#board-downtown #board-downtown-inner #trick-decks .trick-deck .trick-type {
+  position: absolute;
+  left: 40px;
+  width: 65px;
+  bottom: -25px;
+}
+
+#board-market-row {
+  position: relative;
+  width: 560px;
+  height: 365px;
+  margin: 5px 5px 10px 10px;
+}
+#board-market-row #board-market-row-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 365px;
+  transform-origin: top left;
+  background-image: url("img/board.jpg");
+  background-repeat: no-repeat;
+  background-size: 360% auto;
+  background-position: 24% 93%;
+  border: 2px solid #683406;
+  border-radius: 5px;
+  border-bottom-left-radius: 40px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 4px #595858;
+}
+#board-market-row #board-market-row-inner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(197, 197, 197, 0.3607843137);
+  border-radius: 5px;
+  border-bottom-left-radius: 40px;
+}
+#board-market-row #board-market-row-inner #market-logo {
+  width: 100px;
+  position: absolute;
+  bottom: -11px;
+  left: -16px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space {
+  width: 90px;
+  position: absolute;
+  box-shadow: 1px 1px 3px black;
+  border-radius: 11px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 16px;
+  box-sizing: border-box;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space div {
+  width: 70px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space .slot-market-action-cost {
+  position: absolute;
+  width: 40px;
+  left: 25px;
+  bottom: -23px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 50%;
+  font-family: "Brandon Text Black";
+  font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space .slot-market-action-cost i {
+  font-size: 15px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space .slot-market-action-cost::before {
+  content: "\e923";
+  font-family: "icomoon" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 8px;
+  margin: 2px 11px -16px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space#market-buy {
+  top: 165px;
+  left: 74px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space#market-bargain {
+  top: 165px;
+  left: 153px;
+  background-image: url("img/slots.png");
+  background-size: 959.411765% auto;
+  background-position: 14.715948% 74.982181%;
+  background-repeat: no-repeat;
+  aspect-ratio: 170/178;
+  width: 73px;
+  border-left: none;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  box-shadow: 2px 1px 2px black;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space#market-bargain .slot-market-action-bargain {
+  width: 46px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space#market-order {
+  top: 165px;
+  left: 410px;
+}
+#board-market-row #board-market-row-inner .slot-market-action-space#market-quick-order {
+  top: 143px;
+  left: 262px;
+}
+#board-market-row #board-market-row-inner .action-slots {
+  position: absolute;
+  bottom: 5px;
+  left: 93px;
+  right: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#board-market-row #board-market-row-inner .action-slots > div {
+  height: 100px;
+  position: relative;
+  margin: 0px -3px;
+}
+#board-market-row #board-market-row-inner .action-slots > div.selectable {
+  cursor: pointer;
+}
+#board-market-row #board-market-row-inner .action-slots > div.selectable::before {
+  content: "";
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  left: 15px;
+  top: 18px;
+  box-shadow: inset 0px 0px 13px 7px gold;
+}
+#board-market-row #board-market-row-inner .action-slots > div.selectable:hover {
+  transform: scale(1.05);
+}
+#board-market-row #board-market-row-inner .action-slots > div.selectable:hover::before {
+  box-shadow: inset 0px 0px 15px 12px gold;
+}
+#board-market-row #board-market-row-inner #buy-area,
+#board-market-row #board-market-row-inner #order-area {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 70px 70px;
+  grid-template-rows: 70px 70px;
+  grid-gap: 10px 10px;
+}
+#board-market-row #board-market-row-inner #buy-area .slot-market-component-slot,
+#board-market-row #board-market-row-inner #order-area .slot-market-component-slot {
+  box-shadow: 1px 1px 2px black;
+}
+#board-market-row #board-market-row-inner #buy-area {
+  top: 8px;
+  left: 78px;
+}
+#board-market-row #board-market-row-inner #order-area {
+  top: 8px;
+  left: 384px;
+}
+#board-market-row #board-market-row-inner #quick-order-slot {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 60px;
+  left: 274px;
+  box-shadow: 1px 1px 2px black;
+}
+#board-market-row #board-market-row-inner .slot-market-quick-order-cost {
+  position: absolute;
+  width: 50px;
+  left: 283px;
+  top: 10px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 12px;
+}
+#board-market-row #board-market-row-inner .slot-market-costs {
+  position: absolute;
+  width: 156px;
+  transform: rotate(-90deg);
+  top: 52px;
+  left: -41px;
+  height: 61px;
+  background-position: 0% 6%;
+}
+#board-market-row #board-market-row-inner .slot-market-shard-boost {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  height: 42px;
+  box-shadow: 1px 1px 2px black;
+  border-radius: 8px;
+}
 
 .trickerion-player-board {
   width: calc(var(--playerBoardScale) * 1403px);
-  height: calc(var(--playerBoardScale) * 1000px); }
-  .trickerion-player-board .player-mat-inner {
-    transform: scale(var(--playerBoardScale));
-    transform-origin: top left;
-    width: 1403px;
-    height: 1000px;
-    position: relative;
-    background-image: url("img/player-mat.jpg");
-    background-size: 100% auto;
-    margin: 0;
-    padding: 1px;
-    box-sizing: border-box; }
+  height: calc(var(--playerBoardScale) * 1000px);
+}
+.trickerion-player-board .player-mat-inner {
+  transform: scale(var(--playerBoardScale));
+  transform-origin: top left;
+  width: 1403px;
+  height: 1000px;
+  position: relative;
+  background-image: url("img/player-mat.jpg");
+  background-size: 100% auto;
+  margin: 0;
+  padding: 1px;
+  box-sizing: border-box;
+}
 
 .player-board[data-order]::before {
   content: attr(data-order);
@@ -1399,133 +1838,129 @@ html {
   top: 29px;
   left: 3px;
   font-size: 15px;
-  box-shadow: 0px 0px 1px black; }
+  box-shadow: 0px 0px 1px black;
+}
 .player-board.inactive {
   background: #cccaca;
-  opacity: 0.7; }
-  .player-board.inactive[data-order]::before {
-    background: #c0c0c0; }
+  opacity: 0.7;
+}
+.player-board.inactive[data-order]::before {
+  background: #c0c0c0;
+}
 
 /* Specific log styling */
 #logs .log .timestamp {
-  color: black; }
+  color: black;
+}
 
 /* New undoable steps */
 #logs .log.notif_newUndoableStep {
-  margin-top: 0px; }
-  #logs .log.notif_newUndoableStep .roundedbox {
-    display: none;
-    text-align: center;
-    cursor: pointer;
-    background-color: #c4c2c2;
-    font-size: 12px;
-    padding: 2px 5px; }
-    #logs .log.notif_newUndoableStep .roundedbox::before, #logs .log.notif_newUndoableStep .roundedbox::after {
-      content: "\f0e2";
-      font: normal normal normal 12px/1 FontAwesome;
-      margin: 0px 10px; }
-  #logs .log.notif_newUndoableStep.selectable .roundedbox {
-    display: block; }
+  margin-top: 0px;
+}
+#logs .log.notif_newUndoableStep .roundedbox {
+  display: none;
+  text-align: center;
+  cursor: pointer;
+  background-color: #c4c2c2;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+#logs .log.notif_newUndoableStep .roundedbox::before, #logs .log.notif_newUndoableStep .roundedbox::after {
+  content: "\f0e2";
+  font: normal normal normal 12px/1 FontAwesome;
+  margin: 0px 10px;
+}
+#logs .log.notif_newUndoableStep.selectable .roundedbox {
+  display: block;
+}
 
 .chatwindowlogs_zone .log.notif_newUndoableStep {
   margin-bottom: -4px;
   padding: 0px;
-  display: none !important; }
-  .chatwindowlogs_zone .log.notif_newUndoableStep.selectable {
-    display: block !important; }
-    .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner {
-      text-align: center;
-      cursor: pointer;
-      background-color: #c4c2c2;
-      font-size: 12px;
-      padding: 2px 5px; }
-      .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::before, .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::after {
-        content: "\f0e2";
-        font: normal normal normal 12px/1 FontAwesome;
-        margin: 0px 10px; }
-      .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner .msgtime {
-        display: none; }
+  display: none !important;
+}
+.chatwindowlogs_zone .log.notif_newUndoableStep.selectable {
+  display: block !important;
+}
+.chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner {
+  text-align: center;
+  cursor: pointer;
+  background-color: #c4c2c2;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+.chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::before, .chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner::after {
+  content: "\f0e2";
+  font: normal normal normal 12px/1 FontAwesome;
+  margin: 0px 10px;
+}
+.chatwindowlogs_zone .log.notif_newUndoableStep.selectable .roundedboxinner .msgtime {
+  display: none;
+}
 
 /* Cancelled notification messages */
 .log.cancel {
   color: #c62828 !important;
-  text-decoration: line-through; }
+  text-decoration: line-through;
+}
 
 /* Desktop logs */
 .log.cancel .roundedbox {
-  background-color: rgba(240, 186, 117, 0.6) !important; }
+  background-color: rgba(240, 186, 117, 0.6) !important;
+}
 
 /* Mobile logs */
 .log.cancel.roundedbox {
-  background-color: #ef9a9a; }
+  background-color: #ef9a9a;
+}
 
-@font-face {
-  font-family: "Brandon Text";
-  src: url("img/fonts/BrandonText-Regular.eot");
-  src: url("img/fonts/BrandonText-Regular.eot?#iefix") format("embedded-opentype"), url("img/fonts/BrandonText-Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap; }
-@font-face {
-  font-family: "Brandon Text";
-  src: url("img/fonts/BrandonText-Black.eot");
-  src: url("img/fonts/BrandonText-Black.eot?#iefix") format("embedded-opentype"), url("img/fonts/BrandonText-Black.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap; }
-@font-face {
-  font-family: "Brandon Text";
-  src: url("img/fonts/BrandonText-Bold.eot");
-  src: url("img/fonts/BrandonText-Bold.eot?#iefix") format("embedded-opentype"), url("img/fonts/BrandonText-Bold.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap; }
-@font-face {
-  font-family: "Brandon Text";
-  src: url("img/fonts/BrandonText-Medium.eot");
-  src: url("img/fonts/BrandonText-Medium.eot?#iefix") format("embedded-opentype"), url("img/fonts/BrandonText-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap; }
 .notransition {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  transition: none !important; }
+  transition: none !important;
+}
 
 .phantom {
-  visibility: hidden; }
+  visibility: hidden;
+}
 
 #pagemaintitletext {
-  position: relative; }
+  position: relative;
+}
 
 #restartAction {
-  margin-left: 15px; }
+  margin-left: 15px;
+}
 
 #btnUndoLastStep {
-  background: #d97050; }
+  background: #d97050;
+}
 
 [data-undobuttons="0"] #btnUndoLastStep {
-  display: none; }
+  display: none;
+}
 
 [data-undobuttons="2"] #btnRestartTurn {
-  display: none; }
+  display: none;
+}
 
 #pagesubtitle:not(:empty) {
   padding: 3px 0px;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+}
 
 #maintitlebar_content .action-button ~ .action-button {
-  margin-left: 15px; }
+  margin-left: 15px;
+}
 
 #customActions .action-button.bgabutton,
 #customActions .bgabutton {
-  text-overflow: initial; }
+  text-overflow: initial;
+}
 
 #ebd-body.help-mode .tooltipable {
-  cursor: help; }
+  cursor: help;
+}
 
 .help-marker {
   position: absolute;
@@ -1535,17 +1970,19 @@ html {
   height: 20px;
   z-index: 900;
   border: 1px solid black;
-  border-radius: 50%; }
-  .help-marker svg {
-    width: 20px;
-    height: 20px; }
+  border-radius: 50%;
+}
+.help-marker svg {
+  width: 20px;
+  height: 20px;
+}
 
 #ebd-body:not(.help-mode) .help-marker {
   opacity: 0;
-  pointer-events: none; }
+  pointer-events: none;
+}
 
 /* Hide the "You may note something for next time..." popup that would appear. */
 #turnBasedNotesIncent {
-  display: none; }
-
-/*# sourceMappingURL=trickerionlegendsofillusion.css.map */
+  display: none;
+}/*# sourceMappingURL=trickerionlegendsofillusion.css.map */

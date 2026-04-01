@@ -1,0 +1,52 @@
+@font-face {
+    font-family: "Brandon Text Black";
+    src:
+        url("../../fonts/BrandonText-Black.woff2") format("woff2"),
+        url("../../fonts/BrandonText-Black.woff") format("woff"),
+        url("../../fonts/BrandonText-Black.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text Bold";
+    src:
+        url("../../fonts/BrandonText-Bold.woff2") format("woff2"),
+        url("../../fonts/BrandonText-Bold.woff") format("woff"),
+        url("../../fonts/BrandonText-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text Regular";
+    src:
+        url("../../fonts/BrandonText-Regular.woff2") format("woff2"),
+        url("../../fonts/BrandonText-Regular.woff") format("woff"),
+        url("../../fonts/BrandonText-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Brandon Text Medium";
+    src:
+        url("../../fonts/BrandonText-Medium.woff2") format("woff2"),
+        url("../../fonts/BrandonText-Medium.woff") format("woff"),
+        url("../../fonts/BrandonText-Medium.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "icomoon";
+    src: url("../../fonts/icomoon.eot?e0nyns");
+    src:
+        url("../../fonts/icomoon.eot?e0nyns#iefix") format("embedded-opentype"),
+        url("../../fonts/icomoon.ttf?e0nyns") format("truetype"),
+        url("../../fonts/icomoon.woff?e0nyns") format("woff"),
+        url("../../fonts/icomoon.svg?e0nyns#icomoon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}

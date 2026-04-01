@@ -30,19 +30,6 @@
 // |____/  \_/  \____|
 ///////////////////////
 
-@font-face {
-  font-family: "icomoon";
-  src: url("img/fonts/icomoon.eot?e0nyns");
-  src:
-    url("img/fonts/icomoon.eot?e0nyns#iefix") format("embedded-opentype"),
-    url("img/fonts/icomoon.ttf?e0nyns") format("truetype"),
-    url("img/fonts/icomoon.woff?e0nyns") format("woff"),
-    url("img/fonts/icomoon.svg?e0nyns#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
 [class^="svgicon-"],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
