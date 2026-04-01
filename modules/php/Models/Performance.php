@@ -216,32 +216,51 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
             $yields = $trick->getYields();
             $yieldModifier = self::getPerformanceModifier($trick->getPlayerId(), $performerId);
 
-            $message = clienttranslate('${player_name} performs ${trick} and gets ${yields}');
+            $message = clienttranslate('${player_name} performs ${trick} and gets trick rewards');
             if ($yieldModifier) {
                 foreach ($yields as $yieldType => $amount) {
                     $yields[$yieldType] = max($amount + ($yieldModifier[$yieldType] ?? 0), 0);
                 }
-                $message = clienttranslate('${player_name} performs ${trick} and gets ${yields} (day modifier applied)');
+                $message = clienttranslate('${player_name} performs ${trick} and gets trick rewards (day modifier applied)');
             }
 
             $player = Players::get($trick->getPlayerId());
-            $player->addYields($yields);
-
+            
             Game::get()->bga->notify->all("trickPerformed", $message, [
                 "player_id" => $trick->getPlayerId(),
                 "trick" => $trick,
                 "yields" => $yields,
                 "yieldModifier" => $yieldModifier,
             ]);
+            $player->addYields($yields);
             
             $trickMarkersToReturn->append($trickMarker);
         }
 
         $matchingLinks = $this->getNumberOfMatchingLinks();
         $performer = Players::get($performerId);
-        $performer->addFame($matchingLinks);
 
+        if ($matchingLinks > 0) {
+            Game::get()->bga->notify->all("message", clienttranslate('Performer, ${player_name}, gets fame for linked tricks'), [
+                "player_id" => $performerId,
+            ]);
+            $performer->addFame($matchingLinks);
+        }
+
+        Game::get()->bga->notify->all("message", clienttranslate('Performer, ${player_name}, gets rewards for ${performance}'), [
+            "player_id" => $performerId,
+            "performance" => $this,
+        ]);
         $performer->addYields($this->getBonus());
+
+        $yieldsForSupportingCharacters = $this->getSupportingSpecialistsYields($performerId);
+        if ($yieldsForSupportingCharacters) {
+            Game::get()->bga->notify->all("message", clienttranslate('Performer, ${player_name}, gets rewards for supporting specialist'), [
+                "player_id" => $performerId,
+                "performance" => $this,
+            ]);
+            $performer->addYields($yieldsForSupportingCharacters);
+        }
 
         TrickMarkers::returnToSupplies($trickMarkersToReturn);
 
@@ -249,6 +268,36 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
             "performance" => $this,
             "trickMarkers" => $trickMarkersToReturn->toArray(),
         ]);
+    }
+
+    private function getSupportingSpecialistsYields($playerId) {
+        $specialistsInTheater = Characters::getFiltered($playerId, Characters::LOCATION_BOARD_THEATER_ANY)
+            ->where("specialist", true);
+
+        if ($specialistsInTheater->count() === 0) {
+            return null;
+        }
+        
+        $yields = [
+            "fame" => 0,
+            "coins" => 0,
+            "shards" => 0,
+        ];
+
+        foreach ($specialistsInTheater as $specialist) {
+            $specialistYields = match ($specialist->getType()) {
+                Character::TYPE_ASSISTANT => ["fame" => 2],
+                Character::TYPE_ENGINEER => ["shards" => 1],
+                Character::TYPE_MANAGER => ["coins" => 3],
+                default => []
+            };
+
+            foreach ($specialistYields as $yieldType => $amount) {
+                $yields[$yieldType] += $amount;
+            }
+        }
+
+        return $yields;
     }
 
     private function getNumberOfMatchingLinks() {
@@ -286,7 +335,7 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
 
             return [
                 "slotId" => $slotA->id,
-                "direction" => self::getDirectionBetweenSlots($slotA, $slotB)
+                "direction" => self::getDirectionBetweenSlots((array) $slotA, (array) $slotB)
             ];
         }, $nodePairs);
     }
