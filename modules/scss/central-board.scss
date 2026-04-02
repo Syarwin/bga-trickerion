@@ -461,7 +461,7 @@ $marketHeight: 365px;
             top: 52px;
             left: -41px;
             height: 61px;
-            background-position: 0% 6%;
+            background-position: 44.432828% 4.6%;
         }
         .slot-market-shard-boost {
             position: absolute;
@@ -669,6 +669,194 @@ $alleyHeight: 365px;
             right: 16px;
             top: 7px;
             width: 283px;
+        }
+    }
+}
+
+$theaterWidth: 600px;
+$theaterHeight: 580px;
+#board-theater {
+    position: relative;
+    width: $theaterWidth;
+    height: $theaterHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-theater-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $theaterWidth;
+        height: $theaterHeight;
+        transform-origin: top left;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        background: rgba(255, 203, 134, 0.575);
+
+        #board-theater-background {
+            position: absolute;
+            top: 160px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            overflow: hidden;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 40px;
+            border-top: 1px solid black;
+            box-shadow: 0px -1px 3px black;
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: -100px;
+                right: -100px;
+                top: -100px;
+                bottom: -100px;
+                background-color: transparent;
+                background-image: url("img/board.jpg");
+                background-repeat: no-repeat;
+                background-size: 265% auto;
+                background-position: 101% 7%;
+                transform: rotate(-45deg);
+            }
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background: rgba(169, 169, 169, 0.4);
+            }
+        }
+
+        #theater-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-theater-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-theater-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#theater-set-up-trick {
+                bottom: 324px;
+                left: 14px;
+            }
+            &#theater-reschedule {
+                bottom: 324px;
+                left: 490px;
+            }
+        }
+
+        .slot-theater-action-slots {
+            position: absolute;
+            bottom: 0px;
+            left: 119px;
+            width: 364px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 95px 132px 100px;
+            padding: 0px 10px 0px 4px;
+            box-sizing: border-box;
+
+            & > .action-slot-theater {
+                height: 100px;
+                position: relative;
+                margin: -10px 0px 0px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        .slot-theater-perform {
+            position: absolute;
+            bottom: 45px;
+            right: -2px;
+            width: 120px;
+        }
+        .slot-theater-link-bonus {
+            position: absolute;
+            bottom: 75px;
+            left: 2px;
+            width: 120px;
+        }
+
+        .slot-theater-no-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
         }
     }
 }

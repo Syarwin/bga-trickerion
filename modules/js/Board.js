@@ -13,6 +13,7 @@ export const board = {
       <div id="trickerion-board">
         <div id="board-background"></div>
         <div id="board-downtown"></div>
+        <div id="board-theater"></div>
         <div id="board-market-row"></div>
         <div id="board-dark-alley"></div>
       </div>
@@ -189,5 +190,41 @@ export const board = {
               </div>`
             );
         }
+
+        ////////////////////
+        // THEATER
+        const theaterActions = {
+            'set-up-trick': 1,
+            reschedule: 1,
+        };
+        actionsHTML = '';
+        Object.entries(theaterActions).forEach(([action, cost]) => {
+            actionsHTML += `<div id="theater-${action}" class="slot-theater-action-space">
+            <div class="slot-theater-action-${action}"></div>
+            <div class="slot-theater-action-cost">${cost}${formatIcon('action-point')}</div>
+          </div>`;
+        });
+        const theaterDays = ['thursday', 'friday', 'saturday', 'sunday'];
+        slotsHTML = '<div class="slot-theater-action-slots">';
+        ['basic-1', 'basic-2', 'magician'].forEach((type) => {
+            theaterDays.forEach((day) => {
+                slotsHTML += `<div id="board-theater-${day}-${type}" class="action-slot-theater"></div>`;
+            });
+        });
+        slotsHTML += '</div>';
+
+        $('board-theater').insertAdjacentHTML(
+            'beforeend',
+            `
+            <div id="board-theater-inner">
+              <div id="board-theater-background"></div>
+              <div id="theater-logo" class="slot-theater-logo"></div>
+              <div class="slot-theater-no-shard-boost"></div>
+              <div class="slot-theater-perform"></div>
+              <div class="slot-theater-link-bonus"></div>
+              ${actionsHTML}
+              ${slotsHTML}
+            </div>`
+        );
     },
 };
