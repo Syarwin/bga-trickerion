@@ -15,6 +15,8 @@ $boardHeight: 2887px / 3;
                 position: relative;
                 width: $boardWidth;
                 height: $boardHeight;
+                display: flex;
+                flex-wrap: wrap;
 
                 #board-background {
                     display: none;
@@ -92,7 +94,7 @@ $downtownHeight: 340px;
 
         #dice-characters {
             top: 86px;
-            left: 28px;
+            left: 23px;
         }
         #dice-tricks {
             top: 83px;
@@ -100,7 +102,7 @@ $downtownHeight: 340px;
         }
         #dice-banks {
             top: 86px;
-            left: 473px;
+            left: 471px;
         }
 
         .slot-downtown-action-space {
@@ -160,19 +162,19 @@ $downtownHeight: 340px;
             }
             &#downtown-hire-character {
                 top: 140px;
-                left: 34px;
+                left: 29px;
             }
             &#downtown-take-coins {
                 top: 140px;
-                left: 478px;
+                left: 476px;
             }
             &#downtown-reroll-die {
                 top: 100px;
-                left: 146px;
+                left: 144px;
             }
             &#downtown-set-die {
                 top: 100px;
-                left: 366px;
+                left: 365px;
             }
         }
 
@@ -236,7 +238,7 @@ $downtownHeight: 340px;
                 height: 45px;
                 border: 1px solid #504130;
                 border-radius: 6px;
-                background: #ffffffa8;
+                background: rgba(255, 225, 182, 0.7);
                 position: relative;
                 box-shadow: 1px 1px 3px black;
                 text-align: center;
@@ -248,7 +250,7 @@ $downtownHeight: 340px;
 
                 .trick-type {
                     position: absolute;
-                    left: 40px;
+                    left: 33px;
                     width: 65px;
                     bottom: -25px;
                 }
@@ -468,6 +470,205 @@ $marketHeight: 365px;
             height: 42px;
             box-shadow: 1px 1px 2px black;
             border-radius: 8px;
+        }
+    }
+}
+
+$alleyWidth: 560px;
+$alleyHeight: 365px;
+#board-dark-alley {
+    position: relative;
+    width: $alleyWidth;
+    height: $alleyHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-dark-alley-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $alleyWidth;
+        height: $alleyHeight;
+        transform-origin: top left;
+        background-image: url("img/board-dark-alley.jpg");
+        background-repeat: no-repeat;
+        background-size: 284% auto;
+        background-position: 99% 100%;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(67, 67, 67, 0.55);
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
+        }
+
+        #alley-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-alley-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-alley-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#alley-draw-first-card {
+                top: 168px;
+                left: 30px;
+            }
+            &#alley-draw-further-cards {
+                top: 168px;
+                left: 132px;
+            }
+            &#alley-fortune-telling {
+                top: 120px;
+                left: 260px;
+
+                .slot-alley-action-fortune-telling {
+                    width: 45px;
+                }
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 5px;
+            left: 93px;
+            right: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+                position: relative;
+                margin: 0px -3px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        #assignment-decks {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            left: 0px;
+            right: 305px;
+            top: 7px;
+            justify-content: space-around;
+
+            .assignment-deck {
+                width: 110px;
+                height: 45px;
+                border: 1px solid #504130;
+                margin-bottom: 30px;
+                border-radius: 6px;
+                background: rgba(255, 225, 182, 0.7);
+                position: relative;
+                box-shadow: 1px 1px 3px black;
+                text-align: center;
+                font-family: "Brandon Text Medium";
+                cursor: zoom-in;
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                .assignment-type {
+                    position: absolute;
+                    left: 25px;
+                    width: 65px;
+                    bottom: -25px;
+                }
+            }
+        }
+
+        .slot-alley-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
+        }
+
+        .slot-prophecies {
+            position: absolute;
+            right: 16px;
+            top: 7px;
+            width: 283px;
         }
     }
 }

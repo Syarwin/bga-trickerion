@@ -14,6 +14,7 @@ export const board = {
         <div id="board-background"></div>
         <div id="board-downtown"></div>
         <div id="board-market-row"></div>
+        <div id="board-dark-alley"></div>
       </div>
     </div>
     <div id="trickerion-player-board-wrapper"></div>
@@ -70,7 +71,7 @@ export const board = {
             'beforeend',
             `
         <div id="board-downtown-inner">
-          <div id="downtown-logo" class="slot-downtown"></div>
+          <div id="downtown-logo" class="slot-downtown-logo"></div>
           <div id="dice-characters">
             <div id="die-character-0" class="slot-downtown-die-slot-character-A"></div>
             <div id="die-character-1" class="slot-downtown-die-slot-character-B"></div>
@@ -130,7 +131,7 @@ export const board = {
             'beforeend',
             `
         <div id="board-market-row-inner">
-          <div id="market-logo" class="slot-market-row"></div>
+          <div id="market-logo" class="slot-market-row-logo"></div>
           <div class="slot-market-costs"></div>
           <div class="slot-market-quick-order-cost"></div>
           <div class="slot-market-shard-boost"></div>
@@ -139,5 +140,54 @@ export const board = {
           ${marketsHTML}
         </div>`
         );
+
+        ////////////////////
+        // DARK ALLEY
+        const isDarkAlley = true; // TODO
+        if (isDarkAlley) {
+            const alleyActions = {
+                'draw-first-card': 1,
+                'draw-further-cards': 2,
+                'fortune-telling': 1,
+            };
+            actionsHTML = '';
+            Object.entries(alleyActions).forEach(([action, cost]) => {
+                actionsHTML += `<div id="alley-${action}" class="slot-alley-action-space">
+              <div class="slot-alley-action-${action}"></div>
+              <div class="slot-alley-action-cost">${cost}${formatIcon('action-point')}</div>
+            </div>`;
+            });
+            const alleySlots = [2, 3, 4, 2];
+            slotsHTML = '<div id="alley-action-slots" class="action-slots">';
+            marketSlots.forEach((n, i) => {
+                let j = i + 1;
+                if (n > nPlayers) return;
+                slotsHTML += `<div id="board-dark-alley-${j}" class="slot-alley-slot-${j}"></div>`;
+            });
+            slotsHTML += '</div>';
+
+            const assignmentDecks = ['downtown', 'market-row', 'workshop', 'theater'];
+            let assignmentDecksHTML = '<div id="assignment-decks">';
+            assignmentDecks.forEach((type) => {
+                assignmentDecksHTML += `<div id="assignment-deck-${type}" class="assignment-deck">
+              <div class="assignment-type slot-${type}"></div>
+              <span class="assignment-counter" id="assignment-deck-${type}-counter">1</span> ${_('card(s)')}
+            </div>`;
+            });
+            assignmentDecksHTML += '</div>';
+
+            $('board-dark-alley').insertAdjacentHTML(
+                'beforeend',
+                `
+              <div id="board-dark-alley-inner">
+                <div id="alley-logo" class="slot-dark-alley-logo"></div>
+                <div class="slot-alley-shard-boost"></div>
+                ${actionsHTML}
+                ${slotsHTML}
+                ${assignmentDecksHTML}
+                <div class="slot-prophecies"></div>
+              </div>`
+            );
+        }
     },
 };
