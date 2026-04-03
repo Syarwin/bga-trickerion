@@ -325,6 +325,7 @@ html {
 
 :root {
   --trickCardScale: 0.35;
+  --performanceCardScale: 0.5;
 }
 
 #pagemaintitletext .trick-card,
@@ -2397,6 +2398,240 @@ html {
 }
 .player-board.inactive[data-order]::before {
   background: #c0c0c0;
+}
+
+#pagemaintitletext .performance-card,
+#gameaction_status .performance-card,
+.player-board .performance-card {
+  position: absolute;
+  left: 50%;
+}
+
+.performance-card {
+  position: relative;
+  width: calc(var(--performanceCardScale) * 335px);
+  height: calc(var(--performanceCardScale) * 524px);
+}
+.performance-card.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.performance-card.selectable {
+  cursor: pointer;
+}
+.performance-card.selectable:hover {
+  transform: scale(1.1);
+}
+.performance-card.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.performance-card.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.performance-card .performance-card-inner {
+  width: 335px;
+  height: 524px;
+  transform-origin: top left;
+  transform: scale(var(--performanceCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/performances.jpg");
+  background-size: 700% 500%;
+  position: absolute;
+}
+.performance-card .performance-card-inner .card-name {
+  position: absolute;
+  top: 29px;
+  left: 65px;
+  width: 207px;
+  height: 30px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+.performance-card .performance-card-inner .card-name span {
+  font-family: "Brandon Text Medium";
+  text-transform: uppercase;
+  font-size: 17px;
+  line-height: 28px;
+}
+.performance-card .performance-card-inner .card-bonus {
+  position: absolute;
+  left: 129px;
+  bottom: 18px;
+  width: 76px;
+  font-family: "Brandon Text Black";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 26px;
+  font-size: 18px;
+}
+.performance-card .performance-card-inner .card-bonus i {
+  margin: 0px 0.1em;
+}
+.performance-card .performance-card-inner .card-grid {
+  position: absolute;
+  left: 34px;
+  top: 68px;
+  width: 200px;
+  height: 375px;
+  display: grid;
+  grid-template-columns: repeat(2, 133px);
+  grid-template-rows: repeat(3, 133px);
+}
+.performance-card .performance-card-inner .card-grid .trick-marker-slot {
+  rotate: 45deg;
+  margin: 20px;
+}
+.performance-card .performance-card-inner .card-grid .trick-marker-slot.selectable {
+  cursor: pointer;
+  box-shadow: 0px 0px 7px 2px gold;
+}
+.performance-card .performance-card-inner .card-grid .trick-marker-slot.selectable:hover {
+  background: rgba(255, 217, 0, 0.5);
+  box-shadow: 0px 0px 7px 5px gold;
+}
+.performance-card[data-theater=grand_magorian] .performance-card-inner .card-name {
+  left: 78px;
+  width: 180px;
+  top: 24px;
+}
+.performance-card[data-theater=magnus_pantheon] .performance-card-inner .card-name {
+  left: 88px;
+  width: 161px;
+  top: 20px;
+  height: 36px;
+}
+.performance-card[data-theater=magnus_pantheon] .performance-card-inner .card-name span {
+  line-height: 18px;
+}
+.performance-card[data-type=P01_RiversideTheater] .performance-card-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P02_RiversideTheater] .performance-card-inner {
+  background-position-x: 16.6666666667%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P03_RiversideTheater] .performance-card-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P04_RiversideTheater] .performance-card-inner {
+  background-position-x: 50%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P05_RiversideTheater] .performance-card-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P06_RiversideTheater] .performance-card-inner {
+  background-position-x: 83.3333333333%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P07_RiversideTheater] .performance-card-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.performance-card[data-type=P08_RiversideTheater] .performance-card-inner {
+  background-position-x: 0%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P09_RiversideTheater] .performance-card-inner {
+  background-position-x: 16.6666666667%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P10_RiversideTheater] .performance-card-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P11_RiversideTheater] .performance-card-inner {
+  background-position-x: 50%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P12_RiversideTheater] .performance-card-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=Back_RiversideTheate] .performance-card-inner {
+  background-position-x: 83.3333333333%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P13_GrandMagorian] .performance-card-inner {
+  background-position-x: 100%;
+  background-position-y: 25%;
+}
+.performance-card[data-type=P14_GrandMagorian] .performance-card-inner {
+  background-position-x: 0%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P15_GrandMagorian] .performance-card-inner {
+  background-position-x: 16.6666666667%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P16_GrandMagorian] .performance-card-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P17_GrandMagorian] .performance-card-inner {
+  background-position-x: 50%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P18_GrandMagorian] .performance-card-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P19_GrandMagorian] .performance-card-inner {
+  background-position-x: 83.3333333333%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=P20_GrandMagorian] .performance-card-inner {
+  background-position-x: 100%;
+  background-position-y: 50%;
+}
+.performance-card[data-type=Back_GrandMagorian] .performance-card-inner {
+  background-position-x: 0%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P21_MagnusPantheon] .performance-card-inner {
+  background-position-x: 16.6666666667%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P22_MagnusPantheon] .performance-card-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P23_MagnusPantheon] .performance-card-inner {
+  background-position-x: 50%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P24_MagnusPantheon] .performance-card-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P25_MagnusPantheon] .performance-card-inner {
+  background-position-x: 83.3333333333%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P26_MagnusPantheon] .performance-card-inner {
+  background-position-x: 100%;
+  background-position-y: 75%;
+}
+.performance-card[data-type=P27_MagnusPantheon] .performance-card-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.performance-card[data-type=P28_MagnusPantheon] .performance-card-inner {
+  background-position-x: 16.6666666667%;
+  background-position-y: 100%;
 }
 
 /* Specific log styling */
