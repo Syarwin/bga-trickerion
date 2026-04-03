@@ -15,7 +15,7 @@ class A07_OrchestralInterlude extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_SET_UP_TRICK;
         $this->abilityText = [
-            clienttranslate('You receive your Trick\'s ${LINK} payment for each ${TRICK_MARKER} connecting to the ${TRICK_MARKER} you set up (even if the category symbols don\'t match).'),
+            clienttranslate('You receive your Trick\'s <link> payment for each <trick-marker> connecting to the <trick-marker> you set up (even if the category symbols don\'t match).'),
         ];
     }
 }

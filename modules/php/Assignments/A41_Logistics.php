@@ -15,7 +15,7 @@ class A41_Logistics extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
         $this->targetAction = Assignment::TARGET_ACTION_ORDER;
         $this->abilityText = [
-            clienttranslate('Place the ordered ${COMPONENT} next to the Market Row\'s Buy area instead of the Order area. It counts as part of the Market Row\'s stock this turn. Return this ${COMPONENT} to the supply during the \'Orders Arrive\' phase.'),
+            clienttranslate('Place the ordered <component> next to the Market Row\'s Buy area instead of the Order area. It counts as part of the Market Row\'s stock this turn. Return this <component> to the supply during the \'Orders Arrive\' phase.'),
         ];
     }
 }

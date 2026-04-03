@@ -15,7 +15,7 @@ class A39_WorkshopExhibition extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
         $this->targetAction = Assignment::TARGET_ACTION_BUY;
         $this->abilityText = [
-            clienttranslate('You receive ${FAME} equal to the amount of ${COIN} you paid for this \'Buy\' Action minus 1.'),
+            clienttranslate('You receive <fame> equal to the amount of <coin> you paid for this \'Buy\' Action minus 1.'),
         ];
     }
 }

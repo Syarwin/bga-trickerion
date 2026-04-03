@@ -15,7 +15,7 @@ class A12_ArrangedFiasco extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_PERFORM;
         $this->abilityText = [
-            clienttranslate('When you ${PERFORM}, you receive +1 ${FAME} for each of your own ${TRICK_MARKER}, while other players receive -1 ${FAME} for each of their ${TRICK_MARKER}.'),
+            clienttranslate('When you <perform>, you receive +1 <fame> for each of your own <trick-marker>, while other players receive -1 <fame> for each of their <trick-marker>.'),
         ];
     }
 }

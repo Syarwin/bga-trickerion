@@ -15,7 +15,7 @@ class A35_Empower extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_ANY;
         $this->abilityText = [
-            clienttranslate('If you use \'Enhance Character\' by paying a ${SHARD} when you place this ${GENERIC_CHARACTER}, you receive 3 additional ${ACTION_POINT} instead of the usual 1.'),
+            clienttranslate('If you use \'Enhance Character\' by paying a <shard> when you place this <disk>, you receive 3 additional <action-point> instead of the usual 1.'),
         ];
     }
 }

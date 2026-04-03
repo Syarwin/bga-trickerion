@@ -15,9 +15,9 @@ class A21_UnstablePrototype extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
         $this->abilityText = [
-            clienttranslate('You may return up to 3 ${COMPONENT} required for the prepared Trick to the supply. If you do, you receive:'),
-            clienttranslate('${BULLET} +1 ${TRICK_MARKER} on the Trick.'),
-            clienttranslate('${BULLET} 1 ${FAME} and 1 ${COIN} for each ${COMPONENT} returned.'),
+            clienttranslate('You may return up to 3 <component> required for the prepared Trick to the supply. If you do, you receive:'),
+            clienttranslate('<bullet> +1 <trick-marker> on the Trick.'),
+            clienttranslate('<bullet> 1 <fame> and 1 <coin> for each <component> returned.'),
         ];
     }
 }

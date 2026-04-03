@@ -1,13 +1,19 @@
 :root {
   --trickCardScale: 0.35;
   --performanceCardScale: 0.5;
+  --assignmentCardScale: 0.5;
 }
 
 // $pColors: "d1ac51" "95a0b2" "8d4129" "9374ad";
-$peformanceCardTypes: "P01_RiversideTheater" "P02_RiversideTheater" "P03_RiversideTheater" "P04_RiversideTheater"
+$performanceCardTypes: "P01_RiversideTheater" "P02_RiversideTheater" "P03_RiversideTheater" "P04_RiversideTheater"
   "P05_RiversideTheater" "P06_RiversideTheater" "P07_RiversideTheater" "P08_RiversideTheater" "P09_RiversideTheater"
   "P10_RiversideTheater" "P11_RiversideTheater" "P12_RiversideTheater" "Back_RiversideTheate" "P13_GrandMagorian"
   "P14_GrandMagorian" "P15_GrandMagorian" "P16_GrandMagorian" "P17_GrandMagorian" "P18_GrandMagorian"
   "P19_GrandMagorian" "P20_GrandMagorian" "Back_GrandMagorian" "P21_MagnusPantheon" "P22_MagnusPantheon"
   "P23_MagnusPantheon" "P24_MagnusPantheon" "P25_MagnusPantheon" "P26_MagnusPantheon" "P27_MagnusPantheon"
   "P28_MagnusPantheon";
+
+$assignmentCardTypes: "Back" "A01_Theater" "A02_Downtown" "A03_MarketRow" "A04_Workshop" "A05_DarkAlley"
+  "A06_GuestPerformer" "A11_DurableComponents" "A14_StreetPerformance" "A16_TrickTweaking" "A25_Freelancer"
+  "A26_MassRecruitment" "A29_TrickOverhaul" "A32_Investments" "A35_Empower" "A36_ComponentSale" "A41_Logistics"
+  "A43_DubiousSources" "A44_BusinessShare";

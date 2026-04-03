@@ -15,7 +15,7 @@ class A38_BarterWithPower extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
         $this->targetAction = Assignment::TARGET_ACTION_BUY;
         $this->abilityText = [
-            clienttranslate('As one \'Buy\' Action, you may return a ${SHARD} to the supply and receive any number of ${COMPONENT} available at the Market Row for a total ${COIN} value of 4 or less without paying any ${COIN}.'),
+            clienttranslate('As one \'Buy\' Action, you may return a <shard> to the supply and receive any number of <component> available at the Market Row for a total <coin> value of 4 or less without paying any <coin>.'),
         ];
     }
 }

@@ -15,7 +15,7 @@ class A18_ReplacableParts extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
         $this->abilityText = [
-            clienttranslate('You may choose to receive 1 less ${TRICK_MARKER} on the prepared Trick. If you do, you may put one ${TRICK_MARKER} on another Trick you own with the same or lower ${FAME_THRESHOLD} (even if you don\'t meet its ${COMPONENT} requirements).'),
+            clienttranslate('You may choose to receive 1 less <trick-marker> on the prepared Trick. If you do, you may put one <trick-marker> on another Trick you own with the same or lower <fame-threshold> (even if you don\'t meet its <component> requirements).'),
         ];
     }
 }

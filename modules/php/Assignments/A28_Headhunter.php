@@ -15,8 +15,8 @@ class A28_Headhunter extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_HIRE_CHARACTER;
         $this->abilityText = [
-            clienttranslate('You may hire any kind of ${GENERIC_CHARACTER} regardless of the die roll (as long as it\'s not an X).'),
-            clienttranslate('This \'Hire Character\' Action costs you 1 less ${ACTION_POINT}.'),
+            clienttranslate('You may hire any kind of <disk> regardless of the die roll (as long as it\'s not an X).'),
+            clienttranslate('This \'Hire Character\' Action costs you 1 less <action-point>.'),
         ];
     }
 }

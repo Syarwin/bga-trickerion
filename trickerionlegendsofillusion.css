@@ -326,6 +326,7 @@ html {
 :root {
   --trickCardScale: 0.35;
   --performanceCardScale: 0.5;
+  --assignmentCardScale: 0.5;
 }
 
 #pagemaintitletext .trick-card,
@@ -398,6 +399,7 @@ html {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  vertical-align: middle;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2631,6 +2633,158 @@ html {
 }
 .performance-card[data-type=P28_MagnusPantheon] .performance-card-inner {
   background-position-x: 16.6666666667%;
+  background-position-y: 100%;
+}
+
+#pagemaintitletext .assignment-card,
+#gameaction_status .assignment-card,
+.player-board .assignment-card {
+  position: absolute;
+  left: 50%;
+}
+
+.assignment-card {
+  position: relative;
+  width: calc(var(--assignmentCardScale) * 312px);
+  height: calc(var(--assignmentCardScale) * 476px);
+}
+.assignment-card.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.assignment-card.selectable {
+  cursor: pointer;
+}
+.assignment-card.selectable:hover {
+  transform: scale(1.1);
+}
+.assignment-card.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.assignment-card.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.assignment-card .assignment-card-inner {
+  width: 312px;
+  height: 476px;
+  transform-origin: top left;
+  transform: scale(var(--assignmentCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/assignments.jpg");
+  background-size: 500% 400%;
+  position: absolute;
+}
+.assignment-card .assignment-card-inner .card-name {
+  position: absolute;
+  top: 186px;
+  left: 8px;
+  right: 8px;
+  text-align: center;
+  font-family: "Brandon Text Black";
+  text-transform: uppercase;
+  font-size: 20px;
+  line-height: 28px;
+}
+.assignment-card .assignment-card-inner .card-ability {
+  position: absolute;
+  top: 227px;
+  bottom: 5px;
+  left: 20px;
+  right: 20px;
+  font-family: "Brandon Text Medium";
+  font-size: 19px;
+  line-height: 26px;
+}
+.assignment-card .assignment-card-inner .card-ability .corner {
+  float: right;
+  shape-outside: polygon(60px 122px, 0px 175px, 60px 175px);
+  width: 85px;
+  height: 240px;
+}
+.assignment-card .assignment-card-inner .card-ability i {
+  font-size: 22px;
+}
+.assignment-card[data-asset=Back] .assignment-card-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.assignment-card[data-asset=A01_Theater] .assignment-card-inner {
+  background-position-x: 25%;
+  background-position-y: 0%;
+}
+.assignment-card[data-asset=A02_Downtown] .assignment-card-inner {
+  background-position-x: 50%;
+  background-position-y: 0%;
+}
+.assignment-card[data-asset=A03_MarketRow] .assignment-card-inner {
+  background-position-x: 75%;
+  background-position-y: 0%;
+}
+.assignment-card[data-asset=A04_Workshop] .assignment-card-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.assignment-card[data-asset=A05_DarkAlley] .assignment-card-inner {
+  background-position-x: 0%;
+  background-position-y: 33.3333333333%;
+}
+.assignment-card[data-asset=A06_GuestPerformer] .assignment-card-inner {
+  background-position-x: 25%;
+  background-position-y: 33.3333333333%;
+}
+.assignment-card[data-asset=A11_DurableComponents] .assignment-card-inner {
+  background-position-x: 50%;
+  background-position-y: 33.3333333333%;
+}
+.assignment-card[data-asset=A14_StreetPerformance] .assignment-card-inner {
+  background-position-x: 75%;
+  background-position-y: 33.3333333333%;
+}
+.assignment-card[data-asset=A16_TrickTweaking] .assignment-card-inner {
+  background-position-x: 100%;
+  background-position-y: 33.3333333333%;
+}
+.assignment-card[data-asset=A25_Freelancer] .assignment-card-inner {
+  background-position-x: 0%;
+  background-position-y: 66.6666666667%;
+}
+.assignment-card[data-asset=A26_MassRecruitment] .assignment-card-inner {
+  background-position-x: 25%;
+  background-position-y: 66.6666666667%;
+}
+.assignment-card[data-asset=A29_TrickOverhaul] .assignment-card-inner {
+  background-position-x: 50%;
+  background-position-y: 66.6666666667%;
+}
+.assignment-card[data-asset=A32_Investments] .assignment-card-inner {
+  background-position-x: 75%;
+  background-position-y: 66.6666666667%;
+}
+.assignment-card[data-asset=A35_Empower] .assignment-card-inner {
+  background-position-x: 100%;
+  background-position-y: 66.6666666667%;
+}
+.assignment-card[data-asset=A36_ComponentSale] .assignment-card-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.assignment-card[data-asset=A41_Logistics] .assignment-card-inner {
+  background-position-x: 25%;
+  background-position-y: 100%;
+}
+.assignment-card[data-asset=A43_DubiousSources] .assignment-card-inner {
+  background-position-x: 50%;
+  background-position-y: 100%;
+}
+.assignment-card[data-asset=A44_BusinessShare] .assignment-card-inner {
+  background-position-x: 75%;
   background-position-y: 100%;
 }
 

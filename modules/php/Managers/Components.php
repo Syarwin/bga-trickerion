@@ -17,7 +17,7 @@ class Components extends CachedPieces
     protected static $autoremovePrefix = false;
     protected static $autoreshuffle = false;
     protected static $autoreshuffleCustom = [];
-    
+
     public static function autoreshuffleListener($location) {}
 
     public static function cast($raw)
@@ -28,7 +28,7 @@ class Components extends CachedPieces
     public static function getUiData($playerId = null)
     {
         return [
-            "player" => Players::getAll()->map(function($player) {
+            "player" => Players::getAll()->map(function ($player) {
                 return self::getAll()
                     ->where('playerId', $player->id)
                     ->toArray();
@@ -128,9 +128,9 @@ class Components extends CachedPieces
             }
 
             $availableLocations = $component->getCount() > 0 ? [$component->getLocation()] : $playerAvailableLocations;
-            
+
             $maxCounts[$component->getType()] = [];
-            
+
             $playerCoins = $player->getCoins();
             $componentCost = $component->getEffectiveCost();
             $maxAffordableByCoins = floor($playerCoins / $componentCost);
@@ -148,22 +148,23 @@ class Components extends CachedPieces
         return $maxCounts;
     }
 
-    public static function addComponent(int $playerId, string $component, string $locationId, int $count, int $bargain) {
+    public static function addComponent(int $playerId, string $component, string $locationId, int $count, int $bargain)
+    {
         $component = self::getAll()
             ->where("type", $component)
             ->where("playerId", $playerId)
             ->first();
 
         $component->incCount($count);
-        $component->setLocation($locationId); 
+        $component->setLocation($locationId);
 
         $cost = $component->getEffectiveCost() * $count - $bargain;
         Players::get($playerId)->incCoins(-$cost);
         LocationActions::incActionPoints(-$bargain);
 
-        $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost} and placed it at the ${location}');
+        $message = clienttranslate('${player_name} bought ${count} <component>for ${cost} and placed it at the ${location}');
         if ($bargain > 0) {
-            $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost} (after bargaining ${bargain} coins) and placed it at the ${location}');
+            $message = clienttranslate('${player_name} bought ${count} <component>for ${cost} (after bargaining ${bargain} coins) and placed it at the ${location}');
         }
 
         Game::get()->bga->notify->all("componentBought", $message, [

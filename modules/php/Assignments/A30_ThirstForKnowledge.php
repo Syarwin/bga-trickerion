@@ -16,7 +16,7 @@ class A30_ThirstForKnowledge extends Assignment
         $this->targetAction = Assignment::TARGET_ACTION_LEARN_TRICK;
         $this->abilityText = [
             clienttranslate('You may learn a Trick from any category regardless of the die roll (as long as it\'s not an X).'),
-            clienttranslate('This \'Learn Trick\' Action costs you 1 less ${ACTION_POINT}.'),
+            clienttranslate('This \'Learn Trick\' Action costs you 1 less <action-point>.'),
         ];
     }
 }

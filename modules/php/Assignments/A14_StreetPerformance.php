@@ -15,7 +15,7 @@ class A14_StreetPerformance extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_RESCHEDULE;
         $this->abilityText = [
-            clienttranslate('Instead of moving the ${TRICK_MARKER}, you may remove it from the Performance card and immediately receive that Trick\'s Yields. Yield modifiers apply.'),
+            clienttranslate('Instead of moving the <trick-marker>, you may remove it from the Performance card and immediately receive that Trick\'s Yields. Yield modifiers apply.'),
         ];
     }
 }

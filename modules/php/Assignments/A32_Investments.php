@@ -15,7 +15,7 @@ class A32_Investments extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
         $this->abilityText = [
-            clienttranslate('You may immediately spend any amount of the received ${COIN} to buy up to three ${COMPONENT} available at the Market Row.'),
+            clienttranslate('You may immediately spend any amount of the received <coin> to buy up to three <component> available at the Market Row.'),
         ];
     }
 }

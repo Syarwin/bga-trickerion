@@ -15,7 +15,7 @@ class A40_Shoplifting extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
         $this->targetAction = Assignment::TARGET_ACTION_BUY;
         $this->abilityText = [
-            clienttranslate('You may take one of the bought ${COMPONENT} directly from the Market Row instead of the supply, without paying its ${COIN} price. The ${COMPONENT} is removed from the Market Row\'s stock and replaced with a Basic ${COMPONENT} of your choice.'),
+            clienttranslate('You may take one of the bought <component> directly from the Market Row instead of the supply, without paying its <coin> price. The <component> is removed from the Market Row\'s stock and replaced with a Basic <component> of your choice.'),
         ];
     }
 }

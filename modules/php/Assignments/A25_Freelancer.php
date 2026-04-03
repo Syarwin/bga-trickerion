@@ -15,7 +15,7 @@ class A25_Freelancer extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_ANY;
         $this->abilityText = [
-            clienttranslate('You may choose to place this ${GENERIC_CHARACTER} on any other Location instead of the Workshop.'),
+            clienttranslate('You may choose to place this <disk> on any other Location instead of the Workshop.'),
         ];
     }
 }

@@ -15,7 +15,7 @@ class A09_NewTwist extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_SET_UP_TRICK;
         $this->abilityText = [
-            clienttranslate('You may set up the same ${TRICK_MARKER} on the same Performance card for a second time.'),
+            clienttranslate('You may set up the same <trick-marker> on the same Performance card for a second time.'),
         ];
     }
 }

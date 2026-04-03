@@ -15,7 +15,7 @@ class A19_Invention extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
         $this->abilityText = [
-            clienttranslate('You receive ${FAME} equal to the total number of Advanced and Superior ${COMPONENT} required for the prepared Trick.'),
+            clienttranslate('You receive <fame> equal to the total number of Advanced and Superior <component> required for the prepared Trick.'),
         ];
     }
 }

@@ -15,7 +15,7 @@ class A27_HypnoticMotivation extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_HIRE_CHARACTER;
         $this->abilityText = [
-            clienttranslate('You immediately receive the hired ${GENERIC_CHARACTER}. You may place an Assignment card from your hand below it and place it during this \'Place Characters\' phase.'),
+            clienttranslate('You immediately receive the hired <disk>. You may place an Assignment card from your hand below it and place it during this \'Place Characters\' phase.'),
         ];
     }
 }

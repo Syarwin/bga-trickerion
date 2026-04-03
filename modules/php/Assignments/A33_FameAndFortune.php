@@ -15,7 +15,7 @@ class A33_FameAndFortune extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
         $this->abilityText = [
-            clienttranslate('You also gain ${FAME} equal to the amount of ${COIN} on the chosen die minus 1.'),
+            clienttranslate('You also gain <fame> equal to the amount of <coin> on the chosen die minus 1.'),
         ];
     }
 }

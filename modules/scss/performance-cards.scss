@@ -123,8 +123,8 @@
         }
     }
 
-    @each $type in $peformanceCardTypes {
-        $i: index($peformanceCardTypes, $type) - 1;
+    @each $type in $performanceCardTypes {
+        $i: index($performanceCardTypes, $type) - 1;
         &[data-type="#{$type}"] .performance-card-inner {
             background-position-x: ($i % 7) * 100% / 6;
             background-position-y: (($i - ($i % 7)) / 7) * 100% / 4;

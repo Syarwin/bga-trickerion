@@ -15,7 +15,7 @@ class A11_DurableComponents extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_PERFORM;
         $this->abilityText = [
-            clienttranslate('At the end of the \'Performance\' phase, you may return one of your performed ${TRICK_MARKER} to its Trick card instead of discarding it.'),
+            clienttranslate('At the end of the \'Performance\' phase, you may return one of your performed <trick-marker> to its Trick card instead of discarding it.'),
         ];
     }
 }

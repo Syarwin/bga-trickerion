@@ -15,7 +15,7 @@ class A26_MassRecruitment extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_HIRE_CHARACTER;
         $this->abilityText = [
-            clienttranslate('If you hire an Apprentice, you may pay 3 ${COIN} to hire a second one. This costs no additional ${ACTION_POINT} and is independent from the die rolls.'),
+            clienttranslate('If you hire an Apprentice, you may pay 3 <coin> to hire a second one. This costs no additional <action-point> and is independent from the die rolls.'),
         ];
     }
 }

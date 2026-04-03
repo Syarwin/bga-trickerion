@@ -15,8 +15,8 @@ class A34_Interest extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
         $this->abilityText = [
-            clienttranslate('After choosing a Bank die, roll it once before setting it to X. Add the rolled amount from the supply to the ${COIN} you take.'),
-            clienttranslate('This \'Take Coins\' Action costs you 1 less ${ACTION_POINT}.'),
+            clienttranslate('After choosing a Bank die, roll it once before setting it to X. Add the rolled amount from the supply to the <coin> you take.'),
+            clienttranslate('This \'Take Coins\' Action costs you 1 less <action-point>.'),
         ];
     }
 }

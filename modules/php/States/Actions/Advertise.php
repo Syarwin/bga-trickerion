@@ -20,7 +20,8 @@ class Advertise extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_ADVERTISE,
             type: StateType::ACTIVE_PLAYER,
@@ -36,8 +37,9 @@ class Advertise extends ActionStateWithRevert
         ];
         return $args;
     }
-    
-    public function isOptional() {
+
+    public function isOptional()
+    {
         return true;
     }
 
@@ -55,12 +57,12 @@ class Advertise extends ActionStateWithRevert
         $player = Players::get($activePlayerId);
         $player->incCoins(-$args['cost']);
         $player->incScore($fame);
-        
+
         $poster = Posters::getFiltered($activePlayerId, Posters::LOCATION_SUPPLY)
             ->first()
             ->setLocation(Posters::LOCATION_BOARD);
 
-        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives ${fame} fame'), [
+        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives <fame> fame'), [
             "player_id" => $activePlayerId,
             "poster" => $poster,
             "cost" => $args['cost'],

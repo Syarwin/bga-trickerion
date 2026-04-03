@@ -1,5 +1,6 @@
 :root {
   --performanceCardScale: 0.8;
+  --assignmentCardScale: 0.8;
 }
 
 .implemented-mark {

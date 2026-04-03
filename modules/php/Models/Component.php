@@ -64,13 +64,14 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         };
     }
 
-    public function getEffectiveCost() {
+    public function getEffectiveCost()
+    {
         $baseCost = $this->getCost();
 
         if ($this->getType() == MarketRow::getQuickOrder()) {
             $baseCost++;
         }
-        
+
         return $baseCost;
     }
 
@@ -93,7 +94,8 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         };
     }
 
-    public function move(?int $toReplaceComponentId = null) {
+    public function move(?int $toReplaceComponentId = null)
+    {
         if ($toReplaceComponentId !== null) {
             $toReplaceComponent = Components::get($toReplaceComponentId);
             $toReplaceComponent->setLocation(Components::LOCATION_PLAYER_BOARD);
@@ -102,8 +104,8 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         $this->setLocation(Components::LOCATION_MANAGER_BOARD);
 
         $message = $toReplaceComponentId === null
-            ? clienttranslate('${player_name} moves ${component} to the manager board')
-            : clienttranslate('${player_name} moves ${component} to the manager board, replacing ${secondComponent}');
+            ? clienttranslate('${player_name} moves <component>to the manager board')
+            : clienttranslate('${player_name} moves <component>to the manager board, replacing ${secondComponent}');
 
         Game::get()->bga->notify->all("trickPrepared", $message, [
             "player_id" => $this->getPlayerId(),
@@ -120,13 +122,13 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     ╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║   ███████║
     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
-    */    
+    */
 
     const WOOD = "wood";
     const GLASS = "glass";
     const METAL = "metal";
     const FABRIC = "fabric";
-    
+
     const ROPE = "rope";
     const PETROLEUM = "petroleum";
     const SAW = "saw";

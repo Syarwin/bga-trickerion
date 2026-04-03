@@ -15,7 +15,7 @@ class A13_GrandPremiere extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_PERFORM;
         $this->abilityText = [
-            clienttranslate('If one of your own ${TRICK_MARKER} in your Performance is performed for the first time in the game, double that Trick\'s ${COIN}, ${FAME}, or ${SHARD} Yield for this Performance (choose one).'),
+            clienttranslate('If one of your own <trick-marker> in your Performance is performed for the first time in the game, double that Trick\'s <coin>, <fame>, or <shard> Yield for this Performance (choose one).'),
         ];
     }
 }

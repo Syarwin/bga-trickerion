@@ -15,7 +15,7 @@ class A23_OnStagePreparation extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
         $this->abilityText = [
-            clienttranslate('After preparing the Trick, you may immediately move one of the received ${TRICK_MARKER} onto an empty slot on one of the Performance cards. You don\'t receive ${LINK} payment if you created a ${LINK} this way.'),
+            clienttranslate('After preparing the Trick, you may immediately move one of the received <trick-marker> onto an empty slot on one of the Performance cards. You don\'t receive <link> payment if you created a <link> this way.'),
         ];
     }
 }

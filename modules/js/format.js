@@ -59,8 +59,9 @@ export const formatIcon = function (name, n = null, lowerCase = true) {
 export const formatString = function (str) {
     str = str.replaceAll('\n', '<br />');
     ICONS.forEach((name) => {
-        str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
+        str = str.replaceAll(new RegExp('<' + name + '>', 'g'), formatIcon(name));
     });
+    str = str.replaceAll(new RegExp('<bullet>', 'g'), '&nbsp;&nbsp;·');
     str = str.replace(/\{\{([^\}]+)\}\}/gi, '<span class="emph">$1</span>'); // Replace {{my wrapped text}} by <span class="emph">my wrapped text</span>
 
     return str;

@@ -20,13 +20,13 @@ let addSection = (section, title) => {
     return $(`${section}-holder`);
 };
 
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //  ____            __
 // |  _ \ ___ _ __ / _| ___  _ __ _ __ ___   __ _ _ __   ___ ___  ___
 // | |_) / _ \ '__| |_ / _ \| '__| '_ ` _ \ / _` | '_ \ / __/ _ \/ __|
 // |  __/  __/ |  |  _| (_) | |  | | | | | | (_| | | | | (_|  __/\__ \
 // |_|   \___|_|  |_|  \___/|_|  |_| |_| |_|\__,_|_| |_|\___\___||___/
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 console.log('## Reconstructing performance cards ##', staticData.performances);
 container = addSection('performance-cards', 'Performance Cards');
@@ -35,4 +35,22 @@ Object.entries(staticData.performances).forEach(([cardType, card]) => {
     card.id = cardType;
     card.type = cardType;
     container.insertAdjacentHTML('beforeend', cards.tplPerformanceCard(card));
+});
+
+///////////////////////////////////////////////////////////////
+//     _            _                                  _
+//    / \   ___ ___(_) __ _ _ __  _ __ ___   ___ _ __ | |_
+//   / _ \ / __/ __| |/ _` | '_ \| '_ ` _ \ / _ \ '_ \| __|
+//  / ___ \\__ \__ \ | (_| | | | | | | | | |  __/ | | | |_
+// /_/   \_\___/___/_|\__, |_| |_|_| |_| |_|\___|_| |_|\__|
+//                    |___/
+///////////////////////////////////////////////////////////////
+
+console.log('## Reconstructing assignment cards ##', staticData.assignments);
+container = addSection('assignment-cards', 'Assignment Cards');
+
+Object.entries(staticData.assignments).forEach(([cardType, card]) => {
+    card.id = cardType;
+    card.type = cardType;
+    container.insertAdjacentHTML('beforeend', cards.tplAssignmentCard(card));
 });

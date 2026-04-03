@@ -15,7 +15,7 @@ class A16_TrickTweaking extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_WORKSHOP;
         $this->targetAction = Assignment::TARGET_ACTION_PREPARE;
         $this->abilityText = [
-            clienttranslate('You receive +1 ${TRICK_MARKER} on the prepared Trick.'),
+            clienttranslate('You receive +1 <trick-marker> on the prepared Trick.'),
         ];
     }
 }

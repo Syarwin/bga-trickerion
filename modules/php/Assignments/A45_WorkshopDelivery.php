@@ -15,7 +15,7 @@ class A45_WorkshopDelivery extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
         $this->targetAction = Assignment::TARGET_ACTION_BUY;
         $this->abilityText = [
-            clienttranslate('For this \'Buy\' Action, ${COMPONENT} types you have in your Workshop count as part of the Market Row\'s stock and their ${COIN} price is reduced by 1.'),
+            clienttranslate('For this \'Buy\' Action, <component> types you have in your Workshop count as part of the Market Row\'s stock and their <coin> price is reduced by 1.'),
         ];
     }
 }

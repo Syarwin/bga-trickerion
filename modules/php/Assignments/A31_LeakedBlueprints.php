@@ -15,7 +15,7 @@ class A31_LeakedBlueprints extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
         $this->targetAction = Assignment::TARGET_ACTION_LEARN_TRICK;
         $this->abilityText = [
-            clienttranslate('If the learned Trick has ${FAME_THRESHOLD} 16 or less, you receive it with 1 ${TRICK_MARKER}, even if you don\'t meet its ${COMPONENT} requirements.'),
+            clienttranslate('If the learned Trick has <fame-threshold> 16 or less, you receive it with 1 <trick-marker>, even if you don\'t meet its <component> requirements.'),
         ];
     }
 }

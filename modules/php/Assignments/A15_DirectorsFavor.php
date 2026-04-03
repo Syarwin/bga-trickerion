@@ -15,7 +15,7 @@ class A15_DirectorsFavor extends Assignment
         $this->boardLocation = Assignment::BOARD_LOCATION_THEATER;
         $this->targetAction = Assignment::TARGET_ACTION_RESCHEDULE;
         $this->abilityText = [
-            clienttranslate('Instead of moving your own ${TRICK_MARKER}, you may move an opponent\'s ${TRICK_MARKER}.'),
+            clienttranslate('Instead of moving your own <trick-marker>, you may move an opponent\'s <trick-marker>.'),
         ];
     }
 }
