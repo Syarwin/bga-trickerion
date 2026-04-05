@@ -3,87 +3,87 @@ $meeple-sprite-width: 1511px;
 $meeple-sprite-height: 1053px;
 
 @mixin meeple-trick-marker-green-diamonds {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 0.000000% 0.000000%;
+  background-position: 0% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-red-diamonds {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 11.790715% 0.000000%;
+  background-position: 11.790715% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-green-hearts {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 23.581430% 0.000000%;
+  background-position: 23.58143% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-yellow-clubs {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 35.372144% 0.000000%;
+  background-position: 35.372144% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-blue-hearts {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 47.162859% 0.000000%;
+  background-position: 47.162859% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-red-hearts {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 58.953574% 0.000000%;
+  background-position: 58.953574% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-blue-clubs {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 70.744289% 0.000000%;
+  background-position: 70.744289% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-blue-spades {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 82.535004% 0.000000%;
+  background-position: 82.535004% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-blue-diamonds {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 94.325718% 0.000000%;
+  background-position: 94.325718% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-green-clubs {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 0.000000% 17.797553%;
+  background-position: 0% 17.797553%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-yellow-hearts {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 11.790715% 17.797553%;
   background-repeat: no-repeat;
@@ -91,15 +91,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-trick-marker-yellow-diamonds {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
-  background-position: 23.581430% 17.797553%;
+  background-position: 23.58143% 17.797553%;
   background-repeat: no-repeat;
   aspect-ratio: 154/154;
 }
 
 @mixin meeple-trick-marker-green-spades {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 35.372144% 17.797553%;
   background-repeat: no-repeat;
@@ -107,7 +107,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-trick-marker-yellow-spades {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 47.162859% 17.797553%;
   background-repeat: no-repeat;
@@ -115,7 +115,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-trick-marker-red-clubs {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 58.953574% 17.797553%;
   background-repeat: no-repeat;
@@ -123,7 +123,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-trick-marker-red-spades {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 981.168831% auto;
   background-position: 70.744289% 17.797553%;
   background-repeat: no-repeat;
@@ -131,15 +131,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-petroleum {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 82.171680% 17.679558%;
+  background-position: 82.17168% 17.679558%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
 
 @mixin meeple-component-animal {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 93.470286% 17.679558%;
   background-repeat: no-repeat;
@@ -147,15 +147,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-fabric {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 0.000000% 35.359116%;
+  background-position: 0% 35.359116%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
 
-@mixin meeple-component-paddlock {
-  background-image: url('img/meeples.png');
+@mixin meeple-component-padlock {
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 11.298606% 35.359116%;
   background-repeat: no-repeat;
@@ -163,7 +163,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-rope {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 22.597212% 35.359116%;
   background-repeat: no-repeat;
@@ -171,7 +171,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-cog {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 33.895818% 35.359116%;
   background-repeat: no-repeat;
@@ -179,7 +179,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-saw {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 45.194424% 35.359116%;
   background-repeat: no-repeat;
@@ -187,15 +187,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-glass {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 56.493030% 35.359116%;
+  background-position: 56.49303% 35.359116%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
 
 @mixin meeple-component-metal {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 67.791636% 35.359116%;
   background-repeat: no-repeat;
@@ -203,7 +203,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-mirror {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 79.090242% 35.359116%;
   background-repeat: no-repeat;
@@ -211,7 +211,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-wood {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 90.388848% 35.359116%;
   background-repeat: no-repeat;
@@ -219,15 +219,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-component-disguise {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
-  background-position: 0.000000% 52.375691%;
+  background-position: 0% 52.375691%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
 
 @mixin meeple-red-assistant {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 11.265545% 52.145215%;
   background-repeat: no-repeat;
@@ -235,7 +235,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-yellow-engineer {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 22.238478% 52.145215%;
   background-repeat: no-repeat;
@@ -243,7 +243,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-green-manager {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 33.211412% 52.145215%;
   background-repeat: no-repeat;
@@ -251,7 +251,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-green-magician {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 44.184345% 52.145215%;
   background-repeat: no-repeat;
@@ -259,7 +259,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-yellow-magician {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 55.157279% 52.145215%;
   background-repeat: no-repeat;
@@ -267,7 +267,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-red-engineer {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 66.130212% 52.145215%;
   background-repeat: no-repeat;
@@ -275,7 +275,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-blue-magician {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 77.103146% 52.145215%;
   background-repeat: no-repeat;
@@ -283,7 +283,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-yellow-apprentice {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 88.076079% 52.145215%;
   background-repeat: no-repeat;
@@ -291,7 +291,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-blue-manager {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 99.049012% 52.145215%;
   background-repeat: no-repeat;
@@ -299,15 +299,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-green-apprentice {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 0.000000% 69.086909%;
+  background-position: 0% 69.086909%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
 
 @mixin meeple-blue-apprentice {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 10.972933% 69.086909%;
   background-repeat: no-repeat;
@@ -315,7 +315,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-red-magician {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 21.945867% 69.086909%;
   background-repeat: no-repeat;
@@ -323,15 +323,15 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-red-apprentice {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 32.918800% 69.086909%;
+  background-position: 32.9188% 69.086909%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
 
 @mixin meeple-blue-engineer {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 43.891734% 69.086909%;
   background-repeat: no-repeat;
@@ -339,7 +339,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-yellow-assistant {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 54.864667% 69.086909%;
   background-repeat: no-repeat;
@@ -347,7 +347,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-green-assistant {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 65.837601% 69.086909%;
   background-repeat: no-repeat;
@@ -355,7 +355,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-yellow-manager {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 76.810534% 69.086909%;
   background-repeat: no-repeat;
@@ -363,7 +363,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-red-manager {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 87.783467% 69.086909%;
   background-repeat: no-repeat;
@@ -371,7 +371,7 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-green-engineer {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
   background-position: 98.756401% 69.086909%;
   background-repeat: no-repeat;
@@ -379,137 +379,137 @@ $meeple-sprite-height: 1053px;
 }
 
 @mixin meeple-blue-assistant {
-  background-image: url('img/meeples.png');
+  background-image: url("img/meeples.png");
   background-size: 1049.305556% auto;
-  background-position: 0.000000% 85.588559%;
+  background-position: 0% 85.588559%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
 
 @mixin meeple-academy-marker-yellow-diamonds {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 100.000000% 34.482759%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 100% 34.482759%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-yellow-clubs {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 10.822511% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-green-diamonds {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 20.274170% 83.836207%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 20.27417% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-red-hearts {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 29.725830% 83.836207%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 29.72583% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-greeen-spades {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 39.177489% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-blue-spades {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 48.629149% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-blue-diamonds {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 58.080808% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-blue-hearts {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 67.532468% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-red-clubs {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 76.984127% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-blue-clubs {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 86.435786% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-red-diamonds {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
   background-position: 95.887446% 83.836207%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-yellow-hearts {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 0.000000% 100.000000%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 0% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-green-spades {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 9.451659% 100.000000%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 9.451659% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-red-spades {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 18.903319% 100.000000%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 18.903319% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-green-hearts {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 28.354978% 100.000000%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 28.354978% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
 
 @mixin meeple-academy-marker-yellow-spades {
-  background-image: url('img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 37.806638% 100.000000%;
+  background-image: url("img/meeples.png");
+  background-size: 1208.8% auto;
+  background-position: 37.806638% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 125/125;
 }
@@ -589,8 +589,8 @@ $meeple-sprite-height: 1053px;
   @include meeple-component-fabric;
 }
 
-.meeple-component-paddlock {
-  @include meeple-component-paddlock;
+.meeple-component-padlock {
+  @include meeple-component-padlock;
 }
 
 .meeple-component-rope {

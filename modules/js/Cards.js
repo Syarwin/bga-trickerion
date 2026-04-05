@@ -49,6 +49,7 @@ export const cards = {
     //                    |___/
     ///////////////////////////////////////////////////////////////
     tplAssignmentCard: function (card, prefix = '') {
+        card = Object.assign(card, staticData.assignments[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
             //        registerCustomTooltip(this.tplAssignmentCard(card, 'tooltip'), `${prefixId}assignment-card-${card.id}`);
@@ -114,6 +115,60 @@ export const cards = {
         return `<div id="${prefixId}assignment-card-${card.id}" class="assignment-card" data-type="${card.type}" data-asset="${assignmentAssetMap[card.type]}">
         <div class="assignment-card-inner">
           ${content}
+        </div>
+      </div>`;
+    },
+
+    ////////////////////////////////
+    //  _____     _      _
+    // |_   _| __(_) ___| | _____
+    //   | || '__| |/ __| |/ / __|
+    //   | || |  | | (__|   <\__ \
+    //   |_||_|  |_|\___|_|\_\___/
+    ////////////////////////////////
+
+    tplTrickCard: function (card, prefix = '') {
+        card = Object.assign(card, staticData.tricks[card.type]);
+        let prefixId = prefix == '' ? '' : `${prefix}-`;
+        if (prefix != 'tooltip') {
+            //        registerCustomTooltip(this.tplPerformanceCard(card, 'tooltip'), `${prefixId}performance-${card.id}`);
+        }
+
+        let componentsHTML = '';
+        let components = {};
+        const componentMapping = {
+            fabric: 'basic',
+            glass: 'basic',
+            metal: 'basic',
+            wood: 'basic',
+            rope: 'advanced',
+            petroleum: 'advanced',
+            saw: 'advanced',
+            animal: 'advanced',
+            padlock: 'superior',
+            mirror: 'superior',
+            disguise: 'superior',
+            cog: 'superior',
+        };
+
+        card.componentRequirements.forEach((component) => (components[component] = (components[component] ?? 0) + 1));
+        Object.entries(components).forEach(([component, n]) => {
+            componentsHTML += `<div class="trick-component" data-n="${n}" data-type="${componentMapping[component]}">`;
+            for (let i = 0; i < n; i++) {
+                let type = i == n - 1 ? component : componentMapping[component];
+                componentsHTML += `<div class="slot-component-${type}"></div>`;
+            }
+            componentsHTML += '</div>';
+        });
+
+        return `<div id="${prefixId}trick-${card.id}" class="trick-card" data-type="${card.type}">
+        <div class="trick-card-inner">
+          <div class="card-name"><span>${_(card.name)}</span></div>
+          <div class="trick-bonus-fame">${card.yields.fame}</div>
+          <div class="trick-bonus-coins">${card.yields.coins}</div>
+          <div class="symbol-marker-slot"></div>
+          <div class="trick-marker-slots" data-n="${card.slots}"></div>
+          <div class="trick-components">${componentsHTML}</div>
         </div>
       </div>`;
     },

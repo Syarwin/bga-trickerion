@@ -324,62 +324,9 @@ html {
 }
 
 :root {
-  --trickCardScale: 0.35;
+  --trickCardScale: 0.7;
   --performanceCardScale: 0.5;
   --assignmentCardScale: 0.5;
-}
-
-#pagemaintitletext .trick-card,
-#gameaction_status .trick-card,
-.player-board .trick-card {
-  position: absolute;
-  left: 50%;
-}
-
-.log-trick-card-name {
-  font-style: italic;
-}
-
-.trick-card {
-  position: relative;
-  width: calc(var(--trickCardScale) * 375px);
-  height: calc(var(--trickCardScale) * 525px);
-}
-.trick-card.unselectable {
-  cursor: not-allowed;
-  filter: grayscale(80%);
-  -webkit-transform: translateZ(0);
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
-}
-.trick-card.selectable {
-  cursor: pointer;
-}
-.trick-card.selectable:hover {
-  transform: scale(1.1);
-}
-.trick-card.selectable {
-  box-shadow: 0px 0px 10px 0px #dbae00;
-}
-.trick-card.selected {
-  border: 2px solid rgb(60, 255, 0);
-  margin: -2px;
-  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
-  border-radius: 4px;
-}
-.trick-card .trick-card-wrapper {
-  width: 373px;
-  height: 520px;
-  transform-origin: top left;
-  transform: scale(var(--trickCardScale));
-  border-radius: 8px;
-  box-shadow: 2px 2px 3px 1px black;
-  background-image: url("img/cards.jpg");
-  background-size: 600% 400%;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
 }
 
 .icon-container {
@@ -685,7 +632,7 @@ html {
   aspect-ratio: 148/148;
 }
 
-.meeple-component-paddlock {
+.meeple-component-padlock {
   background-image: url("img/meeples.png");
   background-size: 1020.945946% auto;
   background-position: 11.298606% 35.359116%;
@@ -1058,7 +1005,7 @@ html {
 
 .slot-theater-action-slots {
   background-image: url("img/slots.png");
-  background-size: 391.556291% auto;
+  background-size: 376.821192% auto;
   background-position: 0% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 604/685;
@@ -1066,391 +1013,391 @@ html {
 
 .slot-theater-perform {
   background-image: url("img/slots.png");
-  background-size: 1010.683761% auto;
-  background-position: 28.625059% 0%;
+  background-size: 972.649573% auto;
+  background-position: 29.872674% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 234/498;
 }
 
 .slot-market-costs {
   background-image: url("img/slots.png");
-  background-size: 531.460674% auto;
-  background-position: 44.270833% 0%;
+  background-size: 511.460674% auto;
+  background-position: 46.42272% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 445/256;
 }
 
 .slot-prophecies {
   background-image: url("img/slots.png");
-  background-size: 537.5% auto;
-  background-position: 0% 38.325014%;
+  background-size: 517.272727% auto;
+  background-position: 0% 39.896074%;
   background-repeat: no-repeat;
   aspect-ratio: 440/362;
 }
 
 .slot-theater-link-bonus {
   background-image: url("img/slots.png");
-  background-size: 1010.683761% auto;
-  background-position: 0% 59.695603%;
+  background-size: 972.649573% auto;
+  background-position: 0% 62.184381%;
   background-repeat: no-repeat;
   aspect-ratio: 234/391;
 }
 
 .slot-market-row-logo {
   background-image: url("img/slots.png");
-  background-size: 619.109948% auto;
-  background-position: 22.491175% 37.452575%;
+  background-size: 595.811518% auto;
+  background-position: 23.548046% 38.951522%;
   background-repeat: no-repeat;
   aspect-ratio: 382/320;
 }
 
 .slot-dark-alley-logo {
   background-image: url("img/slots.png");
-  background-size: 622.368421% auto;
-  background-position: 42.015113% 37.452575%;
+  background-size: 598.947368% auto;
+  background-position: 43.987342% 38.951522%;
   background-repeat: no-repeat;
   aspect-ratio: 380/320;
 }
 
 .slot-downtown-logo {
   background-image: url("img/slots.png");
-  background-size: 622.368421% auto;
-  background-position: 61.460957% 37.452575%;
+  background-size: 598.947368% auto;
+  background-position: 64.345992% 38.951522%;
   background-repeat: no-repeat;
   aspect-ratio: 380/320;
 }
 
 .slot-market-slot-3 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 76.367095% 36.735779%;
+  background-size: 868.70229% auto;
+  background-position: 79.741807% 38.176796%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-downtown-slot-1 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 89.110794% 36.735779%;
+  background-size: 868.70229% auto;
+  background-position: 93.048659% 38.176796%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-market-slot-1 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 11.412268% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 11.916584% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-alley-slot-1 {
   background-image: url("img/slots.png");
-  background-size: 899.239544% auto;
-  background-position: 24.16746% 56.299841%;
+  background-size: 865.39924% auto;
+  background-position: 25.235966% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 263/284;
 }
 
 .slot-market-slot-4 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 36.947218% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 38.57994% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-downtown-slot-2 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 49.690918% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 51.886792% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-downtown-slot-4 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 62.434617% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 65.193644% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-alley-slot-2 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 75.178317% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 78.500497% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-alley-slot-3 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 87.922016% 56.299841%;
+  background-size: 868.70229% auto;
+  background-position: 91.807349% 58.508287%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-market-slot-2 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 0% 77.405635%;
+  background-size: 868.70229% auto;
+  background-position: 0% 80.441989%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-alley-slot-4 {
   background-image: url("img/slots.png");
-  background-size: 899.239544% auto;
-  background-position: 12.749762% 77.405635%;
+  background-size: 865.39924% auto;
+  background-position: 13.313462% 80.441989%;
   background-repeat: no-repeat;
   aspect-ratio: 263/284;
 }
 
 .slot-downtown-slot-3 {
   background-image: url("img/slots.png");
-  background-size: 902.671756% auto;
-  background-position: 25.53495% 77.405635%;
+  background-size: 868.70229% auto;
+  background-position: 26.663357% 80.441989%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 .slot-theater-logo {
   background-image: url("img/slots.png");
-  background-size: 977.272727% auto;
-  background-position: 61.281206% 0%;
+  background-size: 940.495868% auto;
+  background-position: 63.962635% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 242/205;
 }
 
 .slot-alley-shard-boost {
   background-image: url("img/slots.png");
-  background-size: 1115.566038% auto;
-  background-position: 71.946122% 0%;
+  background-size: 1073.584906% auto;
+  background-position: 75.04845% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 212/143;
 }
 
 .slot-optical {
   background-image: url("img/slots.png");
-  background-size: 1126.190476% auto;
-  background-position: 39.443155% 13.060818%;
+  background-size: 1083.809524% auto;
+  background-position: 41.142304% 13.540052%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 .slot-escape {
   background-image: url("img/slots.png");
-  background-size: 1126.190476% auto;
-  background-position: 49.466357% 13.060818%;
+  background-size: 1083.809524% auto;
+  background-position: 51.597289% 13.540052%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 .slot-mechanical {
   background-image: url("img/slots.png");
-  background-size: 1126.190476% auto;
-  background-position: 59.489559% 13.060818%;
+  background-size: 1083.809524% auto;
+  background-position: 62.052275% 13.540052%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 .slot-spiritual {
   background-image: url("img/slots.png");
-  background-size: 1126.190476% auto;
-  background-position: 69.512761% 13.060818%;
+  background-size: 1083.809524% auto;
+  background-position: 72.50726% 13.540052%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 .slot-market-action-space {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 28.293135% 25.364872%;
+  background-size: 1088.995215% auto;
+  background-position: 29.511369% 26.304802%;
   background-repeat: no-repeat;
   aspect-ratio: 209/178;
 }
 
 .slot-alley-action-space {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 38.265306% 25.352113%;
+  background-size: 1088.995215% auto;
+  background-position: 39.912917% 26.29108%;
   background-repeat: no-repeat;
   aspect-ratio: 209/177;
 }
 
 .slot-market-component-slot {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 99.350649% 35.327198%;
+  background-size: 1088.995215% auto;
+  background-position: 38.945331% 77.241379%;
   background-repeat: no-repeat;
   aspect-ratio: 209/209;
 }
 
 .slot-downtown-shard-boost {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 81.957328% 0%;
+  background-size: 1088.995215% auto;
+  background-position: 85.486212% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 209/138;
 }
 
 .slot-market-shard-boost {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 91.929499% 0%;
+  background-size: 1088.995215% auto;
+  background-position: 95.88776% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 209/138;
 }
 
 .slot-downtown-action-space {
   background-image: url("img/slots.png");
-  background-size: 1131.578947% auto;
-  background-position: 98.191095% 53.296427%;
+  background-size: 1088.995215% auto;
+  background-position: 49.34688% 75.991649%;
   background-repeat: no-repeat;
   aspect-ratio: 209/178;
 }
 
 .slot-market-quick-order-slot {
   background-image: url("img/slots.png");
-  background-size: 1153.658537% auto;
-  background-position: 37.268519% 74.285714%;
+  background-size: 1110.243902% auto;
+  background-position: 0% 92.429857%;
   background-repeat: no-repeat;
   aspect-ratio: 205/205;
 }
 
 .slot-theater {
   background-image: url("img/slots.png");
-  background-size: 1238.219895% auto;
-  background-position: 78.840846% 12.976721%;
+  background-size: 1191.623037% auto;
+  background-position: 82.206235% 13.449692%;
   background-repeat: no-repeat;
   aspect-ratio: 191/146;
 }
 
 .slot-alley-action-draw-further-cards {
   background-image: url("img/slots.png");
-  background-size: 1278.378378% auto;
-  background-position: 87.66055% 12.608277%;
+  background-size: 1230.27027% auto;
+  background-position: 91.391679% 13.05431%;
   background-repeat: no-repeat;
   aspect-ratio: 185/87;
 }
 
 .slot-market-action-space-extended {
   background-image: url("img/slots.png");
-  background-size: 1391.176471% auto;
-  background-position: 46.287016% 73.276296%;
+  background-size: 1338.823529% auto;
+  background-position: 58.641975% 75.991649%;
   background-repeat: no-repeat;
   aspect-ratio: 170/178;
 }
 
 .slot-market-action-order {
   background-image: url("img/slots.png");
-  background-size: 1383.040936% auto;
-  background-position: 95.806746% 12.578012%;
+  background-size: 1330.994152% auto;
+  background-position: 99.857482% 13.021869%;
   background-repeat: no-repeat;
   aspect-ratio: 171/82;
 }
 
 .slot-market-row {
   background-image: url("img/slots.png");
-  background-size: 1383.040936% auto;
-  background-position: 47.402005% 24.75442%;
+  background-size: 1330.994152% auto;
+  background-position: 49.406176% 25.648855%;
   background-repeat: no-repeat;
   aspect-ratio: 171/129;
 }
 
 .slot-downtown {
   background-image: url("img/slots.png");
-  background-size: 1391.176471% auto;
-  background-position: 55.444191% 24.742268%;
+  background-size: 1338.823529% auto;
+  background-position: 57.787274% 25.635809%;
   background-repeat: no-repeat;
   aspect-ratio: 170/128;
 }
 
 .slot-workshop {
   background-image: url("img/slots.png");
-  background-size: 1391.176471% auto;
-  background-position: 63.462415% 24.705882%;
+  background-size: 1338.823529% auto;
+  background-position: 66.144349% 25.59675%;
   background-repeat: no-repeat;
   aspect-ratio: 170/125;
 }
 
 .slot-downtown-action-set-die {
   background-image: url("img/slots.png");
-  background-size: 1407.738095% auto;
-  background-position: 100% 0%;
+  background-size: 1354.761905% auto;
+  background-position: 74.43074% 25.390428%;
   background-repeat: no-repeat;
   aspect-ratio: 168/109;
 }
 
 .slot-theater-action-reschedule {
   background-image: url("img/slots.png");
-  background-size: 1478.125% auto;
-  background-position: 71.156463% 24.242424%;
+  background-size: 1422.5% auto;
+  background-position: 82.372401% 25.099602%;
   background-repeat: no-repeat;
   aspect-ratio: 160/86;
 }
 
 .slot-alley-action-draw-first-card {
   background-image: url("img/slots.png");
-  background-size: 1487.421384% auto;
-  background-position: 95.965549% 59.817132%;
+  background-size: 1431.446541% auto;
+  background-position: 100% 52.765321%;
   background-repeat: no-repeat;
   aspect-ratio: 159/87;
 }
 
 .slot-downtown-action-hire-character {
   background-image: url("img/slots.png");
-  background-size: 1506.369427% auto;
-  background-position: 10.869565% 65.20058%;
+  background-size: 1449.681529% auto;
+  background-position: 99.905616% 57.657658%;
   background-repeat: no-repeat;
   aspect-ratio: 157/96;
 }
 
 .slot-downtown-action-learn-trick {
   background-image: url("img/slots.png");
-  background-size: 1545.751634% auto;
-  background-position: 53.887884% 70.40619%;
+  background-size: 1487.581699% auto;
+  background-position: 11.304757% 67.551327%;
   background-repeat: no-repeat;
   aspect-ratio: 153/97;
 }
 
 .slot-theater-action-space {
   background-image: url("img/slots.png");
-  background-size: 1587.248322% auto;
-  background-position: 0% 85.967504%;
+  background-size: 1527.516779% auto;
+  background-position: 66.337565% 74.285714%;
   background-repeat: no-repeat;
   aspect-ratio: 149/134;
 }
 
 .slot-market-action-quick-order {
   background-image: url("img/slots.png");
-  background-size: 1597.972973% auto;
-  background-position: 18.177718% 65.169082%;
+  background-size: 1537.837838% auto;
+  background-position: 18.75% 67.483742%;
   background-repeat: no-repeat;
   aspect-ratio: 148/95;
 }
 
 .slot-downtown-action-take-coins {
   background-image: url("img/slots.png");
-  background-size: 1713.768116% auto;
-  background-position: 77.907499% 24.242424%;
+  background-size: 1649.275362% auto;
+  background-position: 89.289055% 25.099602%;
   background-repeat: no-repeat;
   aspect-ratio: 138/86;
 }
 
 .slot-downtown-die-slot-bank-B {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
-  background-position: 0% 92.952193%;
+  background-size: 1661.313869% auto;
+  background-position: 9.864423% 89.172625%;
   background-repeat: no-repeat;
   aspect-ratio: 137/136;
 }
 
 .slot-downtown-die-slot-character-B {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
+  background-size: 1661.313869% auto;
   background-position: 0% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
@@ -1458,120 +1405,240 @@ html {
 
 .slot-downtown-die-slot-trick-A {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
-  background-position: 6.418312% 100%;
+  background-size: 1661.313869% auto;
+  background-position: 6.685367% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 .slot-downtown-die-slot-character-A {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
-  background-position: 12.836625% 100%;
+  background-size: 1661.313869% auto;
+  background-position: 13.370734% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 .slot-downtown-die-slot-trick-B {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
-  background-position: 19.254937% 100%;
+  background-size: 1661.313869% auto;
+  background-position: 20.056101% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 .slot-downtown-die-slot-bank-A {
   background-image: url("img/slots.png");
-  background-size: 1726.277372% auto;
-  background-position: 6.418312% 92.952193%;
+  background-size: 1661.313869% auto;
+  background-position: 16.54979% 89.172625%;
   background-repeat: no-repeat;
   aspect-ratio: 137/136;
 }
 
 .slot-market-action-buy {
   background-image: url("img/slots.png");
-  background-size: 1892% auto;
-  background-position: 37.946429% 20.304327%;
+  background-size: 1820.8% auto;
+  background-position: 39.516504% 21.01378%;
   background-repeat: no-repeat;
   aspect-ratio: 125/62;
 }
 
 .slot-theater-no-shard-boost {
   background-image: url("img/slots.png");
-  background-size: 1907.258065% auto;
-  background-position: 83.846497% 24.195871%;
+  background-size: 1835.483871% auto;
+  background-position: 95.399628% 25.049702%;
   background-repeat: no-repeat;
   aspect-ratio: 124/82;
 }
 
 .slot-downtown-action-reroll-die {
   background-image: url("img/slots.png");
-  background-size: 1938.52459% auto;
-  background-position: 24.832813% 64.918191%;
+  background-size: 1865.57377% auto;
+  background-position: 99.442897% 34.429497%;
   background-repeat: no-repeat;
   aspect-ratio: 122/87;
 }
 
 .slot-alley-action-fortune-telling {
   background-image: url("img/slots.png");
-  background-size: 2210.280374% auto;
-  background-position: 6.864482% 85.087719%;
+  background-size: 2127.102804% auto;
+  background-position: 98.755187% 39.575972%;
   background-repeat: no-repeat;
   aspect-ratio: 107/113;
 }
 
 .slot-market-quick-order-cost {
   background-image: url("img/slots.png");
-  background-size: 2341.584158% auto;
-  background-position: 59.673145% 70.304201%;
+  background-size: 2253.465347% auto;
+  background-position: 25.425287% 67.45%;
   background-repeat: no-repeat;
   aspect-ratio: 101/94;
 }
 
 .slot-theater-action-set-up-trick {
   background-image: url("img/slots.png");
-  background-size: 2463.541667% auto;
-  background-position: 30.189511% 64.918191%;
+  background-size: 2370.833333% auto;
+  background-position: 97.110092% 62.481315%;
   background-repeat: no-repeat;
   aspect-ratio: 96/87;
 }
 
+.slot-component-basic {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 30.247479% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-petroleum {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 34.830431% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-animal {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 39.413382% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-fabric {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 43.996334% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-rope {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 48.579285% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-cog {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 53.162236% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-saw {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 57.745188% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-glass {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 62.328139% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-superior {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 66.911091% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-metal {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 71.494042% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-padlock {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 76.076994% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-mirror {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 80.659945% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-wood {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 85.242896% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-disguise {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 89.825848% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
+.slot-component-advanced {
+  background-image: url("img/slots.png");
+  background-size: 2421.276596% auto;
+  background-position: 94.408799% 67.45%;
+  background-repeat: no-repeat;
+  aspect-ratio: 94/94;
+}
+
 .slot-downtown-action-cost {
   background-image: url("img/slots.png");
-  background-size: 2570.652174% auto;
-  background-position: 64.144303% 70.236372%;
+  background-size: 2473.913043% auto;
+  background-position: 98.901099% 67.382617%;
   background-repeat: no-repeat;
   aspect-ratio: 92/92;
 }
 
 .slot-market-action-cost {
   background-image: url("img/slots.png");
-  background-size: 2570.652174% auto;
-  background-position: 68.455785% 70.236372%;
+  background-size: 2473.913043% auto;
+  background-position: 71.703297% 72.727273%;
   background-repeat: no-repeat;
   aspect-ratio: 92/92;
 }
 
 .slot-alley-action-cost {
   background-image: url("img/slots.png");
-  background-size: 2598.901099% auto;
-  background-position: 72.735268% 70.202507%;
+  background-size: 2501.098901% auto;
+  background-position: 76.155606% 72.690964%;
   background-repeat: no-repeat;
   aspect-ratio: 91/91;
 }
 
 .slot-market-action-bargain {
   background-image: url("img/slots.png");
-  background-size: 2598.901099% auto;
-  background-position: 88.346526% 24.034335%;
+  background-size: 2501.098901% auto;
+  background-position: 99.908467% 24.876604%;
   background-repeat: no-repeat;
   aspect-ratio: 91/68;
 }
 
 .slot-theater-action-cost {
   background-image: url("img/slots.png");
-  background-size: 3638.461538% auto;
-  background-position: 99.086957% 12.47619%;
+  background-size: 3501.538462% auto;
+  background-position: 99.366802% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 65/65;
 }
@@ -1902,8 +1969,8 @@ html {
   top: 165px;
   left: 153px;
   background-image: url("img/slots.png");
-  background-size: 1391.176471% auto;
-  background-position: 46.287016% 73.276296%;
+  background-size: 1338.823529% auto;
+  background-position: 58.641975% 75.991649%;
   background-repeat: no-repeat;
   aspect-ratio: 170/178;
   width: 73px;
@@ -2454,7 +2521,7 @@ html {
   width: 207px;
   height: 30px;
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
   text-align: center;
 }
@@ -2785,6 +2852,355 @@ html {
 }
 .assignment-card[data-asset=A44_BusinessShare] .assignment-card-inner {
   background-position-x: 75%;
+  background-position-y: 100%;
+}
+
+#pagemaintitletext .trick-card,
+#gameaction_status .trick-card,
+.player-board .trick-card {
+  position: absolute;
+  left: 50%;
+}
+
+.log-trick-card-name {
+  font-style: italic;
+}
+
+.trick-card {
+  position: relative;
+  width: calc(var(--trickCardScale) * 348px);
+  height: calc(var(--trickCardScale) * 537px);
+}
+.trick-card.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.trick-card.selectable {
+  cursor: pointer;
+}
+.trick-card.selectable:hover {
+  transform: scale(1.1);
+}
+.trick-card.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.trick-card.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.trick-card .trick-card-inner {
+  width: 348px;
+  height: 537px;
+  transform-origin: top left;
+  transform: scale(var(--trickCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/tricks.jpg");
+  background-size: 800% 600%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+.trick-card .trick-card-inner .card-name {
+  position: absolute;
+  top: 77px;
+  left: 31px;
+  width: 290px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.trick-card .trick-card-inner .card-name span {
+  font-family: "Brandon Text Medium";
+  font-size: 20px;
+}
+.trick-card .trick-card-inner .symbol-marker-slot {
+  position: absolute;
+  left: 204px;
+  top: 332px;
+  width: 120px;
+  height: 120px;
+}
+.trick-card .trick-card-inner .trick-marker-slots {
+  position: absolute;
+  left: 23px;
+  top: 332px;
+  width: 120px;
+  height: 120px;
+}
+.trick-card .trick-card-inner .trick-components {
+  position: absolute;
+  top: 260px;
+  right: 30px;
+  display: flex;
+}
+.trick-card .trick-card-inner .trick-components .trick-component {
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
+  position: relative;
+}
+.trick-card .trick-card-inner .trick-components .trick-component::before {
+  content: attr(data-n);
+  position: absolute;
+  top: -22px;
+  left: 9px;
+  width: 31px;
+  height: 22px;
+  border: 1px solid black;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-family: "Brandon Text Black";
+  text-align: center;
+  font-size: 19px;
+  line-height: 23px;
+  background: #cdb26f;
+  color: black;
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-n="2"] {
+  transform: translate(7px, 7px);
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-n="2"]::before {
+  left: 2px;
+  top: -29px;
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-n="3"] {
+  transform: translate(14px, 14px);
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-n="3"]::before {
+  left: -5px;
+  top: -35px;
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-type=advanced]::before {
+  background: #ca7b2c;
+}
+.trick-card .trick-card-inner .trick-components .trick-component[data-type=superior]::before {
+  background: #a23f3d;
+}
+.trick-card .trick-card-inner .trick-components .trick-component div {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+}
+.trick-card .trick-card-inner .trick-components .trick-component div ~ div {
+  margin-top: -58px;
+  margin-left: -7px;
+}
+.trick-card .trick-card-inner .trick-components .trick-component div ~ div ~ div {
+  margin-left: -14px;
+}
+.trick-card .trick-card-inner .trick-components .trick-component div ~ div ~ div ~ div {
+  margin-left: -21px;
+}
+.trick-card .trick-card-inner .trick-bonus-fame,
+.trick-card .trick-card-inner .trick-bonus-coins {
+  font-family: "Brandon Text Black";
+  position: absolute;
+  right: 177px;
+  top: 326px;
+  font-size: 28px;
+}
+.trick-card .trick-card-inner .trick-bonus-coins {
+  top: 355px;
+}
+.trick-card[data-type=T01_EnchantedButterflies] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T02_RabbitFromTheTopHat] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T03_PubInABottle] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T04_CardManipulation] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T05_SelfDecapitation] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T06_PaperShred] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T07_ShatteredMirror] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T08_FishingInTheAir] .trick-card-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.trick-card[data-type=T09_Mutilation] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T10_StairsOfWater] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T11_BeastWithin] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T12_VanishingElephant] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T13_MindReading] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T14_BreathOfLife] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T15_SpiritHand] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T16_WindowToTheOtherworld] .trick-card-inner {
+  background-position-x: 100%;
+  background-position-y: 20%;
+}
+.trick-card[data-type=T17_FloatingTable] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T18_FutureSight] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T19_PeppersGhost] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T20_GhostTrap] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T21_BalsamosSkull] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T22_Séance] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T23_SkeletonDance] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T24_Metamorphosis] .trick-card-inner {
+  background-position-x: 100%;
+  background-position-y: 40%;
+}
+.trick-card[data-type=T25_BarricadedBarrels] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T26_StocksEscape] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T27_BurningMummy] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T28_WaterTankEscape] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T29_PrisonBreak] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T30_ZigZagLady] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T31_Walled] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T32_WolfCage] .trick-card-inner {
+  background-position-x: 100%;
+  background-position-y: 60%;
+}
+.trick-card[data-type=T33_BuriedAlive] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T34_AssistantsRevenge] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T35_IronMaiden] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T36_TransportedMan] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T37_LinkingRings] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T38_LivingPiano] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T39_ChineseSticks] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T40_Levitation] .trick-card-inner {
+  background-position-x: 100%;
+  background-position-y: 80%;
+}
+.trick-card[data-type=T41_MechanicalHornet] .trick-card-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T42_SawingTheAssistantInHalf] .trick-card-inner {
+  background-position-x: 14.2857142857%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T43_VanishingBirdCage] .trick-card-inner {
+  background-position-x: 28.5714285714%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T44_BulletCatch] .trick-card-inner {
+  background-position-x: 42.8571428571%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T45_AztecLady] .trick-card-inner {
+  background-position-x: 57.1428571429%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T46_HorrorSaws] .trick-card-inner {
+  background-position-x: 71.4285714286%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T47_Automaton] .trick-card-inner {
+  background-position-x: 85.7142857143%;
+  background-position-y: 100%;
+}
+.trick-card[data-type=T48_Hellhound] .trick-card-inner {
+  background-position-x: 100%;
   background-position-y: 100%;
 }
 

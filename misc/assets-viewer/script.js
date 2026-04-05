@@ -54,3 +54,20 @@ Object.entries(staticData.assignments).forEach(([cardType, card]) => {
     card.type = cardType;
     container.insertAdjacentHTML('beforeend', cards.tplAssignmentCard(card));
 });
+
+////////////////////////////////
+//  _____     _      _
+// |_   _| __(_) ___| | _____
+//   | || '__| |/ __| |/ / __|
+//   | || |  | | (__|   <\__ \
+//   |_||_|  |_|\___|_|\_\___/
+////////////////////////////////
+
+console.log('## Reconstructing trick cards ##', staticData.tricks);
+container = addSection('tricks-cards', 'Trick Cards');
+
+Object.entries(staticData.tricks).forEach(([cardType, card]) => {
+    card.id = cardType;
+    card.type = cardType;
+    container.insertAdjacentHTML('beforeend', cards.tplTrickCard(card));
+});

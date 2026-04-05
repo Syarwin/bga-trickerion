@@ -86,7 +86,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             self::PETROLEUM => clienttranslate("petroleum"),
             self::SAW => clienttranslate("saw"),
             self::ANIMAL => clienttranslate("animal"),
-            self::PADDLOCK => clienttranslate("paddlock"),
+            self::PADDLOCK => clienttranslate("padlock"),
             self::MIRROR => clienttranslate("mirror"),
             self::DISGUISE => clienttranslate("disguise"),
             self::COG => clienttranslate("cog"),
@@ -134,7 +134,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     const SAW = "saw";
     const ANIMAL = "animal";
 
-    const PADDLOCK = "paddlock";
+    const PADDLOCK = "padlock";
     const MIRROR = "mirror";
     const DISGUISE = "disguise";
     const COG = "cog";

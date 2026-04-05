@@ -1,564 +1,756 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>Sprite Preview</title>
-<style>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sprite Preview</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                background: #f8f8f8;
+                color: #333;
+                padding: 1rem;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+            .tile {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: white;
+                border-radius: 0.5rem;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                padding: 0.5rem;
+            }
+            .icon {
+                width: 100%;
+                max-width: 100px;
+                background-repeat: no-repeat;
+            }
+            .name {
+                margin-top: 0.5rem;
+                font-size: 0.8rem;
+                text-align: center;
+                word-break: break-all;
+            }
 
-    body {
-      font-family: sans-serif;
-      background: #f8f8f8;
-      color: #333;
-      padding: 1rem;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-    .tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 0.5rem;
-    }
-    .icon {
-      width: 100%;
-      max-width: 100px;
-      background-repeat: no-repeat;
-    }
-    .name {
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      text-align: center;
-      word-break: break-all;
-    }
-    
-.sprite-trick-marker-green-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 0.000000% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-red-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 11.790715% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-green-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 23.581430% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-yellow-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 35.372144% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-blue-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 47.162859% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-red-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 58.953574% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-blue-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 70.744289% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-blue-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 82.535004% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-blue-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 94.325718% 0.000000%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-green-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 0.000000% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-yellow-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 11.790715% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-yellow-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 23.581430% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-green-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 35.372144% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-yellow-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 47.162859% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-red-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 58.953574% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-trick-marker-red-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 981.168831% auto;
-  background-position: 70.744289% 17.797553%;
-  aspect-ratio: 154/154;
-  background-repeat: no-repeat;
-}
-.sprite-component-petroleum {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 82.171680% 17.679558%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-animal {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 93.470286% 17.679558%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-fabric {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 0.000000% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-paddlock {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 11.298606% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-rope {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 22.597212% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-cog {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 33.895818% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-saw {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 45.194424% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-glass {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 56.493030% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-metal {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 67.791636% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-mirror {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 79.090242% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-wood {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 90.388848% 35.359116%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-component-disguise {
-  background-image: url('../img/meeples.png');
-  background-size: 1020.945946% auto;
-  background-position: 0.000000% 52.375691%;
-  aspect-ratio: 148/148;
-  background-repeat: no-repeat;
-}
-.sprite-red-assistant {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 11.265545% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-yellow-engineer {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 22.238478% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-green-manager {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 33.211412% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-green-magician {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 44.184345% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-yellow-magician {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 55.157279% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-red-engineer {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 66.130212% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-blue-magician {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 77.103146% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-yellow-apprentice {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 88.076079% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-blue-manager {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 99.049012% 52.145215%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-green-apprentice {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 0.000000% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-blue-apprentice {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 10.972933% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-red-magician {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 21.945867% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-red-apprentice {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 32.918800% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-blue-engineer {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 43.891734% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-yellow-assistant {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 54.864667% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-green-assistant {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 65.837601% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-yellow-manager {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 76.810534% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-red-manager {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 87.783467% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-green-engineer {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 98.756401% 69.086909%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-blue-assistant {
-  background-image: url('../img/meeples.png');
-  background-size: 1049.305556% auto;
-  background-position: 0.000000% 85.588559%;
-  aspect-ratio: 144/144;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-yellow-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 100.000000% 34.482759%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-yellow-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 10.822511% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-green-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 20.274170% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-red-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 29.725830% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-greeen-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 39.177489% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-blue-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 48.629149% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-blue-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 58.080808% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-blue-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 67.532468% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-red-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 76.984127% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-blue-clubs {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 86.435786% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-red-diamonds {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 95.887446% 83.836207%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-yellow-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 0.000000% 100.000000%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-green-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 9.451659% 100.000000%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-red-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 18.903319% 100.000000%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-green-hearts {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 28.354978% 100.000000%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-.sprite-academy-marker-yellow-spades {
-  background-image: url('../img/meeples.png');
-  background-size: 1208.800000% auto;
-  background-position: 37.806638% 100.000000%;
-  aspect-ratio: 125/125;
-  background-repeat: no-repeat;
-}
-</style>
-</head>
-<body>
-<h1>Sprite Preview</h1>
-<div class='grid'>
-<div class='tile'><div class='icon sprite-trick-marker-green-diamonds'></div><div class='name'>trick-marker-green-diamonds</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-red-diamonds'></div><div class='name'>trick-marker-red-diamonds</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-green-hearts'></div><div class='name'>trick-marker-green-hearts</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-yellow-clubs'></div><div class='name'>trick-marker-yellow-clubs</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-blue-hearts'></div><div class='name'>trick-marker-blue-hearts</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-red-hearts'></div><div class='name'>trick-marker-red-hearts</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-blue-clubs'></div><div class='name'>trick-marker-blue-clubs</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-blue-spades'></div><div class='name'>trick-marker-blue-spades</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-blue-diamonds'></div><div class='name'>trick-marker-blue-diamonds</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-green-clubs'></div><div class='name'>trick-marker-green-clubs</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-yellow-hearts'></div><div class='name'>trick-marker-yellow-hearts</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-yellow-diamonds'></div><div class='name'>trick-marker-yellow-diamonds</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-green-spades'></div><div class='name'>trick-marker-green-spades</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-yellow-spades'></div><div class='name'>trick-marker-yellow-spades</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-red-clubs'></div><div class='name'>trick-marker-red-clubs</div></div>
-<div class='tile'><div class='icon sprite-trick-marker-red-spades'></div><div class='name'>trick-marker-red-spades</div></div>
-<div class='tile'><div class='icon sprite-component-petroleum'></div><div class='name'>component-petroleum</div></div>
-<div class='tile'><div class='icon sprite-component-animal'></div><div class='name'>component-animal</div></div>
-<div class='tile'><div class='icon sprite-component-fabric'></div><div class='name'>component-fabric</div></div>
-<div class='tile'><div class='icon sprite-component-paddlock'></div><div class='name'>component-paddlock</div></div>
-<div class='tile'><div class='icon sprite-component-rope'></div><div class='name'>component-rope</div></div>
-<div class='tile'><div class='icon sprite-component-cog'></div><div class='name'>component-cog</div></div>
-<div class='tile'><div class='icon sprite-component-saw'></div><div class='name'>component-saw</div></div>
-<div class='tile'><div class='icon sprite-component-glass'></div><div class='name'>component-glass</div></div>
-<div class='tile'><div class='icon sprite-component-metal'></div><div class='name'>component-metal</div></div>
-<div class='tile'><div class='icon sprite-component-mirror'></div><div class='name'>component-mirror</div></div>
-<div class='tile'><div class='icon sprite-component-wood'></div><div class='name'>component-wood</div></div>
-<div class='tile'><div class='icon sprite-component-disguise'></div><div class='name'>component-disguise</div></div>
-<div class='tile'><div class='icon sprite-red-assistant'></div><div class='name'>red-assistant</div></div>
-<div class='tile'><div class='icon sprite-yellow-engineer'></div><div class='name'>yellow-engineer</div></div>
-<div class='tile'><div class='icon sprite-green-manager'></div><div class='name'>green-manager</div></div>
-<div class='tile'><div class='icon sprite-green-magician'></div><div class='name'>green-magician</div></div>
-<div class='tile'><div class='icon sprite-yellow-magician'></div><div class='name'>yellow-magician</div></div>
-<div class='tile'><div class='icon sprite-red-engineer'></div><div class='name'>red-engineer</div></div>
-<div class='tile'><div class='icon sprite-blue-magician'></div><div class='name'>blue-magician</div></div>
-<div class='tile'><div class='icon sprite-yellow-apprentice'></div><div class='name'>yellow-apprentice</div></div>
-<div class='tile'><div class='icon sprite-blue-manager'></div><div class='name'>blue-manager</div></div>
-<div class='tile'><div class='icon sprite-green-apprentice'></div><div class='name'>green-apprentice</div></div>
-<div class='tile'><div class='icon sprite-blue-apprentice'></div><div class='name'>blue-apprentice</div></div>
-<div class='tile'><div class='icon sprite-red-magician'></div><div class='name'>red-magician</div></div>
-<div class='tile'><div class='icon sprite-red-apprentice'></div><div class='name'>red-apprentice</div></div>
-<div class='tile'><div class='icon sprite-blue-engineer'></div><div class='name'>blue-engineer</div></div>
-<div class='tile'><div class='icon sprite-yellow-assistant'></div><div class='name'>yellow-assistant</div></div>
-<div class='tile'><div class='icon sprite-green-assistant'></div><div class='name'>green-assistant</div></div>
-<div class='tile'><div class='icon sprite-yellow-manager'></div><div class='name'>yellow-manager</div></div>
-<div class='tile'><div class='icon sprite-red-manager'></div><div class='name'>red-manager</div></div>
-<div class='tile'><div class='icon sprite-green-engineer'></div><div class='name'>green-engineer</div></div>
-<div class='tile'><div class='icon sprite-blue-assistant'></div><div class='name'>blue-assistant</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-yellow-diamonds'></div><div class='name'>academy-marker-yellow-diamonds</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-yellow-clubs'></div><div class='name'>academy-marker-yellow-clubs</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-green-diamonds'></div><div class='name'>academy-marker-green-diamonds</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-red-hearts'></div><div class='name'>academy-marker-red-hearts</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-greeen-spades'></div><div class='name'>academy-marker-greeen-spades</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-blue-spades'></div><div class='name'>academy-marker-blue-spades</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-blue-diamonds'></div><div class='name'>academy-marker-blue-diamonds</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-blue-hearts'></div><div class='name'>academy-marker-blue-hearts</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-red-clubs'></div><div class='name'>academy-marker-red-clubs</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-blue-clubs'></div><div class='name'>academy-marker-blue-clubs</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-red-diamonds'></div><div class='name'>academy-marker-red-diamonds</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-yellow-hearts'></div><div class='name'>academy-marker-yellow-hearts</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-green-spades'></div><div class='name'>academy-marker-green-spades</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-red-spades'></div><div class='name'>academy-marker-red-spades</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-green-hearts'></div><div class='name'>academy-marker-green-hearts</div></div>
-<div class='tile'><div class='icon sprite-academy-marker-yellow-spades'></div><div class='name'>academy-marker-yellow-spades</div></div>
-</div>
-</body></html>
+            .sprite-trick-marker-green-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 0% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-red-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 11.790715% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-green-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 23.58143% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-yellow-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 35.372144% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-blue-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 47.162859% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-red-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 58.953574% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-blue-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 70.744289% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-blue-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 82.535004% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-blue-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 94.325718% 0%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-green-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 0% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-yellow-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 11.790715% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-yellow-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 23.58143% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-green-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 35.372144% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-yellow-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 47.162859% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-red-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 58.953574% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-trick-marker-red-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 981.168831% auto;
+                background-position: 70.744289% 17.797553%;
+                aspect-ratio: 154/154;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-petroleum {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 82.17168% 17.679558%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-animal {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 93.470286% 17.679558%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-fabric {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 0% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-padlock {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 11.298606% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-rope {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 22.597212% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-cog {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 33.895818% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-saw {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 45.194424% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-glass {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 56.49303% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-metal {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 67.791636% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-mirror {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 79.090242% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-wood {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 90.388848% 35.359116%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-component-disguise {
+                background-image: url('../img/meeples.png');
+                background-size: 1020.945946% auto;
+                background-position: 0% 52.375691%;
+                aspect-ratio: 148/148;
+                background-repeat: no-repeat;
+            }
+            .sprite-red-assistant {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 11.265545% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-yellow-engineer {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 22.238478% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-green-manager {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 33.211412% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-green-magician {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 44.184345% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-yellow-magician {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 55.157279% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-red-engineer {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 66.130212% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-blue-magician {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 77.103146% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-yellow-apprentice {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 88.076079% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-blue-manager {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 99.049012% 52.145215%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-green-apprentice {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 0% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-blue-apprentice {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 10.972933% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-red-magician {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 21.945867% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-red-apprentice {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 32.9188% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-blue-engineer {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 43.891734% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-yellow-assistant {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 54.864667% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-green-assistant {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 65.837601% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-yellow-manager {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 76.810534% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-red-manager {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 87.783467% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-green-engineer {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 98.756401% 69.086909%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-blue-assistant {
+                background-image: url('../img/meeples.png');
+                background-size: 1049.305556% auto;
+                background-position: 0% 85.588559%;
+                aspect-ratio: 144/144;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-yellow-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 100% 34.482759%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-yellow-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 10.822511% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-green-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 20.27417% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-red-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 29.72583% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-greeen-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 39.177489% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-blue-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 48.629149% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-blue-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 58.080808% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-blue-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 67.532468% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-red-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 76.984127% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-blue-clubs {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 86.435786% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-red-diamonds {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 95.887446% 83.836207%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-yellow-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 0% 100%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-green-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 9.451659% 100%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-red-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 18.903319% 100%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-green-hearts {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 28.354978% 100%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+            .sprite-academy-marker-yellow-spades {
+                background-image: url('../img/meeples.png');
+                background-size: 1208.8% auto;
+                background-position: 37.806638% 100%;
+                aspect-ratio: 125/125;
+                background-repeat: no-repeat;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Sprite Preview</h1>
+        <div class="grid">
+            <div class="tile">
+                <div class="icon sprite-trick-marker-green-diamonds"></div>
+                <div class="name">trick-marker-green-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-red-diamonds"></div>
+                <div class="name">trick-marker-red-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-green-hearts"></div>
+                <div class="name">trick-marker-green-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-yellow-clubs"></div>
+                <div class="name">trick-marker-yellow-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-blue-hearts"></div>
+                <div class="name">trick-marker-blue-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-red-hearts"></div>
+                <div class="name">trick-marker-red-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-blue-clubs"></div>
+                <div class="name">trick-marker-blue-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-blue-spades"></div>
+                <div class="name">trick-marker-blue-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-blue-diamonds"></div>
+                <div class="name">trick-marker-blue-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-green-clubs"></div>
+                <div class="name">trick-marker-green-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-yellow-hearts"></div>
+                <div class="name">trick-marker-yellow-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-yellow-diamonds"></div>
+                <div class="name">trick-marker-yellow-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-green-spades"></div>
+                <div class="name">trick-marker-green-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-yellow-spades"></div>
+                <div class="name">trick-marker-yellow-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-red-clubs"></div>
+                <div class="name">trick-marker-red-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-trick-marker-red-spades"></div>
+                <div class="name">trick-marker-red-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-petroleum"></div>
+                <div class="name">component-petroleum</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-animal"></div>
+                <div class="name">component-animal</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-fabric"></div>
+                <div class="name">component-fabric</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-padlock"></div>
+                <div class="name">component-padlock</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-rope"></div>
+                <div class="name">component-rope</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-cog"></div>
+                <div class="name">component-cog</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-saw"></div>
+                <div class="name">component-saw</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-glass"></div>
+                <div class="name">component-glass</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-metal"></div>
+                <div class="name">component-metal</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-mirror"></div>
+                <div class="name">component-mirror</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-wood"></div>
+                <div class="name">component-wood</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-component-disguise"></div>
+                <div class="name">component-disguise</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-red-assistant"></div>
+                <div class="name">red-assistant</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-yellow-engineer"></div>
+                <div class="name">yellow-engineer</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-green-manager"></div>
+                <div class="name">green-manager</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-green-magician"></div>
+                <div class="name">green-magician</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-yellow-magician"></div>
+                <div class="name">yellow-magician</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-red-engineer"></div>
+                <div class="name">red-engineer</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-blue-magician"></div>
+                <div class="name">blue-magician</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-yellow-apprentice"></div>
+                <div class="name">yellow-apprentice</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-blue-manager"></div>
+                <div class="name">blue-manager</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-green-apprentice"></div>
+                <div class="name">green-apprentice</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-blue-apprentice"></div>
+                <div class="name">blue-apprentice</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-red-magician"></div>
+                <div class="name">red-magician</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-red-apprentice"></div>
+                <div class="name">red-apprentice</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-blue-engineer"></div>
+                <div class="name">blue-engineer</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-yellow-assistant"></div>
+                <div class="name">yellow-assistant</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-green-assistant"></div>
+                <div class="name">green-assistant</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-yellow-manager"></div>
+                <div class="name">yellow-manager</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-red-manager"></div>
+                <div class="name">red-manager</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-green-engineer"></div>
+                <div class="name">green-engineer</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-blue-assistant"></div>
+                <div class="name">blue-assistant</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-yellow-diamonds"></div>
+                <div class="name">academy-marker-yellow-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-yellow-clubs"></div>
+                <div class="name">academy-marker-yellow-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-green-diamonds"></div>
+                <div class="name">academy-marker-green-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-red-hearts"></div>
+                <div class="name">academy-marker-red-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-greeen-spades"></div>
+                <div class="name">academy-marker-greeen-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-blue-spades"></div>
+                <div class="name">academy-marker-blue-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-blue-diamonds"></div>
+                <div class="name">academy-marker-blue-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-blue-hearts"></div>
+                <div class="name">academy-marker-blue-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-red-clubs"></div>
+                <div class="name">academy-marker-red-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-blue-clubs"></div>
+                <div class="name">academy-marker-blue-clubs</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-red-diamonds"></div>
+                <div class="name">academy-marker-red-diamonds</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-yellow-hearts"></div>
+                <div class="name">academy-marker-yellow-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-green-spades"></div>
+                <div class="name">academy-marker-green-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-red-spades"></div>
+                <div class="name">academy-marker-red-spades</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-green-hearts"></div>
+                <div class="name">academy-marker-green-hearts</div>
+            </div>
+            <div class="tile">
+                <div class="icon sprite-academy-marker-yellow-spades"></div>
+                <div class="name">academy-marker-yellow-spades</div>
+            </div>
+        </div>
+    </body>
+</html>

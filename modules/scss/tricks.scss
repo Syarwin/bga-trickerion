@@ -13,8 +13,8 @@
 
 .trick-card {
     position: relative;
-    width: calc(var(--trickCardScale) * 375px);
-    height: calc(var(--trickCardScale) * 525px);
+    width: calc(var(--trickCardScale) * 348px);
+    height: calc(var(--trickCardScale) * 537px);
 
     &.unselectable {
         cursor: not-allowed;
@@ -41,27 +41,141 @@
         border-radius: 4px;
     }
 
-    .trick-card-wrapper {
-        width: 373px;
-        height: 520px;
+    .trick-card-inner {
+        width: 348px;
+        height: 537px;
         transform-origin: top left;
         transform: scale(var(--trickCardScale));
         border-radius: 8px;
         box-shadow: 2px 2px 3px 1px black;
-        background-image: url("img/cards.jpg");
-        background-size: 600% 400%;
+        background-image: url("img/tricks.jpg");
+        background-size: 800% 600%;
         position: absolute;
 
         display: flex;
         justify-content: center;
         align-items: baseline;
+
+        .card-name {
+            position: absolute;
+            top: 77px;
+            left: 31px;
+            width: 290px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            span {
+                font-family: "Brandon Text Medium";
+                font-size: 20px;
+            }
+        }
+
+        .symbol-marker-slot {
+            position: absolute;
+            left: 204px;
+            top: 332px;
+            width: 120px;
+            height: 120px;
+        }
+        .trick-marker-slots {
+            position: absolute;
+            left: 23px;
+            top: 332px;
+            width: 120px;
+            height: 120px;
+        }
+
+        .trick-components {
+            position: absolute;
+            top: 260px;
+            right: 30px;
+            display: flex;
+
+            .trick-component {
+                width: 50px;
+                height: 50px;
+                margin-left: 20px;
+                position: relative;
+
+                &::before {
+                    content: attr(data-n);
+                    position: absolute;
+                    top: -22px;
+                    left: 9px;
+                    width: 31px;
+                    height: 22px;
+                    border: 1px solid black;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    font-family: "Brandon Text Black";
+                    text-align: center;
+                    font-size: 19px;
+                    line-height: 23px;
+                    background: #cdb26f;
+                    color: black;
+                }
+
+                &[data-n="2"] {
+                    transform: translate(7px, 7px);
+                    &::before {
+                        left: 2px;
+                        top: -29px;
+                    }
+                }
+                &[data-n="3"] {
+                    transform: translate(14px, 14px);
+                    &::before {
+                        left: -5px;
+                        top: -35px;
+                    }
+                }
+                &[data-type="advanced"]::before {
+                    background: #ca7b2c;
+                }
+                &[data-type="superior"]::before {
+                    background: #a23f3d;
+                }
+
+                div {
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid black;
+
+                    & ~ div {
+                        margin-top: -58px;
+                        margin-left: -7px;
+                        & ~ div {
+                            margin-left: -14px;
+                            & ~ div {
+                                margin-left: -21px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .trick-bonus-fame,
+        .trick-bonus-coins {
+            font-family: "Brandon Text Black";
+            position: absolute;
+            right: 177px;
+            top: 326px;
+            font-size: 28px;
+        }
+        .trick-bonus-coins {
+            top: 355px;
+        }
     }
 
-    // @each $type in $cardTypes {
-    //     $i: index($cardTypes, $type) - 1;
-    //     &[data-type="#{$type}"] .trick-card-wrapper {
-    //         background-position-x: ($i % 6) * 100% / 5;
-    //         background-position-y: (($i - ($i % 6)) / 6) * 100% / 3;
-    //     }
-    // }
+    @each $type in $trickTypes {
+        $i: index($trickTypes, $type) - 1;
+        &[data-type="#{$type}"] .trick-card-inner {
+            background-position-x: ($i % 8) * 100% / 7;
+            background-position-y: (($i - ($i % 8)) / 8) * 100% / 5;
+        }
+    }
 }

@@ -1047,7 +1047,7 @@ export const gamedatas = {
                 },
                 {
                     id: 9,
-                    type: 'paddlock',
+                    type: 'padlock',
                     location: 'player-board',
                     state: 0,
                     playerId: 2322020,
@@ -1145,7 +1145,7 @@ export const gamedatas = {
                 },
                 {
                     id: 21,
-                    type: 'paddlock',
+                    type: 'padlock',
                     location: 'player-board',
                     state: 0,
                     playerId: 2322021,
