@@ -92,6 +92,26 @@ Object.entries(staticData.prophecies).forEach(([cardType, card]) => {
 });
 
 /////////////////////////////////////////////////////////
+//  __  __             _      _
+// |  \/  | __ _  __ _(_) ___(_) __ _ _ __  ___
+// | |\/| |/ _` |/ _` | |/ __| |/ _` | '_ \/ __|
+// | |  | | (_| | (_| | | (__| | (_| | | | \__ \
+// |_|  |_|\__,_|\__, |_|\___|_|\__,_|_| |_|___/
+//               |___/
+/////////////////////////////////////////////////////////
+
+console.log('## Reconstructing magician cards ##', staticData.magicians);
+container = addSection('magicians', 'Magicians');
+
+Object.entries(staticData.magicians).forEach(([cardType, card]) => {
+    card.id = cardType;
+    card.type = cardType;
+    container.insertAdjacentHTML('beforeend', cards.tplMagician(card));
+    container.insertAdjacentHTML('beforeend', cards.tplMagician(card, '', true));
+    container.insertAdjacentHTML('beforeend', cards.tplMagicianPoster(card));
+});
+
+/////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
 attachRegisteredTooltips();

@@ -3,6 +3,7 @@
   --performanceCardScale: 0.5;
   --assignmentCardScale: 0.5;
   --prophecyScale: 0.5;
+  --magicianCardScale: 0.5;
 }
 
 // $pColors: "d1ac51" "95a0b2" "8d4129" "9374ad";
@@ -33,3 +34,10 @@ $prophecyTypes: "Back" "P01_Prophecy" "P02_Prophecy" "P03_Prophecy" "P04_Prophec
   "P07_Prophecy" "P08_Prophecy" "P09_Prophecy" "P10_Prophecy" "P12_Prophecy" "P13_Prophecy" "P14_Prophecy"
   "P15_Prophecy" "P17_Prophecy" "P18_Prophecy" "P19_Prophecy" "P20_Prophecy" "P21_Prophecy" "P23_Prophecy"
   "P24_Prophecy" "P25_Prophecy" "P26_Prophecy" "P27_Prophecy" "P16_Prophecy" "P22_Prophecy" "P11_Prophecy";
+
+$magicianTypes: "M01_MasterOfChains" "M01_MasterOfChains_alley" "M02_TheGreatOptico" "M02_TheGreatOptico_alley"
+  "M03_PriestessOfMysticism" "M03_PriestessOfMysticism_alley" "M04_TheMechaniker" "M04_TheMechaniker_alley"
+  "M05_TheRedLotus" "M05_TheRedLotus_alley" "M06_TheGentleman" "M06_TheGentleman_alley" "M07_YorubaSpiritmaster"
+  "M07_YorubaSpiritmaster_alley" "M08_Electra" "M08_Electra_alley";
+$magicianPostersTypes: "M02_TheGreatOptico" "M01_MasterOfChains" "M04_TheMechaniker" "M03_PriestessOfMysticism"
+  "M06_TheGentleman" "M05_TheRedLotus" "M07_YorubaSpiritmaster" "M08_Electra";

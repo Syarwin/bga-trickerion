@@ -328,6 +328,7 @@ html {
   --performanceCardScale: 0.5;
   --assignmentCardScale: 0.5;
   --prophecyScale: 0.5;
+  --magicianCardScale: 0.5;
 }
 
 .icon-container {
@@ -3386,6 +3387,192 @@ html {
 }
 .prophecy[data-type=P11_Prophecy] .prophecy-inner {
   background-position-x: 60%;
+  background-position-y: 100%;
+}
+
+#pagemaintitletext .magician-card,
+#gameaction_status .magician-card,
+.player-board .magician-card {
+  position: absolute;
+  left: 50%;
+}
+
+.magician-tooltip {
+  --magicianCardScale: 0.8;
+  font-family: "Brandon Text Medium";
+  width: 500px;
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+
+.magician-card {
+  flex-shrink: 0;
+  position: relative;
+  width: calc(var(--magicianCardScale) * 349px);
+  height: calc(var(--magicianCardScale) * 538px);
+}
+.magician-card.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.magician-card.selectable {
+  cursor: pointer;
+}
+.magician-card.selectable:hover {
+  transform: scale(1.1);
+}
+.magician-card.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.magician-card.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.magician-card .magician-card-inner {
+  width: 349px;
+  height: 538px;
+  transform-origin: top left;
+  transform: scale(var(--magicianCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/magicians.jpg");
+  background-size: 600% 300%;
+  position: absolute;
+}
+.magician-card .magician-card-inner .magician-name {
+  position: absolute;
+  top: 77px;
+  left: 31px;
+  width: 290px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.magician-card .magician-card-inner .magician-name span {
+  font-family: "Brandon Text Bold";
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.magician-card[data-type=M01_MasterOfChains] .magician-card-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M01_MasterOfChains_alley] .magician-card-inner {
+  background-position-x: 20%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M02_TheGreatOptico] .magician-card-inner {
+  background-position-x: 40%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M02_TheGreatOptico_alley] .magician-card-inner {
+  background-position-x: 60%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M03_PriestessOfMysticism] .magician-card-inner {
+  background-position-x: 80%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M03_PriestessOfMysticism_alley] .magician-card-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.magician-card[data-type=M04_TheMechaniker] .magician-card-inner {
+  background-position-x: 0%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M04_TheMechaniker_alley] .magician-card-inner {
+  background-position-x: 20%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M05_TheRedLotus] .magician-card-inner {
+  background-position-x: 40%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M05_TheRedLotus_alley] .magician-card-inner {
+  background-position-x: 60%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M06_TheGentleman] .magician-card-inner {
+  background-position-x: 80%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M06_TheGentleman_alley] .magician-card-inner {
+  background-position-x: 100%;
+  background-position-y: 50%;
+}
+.magician-card[data-type=M07_YorubaSpiritmaster] .magician-card-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.magician-card[data-type=M07_YorubaSpiritmaster_alley] .magician-card-inner {
+  background-position-x: 20%;
+  background-position-y: 100%;
+}
+.magician-card[data-type=M08_Electra] .magician-card-inner {
+  background-position-x: 40%;
+  background-position-y: 100%;
+}
+.magician-card[data-type=M08_Electra_alley] .magician-card-inner {
+  background-position-x: 60%;
+  background-position-y: 100%;
+}
+
+.magician-poster {
+  flex-shrink: 0;
+  position: relative;
+  width: calc(var(--magicianCardScale) * 349px);
+  height: calc(var(--magicianCardScale) * 532px);
+}
+.magician-poster .magician-poster-inner {
+  width: 349px;
+  height: 532px;
+  transform-origin: top left;
+  transform: scale(var(--magicianCardScale));
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/posters.jpg");
+  background-size: 400% 200%;
+  position: absolute;
+}
+.magician-poster[data-type=M02_TheGreatOptico] .magician-poster-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.magician-poster[data-type=M01_MasterOfChains] .magician-poster-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 0%;
+}
+.magician-poster[data-type=M04_TheMechaniker] .magician-poster-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 0%;
+}
+.magician-poster[data-type=M03_PriestessOfMysticism] .magician-poster-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.magician-poster[data-type=M06_TheGentleman] .magician-poster-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.magician-poster[data-type=M05_TheRedLotus] .magician-poster-inner {
+  background-position-x: 33.3333333333%;
+  background-position-y: 100%;
+}
+.magician-poster[data-type=M07_YorubaSpiritmaster] .magician-poster-inner {
+  background-position-x: 66.6666666667%;
+  background-position-y: 100%;
+}
+.magician-poster[data-type=M08_Electra] .magician-poster-inner {
+  background-position-x: 100%;
   background-position-y: 100%;
 }
 

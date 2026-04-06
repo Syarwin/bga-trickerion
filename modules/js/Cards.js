@@ -200,4 +200,41 @@ export const cards = {
         <div class="prophecy-inner"></div>
       </div>`;
     },
+
+    /////////////////////////////////////////////////////////
+    //  __  __             _      _
+    // |  \/  | __ _  __ _(_) ___(_) __ _ _ __  ___
+    // | |\/| |/ _` |/ _` | |/ __| |/ _` | '_ \/ __|
+    // | |  | | (_| | (_| | | (__| | (_| | | | \__ \
+    // |_|  |_|\__,_|\__, |_|\___|_|\__,_|_| |_|___/
+    //               |___/
+    /////////////////////////////////////////////////////////
+    tplMagician: function (card, prefix = '', isDarkAlley = false) {
+        card = Object.assign(card, staticData.magicians[card.type]);
+        let prefixId = prefix == '' ? '' : `${prefix}-`;
+        if (isDarkAlley) prefixId += 'alley-';
+        if (prefix != 'tooltip') {
+            let tooltipContent = `<div class="magician-tooltip">
+              ${this.tplMagician(card, 'tooltip', isDarkAlley)}
+              <div class="tooltip-effect">
+                ${isDarkAlley ? _(card.ability.effect) : ''}
+              </div>
+            </div>`;
+            registerCustomTooltip(tooltipContent, `${prefixId}magician-${card.id}`);
+        }
+
+        return `<div id="${prefixId}magician-${card.id}" class="magician-card ${prefix}" data-type="${card.type + (isDarkAlley ? '_alley' : '')}">
+        <div class="magician-card-inner">
+          <div class="magician-name"><span>${_(card.name)}</span></div>
+        </div>
+      </div>`;
+    },
+
+    tplMagicianPoster: function (card, prefix = '') {
+        let prefixId = prefix == '' ? '' : `${prefix}-`;
+
+        return `<div id="${prefixId}poster-${card.id}" class="magician-poster ${prefix}" data-type="${card.type}">
+        <div class="magician-poster-inner"></div>
+      </div>`;
+    },
 };
