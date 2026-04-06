@@ -7,6 +7,9 @@
     }
 }
 
+.assignment-card.tooltip {
+    --assignmentCardScale: 0.8;
+}
 .assignment-card {
     position: relative;
     width: calc(var(--assignmentCardScale) * 312px);

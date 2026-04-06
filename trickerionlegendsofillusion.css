@@ -327,6 +327,7 @@ html {
   --trickCardScale: 0.7;
   --performanceCardScale: 0.5;
   --assignmentCardScale: 0.5;
+  --prophecyScale: 0.5;
 }
 
 .icon-container {
@@ -2476,6 +2477,10 @@ html {
   left: 50%;
 }
 
+.performance-card.tooltip {
+  --performanceCardScale: 0.8;
+}
+
 .performance-card {
   position: relative;
   width: calc(var(--performanceCardScale) * 335px);
@@ -2710,6 +2715,10 @@ html {
   left: 50%;
 }
 
+.assignment-card.tooltip {
+  --assignmentCardScale: 0.8;
+}
+
 .assignment-card {
   position: relative;
   width: calc(var(--assignmentCardScale) * 312px);
@@ -2864,6 +2873,10 @@ html {
 
 .log-trick-card-name {
   font-style: italic;
+}
+
+.trick-card.tooltip {
+  --trickCardScale: 0.8;
 }
 
 .trick-card {
@@ -3201,6 +3214,178 @@ html {
 }
 .trick-card[data-type=T48_Hellhound] .trick-card-inner {
   background-position-x: 100%;
+  background-position-y: 100%;
+}
+
+#pagemaintitletext .prophecy,
+#gameaction_status .prophecy,
+.player-board .prophecy {
+  position: absolute;
+  left: 50%;
+}
+
+.log-prophecy-name {
+  font-style: italic;
+}
+
+.prophecy-tooltip {
+  --prophecyScale: 0.8;
+  font-family: "Brandon Text Medium";
+  width: 300px;
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+
+.prophecy {
+  position: relative;
+  width: calc(var(--prophecyScale) * 200px);
+  height: calc(var(--prophecyScale) * 200px);
+  flex-shrink: 0;
+}
+.prophecy.unselectable {
+  cursor: not-allowed;
+  filter: grayscale(80%);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+.prophecy.selectable {
+  cursor: pointer;
+}
+.prophecy.selectable:hover {
+  transform: scale(1.1);
+}
+.prophecy.selectable {
+  box-shadow: 0px 0px 10px 0px #dbae00;
+}
+.prophecy.selected {
+  border: 2px solid rgb(60, 255, 0);
+  margin: -2px;
+  box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+  border-radius: 4px;
+}
+.prophecy .prophecy-inner {
+  width: 200px;
+  height: 200px;
+  transform-origin: top left;
+  transform: scale(var(--prophecyScale));
+  border-radius: 50%;
+  box-shadow: 2px 2px 3px 1px black;
+  background-image: url("img/prophecies.jpg");
+  background-size: 600% 500%;
+  position: absolute;
+}
+.prophecy[data-type=Back] .prophecy-inner {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P01_Prophecy] .prophecy-inner {
+  background-position-x: 20%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P02_Prophecy] .prophecy-inner {
+  background-position-x: 40%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P03_Prophecy] .prophecy-inner {
+  background-position-x: 60%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P04_Prophecy] .prophecy-inner {
+  background-position-x: 80%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P05_Prophecy] .prophecy-inner {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.prophecy[data-type=P06_Prophecy] .prophecy-inner {
+  background-position-x: 0%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P07_Prophecy] .prophecy-inner {
+  background-position-x: 20%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P08_Prophecy] .prophecy-inner {
+  background-position-x: 40%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P09_Prophecy] .prophecy-inner {
+  background-position-x: 60%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P10_Prophecy] .prophecy-inner {
+  background-position-x: 80%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P12_Prophecy] .prophecy-inner {
+  background-position-x: 100%;
+  background-position-y: 25%;
+}
+.prophecy[data-type=P13_Prophecy] .prophecy-inner {
+  background-position-x: 0%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P14_Prophecy] .prophecy-inner {
+  background-position-x: 20%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P15_Prophecy] .prophecy-inner {
+  background-position-x: 40%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P17_Prophecy] .prophecy-inner {
+  background-position-x: 60%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P18_Prophecy] .prophecy-inner {
+  background-position-x: 80%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P19_Prophecy] .prophecy-inner {
+  background-position-x: 100%;
+  background-position-y: 50%;
+}
+.prophecy[data-type=P20_Prophecy] .prophecy-inner {
+  background-position-x: 0%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P21_Prophecy] .prophecy-inner {
+  background-position-x: 20%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P23_Prophecy] .prophecy-inner {
+  background-position-x: 40%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P24_Prophecy] .prophecy-inner {
+  background-position-x: 60%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P25_Prophecy] .prophecy-inner {
+  background-position-x: 80%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P26_Prophecy] .prophecy-inner {
+  background-position-x: 100%;
+  background-position-y: 75%;
+}
+.prophecy[data-type=P27_Prophecy] .prophecy-inner {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.prophecy[data-type=P16_Prophecy] .prophecy-inner {
+  background-position-x: 20%;
+  background-position-y: 100%;
+}
+.prophecy[data-type=P22_Prophecy] .prophecy-inner {
+  background-position-x: 40%;
+  background-position-y: 100%;
+}
+.prophecy[data-type=P11_Prophecy] .prophecy-inner {
+  background-position-x: 60%;
   background-position-y: 100%;
 }
 

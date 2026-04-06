@@ -8,6 +8,46 @@ const playerBoardsElement = document.getElementById('player_boards');
 let isDebug = window.location.host == 'studio.boardgamearena.com' || window.location.hash.indexOf('debug') > -1;
 export const debug = isDebug ? console.info.bind(window.console) : function () {};
 
+let registeredCustomTooltips = {};
+let customTooltipIdCounter = 0;
+export const registerCustomTooltip = (html, id = null) => {
+    id = id || 'tooltipable-' + customTooltipIdCounter++;
+    registeredCustomTooltips[id] = html;
+    return id;
+};
+export const attachRegisteredTooltips = () => {
+    Object.keys(registeredCustomTooltips).forEach((id) => {
+        if ($(id)) {
+            addCustomTooltip($(id), registeredCustomTooltips[id], { forceRecreate: true });
+        }
+    });
+    registeredCustomTooltips = {};
+};
+
+let openingTooltip = null;
+export const addCustomTooltip = (elt, html) => {
+    if (gamegui === null) {
+        let tooltip = document.createElement('div');
+
+        tooltip.setAttribute('role', 'tooltip');
+        tooltip.setAttribute('inert', true);
+        tooltip.innerHTML = html;
+
+        elt.appendChild(tooltip);
+
+        elt.addEventListener('mouseenter', (e) => {
+            if (openingTooltip) clearTimeout(openingTooltip);
+            const tooltip = e.target.querySelector('[role=tooltip]');
+            openingTooltip = setTimeout(() => tooltip.classList.add('active'), 500);
+        });
+        elt.addEventListener('mouseleave', (e) => {
+            const tooltip = e.target.querySelector('[role=tooltip]');
+            tooltip.classList.remove('active');
+            if (openingTooltip) clearTimeout(openingTooltip);
+        });
+    }
+};
+
 export const getGameTitlePanel = () => {
     if (!gameTitlePanelElement) {
         gameTitlePanelElement = insertDivElement(playerBoardsElement, 'game-title-panel', 'player-board', null, 'afterbegin');

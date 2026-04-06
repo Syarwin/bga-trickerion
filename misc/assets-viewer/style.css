@@ -1,6 +1,7 @@
 :root {
-  --performanceCardScale: 0.8;
-  --assignmentCardScale: 0.8;
+  --performanceCardScale: 0.5;
+  --assignmentCardScale: 0.5;
+  --trickCardScale: 0.5;
 }
 
 .implemented-mark {
@@ -109,7 +110,6 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   height: auto;
 }
 .wrapper .holder > div {
@@ -129,4 +129,40 @@ body {
   height: 0px;
   padding: 0px;
   min-height: 0px;
+  overflow: hidden;
+}
+
+[role="tooltip"] {
+  /* width: calc(100% + 40px); */
+  height: auto;
+  padding: 8px;
+  line-height: 1.5;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 1px 1px 3px black;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 15px);
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 300ms ease-in-out;
+}
+
+[role="tooltip"].active {
+  opacity: 1;
+  visibility: visible;
+}
+
+[role="tooltip"]::before {
+  content: "";
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
 }

@@ -1,0 +1,70 @@
+#pagemaintitletext,
+#gameaction_status,
+.player-board {
+    .prophecy {
+        position: absolute;
+        left: 50%;
+    }
+}
+
+.log-prophecy-name {
+    font-style: italic;
+}
+
+.prophecy-tooltip {
+    --prophecyScale: 0.8;
+    font-family: "Brandon Text Medium";
+    width: 300px;
+    display: flex;
+    column-gap: 10px;
+}
+
+.prophecy {
+    position: relative;
+    width: calc(var(--prophecyScale) * 200px);
+    height: calc(var(--prophecyScale) * 200px);
+    flex-shrink: 0;
+
+    &.unselectable {
+        cursor: not-allowed;
+        filter: grayscale(80%);
+        -webkit-transform: translateZ(0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
+    }
+
+    &.selectable {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+        box-shadow: 0px 0px 10px 0px #dbae00;
+    }
+
+    &.selected {
+        border: 2px solid rgb(60, 255, 0);
+        margin: -2px;
+        box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+        border-radius: 4px;
+    }
+
+    .prophecy-inner {
+        width: 200px;
+        height: 200px;
+        transform-origin: top left;
+        transform: scale(var(--prophecyScale));
+        border-radius: 50%;
+        box-shadow: 2px 2px 3px 1px black;
+        background-image: url("img/prophecies.jpg");
+        background-size: 600% 500%;
+        position: absolute;
+    }
+
+    @each $type in $prophecyTypes {
+        $i: index($prophecyTypes, $type) - 1;
+        &[data-type="#{$type}"] .prophecy-inner {
+            background-position-x: ($i % 6) * 100% / 5;
+            background-position-y: (($i - ($i % 6)) / 6) * 100% / 4;
+        }
+    }
+}

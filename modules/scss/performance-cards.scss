@@ -7,6 +7,9 @@
     }
 }
 
+.performance-card.tooltip {
+    --performanceCardScale: 0.8;
+}
 .performance-card {
     position: relative;
     width: calc(var(--performanceCardScale) * 335px);

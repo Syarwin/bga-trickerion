@@ -2,6 +2,7 @@
   --trickCardScale: 0.7;
   --performanceCardScale: 0.5;
   --assignmentCardScale: 0.5;
+  --prophecyScale: 0.5;
 }
 
 // $pColors: "d1ac51" "95a0b2" "8d4129" "9374ad";
@@ -27,3 +28,8 @@ $trickTypes: "T01_EnchantedButterflies" "T02_RabbitFromTheTopHat" "T03_PubInABot
   "T33_BuriedAlive" "T34_AssistantsRevenge" "T35_IronMaiden" "T36_TransportedMan" "T37_LinkingRings" "T38_LivingPiano"
   "T39_ChineseSticks" "T40_Levitation" "T41_MechanicalHornet" "T42_SawingTheAssistantInHalf" "T43_VanishingBirdCage"
   "T44_BulletCatch" "T45_AztecLady" "T46_HorrorSaws" "T47_Automaton" "T48_Hellhound";
+
+$prophecyTypes: "Back" "P01_Prophecy" "P02_Prophecy" "P03_Prophecy" "P04_Prophecy" "P05_Prophecy" "P06_Prophecy"
+  "P07_Prophecy" "P08_Prophecy" "P09_Prophecy" "P10_Prophecy" "P12_Prophecy" "P13_Prophecy" "P14_Prophecy"
+  "P15_Prophecy" "P17_Prophecy" "P18_Prophecy" "P19_Prophecy" "P20_Prophecy" "P21_Prophecy" "P23_Prophecy"
+  "P24_Prophecy" "P25_Prophecy" "P26_Prophecy" "P27_Prophecy" "P16_Prophecy" "P22_Prophecy" "P11_Prophecy";

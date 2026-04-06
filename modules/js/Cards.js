@@ -1,5 +1,6 @@
 import { formatIcon, formatString } from './format.js';
 import { staticData } from './staticData.js';
+import { registerCustomTooltip } from './framework/utils.js';
 
 export const cards = {
     init: function (gamedatas) {},
@@ -16,7 +17,7 @@ export const cards = {
         card = Object.assign(card, staticData.performances[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
-            //        registerCustomTooltip(this.tplPerformanceCard(card, 'tooltip'), `${prefixId}performance-${card.id}`);
+            registerCustomTooltip(this.tplPerformanceCard(card, 'tooltip'), `${prefixId}performance-${card.id}`);
         }
 
         let slots = '';
@@ -29,7 +30,7 @@ export const cards = {
         if (card.bonus.coins) bonuses += card.bonus.coins + formatIcon('coin');
         if (card.bonus.shards) bonuses += card.bonus.shards + formatIcon('shard');
 
-        return `<div id="${prefixId}performance-${card.id}" class="performance-card" data-type="${card.type}" data-theater="${card.theater}">
+        return `<div id="${prefixId}performance-${card.id}" class="performance-card ${prefix}" data-type="${card.type}" data-theater="${card.theater}">
         <div class="performance-card-inner">
           <div class="card-name"><span>${_(card.name)}</span></div>
           <div class="card-grid">
@@ -52,7 +53,7 @@ export const cards = {
         card = Object.assign(card, staticData.assignments[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
-            //        registerCustomTooltip(this.tplAssignmentCard(card, 'tooltip'), `${prefixId}assignment-card-${card.id}`);
+            registerCustomTooltip(this.tplAssignmentCard(card, 'tooltip'), `${prefixId}assignment-card-${card.id}`);
         }
 
         const assignmentAssetMap = {
@@ -112,7 +113,7 @@ export const cards = {
             </div>`;
         }
 
-        return `<div id="${prefixId}assignment-card-${card.id}" class="assignment-card" data-type="${card.type}" data-asset="${assignmentAssetMap[card.type]}">
+        return `<div id="${prefixId}assignment-card-${card.id}" class="assignment-card ${prefix}" data-type="${card.type}" data-asset="${assignmentAssetMap[card.type]}">
         <div class="assignment-card-inner">
           ${content}
         </div>
@@ -131,7 +132,7 @@ export const cards = {
         card = Object.assign(card, staticData.tricks[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
-            //        registerCustomTooltip(this.tplPerformanceCard(card, 'tooltip'), `${prefixId}performance-${card.id}`);
+            registerCustomTooltip(this.tplTrickCard(card, 'tooltip'), `${prefixId}trick-${card.id}`);
         }
 
         let componentsHTML = '';
@@ -161,7 +162,7 @@ export const cards = {
             componentsHTML += '</div>';
         });
 
-        return `<div id="${prefixId}trick-${card.id}" class="trick-card" data-type="${card.type}">
+        return `<div id="${prefixId}trick-${card.id}" class="trick-card ${prefix}" data-type="${card.type}">
         <div class="trick-card-inner">
           <div class="card-name"><span>${_(card.name)}</span></div>
           <div class="trick-bonus-fame">${card.yields.fame}</div>
@@ -170,6 +171,33 @@ export const cards = {
           <div class="trick-marker-slots" data-n="${card.slots}"></div>
           <div class="trick-components">${componentsHTML}</div>
         </div>
+      </div>`;
+    },
+
+    /////////////////////////////////////////////////////////
+    //  ____                  _               _
+    // |  _ \ _ __ ___  _ __ | |__   ___  ___(_) ___  ___
+    // | |_) | '__/ _ \| '_ \| '_ \ / _ \/ __| |/ _ \/ __|
+    // |  __/| | | (_) | |_) | | | |  __/ (__| |  __/\__ \
+    // |_|   |_|  \___/| .__/|_| |_|\___|\___|_|\___||___/
+    //                 |_|
+    /////////////////////////////////////////////////////////
+
+    tplProphecy: function (card, prefix = '') {
+        card = Object.assign(card, staticData.prophecies[card.type]);
+        let prefixId = prefix == '' ? '' : `${prefix}-`;
+        if (prefix != 'tooltip') {
+            let tooltipContent = `<div class="prophecy-tooltip">
+              ${this.tplProphecy(card, 'tooltip')}
+              <div class="tooltip-effect">
+                ${card.ability.map((t) => _(t)).join('<br/>')}
+              </div>
+            </div>`;
+            registerCustomTooltip(tooltipContent, `${prefixId}prophecy-${card.id}`);
+        }
+
+        return `<div id="${prefixId}prophecy-${card.id}" class="prophecy ${prefix}" data-type="${card.type}">
+        <div class="prophecy-inner"></div>
       </div>`;
     },
 };

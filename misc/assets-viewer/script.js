@@ -1,6 +1,7 @@
 import { formatIcon } from '../../modules/js/format.js';
 import { cards } from '../../modules/js/Cards.js';
 import { staticData } from '../../modules/js/staticData.js';
+import { attachRegisteredTooltips } from '../../modules/js/framework/utils.js';
 
 window.$ = (id) => document.getElementById(id);
 window._ = (t) => t;
@@ -71,3 +72,26 @@ Object.entries(staticData.tricks).forEach(([cardType, card]) => {
     card.type = cardType;
     container.insertAdjacentHTML('beforeend', cards.tplTrickCard(card));
 });
+
+/////////////////////////////////////////////////////////
+//  ____                  _               _
+// |  _ \ _ __ ___  _ __ | |__   ___  ___(_) ___  ___
+// | |_) | '__/ _ \| '_ \| '_ \ / _ \/ __| |/ _ \/ __|
+// |  __/| | | (_) | |_) | | | |  __/ (__| |  __/\__ \
+// |_|   |_|  \___/| .__/|_| |_|\___|\___|_|\___||___/
+//                 |_|
+/////////////////////////////////////////////////////////
+
+console.log('## Reconstructing prophecies cards ##', staticData.prophecies);
+container = addSection('prophecies', 'Prophecies');
+
+Object.entries(staticData.prophecies).forEach(([cardType, card]) => {
+    card.id = cardType;
+    card.type = cardType;
+    container.insertAdjacentHTML('beforeend', cards.tplProphecy(card));
+});
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+attachRegisteredTooltips();

@@ -11,6 +11,10 @@
     font-style: italic;
 }
 
+.trick-card.tooltip {
+    --trickCardScale: 0.8;
+}
+
 .trick-card {
     position: relative;
     width: calc(var(--trickCardScale) * 348px);
