@@ -27,7 +27,7 @@ class EnhanceCharacter extends AutomaticActionState
 
     function onEnteringState(int $activePlayerId)
     {
-        Players::get($activePlayerId)->incShards(-1);
+        Players::get($activePlayerId)->payShards(1);
         LocationActions::incActionPoints(1);
         
         $this->notify->all("characterEnhanced", clienttranslate('${player_name} spends 1 shard to enhance a character (+1 AP)'), [

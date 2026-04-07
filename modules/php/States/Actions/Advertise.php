@@ -55,8 +55,8 @@ class Advertise extends ActionStateWithRevert
         $fame = 2;
 
         $player = Players::get($activePlayerId);
-        $player->incCoins(-$args['cost']);
-        $player->incScore($fame);
+        $player->payCoins($args['cost']);
+        $player->addFame($fame);
 
         $poster = Posters::getFiltered($activePlayerId, Posters::LOCATION_SUPPLY)
             ->first()

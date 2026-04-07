@@ -10,6 +10,7 @@ class States {
     const ST_PLACE_CHARACTERS = 60;
     const ST_PERFORMANCE_PHASE = 70;
     const ST_END_TURN_PHASE = 80;
+    const ST_END_GAME_SCORING = 90;
 
     //SETUP STATES
     const ST_SETUP_TURN = 810;

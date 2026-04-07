@@ -3,9 +3,11 @@
 namespace Bga\Games\trickerionlegendsofillusion\Models;
 
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Managers\Magicians;
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 
 /**
  * Class representing a Player
@@ -36,9 +38,7 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     public function incComponent(string $component, int $count, string $defaultLocation)
     {
-        $component = Components::getAll()
-            ->where("type", $component)
-            ->where("playerId", $this->id)
+        $component = Components::getFiltered($this->id, null, $component)
             ->first();
 
         if ($component->getCount() === 0) {
@@ -56,9 +56,7 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     public function hasEnoughComponents(string $componentType, int $count): bool
     {
-        $component = Components::getAll()
-            ->where("type", $componentType)
-            ->where("playerId", $this->id)
+        $component = Components::getFiltered($this->id, null, $componentType)
             ->first();
 
         if (!$component->getLocation() === Components::LOCATION_MANAGER_BOARD) {
@@ -84,6 +82,17 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         ]);
     }
 
+    public function payCoins(int $count)
+    {
+        $this->incCoins(-$count);
+
+        Game::get()->bga->notify->all("coinsChanged", clienttranslate('${player_name} pays ${coins} coins'), [
+            "player_id" => $this->id,
+            "coins" => $count,
+            "newValue" => $this->getCoins(),
+        ]);
+    }
+
     public function addShards(int $count)
     {
         $this->incShards($count);
@@ -95,11 +104,21 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         ]);
     }
 
+    public function payShards(int $count) {
+        $this->incShards(-$count);
+
+        Game::get()->bga->notify->all("shardsChanged", clienttranslate('${player_name} pays ${shards} shards'), [
+            "player_id" => $this->id,
+            "shards" => $count,
+            "newValue" => $this->getShards(),
+        ]);
+    }
+
     public function addFame(int $count)
     {
         $this->incScore($count);
 
-        Game::get()->bga->notify->all("fameChanged", clienttranslate('${player_name} gets <fame> fame'), [
+        Game::get()->bga->notify->all("fameChanged", clienttranslate('${player_name} gets ${fame} fame'), [
             "player_id" => $this->id,
             "fame" => $count,
             "newValue" => $this->getScore(),
@@ -114,10 +133,53 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     public function hasSpecialist(string $characterType): bool
     {
-        return Characters::getAll()
-            ->where('playerId', $this->id)
-            ->where('type', $characterType)
+        return Characters::getFiltered($this->id, null, $characterType)
+            ->if("specialist")
             ->whereNot('location', [Characters::LOCATION_SUPPLY, Characters::LOCATION_INCOMING])
             ->count() > 0;
+    }
+
+    /*
+    ███████╗ ██████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗
+    ██╔════╝██╔════╝██╔═══██╗██╔══██╗██║████╗  ██║██╔════╝
+    ███████╗██║     ██║   ██║██████╔╝██║██╔██╗ ██║██║  ███╗
+    ╚════██║██║     ██║   ██║██╔══██╗██║██║╚██╗██║██║   ██║
+    ███████║╚██████╗╚██████╔╝██║  ██║██║██║ ╚████║╚██████╔╝
+    ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝
+
+    */
+
+    public function scoreShards() {
+        return $this->getShards();
+    }
+
+    public function scoreCoins() {
+        return intdiv($this->getCoins(), 3);
+    }
+
+    public function scoreApprentices() {
+        return Characters::getFiltered($this->id, null, Character::TYPE_APPRENTICE)
+            ->whereNot("location", Characters::LOCATION_SUPPLY)
+            ->count() * 2;
+    }
+
+    public function scoreSpecialists() {
+        return Characters::getFiltered($this->id)
+            ->if("specialist")
+            ->whereNot("location", Characters::LOCATION_SUPPLY)
+            ->count() * 3;
+    }
+
+    public function scoreSpecialAssignments() {
+        return Assignments::getFiltered($this->id, Assignments::LOCATION_HAND)
+            ->where("category", Assignment::CATEGORY_SPECIAL)
+            ->count() * 2;
+    }
+
+    public function scoreTricks() {
+        return Tricks::getFiltered($this->id, Tricks::LOCATION_PLAYER_ALL)
+            ->reduce(function($total, $trick) {
+                return $total + $trick->score();
+            }, 0);
     }
 }

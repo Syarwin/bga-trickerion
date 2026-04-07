@@ -206,6 +206,24 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         ];
     }
 
+    public function score() {
+        if ($this->getLevel() < 3) {
+            return 0;
+        }
+
+        $score = $this->calculateScore();
+        Game::get()->bga->notify->all("message", clienttranslate('${player_name} is scoring ${trick} for ${fame} fame'), [
+            "player_id" => $this->getPlayerId(),
+            "trick" => $this,
+            "fame" => $score
+        ]);
+        return $score;
+    }
+
+    public function calculateScore() {
+        return 0; //should be overridden in trick classes
+    }
+
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
   ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

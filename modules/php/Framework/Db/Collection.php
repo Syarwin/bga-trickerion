@@ -190,6 +190,10 @@ class Collection extends \ArrayObject
             });
     }
 
+    public function if($field) {
+        return $this->where($field, true);
+    }
+
     public function whereNull($field)
     {
         return $this->filter(function ($obj) use ($field) {

@@ -15,7 +15,6 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
-use Bga\Games\trickerionlegendsofillusion\States\Engine\DummyEnd;
 
 class EndTurnPhase extends GameState
 {
@@ -49,7 +48,7 @@ class EndTurnPhase extends GameState
         if (Globals::isDarkAlley() && $currentTurn == 7
             || !Globals::isDarkAlley() && $currentTurn == 5)
         {
-            return DummyEnd::class;
+            return EndGameScoring::class;
         }
 
         Globals::incCurrentTurn(1);

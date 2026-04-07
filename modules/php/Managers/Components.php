@@ -29,8 +29,7 @@ class Components extends CachedPieces
     {
         return [
             "player" => Players::getAll()->map(function ($player) {
-                return self::getAll()
-                    ->where('playerId', $player->id)
+                return self::getFiltered($player->id)
                     ->toArray();
             }),
         ];
@@ -115,9 +114,7 @@ class Components extends CachedPieces
         $maxCounts = [];
         $player = Players::get($playerId);
         foreach ($components as $component) {
-            $component = self::getAll()
-                ->where("type", $component)
-                ->where("playerId", $playerId)
+            $component = self::getFiltered($playerId, null, $component)
                 ->first();
 
             $playerAvailableLocations = [];
@@ -154,16 +151,14 @@ class Components extends CachedPieces
 
     public static function addComponent(int $playerId, string $component, string $locationId, int $count, int $bargain)
     {
-        $component = self::getAll()
-            ->where("type", $component)
-            ->where("playerId", $playerId)
+        $component = self::getFiltered($playerId, null, $component)
             ->first();
 
         $component->incCount($count);
         $component->setLocation($locationId);
 
         $cost = $component->getEffectiveCost() * $count - $bargain;
-        Players::get($playerId)->incCoins(-$cost);
+        Players::get($playerId)->payCoins($cost);
         LocationActions::incActionPoints(-$bargain);
 
         $message = clienttranslate('${player_name} bought ${count} <component>for ${cost} and placed it at the ${location}');

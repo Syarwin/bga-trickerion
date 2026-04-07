@@ -33,9 +33,8 @@ class Characters extends CachedPieces
             "board" => self::getInLocation(self::LOCATION_BOARD_ANY)->toArray(),
             "idle" => self::getInLocation(self::LOCATION_IDLE_ANY)->toArray(),
             "hiredSpecialists" => Players::getAll()->map(function($player) {
-                return self::getAll()
-                    ->where('playerId', $player->id)
-                    ->where('specialist', true)
+                return self::getFiltered($player->id)
+                    ->if('specialist')
                     ->whereNot('location', self::LOCATION_SUPPLY)
                     ->map(function($character) use ($player) {
                         return $character->getType();
@@ -251,7 +250,7 @@ class Characters extends CachedPieces
                 $totalWages += $character->getWage(true);
             }
 
-            Players::get($playerId)->incCoins(-$totalWages);
+            Players::get($playerId)->payCoins($totalWages);
 
             Game::get()->bga->notify->all("wagesPaid", clienttranslate('${player_name} pays ${totalWages} for wages for ${characterCount} characters'), [
                 "player_id" => $playerId,
@@ -299,7 +298,7 @@ class Characters extends CachedPieces
 
     public static function isAssistantApprenticeSlotAvailable($playerId) {
         $isApprenticeOnAssistantBoard = self::getFiltered($playerId)
-            ->where("onAssistantBoard", true)
+            ->if("onAssistantBoard")
             ->count() > 0;
         
         return !$isApprenticeOnAssistantBoard;

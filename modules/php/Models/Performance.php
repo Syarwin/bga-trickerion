@@ -272,7 +272,7 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
 
     private function getSupportingSpecialistsYields($playerId) {
         $specialistsInTheater = Characters::getFiltered($playerId, Characters::LOCATION_BOARD_THEATER_ANY)
-            ->where("specialist", true);
+            ->if("specialist");
 
         if ($specialistsInTheater->count() === 0) {
             return null;

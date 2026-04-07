@@ -66,4 +66,15 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
         ]);
     }
 
+    public static function score($scoringFunction, $message) {
+        Game::get()->bga->notify->all("message", $message, []);
+        self::getAll()->forEach(function($player) use ($scoringFunction) {
+            if (is_callable($scoringFunction)) {
+                $score = $scoringFunction($player);
+            } else {
+                $score = $player->{$scoringFunction}();
+            }
+            $player->addFame($score);
+        });
+    }
 }

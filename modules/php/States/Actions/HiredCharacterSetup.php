@@ -30,7 +30,7 @@ class HiredCharacterSetup extends AutomaticActionState
     function onEnteringState(int $activePlayerId)
     {
         $specialistType = Characters::getFiltered($activePlayerId, Characters::LOCATION_IDLE_ANY)
-            ->where("specialist", true)
+            ->if("specialist")
             ->first()
             ->getType();
 
