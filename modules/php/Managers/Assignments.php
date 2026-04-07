@@ -4,6 +4,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\GameFramework\NotificationMessage;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
@@ -163,6 +164,15 @@ class Assignments extends CachedPieces
             Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DECK,
         ][$boardLocation];
     }
+    
+    public static function getSpecialAssignmentDiscardLocation($boardLocation) {
+        return [
+            Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DISCARD,
+            Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DISCARD,
+            Assignment::BOARD_LOCATION_WORKSHOP => self::LOCATION_WORKSHOP_DISCARD,
+            Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DISCARD,
+        ][$boardLocation];
+    }
 
     private static function getPermanentAssignmentInitialCopies($boardLocation) {
         if (!Globals::isDarkAlley()) {
@@ -206,6 +216,31 @@ class Assignments extends CachedPieces
                     "possibleLocations" => $possibleLocations
                 ];
             })->toArray();
+    }
+
+    public static function roundMaintenance() {
+        $playedAssignments = self::getInLocation(self::LOCATION_ASSIGNED_ANY);
+
+        $permanentAssignments = $playedAssignments->where("category", Assignment::CATEGORY_PERMANENT);
+        $specialAssignments = $playedAssignments->where("category", Assignment::CATEGORY_SPECIAL);
+        $facedownSpecialAssignments = $specialAssignments->where("location", self::LOCATION_ASSIGNED_FACEDOWN);
+
+        $permanentAssignments
+            ->merge($facedownSpecialAssignments)
+            ->update("location", self::LOCATION_HAND)
+            ->update("state", 0);
+
+        Game::get()->bga->notify->all('assignmentsReturned', clienttranslate('All permanent and face-down assignment cards are returned to player hands'), []);
+
+        $faceupSpecialAssignments = $specialAssignments->where("location", self::LOCATION_ASSIGNED_FACEUP);
+        $faceupSpecialAssignments
+            ->update("location", function($assignment) {
+                return self::getSpecialAssignmentDiscardLocation($assignment->getBoardLocation());
+            })
+            ->update("state", 0)
+            ->update("playerId", null);
+
+        Game::get()->bga->notify->all('assignmentsDiscarded', clienttranslate('All faceup special assignment cards are discarded'), []);
     }
 
     /*

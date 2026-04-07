@@ -82,7 +82,7 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
 
     */
 
-     const OPTION_BEGINNERS_SETUP = 110;
+    const OPTION_BEGINNERS_SETUP = 110;
     const OPTION_DARK_ALLEY = 120;
     const OPTION_INCLUDE_PROPHECIES = 125;
 }

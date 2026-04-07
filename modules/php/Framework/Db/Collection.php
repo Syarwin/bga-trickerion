@@ -222,7 +222,11 @@ class Collection extends \ArrayObject
     {
         $method = 'set' . ucfirst($field);
         foreach ($this->getArrayCopy() as $obj) {
-            $obj->$method($value);
+            if (is_callable($value)) {
+                $obj->$method($value($obj));
+            } else {
+                $obj->$method($value);
+            }
         }
         return $this;
     }

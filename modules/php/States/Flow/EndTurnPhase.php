@@ -11,6 +11,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
 use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
@@ -41,7 +42,7 @@ class EndTurnPhase extends GameState
 
         Prophecies::roundMaintenance();
 
-        $this->notify->all("message", clienttranslate('Assinment cards are returned to hand and played special assignments are discarded'), []);
+        Assignments::roundMaintenance();
         
         $currentTurn = Globals::getCurrentTurn();
 
@@ -52,9 +53,6 @@ class EndTurnPhase extends GameState
         }
 
         Globals::incCurrentTurn(1);
-        $this->notify->all("newTurn", clienttranslate('Turn ${currentTurn} starts'), [
-            'currentTurn' => Globals::getCurrentTurn(),
-        ]);
 
         return TurnPreparation::class;
     }
