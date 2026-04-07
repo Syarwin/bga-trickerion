@@ -58,7 +58,7 @@ class SetupTrick extends ActionStateWithRevert
     {
         $args = [
             "availablePerformances" => Performances::getActive()->toArray(),
-            "possibleTricksAndSlots" => Performances::getSetupData($activePlayerId)->toAssoc(),
+            "possibleTricksAndSlots" => Performances::getTrickSetupData($activePlayerId)->toAssoc(),
             "sourceName" => $this->getNodeArgs("sourceName", "")
         ];
         return $args;

@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
 class Performances extends CachedPieces
@@ -98,11 +99,15 @@ class Performances extends CachedPieces
 
     */
 
+    public static function getMaxNumberOfPerformances() {
+        return Players::count() + 1;
+    }
+
     public static function getActive() {
         return self::getInLocation(self::LOCATION_ACTIVE);
     }
 
-    public static function getSetupData($playerId)
+    public static function getTrickSetupData($playerId)
     {
         return self::getActive()
             ->map(function(Performance $performance) use ($playerId) {
@@ -116,6 +121,33 @@ class Performances extends CachedPieces
                     "possibleSlots" => $availableSlots
                 ];
             });
+    }
+
+    public static function roundMaintenenace() {
+        $topAvailablePerformance = Performances::getTopOf(self::LOCATION_ACTIVE)->first();
+
+        if ($topAvailablePerformance->getState() == self::getMaxNumberOfPerformances()) {
+            $trickMarkers = TrickMarkers::getOnPerformance($topAvailablePerformance->getId());
+            TrickMarkers::returnToSupplies($trickMarkers);
+            $topAvailablePerformance->setLocation(self::LOCATION_BOX);
+            $topAvailablePerformance->setState(0);
+
+            Game::get()->bga->notify->all("message", clienttranslate('${performance} is removed from the game and all trick markers still on it were returned to player supplies'), [
+                "performance" => $topAvailablePerformance
+            ]);
+        }
+        
+        $activePerformances = Performances::getInLocation(self::LOCATION_ACTIVE)->forEach(function($performance) {
+            $performance->incState();
+        });
+        Game::get()->bga->notify->all("performancesRotated", clienttranslate('Performances are moved clockwise'), [
+            "performances" => $activePerformances
+        ]);
+
+        $newPerformance = Performances::pickOneForLocation(self::LOCATION_DECK, self::LOCATION_ACTIVE, 1);
+        Game::get()->bga->notify->all("message", clienttranslate('New performance is revealed: ${performance}'), [
+            "performance" => $newPerformance
+        ]);
     }
 
     /*

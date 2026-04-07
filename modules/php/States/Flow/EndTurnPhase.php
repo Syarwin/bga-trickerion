@@ -12,6 +12,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Constants\States;
 use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
+use Bga\Games\trickerionlegendsofillusion\Managers\Performances;
 use Bga\Games\trickerionlegendsofillusion\States\Engine\DummyEnd;
 
 class EndTurnPhase extends GameState
@@ -33,9 +34,7 @@ class EndTurnPhase extends GameState
         MarketRow::ordersArrive();
         MarketRow::clearQuickOrder();
         
-        $this->notify->all("message", clienttranslate('Performances are moved clockwise'), []);
-        //from round 3 onwards, rightmost performance is discarded
-        $this->notify->all("message", clienttranslate('New performance is revealed'), []);
+        Performances::roundMaintenenace();
 
         Posters::return();
 
