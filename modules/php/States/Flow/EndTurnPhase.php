@@ -26,8 +26,7 @@ class EndTurnPhase extends GameState
 
     function onEnteringState()
     {
-        $this->notify->all("message", clienttranslate('Players pay wages'), []);
-        
+        Characters::payWages();
         Characters::return();
         
         $this->notify->all("message", clienttranslate('Orders arrive'), []);

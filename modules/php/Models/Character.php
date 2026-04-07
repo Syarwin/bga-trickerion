@@ -158,6 +158,35 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ]);
     }
 
+    public function getWage($notifyAssistentDiscount = false) {
+        if ($this->isOnAssistantBoard()) {
+            if ($notifyAssistentDiscount) {
+                Game::get()->notify->all("message", clienttranslate('${player_name} doesn\'t pay wage to ${name} as it is on the assistant board'), [
+                    "player_id" => $this->getPlayerId(),
+                    "name" => $this->getName(),
+                ]);
+            }
+            return 0;
+        }
+
+        if (in_array($this->getLocation(), [
+            Characters::LOCATION_SUPPLY, 
+            Characters::LOCATION_IDLE_ENGINEER_BOARD,
+            Characters::LOCATION_IDLE_MANAGER_BOARD,
+            Characters::LOCATION_IDLE_ASSISTANT_BOARD,
+            Characters::LOCATION_IDLE_PLAYER_BOARD
+        ])) {
+            return 0;
+        }
+
+        return match ($this->type) {
+            self::TYPE_MAGICIAN => 0,
+            self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT => 2,
+            self::TYPE_APPRENTICE => 1,
+            default => throw new \InvalidArgumentException("Unknown character type: {$this->type}"),
+        };
+    }
+
     /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝

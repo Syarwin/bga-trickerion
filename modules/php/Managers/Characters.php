@@ -234,9 +234,31 @@ class Characters extends CachedPieces
                 $character->setLocation($character->getIdleLocation());
             });
 
-        Game::get()->bga->notify->all("charactersReturned", clienttranslate('All characters return to respective players boards'), [
+        Game::get()->bga->notify->all("charactersReturned", clienttranslate('All characters return to respective players\' boards'), [
             "characters" => $allCharacters->toArray(),
         ]);
+    }
+
+    public static function payWages() {
+        $playerCharacters = self::getAll()
+            ->whereNot("location", self::LOCATION_SUPPLY)
+            ->whereNot("location", self::LOCATION_IDLE_ANY)
+            ->group("playerId");   
+
+        $playerCharacters->forEach(function($characters, $playerId) {
+            $totalWages = 0;
+            foreach ($characters as $character) {
+                $totalWages += $character->getWage(true);
+            }
+
+            Players::get($playerId)->incCoins(-$totalWages);
+
+            Game::get()->bga->notify->all("wagesPaid", clienttranslate('${player_name} pays ${totalWages} for wages for ${characterCount} characters'), [
+                "player_id" => $playerId,
+                "characterCount" => count($characters),
+                "totalWages" => $totalWages,
+            ]);
+        });
     }
 
     public static function getLocationActionPoints($location) {
