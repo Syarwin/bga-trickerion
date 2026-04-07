@@ -14,8 +14,8 @@ class T48_Hellhound extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Hellhound');
         $this->componentRequirements = [
-            Component::PADDLOCK,
-            Component::PADDLOCK,
+            Component::PADLOCK,
+            Component::PADLOCK,
             Component::PETROLEUM,
             Component::ANIMAL,
             Component::ANIMAL,

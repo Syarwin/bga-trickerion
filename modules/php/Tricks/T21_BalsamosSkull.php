@@ -14,7 +14,7 @@ class T21_BalsamosSkull extends Trick
         $this->category = Trick::CATEGORY_SPIRITUAL;
         $this->name = clienttranslate("Balsamo's Skull");
         $this->componentRequirements = [
-            Component::PADDLOCK,
+            Component::PADLOCK,
             Component::ROPE,
             Component::ROPE,
             Component::METAL,

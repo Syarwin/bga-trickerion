@@ -59,7 +59,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         return match ($componentType) {
             self::WOOD, self::GLASS, self::METAL, self::FABRIC => 1,
             self::ROPE, self::PETROLEUM, self::SAW, self::ANIMAL => 2,
-            self::PADDLOCK, self::MIRROR, self::DISGUISE, self::COG => 3,
+            self::PADLOCK, self::MIRROR, self::DISGUISE, self::COG => 3,
             default => throw new \InvalidArgumentException("Unknown component: $componentType"),
         };
     }
@@ -86,7 +86,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             self::PETROLEUM => clienttranslate("petroleum"),
             self::SAW => clienttranslate("saw"),
             self::ANIMAL => clienttranslate("animal"),
-            self::PADDLOCK => clienttranslate("padlock"),
+            self::PADLOCK => clienttranslate("padlock"),
             self::MIRROR => clienttranslate("mirror"),
             self::DISGUISE => clienttranslate("disguise"),
             self::COG => clienttranslate("cog"),
@@ -134,7 +134,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     const SAW = "saw";
     const ANIMAL = "animal";
 
-    const PADDLOCK = "padlock";
+    const PADLOCK = "padlock";
     const MIRROR = "mirror";
     const DISGUISE = "disguise";
     const COG = "cog";

@@ -14,7 +14,7 @@ class T45_AztecLady extends Trick
         $this->category = Trick::CATEGORY_MECHANICAL;
         $this->name = clienttranslate('Aztec Lady');
         $this->componentRequirements = [
-            Component::PADDLOCK,
+            Component::PADLOCK,
             Component::COG,
             Component::COG,
             Component::SAW,

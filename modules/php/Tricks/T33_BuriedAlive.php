@@ -14,9 +14,9 @@ class T33_BuriedAlive extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Buried Alive');
         $this->componentRequirements = [
-            Component::PADDLOCK,
-            Component::PADDLOCK,
-            Component::PADDLOCK,
+            Component::PADLOCK,
+            Component::PADLOCK,
+            Component::PADLOCK,
             Component::WOOD,
             Component::WOOD,
             Component::WOOD,

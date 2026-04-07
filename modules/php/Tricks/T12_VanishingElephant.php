@@ -15,8 +15,8 @@ class T12_VanishingElephant extends Trick
         $this->name = clienttranslate('Vanishing Elephant');
         $this->componentRequirements = [
             Component::MIRROR,
-            Component::PADDLOCK,
-            Component::PADDLOCK,
+            Component::PADLOCK,
+            Component::PADLOCK,
             Component::ANIMAL,
             Component::ANIMAL,
             Component::GLASS,

@@ -14,8 +14,8 @@ class T35_IronMaiden extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Iron Maiden');
         $this->componentRequirements = [
-            Component::PADDLOCK,
-            Component::PADDLOCK,
+            Component::PADLOCK,
+            Component::PADLOCK,
             Component::SAW,
             Component::SAW,
             Component::SAW,

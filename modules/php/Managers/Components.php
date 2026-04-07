@@ -75,7 +75,7 @@ class Components extends CachedPieces
 
     public static function getAllComponents(): array
     {
-        return [Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADDLOCK, Component::MIRROR, Component::DISGUISE, Component::COG];
+        return [Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADLOCK, Component::MIRROR, Component::DISGUISE, Component::COG];
     }
 
     public static function getAffordableComponents(int $maxValue, ?array $limit = null): array

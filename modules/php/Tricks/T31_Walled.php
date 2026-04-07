@@ -14,7 +14,7 @@ class T31_Walled extends Trick
         $this->category = Trick::CATEGORY_ESCAPE;
         $this->name = clienttranslate('Walled');
         $this->componentRequirements = [
-            Component::PADDLOCK,
+            Component::PADLOCK,
             Component::WOOD,
             Component::WOOD,
             Component::WOOD,
