@@ -3,6 +3,7 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Game;
 
 class Prophecies extends CachedPieces
 {
@@ -86,6 +87,45 @@ class Prophecies extends CachedPieces
 
     */
 
+    public static function roundMaintenance() {
+        if (!Globals::isIncludeProphecies()) {
+            return;
+        }
+
+        // Active prophecies are discarded
+        $activeProphecy = self::getInLocation(self::LOCATION_ACTIVE)->first();
+        if ($activeProphecy) {
+            $activeProphecy->setLocation(self::LOCATION_DISCARD);
+            $activeProphecy->setState(0);
+
+            Game::get()->notify->all("activeProphecyDiscarded", clienttranslate('The active prophecy is discarded: ${prophecy}'), [
+                'prophecy' => $activeProphecy,
+            ]);
+        }
+
+        $newActiveProphecy = self::getTopOf(self::LOCATION_PENDING)->first();
+        if ($newActiveProphecy) {
+            $newActiveProphecy->setLocation(self::LOCATION_ACTIVE);
+            $newActiveProphecy->setState(0);
+
+            Game::get()->notify->all("activeProphecySet", clienttranslate('A new active prophecy: ${prophecy}'), [
+                'prophecy' => $newActiveProphecy,
+            ]);
+        }
+
+        $pendingProphecies = self::getInLocation(self::LOCATION_PENDING)->forEach(function($prophecy) {
+            $prophecy->setState($prophecy->getState() + 1);
+        });
+
+        Game::get()->notify->all("pendingPropheciesRotated", clienttranslate('Pending prophecies have been rotated clockwise.'), [
+            "prophecies" => $pendingProphecies,
+        ]);
+
+        $newPendingProphecy = self::pickForLocation(1, self::LOCATION_DECK, self::LOCATION_PENDING, 1)->first();
+        Game::get()->notify->all("newPendingProphecyRevealed", clienttranslate('A new pending prophecy card is revealed: ${prophecy}'), [
+            "prophecy" => $newPendingProphecy,
+        ]);
+    }
 
     /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗

@@ -25,7 +25,7 @@ class Message extends AutomaticActionState
 
     function onEnteringState(int $activePlayerId)
     {
-        Game::get()->bga->notify->all("message", $this->getNodeArgs("message", ""), $this->getNodeArgs("args", []));
+        $this->notify->all("message", $this->getNodeArgs("message", ""), $this->getNodeArgs("args", []));
         return $this->resolve();
     }    
 }

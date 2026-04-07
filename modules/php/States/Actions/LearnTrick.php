@@ -123,7 +123,7 @@ class LearnTrick extends ActionStateWithRevert
             }));
 
             if (count($dice) == 0) {
-                Game::get()->bga->notify->all("message", clienttranslate('${player_name} learned trick from his favourite category so no die is turned to \'x\''), [
+                $this->notify->all("message", clienttranslate('${player_name} learned trick from his favourite category so no die is turned to \'x\''), [
                     "player_id" => $activePlayerId,
                 ]);
             } else if (count($dice) == 1 || count($allDice) == 1) {

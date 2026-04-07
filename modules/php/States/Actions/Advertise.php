@@ -62,7 +62,7 @@ class Advertise extends ActionStateWithRevert
             ->first()
             ->setLocation(Posters::LOCATION_BOARD);
 
-        Game::get()->bga->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives <fame> fame'), [
+        $this->notify->all("advertised", clienttranslate('${player_name} advertises and places their poster on the board for ${cost} coins and receives <fame> fame'), [
             "player_id" => $activePlayerId,
             "poster" => $poster,
             "cost" => $args['cost'],

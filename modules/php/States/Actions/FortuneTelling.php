@@ -35,7 +35,7 @@ class FortuneTelling extends AutomaticActionState
                 }
             });
 
-        Game::get()->bga->notify->all("propheciesUpdated", clienttranslate('${player_name} use fortune telling and rotated all pending prophecies clockwise'), [
+        $this->notify->all("propheciesUpdated", clienttranslate('${player_name} use fortune telling and rotated all pending prophecies clockwise'), [
             "player_id" => $activePlayerId,
             "updatedProphecies" => $UpdatedProphecies->toArray(),
         ]);

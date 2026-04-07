@@ -38,7 +38,7 @@ class HiredCharacterSetup extends AutomaticActionState
             Characters::hire(Character::TYPE_APPRENTICE, $activePlayerId, Characters::LOCATION_IDLE_ASSISTANT_BOARD);
         } elseif ($specialistType === Character::TYPE_ENGINEER) {
             //nothing now, but after all initial magicians and tricks are taken
-            Game::get()->bga->notify->all("message", clienttranslate('${player_name} will learn another level 1 trick after all players select their magicians and inital tricks'), [
+            $this->notify->all("message", clienttranslate('${player_name} will learn another level 1 trick after all players select their magicians and inital tricks'), [
                 "player_id" => $activePlayerId
             ]);
         } else if ($specialistType === Character::TYPE_MANAGER) {

@@ -62,7 +62,7 @@ class DiscardComponents extends ActionStateWithRevert
         $component->setCount(0);
         $component->setLocation(Components::LOCATION_PLAYER_BOARD);
 
-        Game::get()->bga->notify->all("componentDiscarded", clienttranslate('${player_name} discards all ${componentName}'), [
+        $this->notify->all("componentDiscarded", clienttranslate('${player_name} discards all ${componentName}'), [
             "player_id" => $activePlayerId,
             "componentName" => Component::getComponentName($component->getType())
         ]);

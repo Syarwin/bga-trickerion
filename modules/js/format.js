@@ -94,6 +94,9 @@ export const logOverride = {
     performance: (args) => {
         return args.performance.type;
     },
+    prophecy: (args) => {
+        return args.prophecy.type;
+    },
     assignments: (args) => {
         return args.assignments.map((a) => a.type).join(', ');
     },

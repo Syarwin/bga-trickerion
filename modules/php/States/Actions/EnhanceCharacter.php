@@ -30,7 +30,7 @@ class EnhanceCharacter extends AutomaticActionState
         Players::get($activePlayerId)->incShards(-1);
         LocationActions::incActionPoints(1);
         
-        Game::get()->bga->notify->all("characterEnhanced", clienttranslate('${player_name} spends 1 shard to enhance a character (+1 AP)'), [
+        $this->notify->all("characterEnhanced", clienttranslate('${player_name} spends 1 shard to enhance a character (+1 AP)'), [
             "player_id" => $activePlayerId,
         ]);
 
