@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -30,5 +31,17 @@ class T23_SkeletonDance extends Trick
             "coins" => 4,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 1 Fame for each Basic Component in your Workshop (including the Manager\'s bonus Components).')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Components::getFiltered($this->getPlayerId())
+            ->where('cost', 1)
+            ->reduce(function ($sum, $component) {
+                return $sum + $component->getEffectiveCount();
+            }, 0);        
     }
 }

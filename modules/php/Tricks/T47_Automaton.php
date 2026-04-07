@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -32,5 +33,15 @@ class T47_Automaton extends Trick
             "coins" => 7,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 4 Fame for each Level 2 Trick you own, even if you don\'t meet their Component requirements.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Tricks::getFiltered($this->getPlayerId(), Tricks::LOCATION_PLAYER_ALL)
+            ->where('level', 2)
+            ->count() * 4;
     }
 }

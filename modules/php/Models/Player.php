@@ -59,11 +59,7 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
         $component = Components::getFiltered($this->id, null, $componentType)
             ->first();
 
-        if (!$component->getLocation() === Components::LOCATION_MANAGER_BOARD) {
-            return ($component->getCount() + 1) >= $count; // +1 because we can use the component from the manager board 
-        }
-
-        return $component->getCount() >= $count;
+        return $component->getEffectiveCount() >= $count;
     }
 
     public function getMagician()
@@ -154,7 +150,7 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     }
 
     public function scoreCoins() {
-        return intdiv($this->getCoins(), 3);
+        return floor($this->getCoins() / 3);
     }
 
     public function scoreApprentices() {

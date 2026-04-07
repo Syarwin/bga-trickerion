@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -31,5 +32,15 @@ class T35_IronMaiden extends Trick
             "coins" => 5,
             "shards" => 1
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 4 Fame for each Level 1 Trick you own, even if you don\'t meet their Component requirements.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Tricks::getFiltered($this->getPlayerId(), Tricks::LOCATION_PLAYER_ALL)
+            ->where('level', 1)
+            ->count() * 4;
     }
 }

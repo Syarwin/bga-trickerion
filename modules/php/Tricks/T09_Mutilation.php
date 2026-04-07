@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -31,5 +32,17 @@ class T09_Mutilation extends Trick
             "coins" => 5,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 12 Fame if you have an Assistant, an Engineer and a Manager.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        $hasAssistant = $this->getPlayer()->hasSpecialist(Character::TYPE_ASSISTANT);
+        $hasEngineer = $this->getPlayer()->hasSpecialist(Character::TYPE_ENGINEER);
+        $hasManager = $this->getPlayer()->hasSpecialist(Character::TYPE_MANAGER);
+
+        return ($hasAssistant && $hasEngineer && $hasManager) ? 12 : 0;
     }
 }

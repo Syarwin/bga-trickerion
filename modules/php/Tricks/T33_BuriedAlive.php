@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -29,5 +30,13 @@ class T33_BuriedAlive extends Trick
             "coins" => 4,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 7 Fame if you have an Engineer.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return $this->getPlayer()->hasSpecialist(Character::TYPE_ENGINEER) ? 7 : 0;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
+use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -31,5 +33,15 @@ class T48_Hellhound extends Trick
             "coins" => 5,
             "shards" => 1
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 2 additional Fame for each unused Special Assignment card in your hand.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Assignments::getFiltered($this->getPlayerId(), Assignments::LOCATION_HAND)
+            ->where('category', Assignment::CATEGORY_SPECIAL)
+            ->count() * 2;
     }
 }

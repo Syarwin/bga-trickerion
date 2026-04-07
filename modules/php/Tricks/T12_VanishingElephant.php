@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -31,5 +32,13 @@ class T12_VanishingElephant extends Trick
             "coins" => 4,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 7 Fame if you have a Manager.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return $this->getPlayer()->hasSpecialist(Character::TYPE_MANAGER) ? 7 : 0;
     }
 }

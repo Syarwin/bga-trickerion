@@ -30,5 +30,13 @@ class T46_HorrorSaws extends Trick
             "coins" => 8,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 1 additional Fame for each unspent Shard.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return $this->getPlayer()->getShards();
     }
 }

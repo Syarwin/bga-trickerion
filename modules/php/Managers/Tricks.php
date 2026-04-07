@@ -92,12 +92,8 @@ class Tricks extends CachedPieces
         return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
             ->filter(function($trick) use ($player, $checkActionPoints) {
                 //check components
-                $cost = $trick->getComponentsNeeded();
-
-                foreach ($cost as $component => $count) {
-                    if (!$player->hasEnoughComponents($component, $count)) {
-                        return false;
-                    }
+                if (!$trick->hasEnoughComponents()) {
+                    return false;
                 }
 
                 //check that trick doesn't have markers on it already

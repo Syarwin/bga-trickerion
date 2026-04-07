@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -30,5 +31,16 @@ class T36_TransportedMan extends Trick
             "coins" => 3,
             "shards" => 2
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 4 Fame for each Level 3 Trick you own (including this one), even if you don\'t meet the other Tricks\' Component requirements.')
+        ];
+    }
+
+
+    public function calculateScore()
+    {
+        return Tricks::getFiltered($this->getPlayerId(), Tricks::LOCATION_PLAYER_ALL)
+            ->where('level', 3)
+            ->count() * 4;
     }
 }

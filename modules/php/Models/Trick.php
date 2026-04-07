@@ -11,21 +11,22 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\GetCoins;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\GetFame;
 
 /**
- * Tactics: all utility functions concerning a tactics
+ * Trick: all utility functions concerning a trick
  * 
- * @property int $id The id of the tactics
- * @property string $type The type of the tactics
- * @property int $location The location of the tactics
- * @property int $state The state of the tactics
- * @property int $playerId The player id of the tactics
- * @property string $symbolMarker The symbol marker of the tactics
- * @property string $category The category of the tactics
- * @property string $name The name of the tactics
- * @property array $componentRequirements The component requirements of the tactics
- * @property int $preparationCost The preparation cost of the tactics
- * @property int $slots The number of slots of the tactics
- * @property int $level The level of the tactics
- * @property array $yields The yields of the tactics
+ * @property int $id The id of the trick
+ * @property string $type The type of the trick
+ * @property int $location The location of the trick
+ * @property int $state The state of the trick
+ * @property int $playerId The player id of the trick
+ * @property string $symbolMarker The symbol marker of the trick
+ * @property string $category The category of the trick
+ * @property string $name The name of the trick
+ * @property array $componentRequirements The component requirements of the trick
+ * @property int $preparationCost The preparation cost of the trick
+ * @property int $slots The number of slots of the trick
+ * @property int $level The level of the trick
+ * @property array $yields The yields of the trick
+ * @property string $scoringDescription The scoring description of the trick
  */
 class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
@@ -48,6 +49,7 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         ['slots', 'int'],
         ['level', 'int'],
         ['yields', 'object'],
+        ['scoringDescription', 'object']
     ];
 
     /*
@@ -181,9 +183,20 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
         $trickMarker->addToPerformance($performance->getId(), $slotId, $direction);
         
         //reward for linking the same symbol
-        $performance->addLinkRewards($slotId);
-
         //reward for shard in the link
+        $performance->addLinkRewards($slotId);
+    }
+
+    public function hasEnoughComponents() {
+        $cost = $this->getComponentsNeeded();
+
+        $player = $this->getPlayer();
+        foreach ($cost as $component => $count) {
+            if (!$player->hasEnoughComponents($component, $count)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function getLinkRewardActions() {
@@ -211,13 +224,17 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
             return 0;
         }
 
+        if (!$this->hasEnoughComponents()) {
+            return 0;
+        }
+
         $score = $this->calculateScore();
         Game::get()->bga->notify->all("message", clienttranslate('${player_name} is scoring ${trick} for ${fame} fame'), [
             "player_id" => $this->getPlayerId(),
             "trick" => $this,
             "fame" => $score
         ]);
-        return $score;
+        return min($score, 20);
     }
 
     public function calculateScore() {

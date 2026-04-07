@@ -2,6 +2,8 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
+use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -31,5 +33,16 @@ class T22_Séance extends Trick
             "coins" => 5,
             "shards" => 1
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 3 Fame for each Apprentice you have.')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Characters::getFiltered($this->getPlayerId())
+            ->where('type', Character::TYPE_APPRENTICE)
+            ->whereNot('location', [Characters::LOCATION_SUPPLY, Characters::LOCATION_INCOMING])
+            ->count() * 3;
     }
 }

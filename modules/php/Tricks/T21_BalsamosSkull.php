@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Tricks;
 
+use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
@@ -29,5 +30,17 @@ class T21_BalsamosSkull extends Trick
             "coins" => 3,
             "shards" => 2
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 3 Fame for each Superior Component in your Workshop (including the Manager\'s bonus Components).')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return Components::getFiltered($this->getPlayerId())
+            ->where('cost', 3)
+            ->reduce(function ($sum, $component) {
+                return $sum + $component->getEffectiveCount();
+            }, 0) * 3;        
     }
 }

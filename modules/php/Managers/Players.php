@@ -66,13 +66,17 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
         ]);
     }
 
-    public static function score($scoringFunction, $message) {
+    public static function score($scoringFunction, $message, $limitScore = 20) {
         Game::get()->bga->notify->all("message", $message, []);
-        self::getAll()->forEach(function($player) use ($scoringFunction) {
+        self::getAll()->forEach(function($player) use ($scoringFunction, $limitScore) {
             if (is_callable($scoringFunction)) {
                 $score = $scoringFunction($player);
             } else {
                 $score = $player->{$scoringFunction}();
+            }
+
+            if ($limitScore) {
+                $score = min($score, $limitScore);
             }
             $player->addFame($score);
         });

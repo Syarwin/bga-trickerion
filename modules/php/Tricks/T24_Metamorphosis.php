@@ -35,5 +35,13 @@ class T24_Metamorphosis extends Trick
             "coins" => 4,
             "shards" => 0
         ];
+        $this->scoringDescription = [
+            clienttranslate('Receive 1 additional Fame for every 3 unspent Coins you have (rounded down).')
+        ];
+    }
+
+    public function calculateScore()
+    {
+        return floor($this->getPlayer()->getCoins() / 3);
     }
 }
