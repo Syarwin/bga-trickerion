@@ -231,16 +231,8 @@ class Characters extends CachedPieces
         $allCharacters = self::getAll()
             ->whereNot("location", self::LOCATION_SUPPLY)
             ->forEach(function($character) {
-                $character->setLocation(Character::getCharacterIdleLocation($character->getType()));
+                $character->setLocation($character->getIdleLocation());
             });
-
-        Players::getAll()->forEach(function($player) {
-            if ($player->hasSpecialist(Character::TYPE_ASSISTANT)) {
-                Characters::getFiltered($player->getId(), self::LOCATION_IDLE_PLAYER_BOARD, Character::TYPE_APPRENTICE)
-                    ->first()
-                    ->setLocation(self::LOCATION_IDLE_ASSISTANT_BOARD);
-            }
-        });
 
         Game::get()->bga->notify->all("charactersReturned", clienttranslate('All characters return to respective players boards'), [
             "characters" => $allCharacters->toArray(),

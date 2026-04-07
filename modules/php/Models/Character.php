@@ -86,6 +86,14 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         return Characters::LOCATION_IDLE_PLAYER_BOARD;
     }
 
+    public function getIdleLocation() {
+        if ($this->isOnAssistantBoard()) {
+            return Characters::LOCATION_IDLE_ASSISTANT_BOARD;
+        }
+
+        return self::getCharacterIdleLocation($this->type);
+    }
+
     public static function getSpecialistLocation($type) {
         return [
             self::TYPE_ENGINEER => Characters::LOCATION_IDLE_ENGINEER_BOARD,
