@@ -54,7 +54,7 @@ class OrderComponent extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $availableComponents = MarketRow::getOrderableComponents();
-        $availableOrderSlots = MarketRow::getOrderSlots();
+        $availableOrderSlots = MarketRow::getEmptyOrderSlots();
 
         $args = [
             "availableOrderSlots" => $availableOrderSlots,

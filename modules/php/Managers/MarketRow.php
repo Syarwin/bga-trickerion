@@ -79,7 +79,7 @@ class MarketRow
         return $componentsForQuickOrder;
     }
 
-    public static function getOrderSlots() {
+    public static function getEmptyOrderSlots() {
         $marketRow = Globals::getMarketRow();
         $usedSlots = array_keys($marketRow["orderArea"]);
         $allSlots = [0, 1, 2, 3];
@@ -96,6 +96,38 @@ class MarketRow
             "player_id" => Players::getActiveId(),
             "componentName" => Component::getComponentName($component),
             "slot" => $slot
+        ]);
+    }
+
+    public static function ordersArrive() {
+        $marketRow = Globals::getMarketRow();
+        $orderArea = $marketRow["orderArea"];
+        $marketRow["orderArea"] = [];
+
+        foreach ($orderArea as $slot => $component) {
+            $previouslyAvailableComponent = $marketRow["buyArea"][$slot];
+            $marketRow["buyArea"][$slot] = $component;
+
+            Game::get()->bga->notify->all("componentArrived", clienttranslate('${componentId} replaces ${secondComponentId} in the market row (orders arrive)'), [
+                "componentId" => $component,
+                "secondComponentId" => $previouslyAvailableComponent,
+                
+            ]);
+        }
+
+        Globals::setMarketRow($marketRow);
+
+        return $orderArea;
+    }
+
+    public static function clearQuickOrder() {
+        $marketRow = Globals::getMarketRow();
+        $previousQuickOrder = $marketRow["quickOrder"];
+        $marketRow["quickOrder"] = null;
+        Globals::setMarketRow($marketRow);
+
+        Game::get()->bga->notify->all("marketRowSet", clienttranslate('${componentId} is removed from the quick order'), [
+            "componentId" => $previousQuickOrder
         ]);
     }
 }
