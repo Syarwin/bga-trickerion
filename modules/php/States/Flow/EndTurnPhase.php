@@ -50,6 +50,9 @@ class EndTurnPhase extends GameState
         }
 
         Globals::incCurrentTurn(1);
+        Game::get()->bga->notify->all("newTurn", clienttranslate('Turn ${currentTurn} starts'), [
+            'currentTurn' => Globals::getCurrentTurn(),
+        ]);
 
         return TurnPreparation::class;
     }

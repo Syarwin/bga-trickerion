@@ -70,7 +70,7 @@ class Posters extends CachedPieces
         $posters = self::getInLocation(self::LOCATION_BOARD)
             ->update("location", self::LOCATION_SUPPLY);
         
-        Game::get()->notify->all("postersReturned", clienttranslate('Posters are returned to supply'), [
+        Game::get()->notify->all("postersReturned", clienttranslate('Posters are returned to players'), [
             "posters" => $posters->toArray(),
         ]);
     }
