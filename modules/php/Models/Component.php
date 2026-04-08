@@ -118,7 +118,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     {
         $baseCount = $this->getCount();
 
-        if ($this->getLocation() == Components::LOCATION_MANAGER_BOARD) {
+        if ($this->getLocation() == Components::LOCATION_MANAGER_BOARD && $baseCount > 0) {
             $baseCount++;
         }
 

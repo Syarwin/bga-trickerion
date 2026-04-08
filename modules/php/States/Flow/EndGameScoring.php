@@ -43,9 +43,8 @@ class EndGameScoring extends GameState
             Players::score('scoreSpecialAssignments', clienttranslate("Scoring 2 fame for each special assignment"));
             
             //level 3 tricks
-            Players::score('scoreTricks', clienttranslate("Scoring level 3 trick"), false);
+            Players::score('scoreTricks', clienttranslate("Scoring level 3 tricks"), false);
         }
-
 
         return DummyEnd::class;
     }

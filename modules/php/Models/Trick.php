@@ -5,6 +5,7 @@ namespace Bga\Games\trickerionlegendsofillusion\Models;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
 use Bga\Games\trickerionlegendsofillusion\States\Actions\GetCoins;
@@ -61,6 +62,10 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
+
+    public function getPlayer() {
+        return Players::get($this->getPlayerId());
+    }
 
     public function learnTrick($playerId, $location) {
         $this->setLocation($location);
@@ -228,13 +233,13 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
             return 0;
         }
 
-        $score = $this->calculateScore();
+        $score = min($this->calculateScore(), 20);
         Game::get()->bga->notify->all("message", clienttranslate('${player_name} is scoring ${trick} for ${fame} fame'), [
             "player_id" => $this->getPlayerId(),
             "trick" => $this,
             "fame" => $score
         ]);
-        return min($score, 20);
+        return $score;
     }
 
     public function calculateScore() {
