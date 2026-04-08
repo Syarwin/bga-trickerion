@@ -325,7 +325,7 @@ html {
 
 :root {
   --trickCardScale: 0.7;
-  --performanceCardScale: 0.5;
+  --performanceCardScale: 0.33;
   --assignmentCardScale: 0.5;
   --prophecyScale: 0.5;
   --magicianCardScale: 0.5;
@@ -2427,6 +2427,29 @@ html {
   height: 42px;
   box-shadow: 1px 1px 2px black;
   border-radius: 8px;
+}
+#board-theater #board-theater-inner .performances-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 158px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#board-theater #board-theater-inner .performances-container .performance-slot {
+  width: 112px;
+  height: 174px;
+  flex-shrink: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0px 4px;
+  margin-top: 0px;
+  background: rgba(255, 255, 255, 0.4);
+  margin-top: -6px;
+  padding: 0px;
 }
 
 .trickerion-player-board {

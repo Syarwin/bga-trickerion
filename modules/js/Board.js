@@ -213,6 +213,11 @@ export const board = {
         });
         slotsHTML += '</div>';
 
+        let performancesHTML = '';
+        for (let i = 1; i <= nPlayers; i++) {
+            performancesHTML += `<div class='performance-slot' id="performance-slot-${i}"></div>`;
+        }
+
         $('board-theater').insertAdjacentHTML(
             'beforeend',
             `
@@ -222,6 +227,7 @@ export const board = {
               <div class="slot-theater-no-shard-boost"></div>
               <div class="slot-theater-perform"></div>
               <div class="slot-theater-link-bonus"></div>
+              <div class="performances-container">${performancesHTML}</div>
               ${actionsHTML}
               ${slotsHTML}
             </div>`

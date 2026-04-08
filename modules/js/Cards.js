@@ -1,6 +1,6 @@
 import { formatIcon, formatString } from './format.js';
 import { staticData } from './staticData.js';
-import { registerCustomTooltip } from './framework/utils.js';
+import { attachRegisteredTooltips, registerCustomTooltip } from './framework/utils.js';
 
 export const cards = {
     init: function (gamedatas) {},
@@ -39,6 +39,33 @@ export const cards = {
           <div class="card-bonus">${bonuses}</div>
         </div>
       </div>`;
+    },
+
+    setupPerformanceCards: function (gamedatas) {
+        gamedatas.performances.active.forEach((card) => {
+            this.addPerformanceCard(card);
+        });
+    },
+
+    addPerformanceCard(card, location = null) {
+        if ($('performance-' + card.id)) return;
+        if (location == null) location = this.getPerformanceCardContainer(card);
+
+        $(location).insertAdjacentHTML('beforeend', this.tplPerformanceCard(card));
+        attachRegisteredTooltips();
+    },
+
+    getPerformanceCardContainer(card) {
+        let container = null;
+        if (card.location == 'active') {
+            container = `performance-slot-${card.state}`;
+        }
+
+        if (!$(container)) {
+            console.error('No container found for performance card', card);
+            return $('trickerion-main-wrapper');
+        }
+        return $(container);
     },
 
     ///////////////////////////////////////////////////////////////
