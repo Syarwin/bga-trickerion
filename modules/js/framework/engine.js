@@ -11,7 +11,6 @@ import {
 
 export const openAnytimeActions = (anytimeActions) => () => {
     clearPersistantActionButtonsNode();
-    gamegui.bga.statusBar.removeAllTimedButtons();
     gamegui.setClientState('client_selectAnytimeAction', {
         descriptionmyturn: _('${you} may choose an action to perform'),
         args: { anytimeActions },
