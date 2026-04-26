@@ -1,4 +1,4 @@
-import { updateDescription } from "../framework/engine.js";
+import { updateDescription } from "../engine.js";
 
 export class AnytimeActions {
     constructor(game, bga) {
@@ -10,10 +10,10 @@ export class AnytimeActions {
      * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
      */
     onEnteringState(args, isCurrentPlayerActive) {
-        for (const action of args.availableActions) {
-            this.bga.statusBar.addActionButton(updateDescription(action.description), () => this.bga.actions.performAction("actAnytimeAction", { actionId: action.id }, {color: "gray"}));
+        for (const action of args.anytimeactions) {
+            this.bga.statusBar.addActionButton(updateDescription(action.description, {}), () => this.bga.actions.performAction("actAnytimeAction", { actionId: action.id }), {color: "secondary"});
         }
-        this.bga.statusBar.addActionButton(_("Cancel"), () => this.bga.states.restoreServerGameState(), {color: "red"});
+        this.bga.statusBar.addActionButton(_("Cancel"), () => this.bga.states.restoreServerGameState(), {color: "alert"});
     }
 
     /**

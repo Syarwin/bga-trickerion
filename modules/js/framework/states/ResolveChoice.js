@@ -17,7 +17,7 @@ export class ResolveChoice {
                 const button = this.bga.statusBar.addActionButton(
                     description, 
                     checkIfIrreversible(choice.irreversibleAction, () => this.bga.actions.performAction('actChooseAction', { choiceId: choice.id })),
-                    {color: "gray"});        
+                    {color: "secondary"});        
             });
 
             Object.values(args.allChoices).forEach(choice => {
@@ -29,7 +29,7 @@ export class ResolveChoice {
                 const button = this.bga.statusBar.addActionButton(
                     description, 
                     checkIfIrreversible(choice.irreversibleAction, () => this.bga.actions.performAction('actChooseAction', { choiceId: choice.id })),
-                    {color: "blue"});        
+                    {color: "primary"});        
 
                 button.disabled = true;
             });

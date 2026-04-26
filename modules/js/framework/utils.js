@@ -1,4 +1,5 @@
 export let gamegui = null;
+export let bga = null;
 let gameTitlePanelElement = null;
 let gamePanelElement = null;
 let updatePlayerOrderingCallbacks = [];
@@ -75,8 +76,9 @@ export const getGamePanel = () => {
     return gamePanelElement;
 };
 
-export const initUtils = (ggui) => {
-    gamegui = ggui;
+export const initUtils = (bgaValue) => {
+    bga = bgaValue;
+    gamegui = bga.gameui;
 
     const persistantNode = createDivElement('generalactions-persistant');
     document.getElementById('generalactions').insertAdjacentElement('afterend', persistantNode);
@@ -89,15 +91,15 @@ export const initUtils = (ggui) => {
 };
 
 export const getActivePlayerId = () => {
-    return gamegui.getActivePlayerId();
+    return bga.players.getActivePlayerId();
 };
 
 export const isCurrentPlayerActive = () => {
-    return gamegui.isCurrentPlayerActive();
+    return bga.players.isCurrentPlayerActive();
 };
 
 export const isSpectator = () => {
-    return gamegui.isSpectator;
+    return bga.players.isSpectator;
 };
 
 export const ifActivePlayer = (callback) => {
@@ -151,9 +153,10 @@ export const isCurrentPlayer = (playerId) => {
     return gamegui.player_id == playerId;
 };
 
-export const getRandomId = () => {
-    return Math.random().toString(36).substring(7);
-};
+export const getRandomId = (prefix = null) => {
+    const id = Math.random().toString(36).substring(7);
+    return prefix ? `${prefix}_${id}` : id;
+}
 
 export const toCamelCase = (str) => {
     return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
@@ -224,7 +227,7 @@ export const getRandomNumberBetween = (min, max) => Math.floor(Math.random() * (
 
 export const performAction = function (action, args, params = {}) {
     params = Object.assign({ lock: true, checkAction: true }, params);
-    gamegui.bgaPerformAction(action, args, params);
+    bga.actions.bgaPerformAction(action, args, params);
 };
 
 export const showDialog = (id, title, html, maxWidth, hideCloseIcon = true) => {
@@ -314,18 +317,18 @@ export const arrayGroupBy = (arr, callback) => {
 };
 
 export const setPlayerScore = (playerId, score, animate = true) => {
-    animate && gamegui.bga.playerPanels.getScoreCounter(playerId).toValue(score);
-    !animate && gamegui.bga.playerPanels.getScoreCounter(playerId).setValue(score);
+    animate && bga.playerPanels.getScoreCounter(playerId).toValue(score);
+    !animate && bga.playerPanels.getScoreCounter(playerId).setValue(score);
 };
 
 export const increasePlayerScore = (playerId, delta, animate = true) => {
-    const newScore = gamegui.bga.playerPanels.getScoreCounter(playerId).getValue() + delta;
+    const newScore = bga.playerPanels.getScoreCounter(playerId).getValue() + delta;
 
     setPlayerScore(playerId, newScore, animate);
 };
 
 export const disableScore = (playerId) => {
-    gamegui.bga.playerPanels.getScoreCounter(playerId).disable();
+    bga.playerPanels.getScoreCounter(playerId).disable();
 };
 
 export const orderPlayersWithCurrentPlayerFirst = (original) => {
@@ -341,10 +344,10 @@ export const orderPlayersWithCurrentPlayerFirst = (original) => {
 
 export const addFakeId = (node) => {
     const className = node.className;
-    node.id = `${className}_${(Math.random() + 1).toString(36).substring(7)}`;
-    node.dataset.isFakeId = true;
+    node.id = getRandomId(className);
+    node.dataset["isFakeId"] = "true";
     return node;
-};
+}
 
 export const removeFakeId = (node) => {
     if (node.dataset.isFakeId) {
@@ -352,11 +355,11 @@ export const removeFakeId = (node) => {
         delete node.dataset.isFakeId;
     }
     return node;
-};
+}
 
 export const createAnyElement = (tagName, id, className, data) => {
     const element = document.createElement(tagName);
-    id ? (element.id = id) : (element.id = `${className}_${getRandomId()}`);
+    id ? (element.id = id) : (element.id = getRandomId(className));
     className && (element.className = className);
 
     if (data) {
@@ -412,7 +415,7 @@ export const createElement = (templateHtml) => {
     const newNode = template.content.firstChild;
 
     if (!newNode.id) {
-        newNode.id = `${newNode.className}_${getRandomId()}`;
+        newNode.id = getRandomId(newNode.className);
     }
 
     return newNode;
@@ -439,14 +442,18 @@ export const insertElement = (parent, template, position = 'beforeend') => {
     }
 
     if (!element.id) {
-        element.id = `${element.className}_${getRandomId()}`;
+        element.id = getRandomId(element.className);
     }
 
     return element;
 };
 
 export const confirmationDialog = (message, callback) => {
-    gamegui.confirmationDialog(message, callback);
+    bga.dialogs.confirmation(
+        message
+    ).then((result) => {
+        callback(result);
+    });
 };
 
 export const copySizeBaseProperty = (source, target, property) => {

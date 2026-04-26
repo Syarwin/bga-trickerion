@@ -20,7 +20,7 @@ import { StateProcessor } from './framework/StateProcessor.js';
 import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, debug, initUtils } from './framework/utils.js';
 import { ResolveChoice } from './framework/states/ResolveChoice.js';
 import { overrideGamePrototype } from './framework/overrideGamePrototype.js';
-import { DummyEnd } from './states/DummyEnd.js';
+import { DummyEnd } from './framework/states/DummyEnd.js';
 import { ChooseMagician } from './states/ChooseMagician.js';
 import { LearnTrick } from './states/LearnTrick.js';
 import { PickComponents } from './states/PickComponents.js';
@@ -40,7 +40,7 @@ import { SetDie } from './states/SetDie.js';
 import { BuyComponents } from './states/BuyComponents.js';
 import { OrderComponent } from './states/OrderComponent.js';
 import { QuickOrderComponent } from './states/QuickOrderComponent.js';
-import { AnytimeActions } from './states/AnytimeActions.js';
+import { AnytimeActions } from './framework/states/AnytimeActions.js';
 import { DiscardComponents } from './states/DiscardComponents.js';
 import { DiscardTrick } from './states/DiscardTrick.js';
 import { MoveComponents } from './states/MoveComponents.js';
@@ -49,6 +49,7 @@ import { MoveApprentice } from './states/MoveApprentice.js';
 import { board } from './Board.js';
 import { SetupTrick } from './states/SetupTrick.js';
 import { Reschedule } from './states/Reschedule.js';
+import { showEngine } from './framework/engine.js';
 
 export class Game {
     constructor(bga) {
@@ -58,7 +59,9 @@ export class Game {
         this.bga.states.register('ConfirmTurn', new ConfirmTurn(this, bga));
         this.bga.states.register('ConfirmPartialTurn', new ConfirmTurn(this, bga));
         this.bga.states.register('ResolveChoice', new ResolveChoice(this, bga));
+        this.bga.states.register('client_selectAnytimeAction', new AnytimeActions(this, bga));
         this.bga.states.register('DummyEnd', new DummyEnd(this, bga));
+        
         this.bga.states.register('ChooseMagician', new ChooseMagician(this, bga));
         this.bga.states.register('LearnTrick', new LearnTrick(this, bga));
         this.bga.states.register('PickComponents', new PickComponents(this, bga));
@@ -78,7 +81,6 @@ export class Game {
         this.bga.states.register('BuyComponents', new BuyComponents(this, bga));
         this.bga.states.register('OrderComponent', new OrderComponent(this, bga));
         this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
-        this.bga.states.register('client_selectAnytimeAction', new AnytimeActions(this, bga));
         this.bga.states.register('DiscardComponents', new DiscardComponents(this, bga));
         this.bga.states.register('DiscardTrick', new DiscardTrick(this, bga));
         this.bga.states.register('MoveTrick', new MoveTrick(this, bga));
@@ -88,7 +90,7 @@ export class Game {
         this.bga.states.register('Reschedule', new Reschedule(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
-        initUtils(this.bga.gameui);
+        initUtils(this.bga);
     }
 
     setup(gamedatas) {
@@ -137,7 +139,6 @@ export class Game {
         console.log('notifications subscriptions setup');
 
         this.bga.notifications.setupPromiseNotifications({
-            prefix: 'notif_',
             handlers: [this, ...this.bga.states.getStateClasses()],
             onStart: (notifName, msg, args) => {
                 $('pagemaintitletext').innerHTML = msg;
@@ -162,5 +163,9 @@ export class Game {
 
     async notif_clearTurn(args) {
         this.bga.gameui.cancelLogs(args.notifIds);
+    }
+
+    async notif_engineShown(args) {
+        showEngine(args.engine);
     }
 }

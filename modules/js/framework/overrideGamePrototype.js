@@ -1,5 +1,5 @@
 import { logOverride, onLogAdded } from '../format.js';
-import { getRandomId } from './utils.js';
+import { getRandomId, updatePlayerOrdering } from './utils.js';
 
 export const overrideGamePrototype = function (gameui) {
     gameui._notif_uid_to_log_id = {};
@@ -32,6 +32,11 @@ export const overrideGamePrototype = function (gameui) {
         return gameui.constructor.prototype.format_string_recursive.call(this, log, args);
     };
 
+    gameui.updatePlayerOrdering = function() {
+        gameui.constructor.prototype.updatePlayerOrdering.call(this);
+        updatePlayerOrdering();
+    }
+
     /*
      * [Undocumented] Called by BGA framework on any notification message
      * Handle cancelling log messages for restart turn
@@ -55,7 +60,7 @@ export const overrideGamePrototype = function (gameui) {
         const button = gameui.statusBar.constructor.prototype.addActionButton.call(this, label, callback, params);
 
         if (!button.id) {
-            button.id = `status-bar-button-${getRandomId()}`;
+            button.id = getRandomId("status-bar-button");
         }
 
         return button;

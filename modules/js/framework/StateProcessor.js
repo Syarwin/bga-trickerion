@@ -1,4 +1,4 @@
-import { getRestartActionButtonsNode } from "./utils.js";
+import { getRestartActionButtonsNode, isCurrentPlayerActive } from "./utils.js";
 
 export class StateProcessor {
     constructor(game, bga) {
@@ -46,11 +46,11 @@ export class StateProcessor {
 
         if (this.bga.gameui.gamedatas.bgaEnvironment == "studio") {
             let button = this.bga.statusBar.addAttachedActionButton(getRestartActionButtonsNode(), _('Show Engine'), () => {
-                this.bga.performAction("actShowEngine", { previous: false}, { checkAction: false });
+                this.bga.actions.performAction("actShowEngine", { previous: false}, { checkAction: false });
             });
             button.style.setProperty('float', 'right');
             button = this.bga.statusBar.addAttachedActionButton(getRestartActionButtonsNode(), _('Show Previous Engine'), () => {
-                this.bga.performAction("actShowEngine", { previous: true}, { checkAction: false });
+                this.bga.actions.performAction("actShowEngine", { previous: true}, { checkAction: false });
             });
             button.style.setProperty('float', 'right');
         }
@@ -62,11 +62,6 @@ export class StateProcessor {
             currentState = this.bga.gameui.gamedatas.gamestate.private_state;
         }
 
-        if (save) {
-            currentState.descriptionmyturngeneric = currentState.descriptionmyturn;
-            currentState.descriptiongeneric = currentState.description;
-        }
-
         if (customStateDescription.descriptionMyTurn) {
             currentState.descriptionmyturn = customStateDescription.descriptionMyTurn;
         }
@@ -75,14 +70,14 @@ export class StateProcessor {
             currentState.description = customStateDescription.description;
         }
 
-        this.bga.gameui.updatePageTitle(currentState);
+        this.bga.statusBar.setTitle(isCurrentPlayerActive() ? currentState.descriptionmyturn : currentState.description);
     }
 
-    openAnytimeActions(actions) {
+    openAnytimeActions(anytimeActions) {
         return () => {
             this.bga.states.setClientState("client_selectAnytimeAction", {
                 descriptionmyturn: _("${you} may choose an action to perform"),
-                args: {availableActions: actions }
+                args: { anytimeActions }
             });
         }
     }
