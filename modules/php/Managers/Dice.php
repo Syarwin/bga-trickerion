@@ -41,7 +41,7 @@ class Dice
         ];
         Globals::setDice($dice);
 
-        Game::get()->bga->notify->all("rollDice", clienttranslate('Dice rolled: ${dice}'), [
+        Game::get()->bga->notify->all("diceRolled", clienttranslate('Dice rolled: ${dice}'), [
             "dice" => $dice
         ]);
     }
@@ -54,7 +54,7 @@ class Dice
                 $dice[$dieType][$dieIndex] = self::NOT_AVAILABLE;
                 Globals::setDice($dice);
 
-                Game::get()->bga->notify->all("dieUnavailable", clienttranslate('${player_name} has turned ${dieFace} to "X"'), [
+                Game::get()->bga->notify->all("dieMadeUnavailable", clienttranslate('${player_name} has turned ${dieFace} to "X"'), [
                     "player_id" => Players::getActiveId(),
                     "dieFace" => $dieFace,
                     "dieId" => $dieIndex,
@@ -143,7 +143,7 @@ class Dice
                 self::NOT_AVAILABLE,
                 Character::TYPE_ASSISTANT,
                 Character::TYPE_MANAGER,
-                Character::TYPE_ASSISTANT
+                Character::TYPE_ENGINEER
             ];
         } else {
             return [

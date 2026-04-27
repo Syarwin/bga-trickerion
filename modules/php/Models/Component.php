@@ -107,7 +107,7 @@ class Component extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             ? clienttranslate('${player_name} moves <component>to the manager board')
             : clienttranslate('${player_name} moves <component>to the manager board, replacing ${secondComponent}');
 
-        Game::get()->bga->notify->all("trickPrepared", $message, [
+        Game::get()->bga->notify->all("componentMoved", $message, [
             "player_id" => $this->getPlayerId(),
             "component" => $this,
             "secondComponent" => $toReplaceComponentId === null ? null : $toReplaceComponent

@@ -132,7 +132,7 @@ class Performances extends CachedPieces
             $topAvailablePerformance->setLocation(self::LOCATION_BOX);
             $topAvailablePerformance->setState(0);
 
-            Game::get()->bga->notify->all("message", clienttranslate('${performance} is removed from the game and all trick markers still on it were returned to player supplies'), [
+            Game::get()->bga->notify->all("performanceRemoved", clienttranslate('${performance} is removed from the game and all trick markers still on it were returned to player supplies'), [
                 "performance" => $topAvailablePerformance
             ]);
         }
@@ -145,7 +145,7 @@ class Performances extends CachedPieces
         ]);
 
         $newPerformance = Performances::pickOneForLocation(self::LOCATION_DECK, self::LOCATION_ACTIVE, 1);
-        Game::get()->bga->notify->all("message", clienttranslate('New performance is revealed: ${performance}'), [
+        Game::get()->bga->notify->all("performanceRevealed", clienttranslate('New performance is revealed: ${performance}'), [
             "performance" => $newPerformance
         ]);
     }

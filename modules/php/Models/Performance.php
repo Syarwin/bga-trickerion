@@ -29,7 +29,7 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
     protected $attributes = [
         'id' => ['performance_id', 'int'],
         'type' => ['performance_type', "string"],
-        'location' => 'performance_location',
+        'location' => ['performance_location', "string"],
         'state' => ['performance_state', 'int'],
     ];
 
@@ -97,18 +97,20 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
                     "player_id" => $playerId,
                     "performanceId" => $this->getId(),
                     "slotId" => $slotId,
-                    "direction" => $direction
+                    "direction" => $direction,
+                    "shardMatched" => false
                 ]);
                 $rewardActions[] = $this->getTrickInSlot($slotId)->getLinkRewardActions();
                 
                 if ($link["shard"]) {
                     $otherPlayerId = $this->getTrickMarkerInSlot($this->getLinkedSlotId($slotId, $direction))->getPlayerId();
-                    Game::get()->bga->notify->all("linkWithShardMatched", clienttranslate('There is a shard in created link so both ${player_name} and ${player_name2} will get rewards'), [
+                    Game::get()->bga->notify->all("linkMatched", clienttranslate('There is a shard in created link so both ${player_name} and ${player_name2} will get rewards'), [
                         "player_id" => $playerId,
                         "player_id2" => $otherPlayerId,
                         "performanceId" => $this->getId(),
                         "slotId" => $slotId,
-                        "direction" => $direction
+                        "direction" => $direction,
+                        "shardMatched" => true
                     ]);
 
                     $rewardActions[] = [
@@ -373,7 +375,7 @@ class Performance extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\D
         }
 
         if (!$playersHasCharactersInTheater && $performerId) {
-            return self::getPerformanceModifier($performerId);
+            return self::getPerformanceModifier($playerId, $performerId);
         }
 
         return null;

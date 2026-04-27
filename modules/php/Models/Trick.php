@@ -36,7 +36,7 @@ class Trick extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mode
     protected $attributes = [
         'id' => ['trick_id', 'int'],
         'type' => ['trick_type', "string"],
-        'location' => 'trick_location',
+        'location' => ['trick_location', "string"],
         'state' => ['trick_state', 'int'],
         'playerId' => ['player_id', 'int'],
         'suit' => ['trick_suit', 'string'],

@@ -50,19 +50,18 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
     }
 
     public static function adjustInitiative() {
+        $initiative = 1;
         $players = self::getAll()
             ->orderBy("initiative", "ASC")
             ->orderBy("score", "ASC")
-            ->toArray();
-
-        $initiative = 1;
-        foreach ($players as $player) {
-            $player->setInitiative($initiative);
-            $initiative += 1;
-        }
+            ->forEach(function($player) use (&$initiative) {
+                $player->setInitiative($initiative);
+                $initiative += 1;
+            });
 
         Game::get()->bga->notify->all("initiativeAdjusted", clienttranslate('New initiative order: ${players_names}'), [
             "players" => $players,
+            "newInitiatives" => $players->pluck("initiative")->toAssoc()
         ]);
     }
 

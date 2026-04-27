@@ -64,6 +64,7 @@ class DiscardComponents extends ActionStateWithRevert
 
         $this->notify->all("componentDiscarded", clienttranslate('${player_name} discards all ${componentName}'), [
             "player_id" => $activePlayerId,
+            "component" => $component,
             "componentName" => Component::getComponentName($component->getType())
         ]);
 

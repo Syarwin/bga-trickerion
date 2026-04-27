@@ -48,10 +48,4 @@ class Poster extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Mod
     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
     */    
-
-    const TYPE_MAGICIAN = 'magician';
-    const TYPE_ENGINEER = 'engineer';
-    const TYPE_MANAGER = 'manager';
-    const TYPE_ASSISTANT = 'assistant';
-    const TYPE_APPRENTICE = 'apprentice';
 }

@@ -40,7 +40,7 @@ function extractManualData($fieldName, $managerName, $dataList, $nameField)
     file_put_contents(FILENAME, "  },\n", FILE_APPEND);
 }
 
-const FILENAME = '../modules/js/staticData.js';
+const FILENAME = '../src/ts/staticData.ts';
 file_put_contents(FILENAME, "export const staticData = {\n");
 extractData('assignments', 'Assignments', 'Assignments', 'assignmentTypes', 'getAssignmentInstance');
 extractData('magicians', 'Magicians', 'Magicians', 'magicianTypes', 'getMagicianInstance');

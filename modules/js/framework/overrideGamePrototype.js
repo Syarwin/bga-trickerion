@@ -75,16 +75,9 @@ export const overrideGamePrototype = function (gameui) {
     dojo.connect(gameui.notifqueue, 'addToLog', () => {
         const notif = gameui._last_notif;
 
-        gameui.checkLogCancel(notif == null ? null : notif.msg.uid);
         addLogClass(notif);
         //addTooltipsToLog(gameui.getNotificationLogNode(notif), notif);
     });
-
-    gameui.checkLogCancel = function (notifId) {
-        if (this.gamedatas.canceledNotifIds != null && this.gamedatas.canceledNotifIds.includes(notifId)) {
-            this.cancelLogs([notifId]);
-        }
-    };
 
     gameui.cancelLogs = function (notifIds) {
         notifIds.forEach((uid) => {

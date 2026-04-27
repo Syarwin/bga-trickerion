@@ -20,7 +20,7 @@ class MarketRow
         $marketRow["buyArea"] = $components;
         Globals::setMarketRow($marketRow);
 
-        Game::get()->bga->notify->all("marketRowSet", clienttranslate('New components available in the market row: ${components}'), [
+        Game::get()->bga->notify->all("buyAreaSet", clienttranslate('New components available in the market row: ${components}'), [
             "components" => $components
         ]);
     }
@@ -35,9 +35,10 @@ class MarketRow
         $marketRow["quickOrder"] = $component;
         Globals::setMarketRow($marketRow);
 
-        Game::get()->bga->notify->all("marketRowSet", clienttranslate('${player_name} made a new component available through the quick order: ${componentName}'), [
+        Game::get()->bga->notify->all("quickOrderSet", clienttranslate('${player_name} made a new component available through the quick order: ${componentName}'), [
             "player_id" => Players::getActiveId(),
-            "componentName" => Component::getComponentName($component)
+            "componentName" => Component::getComponentName($component),
+            "component" => $component
         ]);
     }
 
@@ -95,7 +96,8 @@ class MarketRow
         Game::get()->bga->notify->all("componentOrdered", clienttranslate('${player_name} ordered ${componentName}'), [
             "player_id" => Players::getActiveId(),
             "componentName" => Component::getComponentName($component),
-            "slot" => $slot
+            "slot" => $slot,
+            "component" => $component
         ]);
     }
 
@@ -111,6 +113,7 @@ class MarketRow
             Game::get()->bga->notify->all("componentArrived", clienttranslate('${componentId} replaces ${secondComponentId} in the market row (orders arrive)'), [
                 "componentId" => $component,
                 "secondComponentId" => $previouslyAvailableComponent,
+                "slot" => $slot
                 
             ]);
         }
@@ -126,7 +129,7 @@ class MarketRow
         $marketRow["quickOrder"] = null;
         Globals::setMarketRow($marketRow);
 
-        Game::get()->bga->notify->all("marketRowSet", clienttranslate('${componentId} is removed from the quick order'), [
+        Game::get()->bga->notify->all("quickOrderCleared", clienttranslate('${componentId} is removed from the quick order'), [
             "componentId" => $previousQuickOrder
         ]);
     }
