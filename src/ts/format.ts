@@ -68,36 +68,36 @@ export const formatString = function (str: string) {
 };
 
 export const logOverride = {
-    magician: (args) => {
+    magician: (args: { magician: Magician }) => {
         return args.magician.type;
     },
-    trick: (args) => {
+    trick: (args: { trick: Trick }) => {
         return args.trick.type;
     },
-    previousTrick: (args) => {
+    previousTrick: (args: { previousTrick?: Trick }) => {
         return args.previousTrick?.type;
     },
-    character: (args) => {
+    character: (args: { character: Character }) => {
         return args.character.type;
     },
-    component: (args) => {
+    component: (args: { component: Component }) => {
         return args.component.type;
     },
-    secondComponent: (args) => {
+    secondComponent: (args: { secondComponent?: Component }) => {
         return args.secondComponent?.type;
     },
-    dice: (args) => {
+    dice: (args: { dice: Dice }) => {
         const allDice = [...args.dice.trick, ...args.dice.character, ...args.dice.money];
 
         return allDice.join(', ');
     },
-    performance: (args) => {
+    performance: (args: { performance: Performance }) => {
         return args.performance.type;
     },
-    prophecy: (args) => {
+    prophecy: (args: { prophecy: Prophecy }) => {
         return args.prophecy.type;
     },
-    assignments: (args) => {
+    assignments: (args: { assignments: Assignment[] }) => {
         return args.assignments.map((a) => a.type).join(', ');
     },
 };
