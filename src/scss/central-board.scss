@@ -1,7 +1,8 @@
-@import "_slots.generated";
+@use "_slots.generated" as _slots;
+@use "sass:math";
 
-$boardWidth: 4096px / 3;
-$boardHeight: 2887px / 3;
+$boardWidth: math.div(4096px, 3);
+$boardHeight: math.div(2887px, 3);
 #trickerion-main-wrapper {
     position: relative;
 
@@ -357,7 +358,7 @@ $marketHeight: 365px;
             &#market-bargain {
                 top: 165px;
                 left: 153px;
-                @include slot-market-action-space-extended;
+                @include _slots.slot-market-action-space-extended;
                 width: 73px;
                 border-left: none;
                 border-bottom-left-radius: 0;

@@ -1,3 +1,7 @@
+@use "variables.scss";
+@use "sass:list";
+@use "sass:math";
+
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
@@ -60,11 +64,11 @@
         position: absolute;
     }
 
-    @each $type in $prophecyTypes {
-        $i: index($prophecyTypes, $type) - 1;
+    @each $type in variables.$prophecyTypes {
+        $i: list.index(variables.$prophecyTypes, $type) - 1;
         &[data-type="#{$type}"] .prophecy-inner {
-            background-position-x: ($i % 6) * 100% / 5;
-            background-position-y: (($i - ($i % 6)) / 6) * 100% / 4;
+            background-position-x: math.div(($i % 6) * 100%, 5);
+            background-position-y: math.div(($i - math.div(($i % 6), 6)) * 100%, 4);
         }
     }
 }

@@ -1,3 +1,7 @@
+@use "variables.scss";
+@use "sass:math";
+@use "sass:list";
+
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
@@ -126,11 +130,11 @@
         }
     }
 
-    @each $type in $performanceCardTypes {
-        $i: index($performanceCardTypes, $type) - 1;
+    @each $type in variables.$performanceCardTypes {
+        $i: list.index(variables.$performanceCardTypes, $type) - 1;
         &[data-type="#{$type}"] .performance-card-inner {
-            background-position-x: ($i % 7) * 100% / 6;
-            background-position-y: (($i - ($i % 7)) / 7) * 100% / 4;
+            background-position-x: math.div(($i % 7) * 100%, 6);
+            background-position-y: math.div(($i - math.div(($i % 7), 7)) * 100%, 4);
         }
     }
 }

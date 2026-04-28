@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `character` (
   `character_state` int(10),
   `player_id` int(10),
   `character_type` varchar(32) NOT NULL,
-  `character_on_assistant_board` boolean NOT NULL DEFAULT 0,
+  `character_on_assistant_board` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`character_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

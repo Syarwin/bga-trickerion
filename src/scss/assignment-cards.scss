@@ -1,3 +1,7 @@
+@use "variables.scss";
+@use "sass:math";
+@use "sass:list";
+
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
@@ -83,11 +87,11 @@
         }
     }
 
-    @each $type in $assignmentCardTypes {
-        $i: index($assignmentCardTypes, $type) - 1;
+    @each $type in variables.$assignmentCardTypes {
+        $i: list.index(variables.$assignmentCardTypes, $type) - 1;
         &[data-asset="#{$type}"] .assignment-card-inner {
-            background-position-x: ($i % 5) * 100% / 4;
-            background-position-y: (($i - ($i % 5)) / 5) * 100% / 3;
+            background-position-x: math.div(($i % 5) * 100%, 4);
+            background-position-y: math.div((($i - math.div(($i % 5), 5)) * 100%), 3);
         }
     }
 }

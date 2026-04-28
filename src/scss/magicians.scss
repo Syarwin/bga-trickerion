@@ -1,3 +1,7 @@
+@use "variables.scss";
+@use "sass:list";
+@use "sass:math";
+
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
@@ -74,11 +78,11 @@
         }
     }
 
-    @each $type in $magicianTypes {
-        $i: index($magicianTypes, $type) - 1;
+    @each $type in variables.$magicianTypes {
+        $i: list.index(variables.$magicianTypes, $type) - 1;
         &[data-type="#{$type}"] .magician-card-inner {
-            background-position-x: ($i % 6) * 100% / 5;
-            background-position-y: (($i - ($i % 6)) / 6) * 100% / 2;
+            background-position-x: math.div(($i % 6) * 100%, 5);
+            background-position-y: math.div(($i - math.div(($i % 6), 6)) * 100%, 2);
         }
     }
 }
@@ -101,11 +105,11 @@
         position: absolute;
     }
 
-    @each $type in $magicianPostersTypes {
-        $i: index($magicianPostersTypes, $type) - 1;
+    @each $type in variables.$magicianPostersTypes {
+        $i: list.index(variables.$magicianPostersTypes, $type) - 1;
         &[data-type="#{$type}"] .magician-poster-inner {
-            background-position-x: ($i % 4) * 100% / 3;
-            background-position-y: (($i - ($i % 4)) / 4) * 100%;
+            background-position-x: math.div(($i % 4) * 100%, 3);
+            background-position-y: math.div(($i - math.div(($i % 4), 4)) * 100%, 1);
         }
     }
 }

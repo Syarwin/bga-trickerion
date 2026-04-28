@@ -13,26 +13,26 @@
  *
  */
 
+@use "nouislider";
+@use "variables";
+@use "icons";
+@use "meeples";
+@use "central-board";
+@use "player-board";
+@use "player-panel";
+@use "performance-cards";
+@use "assignment-cards";
+@use "tricks";
+@use "prophecies";
+@use "magicians";
+@use "modals";
+@use "log";
+
 html {
     background-image: url("img/background.jpg");
     // background-size: cover;
     // background-attachment: fixed;
 }
-
-@import "modules/scss/nouislider";
-@import "modules/scss/variables";
-@import "modules/scss/icons";
-@import "modules/scss/meeples";
-@import "modules/scss/central-board";
-@import "modules/scss/player-board";
-@import "modules/scss/player-panel";
-@import "modules/scss/performance-cards";
-@import "modules/scss/assignment-cards";
-@import "modules/scss/tricks";
-@import "modules/scss/prophecies";
-@import "modules/scss/magicians";
-@import "modules/scss/modals";
-@import "modules/scss/log";
 
 .notransition {
     -webkit-transition: none !important;

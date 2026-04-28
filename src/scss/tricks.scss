@@ -1,3 +1,7 @@
+@use "variables.scss";
+@use "sass:list";
+@use "sass:math";
+
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
@@ -175,11 +179,11 @@
         }
     }
 
-    @each $type in $trickTypes {
-        $i: index($trickTypes, $type) - 1;
+    @each $type in variables.$trickTypes {
+        $i: list.index(variables.$trickTypes, $type) - 1;
         &[data-type="#{$type}"] .trick-card-inner {
-            background-position-x: ($i % 8) * 100% / 7;
-            background-position-y: (($i - ($i % 8)) / 8) * 100% / 5;
+            background-position-x: math.div(($i % 8) * 100%, 7);
+            background-position-y: math.div(($i - math.div(($i % 8), 8)) * 100%, 5);
         }
     }
 }
