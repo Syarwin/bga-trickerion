@@ -3,3 +3,4 @@ sftp.json
 .prettierrc
 .sass-cache/
 sync-css.sh
+node_modules
