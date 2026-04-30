@@ -4,7 +4,6 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\GameFramework\NotificationMessage;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
-use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
