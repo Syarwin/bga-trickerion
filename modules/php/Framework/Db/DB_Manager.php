@@ -1,8 +1,7 @@
 <?php
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
-use \Bga\Games\trickerionlegendsofillusion\Game;
 
-class DB_Manager extends \APP_DbObject
+class DB_Manager extends WithGame
 {
   protected static $table = null;
   protected static $primary = null;
@@ -22,7 +21,7 @@ class DB_Manager extends \APP_DbObject
     }
 
     $log = null;
-    if (static::$log ?? Game::get()->getGameStateValue('logging') == 1) {
+    if (static::$log ?? self::$game->getGameStateValue('logging') == 1) {
       $log = new Log(static::$table, static::$primary);
     }
     return new QueryBuilder(

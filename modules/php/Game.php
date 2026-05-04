@@ -22,6 +22,7 @@ namespace Bga\Games\trickerionlegendsofillusion;
 
 use Bga\Games\trickerionlegendsofillusion\Managers\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\WithGame;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Engine;
 use Bga\Games\trickerionlegendsofillusion\Framework\TurnOrderManager;
 use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
@@ -62,6 +63,7 @@ class Game extends \Bga\GameFramework\Table
         ]);
 
         self::$instance = $this;
+        WithGame::setGame($this);
 
         Engine::boot();
         Log::setResetCallback(function () {

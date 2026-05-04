@@ -1,7 +1,9 @@
 <?php
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
-class QueryBuilder extends \APP_DbObject
+use Bga\GameFramework\UserException;
+
+class QueryBuilder extends WithGame
 {
   private $table,
     $cast,
@@ -45,7 +47,7 @@ class QueryBuilder extends \APP_DbObject
   public function insert($fields = [], $overwriteIfExists = false)
   {
     $this->multipleInsert(array_keys($fields), $overwriteIfExists)->values([array_values($fields)]);
-    return self::DbGetLastId();
+    return self::$game::DbGetLastId();
   }
 
   /*
@@ -65,7 +67,7 @@ class QueryBuilder extends \APP_DbObject
     // Fetch starting index if not provided
     $startingId = null;
     if ($this->insertPrimaryIndex === false) {
-      $startingId = (int) self::getUniqueValueFromDB(
+      $startingId = (int) self::$game::getUniqueValueFromDB(
         "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$this->table}';"
       );
     }
@@ -75,14 +77,14 @@ class QueryBuilder extends \APP_DbObject
     foreach ($rows as $row) {
       $rowValues = [];
       foreach ($row as $val) {
-        $rowValues[] = $val === null ? 'NULL' : "'" . mysql_escape_string($val) . "'";
+        $rowValues[] = $val === null ? 'NULL' : "'" . self::$game::escapeStringForDB($val) . "'";
       }
       $vals[] = '(' . implode(',', $rowValues) . ')';
       $ids[] = $rom[$this->primary] ?? ($this->insertPrimaryIndex === false ? $startingId++ : $row[$this->insertPrimaryIndex]);
     }
 
     $this->sql .= implode(',', $vals);
-    self::DbQuery($this->sql);
+    self::$game::DbQuery($this->sql);
     if ($this->log) {
       Log::addEntry([
         'table' => $this->table,
@@ -164,7 +166,7 @@ class QueryBuilder extends \APP_DbObject
       }
 
       $this->assembleQueryClauses();
-      $objList = self::getObjectListFromDB($this->sql);
+      $objList = self::$game::getObjectListFromDB($this->sql);
       Log::addEntry([
         'table' => $this->table,
         'primary' => $this->primary,
@@ -175,8 +177,8 @@ class QueryBuilder extends \APP_DbObject
     }
 
     $this->assembleQueryClauses();
-    self::DbQuery($this->sql);
-    return self::DbAffectedRow();
+    self::$game::DbQuery($this->sql);
+    return self::$game::DbAffectedRow();
   }
 
   /*********************************
@@ -213,9 +215,9 @@ class QueryBuilder extends \APP_DbObject
     $this->assembleQueryClauses();
 
     if ($debug) {
-      throw new \feException($this->sql);
+      throw new UserException($this->sql);
     }
-    $res = self::getObjectListFromDB($this->sql);
+    $res = self::$game::getObjectListFromDB($this->sql);
     $oRes = [];
     foreach ($res as $row) {
       $id = $row['result_associative_index'];
@@ -249,13 +251,13 @@ class QueryBuilder extends \APP_DbObject
   public function func($func, $field = null)
   {
     if (!in_array($func, ['COUNT', 'MAX', 'MIN'])) {
-      throw new \BgaVisibleSystemException('QueryBuilder: func is called with unknown function');
+      throw new UserException('QueryBuilder: func is called with unknown function');
     }
 
     $field = is_null($field) ? '*' : "`$field`";
     $this->sql = "SELECT $func($field) FROM `$this->table`";
     $this->assembleQueryClauses();
-    return (int) self::getUniqueValueFromDB($this->sql);
+    return (int) self::$game::getUniqueValueFromDB($this->sql);
   }
 
   public function count($field = null)
@@ -288,7 +290,7 @@ class QueryBuilder extends \APP_DbObject
 
   private function protect($arg)
   {
-    return is_string($arg) ? "'" . mysql_escape_string($arg) . "'" : $arg;
+    return is_string($arg) ? "'" . self::$game::escapeStringForDB($arg) . "'" : $arg;
   }
 
   protected function computeWhereClause($arg)
