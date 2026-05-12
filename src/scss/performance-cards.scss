@@ -134,7 +134,7 @@
         $i: list.index(variables.$performanceCardTypes, $type) - 1;
         &[data-type="#{$type}"] .performance-card-inner {
             background-position-x: math.div(($i % 7) * 100%, 6);
-            background-position-y: math.div(($i - math.div(($i % 7), 7)) * 100%, 4);
+            background-position-y: math.div((math.div($i - ($i % 7), 7)) * 100%, 4);
         }
     }
 }

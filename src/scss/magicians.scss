@@ -82,7 +82,7 @@
         $i: list.index(variables.$magicianTypes, $type) - 1;
         &[data-type="#{$type}"] .magician-card-inner {
             background-position-x: math.div(($i % 6) * 100%, 5);
-            background-position-y: math.div(($i - math.div(($i % 6), 6)) * 100%, 2);
+            background-position-y: math.div(math.div($i - ($i % 6), 6) * 100%, 2);
         }
     }
 }
@@ -109,7 +109,7 @@
         $i: list.index(variables.$magicianPostersTypes, $type) - 1;
         &[data-type="#{$type}"] .magician-poster-inner {
             background-position-x: math.div(($i % 4) * 100%, 3);
-            background-position-y: math.div(($i - math.div(($i % 4), 4)) * 100%, 1);
+            background-position-y: math.div(math.div($i - ($i % 4), 4) * 100%, 1);
         }
     }
 }

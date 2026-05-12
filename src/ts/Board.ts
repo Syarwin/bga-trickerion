@@ -8,6 +8,7 @@ export const board = {
             'beforeend',
             `
 <div id="trickerion-main-wrapper">
+  <div id="trickerion-pending"></div>
   <div id="trickerion-main-container">
     <div id="trickerion-board-wrapper">
       <div id="trickerion-board">

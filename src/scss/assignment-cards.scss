@@ -91,7 +91,7 @@
         $i: list.index(variables.$assignmentCardTypes, $type) - 1;
         &[data-asset="#{$type}"] .assignment-card-inner {
             background-position-x: math.div(($i % 5) * 100%, 4);
-            background-position-y: math.div((($i - math.div(($i % 5), 5)) * 100%), 3);
+            background-position-y: math.div(((math.div($i - ($i % 5), 5)) * 100%), 3);
         }
     }
 }

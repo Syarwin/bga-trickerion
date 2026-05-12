@@ -6,6 +6,19 @@ $boardHeight: math.div(2887px, 3);
 #trickerion-main-wrapper {
     position: relative;
 
+    #trickerion-pending {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        &:not(:empty) {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid black;
+            padding: 10px;
+            border-radius: 7px;
+            column-gap: 7px;
+        }
+    }
+
     #trickerion-main-container {
         position: relative;
         display: flex;

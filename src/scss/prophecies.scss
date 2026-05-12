@@ -68,7 +68,7 @@
         $i: list.index(variables.$prophecyTypes, $type) - 1;
         &[data-type="#{$type}"] .prophecy-inner {
             background-position-x: math.div(($i % 6) * 100%, 5);
-            background-position-y: math.div(($i - math.div(($i % 6), 6)) * 100%, 4);
+            background-position-y: math.div((math.div($i - ($i % 6), 6)) * 100%, 4);
         }
     }
 }
