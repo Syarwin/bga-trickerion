@@ -3,7 +3,6 @@ namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 use Bga\GameFramework\VisibleSystemException;
 use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
-use Bga\Games\trickerionlegendsofillusion\Game;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -17,7 +16,7 @@ use Bga\Games\trickerionlegendsofillusion\Game;
  *  `affected` JSON,
  */
 
-class Log extends \APP_DbObject
+class Log extends WithGame
 {
   private static $resetCallback = null;
   public static function setResetCallback($callback) {
@@ -26,12 +25,12 @@ class Log extends \APP_DbObject
 
   public static function enable()
   {
-    Game::get()->setGameStateValue('logging', 1);
+    self::$game->setGameStateValue('logging', 1);
   }
 
   public static function disable()
   {
-    Game::get()->setGameStateValue('logging', 0);
+    self::$game->setGameStateValue('logging', 0);
   }
 
   /**
@@ -49,7 +48,7 @@ class Log extends \APP_DbObject
       $entry['primary'] = '';
     }
 
-    $entry['move_id'] = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
+    $entry['move_id'] = self::$game::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
     $query = new QueryBuilder('log', null, 'id');
     return $query->insert($entry);
   }
@@ -201,7 +200,7 @@ class Log extends \APP_DbObject
     if (!empty($moveIds)) {
       $packets = $query->whereIn('gamelog_move_id', $moveIds)->get();
       $notifIds = self::extractNotifIds($packets);
-      Game::get()->bga->notify->all('clearTurn', clienttranslate('${player_name} restarts their turn'), [
+      self::$game->bga->notify->all('clearTurn', clienttranslate('${player_name} restarts their turn'), [
           'player' => Players::getCurrent(),
           'notifIds' => $notifIds,
       ]);
@@ -214,14 +213,14 @@ class Log extends \APP_DbObject
     // Notify
     Players::getAll()
       ->forEach(function ($player) {
-          $data = Game::get()->getAllDatas($player->getId());
-          Game::get()->bga->notify->player($player->getId(), 'refreshUI', '', [
+          $data = self::$game->getAllDatas($player->getId());
+          self::$game->bga->notify->player($player->getId(), 'refreshUI', '', [
               'data' => $data,
           ]);
       });
  
     // Force notif flush to be able to delete "restart turn" notif
-    Game::get()->sendNotifications();
+    self::$game->sendNotifications();
     if (!empty($moveIds)) {
       // Delete notifications
       $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');

@@ -62,7 +62,7 @@ class Performance extends ActionStateWithRevert
         if (!in_array($performance, $args["availablePerformances"])) {
             throw new UserException(clienttranslate("This performance is not available"));
         }
-        $this->bga->notify->all("message", clienttranslate('${player_name} chooses performance ${performance}'), [
+        $this->bga->notify->all("performanceChosen", clienttranslate('${player_name} chooses performance ${performance}'), [
             "player_id" => $activePlayerId,
             "performance" => $performance,
         ]);

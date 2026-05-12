@@ -1,0 +1,39 @@
+import { Game } from "../Game";
+
+export class Performance {
+    game: Game;
+    bga: ExtendedBga;
+    
+    constructor(game: Game, bga: ExtendedBga) {
+        this.game = game;
+        this.bga = bga;
+    }
+
+    /**
+     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
+     */
+    onEnteringState(args: PerformanceArgs, isCurrentPlayerActive: boolean) {
+        if (isCurrentPlayerActive) {
+            for (const performance of args.availablePerformances) {
+                this.bga.statusBar.addActionButton(performance.type, () => this.bga.actions.performAction("actSelectPerformance", { performanceId: performance.id }));
+            }
+        }
+    }
+
+    /**
+     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
+     */
+    onLeavingState(args: PerformanceArgs, isCurrentPlayerActive: boolean) {
+    }
+
+    /**
+     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
+     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
+     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
+     */
+    onPlayerActivationChange(args: PerformanceArgs, isCurrentPlayerActive: boolean) {
+    }
+
+    async notif_performanceChosen(args: PerformanceChosenArgs) {
+    }
+}

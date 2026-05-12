@@ -1,0 +1,888 @@
+@use "_slots.generated" as _slots;
+@use "sass:math";
+
+$boardWidth: math.div(4096px, 3);
+$boardHeight: math.div(2887px, 3);
+#trickerion-main-wrapper {
+    position: relative;
+
+    #trickerion-main-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        #trickerion-board-wrapper {
+            #trickerion-board {
+                position: relative;
+                width: $boardWidth;
+                height: $boardHeight;
+                display: flex;
+                flex-wrap: wrap;
+
+                #board-background {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-image: url("img/board.jpg");
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+    }
+}
+
+$downtownWidth: 600px;
+$downtownHeight: 340px;
+#board-downtown {
+    position: relative;
+    width: $downtownWidth;
+    height: $downtownHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-downtown-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $downtownWidth;
+        height: $downtownHeight;
+        transform-origin: top left;
+        background-image: url("img/board.jpg");
+        background-repeat: no-repeat;
+        background-size: 330% auto;
+        background-position: 26% 2%;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #c5c5c55c;
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
+        }
+
+        #downtown-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        #dice-characters,
+        #dice-tricks,
+        #dice-banks {
+            width: 105px;
+            height: 50px;
+            position: absolute;
+            display: flex;
+            column-gap: 5px;
+
+            & > div {
+                width: 50px;
+                box-shadow: 1px 1px 2px black;
+            }
+        }
+
+        #dice-characters {
+            top: 86px;
+            left: 23px;
+        }
+        #dice-tricks {
+            top: 83px;
+            left: 247px;
+        }
+        #dice-banks {
+            top: 86px;
+            left: 471px;
+        }
+
+        .slot-downtown-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+                &.slot-downtown-action-reroll-die {
+                    width: 55px;
+                }
+            }
+
+            .slot-downtown-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#downtown-learn-trick {
+                top: 137px;
+                left: 255px;
+            }
+            &#downtown-hire-character {
+                top: 140px;
+                left: 29px;
+            }
+            &#downtown-take-coins {
+                top: 140px;
+                left: 476px;
+            }
+            &#downtown-reroll-die {
+                top: 100px;
+                left: 144px;
+            }
+            &#downtown-set-die {
+                top: 100px;
+                left: 365px;
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+                position: relative;
+                margin: 0px -3px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        .slot-downtown-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
+        }
+
+        #trick-decks {
+            position: absolute;
+            display: flex;
+            left: 0px;
+            right: 0px;
+            top: 7px;
+            justify-content: space-around;
+
+            .trick-deck {
+                width: 130px;
+                height: 45px;
+                border: 1px solid #504130;
+                border-radius: 6px;
+                background: rgba(255, 225, 182, 0.7);
+                position: relative;
+                box-shadow: 1px 1px 3px black;
+                text-align: center;
+                font-family: "Brandon Text Medium";
+                cursor: zoom-in;
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                .trick-type {
+                    position: absolute;
+                    left: 33px;
+                    width: 65px;
+                    bottom: -25px;
+                }
+            }
+        }
+    }
+}
+
+$marketWidth: 560px;
+$marketHeight: 365px;
+#board-market-row {
+    position: relative;
+    width: $marketWidth;
+    height: $marketHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-market-row-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $marketWidth;
+        height: $marketHeight;
+        transform-origin: top left;
+        background-image: url("img/board.jpg");
+        background-repeat: no-repeat;
+        background-size: 360% auto;
+        background-position: 24% 93%;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #c5c5c55c;
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
+        }
+
+        #market-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-market-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-market-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#market-buy {
+                top: 165px;
+                left: 74px;
+            }
+            &#market-bargain {
+                top: 165px;
+                left: 153px;
+                @include _slots.slot-market-action-space-extended;
+                width: 73px;
+                border-left: none;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                box-shadow: 2px 1px 2px black;
+
+                .slot-market-action-bargain {
+                    width: 46px;
+                }
+            }
+            &#market-order {
+                top: 165px;
+                left: 410px;
+            }
+            &#market-quick-order {
+                top: 143px;
+                left: 262px;
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 5px;
+            left: 93px;
+            right: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+                position: relative;
+                margin: 0px -3px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        #buy-area,
+        #order-area {
+            position: absolute;
+            display: grid;
+            grid-template-columns: 70px 70px;
+            grid-template-rows: 70px 70px;
+            grid-gap: 10px 10px;
+
+            .slot-market-component-slot {
+                box-shadow: 1px 1px 2px black;
+            }
+        }
+        #buy-area {
+            top: 8px;
+            left: 78px;
+        }
+        #order-area {
+            top: 8px;
+            left: 384px;
+        }
+
+        #quick-order-slot {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            top: 60px;
+            left: 274px;
+            box-shadow: 1px 1px 2px black;
+        }
+
+        .slot-market-quick-order-cost {
+            position: absolute;
+            width: 50px;
+            left: 283px;
+            top: 10px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 12px;
+        }
+        .slot-market-costs {
+            position: absolute;
+            width: 156px;
+            transform: rotate(-90deg);
+            top: 52px;
+            left: -41px;
+            height: 61px;
+            background-position: 44.432828% 4.6%;
+        }
+        .slot-market-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
+        }
+    }
+}
+
+$alleyWidth: 560px;
+$alleyHeight: 365px;
+#board-dark-alley {
+    position: relative;
+    width: $alleyWidth;
+    height: $alleyHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-dark-alley-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $alleyWidth;
+        height: $alleyHeight;
+        transform-origin: top left;
+        background-image: url("img/board-dark-alley.jpg");
+        background-repeat: no-repeat;
+        background-size: 284% auto;
+        background-position: 99% 100%;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(67, 67, 67, 0.55);
+            border-radius: 5px;
+            border-bottom-left-radius: 40px;
+        }
+
+        #alley-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-alley-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-alley-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#alley-draw-first-card {
+                top: 168px;
+                left: 30px;
+            }
+            &#alley-draw-further-cards {
+                top: 168px;
+                left: 132px;
+            }
+            &#alley-fortune-telling {
+                top: 120px;
+                left: 260px;
+
+                .slot-alley-action-fortune-telling {
+                    width: 45px;
+                }
+            }
+        }
+
+        .action-slots {
+            position: absolute;
+            bottom: 5px;
+            left: 93px;
+            right: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                height: 100px;
+                position: relative;
+                margin: 0px -3px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        #assignment-decks {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            left: 0px;
+            right: 305px;
+            top: 7px;
+            justify-content: space-around;
+
+            .assignment-deck {
+                width: 110px;
+                height: 45px;
+                border: 1px solid #504130;
+                margin-bottom: 30px;
+                border-radius: 6px;
+                background: rgba(255, 225, 182, 0.7);
+                position: relative;
+                box-shadow: 1px 1px 3px black;
+                text-align: center;
+                font-family: "Brandon Text Medium";
+                cursor: zoom-in;
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                .assignment-type {
+                    position: absolute;
+                    left: 25px;
+                    width: 65px;
+                    bottom: -25px;
+                }
+            }
+        }
+
+        .slot-alley-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
+        }
+
+        .slot-prophecies {
+            position: absolute;
+            right: 16px;
+            top: 7px;
+            width: 283px;
+        }
+    }
+}
+
+$theaterWidth: 600px;
+$theaterHeight: 580px;
+#board-theater {
+    position: relative;
+    width: $theaterWidth;
+    height: $theaterHeight;
+    margin: 5px 5px 10px 10px;
+
+    #board-theater-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $theaterWidth;
+        height: $theaterHeight;
+        transform-origin: top left;
+        border: 2px solid #683406;
+        border-radius: 5px;
+        border-bottom-left-radius: 40px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 4px #595858;
+        background: rgba(255, 203, 134, 0.575);
+
+        #board-theater-background {
+            position: absolute;
+            top: 160px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            overflow: hidden;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 40px;
+            border-top: 1px solid black;
+            box-shadow: 0px -1px 3px black;
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: -100px;
+                right: -100px;
+                top: -100px;
+                bottom: -100px;
+                background-color: transparent;
+                background-image: url("img/board.jpg");
+                background-repeat: no-repeat;
+                background-size: 265% auto;
+                background-position: 101% 7%;
+                transform: rotate(-45deg);
+            }
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background: rgba(169, 169, 169, 0.4);
+            }
+        }
+
+        #theater-logo {
+            width: 100px;
+            position: absolute;
+            bottom: -11px;
+            left: -16px;
+        }
+
+        .slot-theater-action-space {
+            width: 90px;
+            position: absolute;
+            box-shadow: 1px 1px 3px black;
+            border-radius: 11px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 16px;
+            box-sizing: border-box;
+
+            div {
+                width: 70px;
+            }
+
+            .slot-theater-action-cost {
+                position: absolute;
+                width: 40px;
+                left: 25px;
+                bottom: -23px;
+                box-shadow: 1px 1px 2px black;
+                border-radius: 50%;
+                font-family: "Brandon Text Black";
+                font-size: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-size: 15px;
+                }
+
+                &::before {
+                    content: "\e923";
+                    font-family: "icomoon" !important;
+                    speak: never;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 1;
+                    font-size: 8px;
+                    margin: 2px 11px -16px;
+                }
+            }
+
+            &#theater-set-up-trick {
+                bottom: 324px;
+                left: 14px;
+            }
+            &#theater-reschedule {
+                bottom: 324px;
+                left: 490px;
+            }
+        }
+
+        .slot-theater-action-slots {
+            position: absolute;
+            bottom: 0px;
+            left: 119px;
+            width: 364px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 95px 132px 100px;
+            padding: 0px 10px 0px 4px;
+            box-sizing: border-box;
+
+            & > .action-slot-theater {
+                height: 100px;
+                position: relative;
+                margin: -10px 0px 0px;
+
+                &.selectable {
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        width: 59px;
+                        height: 59px;
+                        border-radius: 50%;
+                        display: block;
+                        position: absolute;
+                        left: 15px;
+                        top: 18px;
+                        box-shadow: inset 0px 0px 13px 7px gold;
+                    }
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            box-shadow: inset 0px 0px 15px 12px gold;
+                        }
+                    }
+                }
+            }
+        }
+
+        .slot-theater-perform {
+            position: absolute;
+            bottom: 45px;
+            right: -2px;
+            width: 120px;
+        }
+        .slot-theater-link-bonus {
+            position: absolute;
+            bottom: 75px;
+            left: 2px;
+            width: 120px;
+        }
+
+        .slot-theater-no-shard-boost {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 42px;
+            box-shadow: 1px 1px 2px black;
+            border-radius: 8px;
+        }
+
+        .performances-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 158px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+
+            .performance-slot {
+                width: 112px;
+                height: 174px;
+                flex-shrink: 0;
+                border: 1px solid black;
+                border-radius: 5px;
+                margin: 0px 4px;
+                margin-top: 0px;
+                background: rgba(255, 255, 255, 0.4);
+                margin-top: -6px;
+                padding: 0px;
+            }
+        }
+    }
+}

@@ -61,7 +61,8 @@ class Characters extends CachedPieces
                 $characters[] = [
                     'player_id' => $playerId,
                     'character_type' => $type,
-                    'nbr' => $type === Character::TYPE_APPRENTICE ? 4 : 1
+                    'nbr' => $type === Character::TYPE_APPRENTICE ? 4 : 1,
+                    'character_on_assistant_board' => 0,
                 ];
             }
         }

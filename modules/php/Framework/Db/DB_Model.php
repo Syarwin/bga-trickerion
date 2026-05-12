@@ -1,8 +1,7 @@
 <?php
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
-use \Bga\Games\trickerionlegendsofillusion\Game;
 
-abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
+abstract class DB_Model extends WithGame implements \JsonSerializable
 {
   protected $table = null;
   protected $primary = null;
@@ -185,7 +184,7 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 
     $log = null;
 
-    if (static::$log ?? Game::get()->getGameStateValue('logging') == 1) {
+    if (static::$log ?? self::$game->getGameStateValue('logging') == 1) {
       $log = new Log($this->table, $this->primary);
     }
 

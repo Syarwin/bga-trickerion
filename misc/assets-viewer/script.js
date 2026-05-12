@@ -1,4 +1,3 @@
-import { formatIcon } from '../../modules/js/format.js';
 import { cards } from '../../modules/js/Cards.js';
 import { staticData } from '../../modules/js/staticData.js';
 import { attachRegisteredTooltips } from '../../modules/js/framework/utils.js';

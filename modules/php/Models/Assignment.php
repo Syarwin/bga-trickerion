@@ -27,7 +27,7 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
     protected $attributes = [
         'id' => ['assignment_id', 'int'],
         'type' => ['assignment_type', "string"],
-        'location' => 'assignment_location',
+        'location' => ['assignment_location', 'string'],
         'state' => ['assignment_state', 'int'],
         'playerId' => ['player_id', 'int'],
     ];
@@ -58,6 +58,7 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
         Game::get()->bga->notify->all('assignmentAssigned', clienttranslate('${player_name} assigned a card to ${characterName}'), [
             'player_id' => $this->getPlayerId(),
             'characterName' => $character->getName(),
+            'characterId' => $character->getId(),
             '_private' => [
                 $this->getPlayerId() => new NotificationMessage(clienttranslate('You assigned ${_private.assignment_name} to ${characterName}'), [
                     'assignment' => $this,
@@ -79,7 +80,7 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
     */    
 
     const BOARD_LOCATION_THEATER = 'theater';
-    const BOARD_LOCATION_DOWNTOWN = 'downtown'; 
+    const BOARD_LOCATION_DOWNTOWN = 'downtown';
     const BOARD_LOCATION_MARKET_ROW = 'market-row';
     const BOARD_LOCATION_WORKSHOP = 'workshop';
     const BOARD_LOCATION_DARK_ALLEY = 'dark-alley';
