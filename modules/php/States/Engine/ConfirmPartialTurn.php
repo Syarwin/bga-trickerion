@@ -7,6 +7,7 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\UserException;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
@@ -50,6 +51,14 @@ class ConfirmPartialTurn extends ActionStateWithRevert
             "player_name" => $node->getPlayerId() == Engine::PLAYER_ID_AUTO ? "" : Players::get($node->getPlayerId())->getName(),
             "player_id" => $node->getPlayerId(),
         ];
+    }
+
+    public function onEnteringState(int $activePlayerId)
+    {
+        // Check user preference to bypass if DISABLED is picked
+        if ($this->userPreferences->get($activePlayerId, Globals::PREFERENCE_CONFIRM) == Globals::CONFIRM_DISABLED) {
+            return $this->actConfirmTurn();
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Bga\Games\trickerionlegendsofillusion\States\Engine;
 
 use Bga\GameFramework\StateType;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Globals;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AbstractNode;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\ActionStateWithRevert;
 use Bga\Games\trickerionlegendsofillusion\Framework\Engine\Constants\States;
@@ -29,12 +30,10 @@ class ConfirmTurn extends ActionStateWithRevert
 
     public function onEnteringState(int $activePlayerId)
     {
-        //TODO reimplement
-        // // Check user preference to bypass if DISABLED is picked
-        // $pref = Players::getActive()->getPref(Preferences::OPTION_CONFIRM);
-        // if ($pref == Preferences::OPTION_DISABLED) {
-        //     $this->actConfirmTurn();
-        // }
+        // Check user preference to bypass if DISABLED is picked
+        if ($this->userPreferences->get($activePlayerId, Globals::PREFERENCE_CONFIRM) == Globals::CONFIRM_DISABLED) {
+            return $this->actConfirmTurn();
+        }
     }
 
     #[PossibleAction]

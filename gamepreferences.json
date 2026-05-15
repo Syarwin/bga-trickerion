@@ -1,1 +1,20 @@
-{}
+{
+    "103": {
+        "name": "Turn confirmation",
+        "needReload": false,
+        "default": 1,
+        "values": {
+            "1": {"name": "Enabled"},
+            "0": {"name": "Disabled"}
+        }
+    },
+    "104": {
+        "name": "Confirm before revealing hidden information",
+        "needReload": false,
+        "default": 1,
+        "values": {
+            "1": {"name": "Enabled"},
+            "0": {"name": "Disabled"}
+        }
+    }
+}

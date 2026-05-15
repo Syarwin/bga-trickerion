@@ -138,4 +138,8 @@ abstract class Globals extends DB_Manager
         throw new \feException('Undefined method ' . $method);
         return null;
     }
+
+    const PREFERENCE_CONFIRM = 103;
+    const CONFIRM_DISABLED = 0;
+    const CONFIRM_ENABLED = 1;
 }

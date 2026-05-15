@@ -1,5 +1,5 @@
 import { logOverride } from "../format";
-import { confirmationDialog, createDivElement, createElement, getPlayerAvatar, getRandomId, mainContainer } from "./utils";
+import { bga, confirmationDialog, createDivElement, createElement, getPlayerAvatar, getRandomId, mainContainer } from "./utils";
 
 export const updateDescription = (description: Description, args: object): string => {
 
@@ -46,7 +46,16 @@ export const checkIfIrreversible = (isIrreversible: boolean, callback: Function)
 
 export const irreversibleAction = (callback: Function): Function => {
     return (...args: any[]) => {
-        confirmationDialog(_("If you take this action, you won't be able to undo past this step because it will reveal hidden information"), () => callback(...args));
+        if (bga.userPreferences.get(104) == 0) {
+            return callback(...args);
+        }
+
+        bga.dialogs.confirmation(_("If you take this action, you won't be able to undo past this step because it will reveal hidden information"))
+            .then(result => {
+                if (result) {
+                    callback(...args);
+                }
+            });
     }
 }
 
