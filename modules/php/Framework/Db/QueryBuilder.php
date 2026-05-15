@@ -64,14 +64,6 @@ class QueryBuilder extends WithGame
 
   public function values($rows = [])
   {
-    // Fetch starting index if not provided
-    $startingId = null;
-    if ($this->insertPrimaryIndex === false) {
-      $startingId = (int) self::$game::getUniqueValueFromDB(
-        "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$this->table}';"
-      );
-    }
-
     $ids = [];
     $vals = [];
     foreach ($rows as $row) {
@@ -80,12 +72,29 @@ class QueryBuilder extends WithGame
         $rowValues[] = $val === null ? 'NULL' : "'" . self::$game::escapeStringForDB($val) . "'";
       }
       $vals[] = '(' . implode(',', $rowValues) . ')';
-      $ids[] = $rom[$this->primary] ?? ($this->insertPrimaryIndex === false ? $startingId++ : $row[$this->insertPrimaryIndex]);
+
+      // Case 1: Primary key explicitly provided
+      if ($this->insertPrimaryIndex !== false && $this->insertPrimaryIndex !== null) {
+        $ids[] = $row[$this->insertPrimaryIndex];
+      }
     }
 
     $this->sql .= implode(',', $vals);
     self::$game::DbQuery($this->sql);
-    if ($this->log) {
+
+    // Case 2: AUTO_INCREMENT primary key
+    if ($this->insertPrimaryIndex === false) {
+      $firstId = (int) self::$game::getUniqueValueFromDB("SELECT LAST_INSERT_ID()");
+      $count   = count($rows);
+
+      for ($i = 0; $i < $count; $i++) {
+        $ids[] = $firstId + $i;
+      }
+    }
+
+    // Case 3: No primary tracking requested (insertPrimaryIndex === null)
+    // $ids remains as collected (possibly empty)
+    if ($this->log && !empty($ids)) {
       Log::addEntry([
         'table' => $this->table,
         'primary' => $this->primary,

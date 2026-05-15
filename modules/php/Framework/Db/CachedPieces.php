@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
+use Bga\GameFramework\UserException;
 use Bga\GameFramework\VisibleSystemException;
 
 /*
@@ -222,7 +223,7 @@ class CachedPieces extends DB_Manager
         if (count($result) != count($ids) && $raiseExceptionIfNotEnough) {
             // return new Collection([]);
             // print_r(\debug_print_backtrace());
-            throw new \feException('Class Pieces: getMany, some pieces have not been found !' . json_encode($ids));
+            throw new UserException('Class Pieces: getMany, some pieces have not been found !' . json_encode($ids));
         }
 
         return $result;
