@@ -3,29 +3,30 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Character;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class Components extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'component';
-    protected static $prefix = 'component_';
-    protected static $customFields = ["player_id", "component_type", "component_count"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
+    protected static ?Collection $datas = null;
+    protected static string $table = 'component';
+    protected static string $prefix = 'component_';
+    protected static array $customFields = ["player_id", "component_type", "component_count"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
 
-    public static function autoreshuffleListener($location) {}
+    public static function autoreshuffleListener(string $location) {}
 
-    public static function cast($raw)
+    public static function cast(array $raw): Component
     {
         return new Component($raw);
     }
 
-    public static function getUiData($playerId = null)
+    public static function getUiData($playerId = null): array
     {
         return [
             "player" => Players::getAll()->map(function ($player) {

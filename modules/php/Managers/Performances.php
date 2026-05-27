@@ -3,38 +3,39 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
 class Performances extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'performance';
-    protected static $prefix = 'performance_';
-    protected static $customFields = ["performance_type"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
-    
-    public static function autoreshuffleListener($location) {}
+    protected static ?Collection $datas = null;
+    protected static string $table = 'performance';
+    protected static string $prefix = 'performance_';
+    protected static array $customFields = ["performance_type"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
 
-    protected static function cast($raw)
+    public static function autoreshuffleListener(string $location) {}
+
+    protected static function cast(array $raw): Performance
     {
         return self::getPerformanceInstance($raw["performance_type"], $raw);
     }
 
-    public static function getPerformanceInstance($type, $data = null)
+    public static function getPerformanceInstance(string $type, ?array $data = null): Performance
     {
         $className = "Bga\Games\\trickerionlegendsofillusion\Performances\\$type";
         return new $className($data);
     }
 
-    public static function getUiData($playerId = null)
+    public static function getUiData(?int $playerId = null): array
     {
         return [
             "active" => self::getInLocation(self::LOCATION_ACTIVE)->toArray(),
-            "deck" => self::getInLocation(self::LOCATION_DECK)->map(function($performance) {
+            "deck" => self::getInLocation(self::LOCATION_DECK)->map(function ($performance) {
                 return [
                     "state" => $performance->getState(),
                     "theater" => $performance->getTheater()
@@ -83,7 +84,8 @@ class Performances extends CachedPieces
         self::insertOnTop(self::getRandomIdsForTheater(Performance::THEATER_RIVERSIDE, $nrPlayers - 1), self::LOCATION_ACTIVE);
     }
 
-    private static function getRandomIdsForTheater($theater, $count = 2) {
+    private static function getRandomIdsForTheater(string $theater, int $count = 2)
+    {
         $theaterPerformanceIds = self::getInLocation(self::LOCATION_BOX)->where("theater", $theater)->getIds();
         shuffle($theaterPerformanceIds);
         return array_slice($theaterPerformanceIds, 0, $count);
@@ -99,19 +101,21 @@ class Performances extends CachedPieces
 
     */
 
-    public static function getMaxNumberOfPerformances() {
+    public static function getMaxNumberOfPerformances()
+    {
         return Players::count() + 1;
     }
 
-    public static function getActive() {
+    public static function getActive()
+    {
         return self::getInLocation(self::LOCATION_ACTIVE);
     }
 
     public static function getTrickSetupData($playerId)
     {
         return self::getActive()
-            ->map(function(Performance $performance) use ($playerId) {
-                $possibleTricks = Tricks::getPrepared($playerId)->filter(function($trick) use ($performance) {
+            ->map(function (Performance $performance) use ($playerId) {
+                $possibleTricks = Tricks::getPrepared($playerId)->filter(function ($trick) use ($performance) {
                     return $performance->canAddTrick($trick);
                 });
 
@@ -123,7 +127,8 @@ class Performances extends CachedPieces
             });
     }
 
-    public static function roundMaintenenace() {
+    public static function roundMaintenenace()
+    {
         $topAvailablePerformance = Performances::getTopOf(self::LOCATION_ACTIVE)->first();
 
         if ($topAvailablePerformance->getState() == self::getMaxNumberOfPerformances()) {
@@ -136,8 +141,8 @@ class Performances extends CachedPieces
                 "performance" => $topAvailablePerformance
             ]);
         }
-        
-        $activePerformances = Performances::getInLocation(self::LOCATION_ACTIVE)->forEach(function($performance) {
+
+        $activePerformances = Performances::getInLocation(self::LOCATION_ACTIVE)->forEach(function ($performance) {
             $performance->incState();
         });
         Game::get()->bga->notify->all("performancesRotated", clienttranslate('Performances are moved clockwise'), [

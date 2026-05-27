@@ -1,17 +1,10 @@
 <?php
+
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 class CachedDB_Manager extends DB_Manager
 {
-  protected static $table = null;
-  protected static $datas = null;
-  protected static $primary = null;
-  protected static $log = null;
-  protected static function cast($row)
-  {
-    return $row;
-  }
-
+  protected static ?Collection $datas = null;
   public static function fetchIfNeeded()
   {
     if (is_null(static::$datas)) {
@@ -24,7 +17,7 @@ class CachedDB_Manager extends DB_Manager
     static::$datas = null;
   }
 
-  public static function getAll()
+  public static function getAll(): Collection
   {
     self::fetchIfNeeded();
     return static::$datas;

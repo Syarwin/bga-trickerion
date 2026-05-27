@@ -30,22 +30,19 @@ use Bga\GameFramework\VisibleSystemException;
 
 class CachedPieces extends DB_Manager
 {
-    protected static $table = null;
-    protected static $cast = null;
-    protected static $datas = null;
+    protected static string $table = "";
 
-    protected static $prefix = 'piece_';
-    protected static $autoIncrement = true;
-    protected static $primary;
-    protected static $autoremovePrefix = true;
-    protected static $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
-    protected static function autoreshuffleListener($location) {}
-    // If defined, tell the name of the deck and what is the corresponding discard (ex : "mydeck" => "mydiscard")
-    protected static $autoreshuffleCustom = [];
-    protected static $customFields = [];
-    protected static $gIndex = [];
+    protected static string $prefix = 'piece_';
+    protected static bool $autoIncrement = true;
+    protected static string $primary;
+    protected static bool $autoremovePrefix = true;
+    protected static bool $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
+    protected static function autoreshuffleListener(string $location) {}
+    protected static array $autoreshuffleCustom = [];
+    protected static array $customFields = [];
+    protected static ?Collection $datas = null;
 
-    public static function DB($table = null)
+    public static function DB($table = null): QueryBuilder
     {
         static::$primary = static::$prefix . 'id';
         return parent::DB(static::$table);
@@ -54,7 +51,7 @@ class CachedPieces extends DB_Manager
     /****
      * Return the basic select query fetching basic fields and custom fields
      */
-    final static function getSelectQuery()
+    final static function getSelectQuery(): QueryBuilder
     {
         $basic = [
             'id' => static::$prefix . 'id',
@@ -69,14 +66,14 @@ class CachedPieces extends DB_Manager
         return $query;
     }
 
-    public static function fetchIfNeeded()
+    public static function fetchIfNeeded(): void
     {
         if (is_null(static::$datas)) {
             static::$datas = static::getSelectQuery()->get();
         }
     }
 
-    public static function invalidate()
+    public static function invalidate(): void
     {
         static::$datas = null;
     }
@@ -87,7 +84,7 @@ class CachedPieces extends DB_Manager
      *************************************
      ************************************/
 
-    public static function where($field, $value)
+    public static function where(string $field, mixed $value): Collection
     {
         return self::getAll()->where($field, $value);
     }
@@ -95,8 +92,11 @@ class CachedPieces extends DB_Manager
     /****
      * Append the basic select query with a where clause
      */
-    public static function getSelectWhere($id = null, $location = null, $state = null)
-    {
+    public static function getSelectWhere(
+        null|int|string $id = null,
+        ?string $location = null,
+        ?int $state = null
+    ): Collection {
         return self::where('id', $id)
             ->where('location', $location)
             ->where('state', $state);
@@ -105,7 +105,7 @@ class CachedPieces extends DB_Manager
     /**
      * Get all the pieces
      */
-    public static function getAll()
+    public static function getAll(): Collection
     {
         static::fetchIfNeeded();
         return static::$datas;
@@ -121,10 +121,10 @@ class CachedPieces extends DB_Manager
    * Check that the location only contains alphanum and underscore character
    *  -> if the location is an array, implode it using underscores
    */
-    final static function checkLocation(&$location, $like = false)
+    final static function checkLocation(string|array &$location, bool $like = false): void
     {
         if (is_null($location)) {
-            throw new VisibleSystemException('Class Pieces: location cannot be null');
+            throw new \BgaVisibleSystemException('Class Pieces: location cannot be null');
         }
 
         if (is_array($location)) {
@@ -132,27 +132,29 @@ class CachedPieces extends DB_Manager
         }
 
         $extra = $like ? '%' : '';
-        if (preg_match("/^[A-Za-z0-9${extra}-][A-Za-z_0-9${extra}-]*$/", $location) == 0) {
-            throw new VisibleSystemException("Class Pieces: location must be alphanum and underscore non empty string '$location'");
+        if (preg_match("/^[A-Za-z0-9$extra-][A-Za-z_0-9$extra-]*$/", $location) == 0) {
+            throw new \BgaVisibleSystemException(
+                "Class Pieces: location must be alphanum and underscore non empty string '$location'"
+            );
         }
     }
 
     /*
    * Check that the id is alphanum and underscore
    */
-    final static function checkId(&$id, $like = false)
+    final static function checkId(string|int &$id, bool $like = false): void
     {
         if (is_null($id)) {
             throw new \BgaVisibleSystemException('Class Pieces: id cannot be null');
         }
 
         $extra = $like ? '%' : '';
-        if (preg_match("/^[A-Za-z_0-9${extra}]+$/", $id) == 0) {
+        if (preg_match("/^[A-Za-z_0-9$extra-]+$/", $id) == 0) {
             throw new \BgaVisibleSystemException("Class Pieces: id must be alphanum and underscore non empty string '$id'");
         }
     }
 
-    final static function checkIdArray($arr)
+    final static function checkIdArray(array $arr): void
     {
         if (is_null($arr)) {
             throw new \BgaVisibleSystemException('Class Pieces: tokens cannot be null');
@@ -169,7 +171,7 @@ class CachedPieces extends DB_Manager
     /*
    * Check that the state is an integer
    */
-    final static function checkState($state, $canBeNull = false)
+    final static function checkState(?int $state, bool $canBeNull = false): void
     {
         if (is_null($state) && !$canBeNull) {
             throw new \BgaVisibleSystemException('Class Pieces: state cannot be null');
@@ -183,7 +185,7 @@ class CachedPieces extends DB_Manager
     /*
    * Check that a given variable is a positive integer
    */
-    final static function checkPosInt($n)
+    final static function checkPosInt(int $n): void
     {
         if ($n && preg_match('/^[0-9]+$/', $n) == 0) {
             throw new \BgaVisibleSystemException('Class Pieces: number of pieces must be integer number');
@@ -199,13 +201,13 @@ class CachedPieces extends DB_Manager
     /**
      * Get specific piece by id
      */
-    public static function get($id, $raiseExceptionIfNotEnough = true)
+    public static function get(int $id, bool $raiseExceptionIfNotEnough = true)
     {
         $result = self::getMany($id, $raiseExceptionIfNotEnough);
         return $result->count() == 1 ? $result->first() : $result;
     }
 
-    public static function getMany($ids, $raiseExceptionIfNotEnough = true)
+    public static function getMany(int|string|array $ids, bool $raiseExceptionIfNotEnough = true): Collection
     {
         if (!is_array($ids)) {
             $ids = [$ids];
@@ -215,21 +217,27 @@ class CachedPieces extends DB_Manager
         static::fetchIfNeeded();
         $result = new Collection([]);
         foreach ($ids as $id) {
-            if (array_key_exists($id, static::$datas->toAssoc())) {
-                $result[$id] = static::$datas[$id];
+            $piece = static::$datas[$id] ?? null;
+            if ($piece) {
+                $result[$id] = $piece;
             }
         }
 
         if (count($result) != count($ids) && $raiseExceptionIfNotEnough) {
-            // return new Collection([]);
-            // print_r(\debug_print_backtrace());
-            throw new UserException('Class Pieces: getMany, some pieces have not been found !' . json_encode($ids));
+            $found = count($result);
+            $searched = count($ids);
+            debug_print_backtrace();
+            throw new \feException(
+                "Class Pieces: getMany, some pieces have not been found ! ($found on $searched)(" . json_encode(
+                    $ids
+                ) . " et " . json_encode($result->getIds())
+            );
         }
 
         return $result;
     }
 
-    public static function getSingle($id, $raiseExceptionIfNotEnough = true)
+    public static function getSingle(int|string $id, bool $raiseExceptionIfNotEnough = true): mixed
     {
         $result = self::getMany([$id], $raiseExceptionIfNotEnough);
         return $result->count() == 1 ? $result->first() : null;
@@ -238,7 +246,7 @@ class CachedPieces extends DB_Manager
     /**
      * Get max or min state of the specific location
      */
-    public static function getExtremePosition($getMax, $location)
+    public static function getExtremePosition(bool $getMax, string $location): int
     {
         $states = self::getInLocation($location)
             ->map(function ($obj) {
@@ -251,49 +259,35 @@ class CachedPieces extends DB_Manager
     /**
      * Return "$nbr" piece on top of this location, top defined as item with higher state value
      */
-    public static function getTopOf($location, $n = 1, $deckReform = true)
+    public static function getTopOf(string $location, int $n = 1): Collection
     {
         self::checkLocation($location);
         self::checkPosInt($n);
-        $pieces = self::getInLocation($location)
+        return self::getInLocation($location)
             ->orderBy('state', 'DESC')
             ->limit($n);
-
-        // No more pieces in deck & reshuffle is active => form another deck
-        if (
-            array_key_exists($location, static::$autoreshuffleCustom) &&
-            count($pieces) < $n &&
-            static::$autoreshuffle &&
-            $deckReform
-        ) {
-            $missing = $n - count($pieces);
-            self::reformDeckFromDiscard($location);
-            $pieces = $pieces->merge(self::getTopOf($location, $missing, false)); // Note: block another deck reform
-        }
-
-        return $pieces;
     }
 
     /**
      * Return all pieces in specific location
      * note: if "order by" is used, result object is NOT indexed by ids
      */
-    public static function getInLocation($location, $state = null)
+    public static function getInLocation(string $location, ?int $state = null): Collection
     {
         self::checkLocation($location, true);
         self::checkState($state, true);
         return self::getSelectWhere(null, $location, $state);
     }
 
-    public static function getInLocationOrdered($location, $state = null)
+    public static function getInLocationOrdered(string $location, ?int $state = null): Collection
     {
-        return self::getInLocation($location, $state)->orderBy('state', 'ASC');
+        return self::getInLocation($location, $state)->orderBy('state');
     }
 
     /**
      * Return number of pieces in specific location
      */
-    public static function countInLocation($location, $state = null)
+    public static function countInLocation(string $location, ?int $state = null): int
     {
         self::checkLocation($location, true);
         self::checkState($state, true);
@@ -303,9 +297,9 @@ class CachedPieces extends DB_Manager
     /**
      * getFilteredQuery : many times the DB scheme has a pId and a type extra field, this allow for a shortcut for a query for these case
      */
-    public static function getFiltered(int $pId, ?string $location = null, ?string $type = null)
+    public static function getFiltered(?int $pId, ?string $location = null, null|string|array $type = null): Collection
     {
-        return self::getSelectWhere(null, $location, null)
+        return self::getSelectWhere(null, $location)
             ->where('playerId', $pId)
             ->where('type', $type);
     }
@@ -315,7 +309,7 @@ class CachedPieces extends DB_Manager
      ************** SETTERS **************
      *************************************
      ************************************/
-    public static function setState($id, $state)
+    public static function setState(int|string $id, int $state): mixed
     {
         self::checkState($state);
         self::checkId($id);
@@ -325,13 +319,13 @@ class CachedPieces extends DB_Manager
     /*
    * Move one (or many) pieces to given location
    */
-    public static function move($ids, $location, $state = 0)
+    public static function move(int|string|array $ids, string $location, int $state = 0): Collection
     {
         if (!is_array($ids)) {
             $ids = [$ids];
         }
         if (empty($ids)) {
-            return [];
+            return new Collection([]);
         }
 
         self::checkLocation($location);
@@ -347,8 +341,12 @@ class CachedPieces extends DB_Manager
    *  !!! state is reset to 0 or specified value !!!
    *  if "fromLocation" and "fromState" are null: move ALL cards to specific location
    */
-    public static function moveAllInLocation($fromLocation, $toLocation, $fromState = null, $toState = 0)
-    {
+    public static function moveAllInLocation(
+        string $fromLocation,
+        string $toLocation,
+        ?int $fromState = null,
+        ?int $toState = 0
+    ): Collection {
         if (!is_null($fromLocation)) {
             self::checkLocation($fromLocation);
         }
@@ -362,7 +360,7 @@ class CachedPieces extends DB_Manager
     /**
      * Move all pieces from a location to another location arg stays with the same value
      */
-    public static function moveAllInLocationKeepState($fromLocation, $toLocation)
+    public static function moveAllInLocationKeepState(string $fromLocation, string $toLocation): Collection
     {
         self::checkLocation($fromLocation);
         self::checkLocation($toLocation);
@@ -373,32 +371,57 @@ class CachedPieces extends DB_Manager
    * Pick the first "$nbr" pieces on top of specified deck and place it in target location
    * Return pieces infos or void array if no card in the specified location
    */
-    public static function pickForLocation($nbr, $fromLocation, $toLocation, $state = 0, $deckReform = true)
-    {
+    public static function pickForLocation(
+        int $nbr,
+        string|array $fromLocation,
+        string|array $toLocation,
+        int $state = 0,
+        bool $deckReform = true
+    ): Collection {
         self::checkLocation($fromLocation);
         self::checkLocation($toLocation);
-        $pieces = self::getTopOf($fromLocation, $nbr, $deckReform);
+        $pieces = self::getTopOf($fromLocation, $nbr);
         $ids = $pieces->getIds();
         $pieces = self::getMany($ids)
             ->update('location', $toLocation)
             ->update('state', $state);
 
+        // No more pieces in deck & reshuffle is active => form another deck
+        if (
+            array_key_exists($fromLocation, static::$autoreshuffleCustom) &&
+            count($pieces) < $nbr &&
+            static::$autoreshuffle &&
+            $deckReform
+        ) {
+            $missing = $nbr - count($pieces);
+            self::reformDeckFromDiscard($fromLocation);
+            $pieces = $pieces->merge(
+                self::pickForLocation($missing, $fromLocation, $toLocation, $state, false)
+            ); // Note: block another deck reform
+        }
+
         return $pieces;
     }
 
-    public static function pickOneForLocation($fromLocation, $toLocation, $state = 0, $deckReform = true)
-    {
+    public static function pickOneForLocation(
+        string $fromLocation,
+        string $toLocation,
+        int $state = 0,
+        bool $deckReform = true
+    ): mixed {
         return self::pickForLocation(1, $fromLocation, $toLocation, $state, $deckReform)->first();
     }
 
     /*
    * Reform a location from another location when enmpty
    */
-    public static function reformDeckFromDiscard($fromLocation)
+    public static function reformDeckFromDiscard(string $fromLocation): void
     {
         self::checkLocation($fromLocation);
         if (!array_key_exists($fromLocation, static::$autoreshuffleCustom)) {
-            throw new \BgaVisibleSystemException("Class Pieces:reformDeckFromDiscard: Unknown discard location for $fromLocation !");
+            throw new \BgaVisibleSystemException(
+                "Class Pieces:reformDeckFromDiscard: Unknown discard location for $fromLocation !"
+            );
         }
 
         $discard = static::$autoreshuffleCustom[$fromLocation];
@@ -411,7 +434,7 @@ class CachedPieces extends DB_Manager
     /*
    * Shuffle pieces of a specified location, result of the operation will changes state of the piece to be a position after shuffling
    */
-    public static function shuffle($location)
+    public static function shuffle(string $location): void
     {
         self::checkLocation($location);
         $pieces = self::getInLocation($location)->getIds();
@@ -421,28 +444,28 @@ class CachedPieces extends DB_Manager
         }
     }
 
-    public static function insertOnTop($id, $location)
+    public static function insertOnTop(int|string|array $id, string $location): void
     {
-        if (is_array($id)) {
-            foreach ($id as $i) {
-                self::insertOnTop($i, $location);
-            }
-            return;
-        }
         $pos = self::getExtremePosition(true, $location);
-        self::move($id, $location, $pos + 1);
+        if (is_array($id)) {
+            foreach ($id as $i => $idSingle) {
+                self::move($idSingle, $location, $pos + 1 + $i);
+            }
+        } else {
+            self::move($id, $location, $pos + 1);
+        }
     }
 
-    public static function insertAtBottom($id, $location)
+    public static function insertAtBottom(int|string|array $id, string $location): void
     {
-        if (is_array($id)) {
-            foreach ($id as $i) {
-                self::insertAtBottom($i, $location);
-            }
-            return;
-        }
         $pos = self::getExtremePosition(false, $location);
-        self::move($id, $location, $pos - 1);
+        if (is_array($id)) {
+            foreach ($id as $i => $idSingle) {
+                self::move($idSingle, $location, $pos - 1 - $i);
+            }
+        } else {
+            self::move($id, $location, $pos - 1);
+        }
     }
 
     /************************************
@@ -462,8 +485,13 @@ class CachedPieces extends DB_Manager
    *     "location" => <location>       // Optional argument specifies the location, alphanum and underscore
    *     "state" => <state>             // Optional argument specifies integer state, if not specified and $token_state_global is not specified auto-increment is used
    */
-    static function create($pieces, $globalLocation = null, $globalState = null, $globalId = null)
-    {
+
+    public static function create(
+        array $pieces,
+        ?string $globalLocation = null,
+        ?int $globalState = null,
+        ?int $globalId = null
+    ): Collection {
         $pos = is_null($globalLocation) ? 0 : self::getExtremePosition(true, $globalLocation) + 1;
 
         $values = [];
@@ -480,11 +508,11 @@ class CachedPieces extends DB_Manager
 
             // SANITY
             if (is_null($id) && !static::$autoIncrement) {
-                throw new VisibleSystemException('Class Pieces: create: id cannot be null if not autoincrement');
+                throw new \BgaVisibleSystemException('Class Pieces: create: id cannot be null if not autoincrement');
             }
 
             if (is_null($location)) {
-                throw new VisibleSystemException(
+                throw new \BgaVisibleSystemException(
                     'Class Pieces : create location cannot be null (set per token location or location_global'
                 );
             }
@@ -517,6 +545,7 @@ class CachedPieces extends DB_Manager
 
         // With auto increment, we compute the set of all consecutive ids
         self::fetchIfNeeded();
+
         $ids = self::DB()
             ->multipleInsert($fields)
             ->values($values);
@@ -536,8 +565,34 @@ class CachedPieces extends DB_Manager
     /*
    * Create a single token
    */
-    static function singleCreate($piece, $globalLocation = null, $globalState = null, $globalId = null)
+    public static function singleCreate(array $token): mixed
     {
-        return self::create([$piece], $globalLocation, $globalState, $globalId)->first();
+        return self::create([$token])->first();
+    }
+
+
+    /**
+     * Delete meeples
+     */
+    public static function delete(int|string|array $ids): Collection
+    {
+        if (!is_array($ids)) {
+            $ids = [$ids];
+        }
+        if (empty($ids)) {
+            return new Collection([]);
+        }
+
+        self::checkIdArray($ids);
+        $pieces = self::getMany($ids);
+        self::DB()
+            ->delete()
+            ->whereIn(static::$prefix . 'id', $ids)
+            ->run();
+        foreach ($ids as $id) {
+            unset(static::$datas[$id]);
+        }
+
+        return $pieces;
     }
 }

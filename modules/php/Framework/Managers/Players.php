@@ -2,6 +2,7 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Managers;
 
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Models\Player;
 use Bga\Games\trickerionlegendsofillusion\Game;
 
@@ -9,17 +10,18 @@ use Bga\Games\trickerionlegendsofillusion\Game;
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
  */
+
 class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedDB_Manager
 {
-    protected static $datas = null;
-    protected static $table = 'player';
-    protected static $primary = 'player_id';
-    protected static function cast($row)
+    protected static string $table = 'player';
+    protected static string $primary = 'player_id';
+    protected static ?Collection $datas = null;
+    protected static function cast(array $row): Player
     {
         return new \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player($row);
     }
 
-    public static function setupNewGame($players)
+    public static function setupNewGame(array $players): void
     {
         // Create players
         $gameInfos = Game::get()->getGameinfos();
@@ -50,7 +52,7 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Cached
     /*
    * get : returns the Player object for the given player ID
    */
-    public static function get($pId = null) : ?Player
+    public static function get($pId = null): ?Player
     {
         $pId = $pId ?: self::getActiveId();
         return parent::get($pId);
@@ -134,12 +136,14 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Cached
         return $order;
     }
 
-    public static function getOpponents($playerId) {
+    public static function getOpponents($playerId)
+    {
         return self::getAll()
             ->whereNot('id', $playerId);
     }
 
-    public static function getOpponentsTurnOrder($playerId) {
+    public static function getOpponentsTurnOrder($playerId)
+    {
         $opponents = self::getOpponents($playerId)->getIds();
         return self::getTurnOrderFiltered($opponents, $playerId);
     }

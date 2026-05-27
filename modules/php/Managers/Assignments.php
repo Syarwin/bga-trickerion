@@ -4,28 +4,29 @@ namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\GameFramework\NotificationMessage;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
 use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
 class Assignments extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'assignment';
-    protected static $prefix = 'assignment_';
-    protected static $customFields = ["assignment_type", "player_id"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
-    
-    public static function autoreshuffleListener($location) {}
+    protected static ?Collection $datas = null;
+    protected static string $table = 'assignment';
+    protected static string $prefix = 'assignment_';
+    protected static array $customFields = ["assignment_type", "player_id"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
 
-    protected static function cast($raw)
+    public static function autoreshuffleListener(string $location) {}
+
+    protected static function cast(array $raw): Assignment
     {
         return self::getAssignmentInstance($raw["assignment_type"], $raw);
     }
 
-    public static function getAssignmentInstance($type, $data = null)
+    public static function getAssignmentInstance(string $type, ?array $data = null): Assignment
     {
         $className = "Bga\Games\\trickerionlegendsofillusion\Assignments\\$type";
         return new $className($data);
@@ -49,10 +50,10 @@ class Assignments extends CachedPieces
             ],
             "assigned" => [
                 "my" => self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)->toArray(),
-                "other" => Players::getOpponents($playerId)->map(function($opponent) { 
+                "other" => Players::getOpponents($playerId)->map(function ($opponent) {
                     return [
                         "revealed" => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEUP)->toArray(),
-                        "hidden" => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEDOWN)->map(function($assignment) {
+                        "hidden" => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEDOWN)->map(function ($assignment) {
                             return [
                                 "location" => $assignment->getLocation(),
                                 "state" => $assignment->getState(),
@@ -125,23 +126,25 @@ class Assignments extends CachedPieces
 
     */
 
-    public static function resetAssignments(int $playerId) {
+    public static function resetAssignments(int $playerId)
+    {
         $assignments = self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)
-            ->ForEach(function(Assignment $assignment) {
+            ->ForEach(function (Assignment $assignment) {
                 $assignment->setLocation(self::LOCATION_HAND);
             });
 
         Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
             'player_id' => $playerId,
-             '_private' => [
+            '_private' => [
                 $playerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
                     "assignments" => $assignments->toArray()
                 ]),
-             ],
+            ],
         ]);
     }
 
-    private static function getInitialData($assignment) {
+    private static function getInitialData($assignment)
+    {
         if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
             return [
                 "location" => self::getSpecialAssignmentInitialLocation($assignment->getBoardLocation()),
@@ -155,7 +158,8 @@ class Assignments extends CachedPieces
         }
     }
 
-    public static function getSpecialAssignmentInitialLocation($boardLocation) {
+    public static function getSpecialAssignmentInitialLocation($boardLocation)
+    {
         return [
             Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DECK,
             Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DECK,
@@ -163,8 +167,9 @@ class Assignments extends CachedPieces
             Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DECK,
         ][$boardLocation];
     }
-    
-    public static function getSpecialAssignmentDiscardLocation($boardLocation) {
+
+    public static function getSpecialAssignmentDiscardLocation($boardLocation)
+    {
         return [
             Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DISCARD,
             Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DISCARD,
@@ -173,14 +178,15 @@ class Assignments extends CachedPieces
         ][$boardLocation];
     }
 
-    private static function getPermanentAssignmentInitialCopies($boardLocation) {
+    private static function getPermanentAssignmentInitialCopies($boardLocation)
+    {
         if (!Globals::isDarkAlley()) {
             return [
                 Assignment::BOARD_LOCATION_THEATER => 3,
                 Assignment::BOARD_LOCATION_DOWNTOWN => 2,
                 Assignment::BOARD_LOCATION_WORKSHOP => 2,
                 Assignment::BOARD_LOCATION_MARKET_ROW => 2,
-                Assignment::BOARD_LOCATION_DARK_ALLEY => 0, 
+                Assignment::BOARD_LOCATION_DARK_ALLEY => 0,
             ][$boardLocation];
         }
 
@@ -193,19 +199,20 @@ class Assignments extends CachedPieces
         ][$boardLocation];
     }
 
-    public static function getAvailableAssignments($playerId = null) {
+    public static function getAvailableAssignments($playerId = null)
+    {
         $facupAssignments = self::getInLocation(self::LOCATION_ASSIGNED_FACEUP);
         if ($playerId !== null) {
             $facupAssignments = $facupAssignments->where("playerId", $playerId);
         }
 
         return $facupAssignments
-            ->filter(function($assignment) {
+            ->filter(function ($assignment) {
                 return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
                     ->where("id", $assignment->getState())
                     ->count() > 0;
             })
-            ->map(function($assignment) {
+            ->map(function ($assignment) {
                 $character = Characters::get($assignment->getState());
                 $possibleLocations = $character->getPossibleLocations($assignment->getBoardLocation());
 
@@ -217,7 +224,8 @@ class Assignments extends CachedPieces
             })->toArray();
     }
 
-    public static function roundMaintenance() {
+    public static function roundMaintenance()
+    {
         $playedAssignments = self::getInLocation(self::LOCATION_ASSIGNED_ANY);
 
         $permanentAssignments = $playedAssignments->where("category", Assignment::CATEGORY_PERMANENT);
@@ -233,7 +241,7 @@ class Assignments extends CachedPieces
 
         $faceupSpecialAssignments = $specialAssignments->where("location", self::LOCATION_ASSIGNED_FACEUP);
         $faceupSpecialAssignments
-            ->update("location", function($assignment) {
+            ->update("location", function ($assignment) {
                 return self::getSpecialAssignmentDiscardLocation($assignment->getBoardLocation());
             })
             ->update("state", 0)

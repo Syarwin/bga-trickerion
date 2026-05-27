@@ -3,33 +3,35 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Models\Prophecy;
 
 class Prophecies extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'prophecy';
-    protected static $prefix = 'prophecy_';
-    protected static $customFields = ["prophecy_type"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
-    
-    public static function autoreshuffleListener($location) {}
+    protected static ?Collection $datas = null;
+    protected static string $table = 'prophecy';
+    protected static string $prefix = 'prophecy_';
+    protected static array $customFields = ["prophecy_type"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
 
-    protected static function cast($raw)
+    public static function autoreshuffleListener(string $location) {}
+
+    protected static function cast(array $raw): Prophecy
     {
         return self::getProphecyInstance($raw["prophecy_type"], $raw);
     }
 
-    public static function getProphecyInstance($type, $data = null)
+    public static function getProphecyInstance(string $type, ?array $data = null): Prophecy
     {
         $className = "Bga\Games\\trickerionlegendsofillusion\Prophecies\\$type";
         return new $className($data);
     }
 
-    public static function getUiData($playerId = null)
+    public static function getUiData(?int $playerId = null): array
     {
         return [
             "pending" => self::getInLocation(self::LOCATION_PENDING)->toArray(),
@@ -87,7 +89,8 @@ class Prophecies extends CachedPieces
 
     */
 
-    public static function roundMaintenance() {
+    public static function roundMaintenance()
+    {
         if (!Globals::isIncludeProphecies()) {
             return;
         }
@@ -113,7 +116,7 @@ class Prophecies extends CachedPieces
             ]);
         }
 
-        $pendingProphecies = self::getInLocation(self::LOCATION_PENDING)->forEach(function($prophecy) {
+        $pendingProphecies = self::getInLocation(self::LOCATION_PENDING)->forEach(function ($prophecy) {
             $prophecy->setState($prophecy->getState() + 1);
         });
 

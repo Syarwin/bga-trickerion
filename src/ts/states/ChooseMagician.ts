@@ -1,5 +1,6 @@
 import { Game } from '../Game';
 import { cards } from '../Cards';
+import { onSelectN } from '../framework/utils';
 
 export class ChooseMagician {
     game: Game;
@@ -10,29 +11,25 @@ export class ChooseMagician {
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
     onEnteringState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
         if (!isCurrentPlayerActive) return;
 
+        let elements = {};
         for (const magician of args.availableMagicians) {
             $('trickerion-pending').insertAdjacentHTML('beforeend', cards.tplMagician(magician));
-            // this.bga.statusBar.addActionButton(magician.type, () => this.bga.actions.performAction("actChooseMagician", { magicianId: magician.id }));
+            elements[magician.id] = $(`magician-${magician.id}`);
         }
+
+        onSelectN({
+            elements,
+            n: 1,
+            callback: (selected) => {
+                this.bga.actions.performAction('actChooseMagician', { magicianId: selected[0] });
+            },
+        });
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {}
-
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
-    onPlayerActivationChange(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {}
-
-    async notif_magicianChosen(args: MagicianChosenArgs) {}
+    onLeavingState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
+        $('trickerion-pending').innerHTML = '';
+    }
 }

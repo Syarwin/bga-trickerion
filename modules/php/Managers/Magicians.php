@@ -3,26 +3,27 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Models\Magician;
+use Override;
 
 class Magicians extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'magician';
-    protected static $prefix = 'magician_';
-    protected static $customFields = ["magician_type", "player_id"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
-    
+    protected static string $table = 'magician';
+    protected static string $prefix = 'magician_';
+    protected static array $customFields = ["magician_type", "player_id"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
+
     public static function autoreshuffleListener($location) {}
 
-    protected static function cast($raw)
+    protected static function cast(array $raw): Magician
     {
         return self::getMagicianInstance($raw["magician_type"], $raw);
     }
 
-    public static function getMagicianInstance($type, $data = null)
+    public static function getMagicianInstance(string $type, $data = null): Magician
     {
         $className = "Bga\Games\\trickerionlegendsofillusion\Magicians\\$type";
         return new $className($data);
@@ -32,10 +33,16 @@ class Magicians extends CachedPieces
     {
         return [
             "available" => self::getInLocation(self::LOCATION_AVAILABLE)->toArray(),
-            "player" => Players::getAll()->map(function($player) {
-                return self::getInLocation(self::LOCATION_PLAYER, $player->id)->first();
+            "player" => Players::getAll()->map(function ($player) {
+                return self::getInLocation(self::LOCATION_PLAYER)->where('playerId', $player->id)->first();
             }),
         ];
+    }
+
+    #[Override]
+    public static function get($id, $raiseExceptionIfNotEnough = true): Magician
+    {
+        return parent::get($id, $raiseExceptionIfNotEnough);
     }
 
     /*

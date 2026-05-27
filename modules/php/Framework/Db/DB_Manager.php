@@ -1,17 +1,18 @@
 <?php
+
 namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 class DB_Manager extends WithGame
 {
-  protected static $table = null;
-  protected static $primary = null;
-  protected static $log = null;
-  protected static function cast($row)
+  protected static string $table = '';
+  protected static string $primary = '';
+  protected static ?bool $log = null;
+  protected static function cast(array $row): mixed
   {
     return $row;
   }
 
-  public static function DB($table = null)
+  public static function DB(?string $table = null): QueryBuilder
   {
     if (is_null($table)) {
       if (is_null(static::$table)) {

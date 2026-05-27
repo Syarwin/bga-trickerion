@@ -2,21 +2,24 @@
 
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Game;
+use Bga\Games\trickerionlegendsofillusion\Models\Player;
 
 /*
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
  */
+
 class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players
 {
-    protected static $datas = null;
-    protected static function cast($row)
+    protected static ?Collection $datas = null;
+    protected static function cast(array $row): Player
     {
         return new \Bga\Games\trickerionlegendsofillusion\Models\Player($row);
     }
 
-    public static function setupNewGame($players)
+    public static function setupNewGame(array $players): void
     {
         parent::setupNewGame($players);
         // do custom setup by using self::getAll() or similar
@@ -36,7 +39,8 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
         }
     }
 
-    private static function getColorName($color) {
+    private static function getColorName($color)
+    {
         return $colorNames = [
             "60aaa1" => "blue",
             "cf4a1f" => "red",
@@ -45,16 +49,18 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
         ][$color] ?? "unknown";
     }
 
-    public static function getOrderByInitiative() {
+    public static function getOrderByInitiative()
+    {
         return self::getAll()->orderBy("initiative", "ASC")->pluck("id")->toArray();
     }
 
-    public static function adjustInitiative() {
+    public static function adjustInitiative()
+    {
         $initiative = 1;
         $players = self::getAll()
             ->orderBy("initiative", "ASC")
             ->orderBy("score", "ASC")
-            ->forEach(function($player) use (&$initiative) {
+            ->forEach(function ($player) use (&$initiative) {
                 $player->setInitiative($initiative);
                 $initiative += 1;
             });
@@ -65,9 +71,10 @@ class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\
         ]);
     }
 
-    public static function score($scoringFunction, $message, $limitScore = 20) {
+    public static function score($scoringFunction, $message, $limitScore = 20)
+    {
         Game::get()->bga->notify->all("message", $message, []);
-        self::getAll()->forEach(function($player) use ($scoringFunction, $limitScore) {
+        self::getAll()->forEach(function ($player) use ($scoringFunction, $limitScore) {
             if (is_callable($scoringFunction)) {
                 $score = $scoringFunction($player);
             } else {

@@ -1,6 +1,4 @@
-interface ExtendedGameGui extends ExtendedGameGuiGeneric<ExtendedPlayer, ExtendedGamedatas<ExtendedPlayer>> {
-
-}
+interface ExtendedGameGui extends ExtendedGameGuiGeneric<ExtendedPlayer, ExtendedGamedatas<ExtendedPlayer>> {}
 
 interface ExtendedGameGuiGeneric<P extends Player, G extends Gamedatas<P> = Gamedatas<P>> extends GameGui<P, G> {
     _notif_uid_to_log_id: object;
@@ -20,22 +18,25 @@ interface LastNotif {
 }
 
 interface ExtendedStatusBar extends StatusBar {
-    addAttachedActionButton(attachTo: HTMLElement, label: string, callback: Function, params?: {
-        color?: 'primary' | 'secondary' | 'alert';
-        id?: string;
-        classes?: string | string[];
-        destination?: HTMLElement;
-        title?: string;
-        disabled?: boolean;
-        tooltip?: string;
-        confirm?: string | (() => string | undefined | null); 
-        autoclick?: boolean | { abortSignal?: AbortSignal, pausable?: boolean };
-    }): HTMLButtonElement;
+    addAttachedActionButton(
+        attachTo: HTMLElement,
+        label: string,
+        callback: Function,
+        params?: {
+            color?: 'primary' | 'secondary' | 'alert';
+            id?: string;
+            classes?: string | string[];
+            destination?: HTMLElement;
+            title?: string;
+            disabled?: boolean;
+            tooltip?: string;
+            confirm?: string | (() => string | undefined | null);
+            autoclick?: boolean | { abortSignal?: AbortSignal; pausable?: boolean };
+        }
+    ): HTMLButtonElement;
 }
 
-interface ExtendedBga extends ExtendedBgaGeneric<ExtendedPlayer, ExtendedGamedatas<ExtendedPlayer>> {
-    
-}
+interface ExtendedBga extends ExtendedBgaGeneric<ExtendedPlayer, ExtendedGamedatas<ExtendedPlayer>> {}
 interface ExtendedBgaGeneric<P extends Player, G extends Gamedatas<P> = Gamedatas<P>> extends Bga<P, G> {
     gameui: ExtendedGameGuiGeneric<P, G>;
     statusBar: ExtendedStatusBar;
@@ -93,10 +94,12 @@ interface Choice {
     sourceId: number;
 }
 
-type Description = string | {
-    log: string;
-    args: object;
-}
+type Description =
+    | string
+    | {
+          log: string;
+          args: object;
+      };
 
 interface EngineNode {
     type: string;
@@ -119,4 +122,21 @@ interface ClearTurnArgs extends GenericArguments {
 
 interface EngineShownArgs extends GenericArguments {
     engine: EngineNode;
+}
+
+interface SelectNConfig {
+    elements: Record<string, HTMLElement>;
+    n: number;
+    autoConfirm: boolean;
+    confirmText: string;
+    confirmBtn: boolean;
+    cancelText: string;
+    cancelBtn: boolean;
+    callback: (selected: string[], others: string[]) => void;
+    updateCallback: ((selected: string[]) => void) | null;
+    optional: boolean;
+    canPass: boolean;
+    passCallback: (() => void) | null;
+    btnContainer: string;
+    class: string;
 }

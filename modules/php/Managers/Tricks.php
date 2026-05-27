@@ -3,36 +3,38 @@
 namespace Bga\Games\trickerionlegendsofillusion\Managers;
 
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\CachedPieces;
+use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
+use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class Tricks extends CachedPieces
 {
-    protected static $datas = null;
-    protected static $table = 'trick';
-    protected static $prefix = 'trick_';
-    protected static $customFields = ["trick_type", "player_id", "trick_suit"];
-    protected static $autoIncrement = true;
-    protected static $autoremovePrefix = false;
-    protected static $autoreshuffle = false;
-    protected static $autoreshuffleCustom = [];
-    
-    public static function autoreshuffleListener($location) {}
+    protected static ?Collection $datas = null;
+    protected static string $table = 'trick';
+    protected static string $prefix = 'trick_';
+    protected static array $customFields = ["trick_type", "player_id", "trick_suit"];
+    protected static bool $autoIncrement = true;
+    protected static bool $autoremovePrefix = false;
+    protected static bool $autoreshuffle = false;
+    protected static array $autoreshuffleCustom = [];
 
-    protected static function cast($raw)
+    public static function autoreshuffleListener(string $location) {}
+
+    protected static function cast(array $raw): Trick
     {
         return self::getTrickInstance($raw["trick_type"], $raw);
     }
 
-    public static function getTrickInstance($type, $data = null)
+    public static function getTrickInstance(string $type, ?array $data = null): Trick
     {
         $className = "Bga\Games\\trickerionlegendsofillusion\Tricks\\$type";
         return new $className($data);
     }
 
-    public static function getUiData($playerId = null)
+    public static function getUiData(?int $playerId = null): array
     {
         return [
             "available" => self::getInLocation(self::LOCATION_AVAILABLE)->toArray(),
-            "player" => Players::getAll()->map(function($player) {
+            "player" => Players::getAll()->map(function ($player) {
                 return self::getFiltered($player->id, self::LOCATION_PLAYER_ALL)->toArray();
             }),
         ];
@@ -86,11 +88,12 @@ class Tricks extends CachedPieces
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
-    public static function getPreparebleTricks(int $playerId, $checkActionPoints = true) {
+    public static function getPreparebleTricks(int $playerId, $checkActionPoints = true)
+    {
         $player = Players::get($playerId);
-        
+
         return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
-            ->filter(function($trick) use ($player, $checkActionPoints) {
+            ->filter(function ($trick) use ($player, $checkActionPoints) {
                 //check components
                 if (!$trick->hasEnoughComponents()) {
                     return false;
@@ -113,9 +116,10 @@ class Tricks extends CachedPieces
             });
     }
 
-    public static function getPrepared($playerId) {
+    public static function getPrepared($playerId)
+    {
         return self::getFiltered($playerId, self::LOCATION_PLAYER_ALL)
-            ->filter(function($trick) {
+            ->filter(function ($trick) {
                 return $trick->isPrepared();
             });
     }

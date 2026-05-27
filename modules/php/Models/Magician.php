@@ -48,13 +48,15 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
 
     */
 
-    public function assignToPlayer($playerId) {
+    public function assignToPlayer(int $playerId)
+    {
         $this->setPlayerId($playerId);
         $this->setLocation(Magicians::LOCATION_PLAYER);
         $this->setState(0);
     }
 
-    public function doBeginnersSetup() {
+    public function doBeginnersSetup()
+    {
         $setupData = self::beginnersSetupData($this->getFavoriteTrickCategory());
 
         $tricks = $setupData["tricks"] ?? [];
@@ -80,7 +82,8 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
         }
     }
 
-    public static function beginnersSetupData($category) {
+    public static function beginnersSetupData($category)
+    {
         return [
             Trick::CATEGORY_OPTICAL => [
                 "tricks" => [
@@ -105,7 +108,7 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
                     Characters::LOCATION_IDLE_ASSISTANT_BOARD => [Character::TYPE_ASSISTANT, Character::TYPE_APPRENTICE]
                 ],
             ],
-             Trick::CATEGORY_ESCAPE => [
+            Trick::CATEGORY_ESCAPE => [
                 "tricks" => [
                     Tricks::LOCATION_PLAYER_BOARD => ["T25_BarricadedBarrels"],
                     Tricks::LOCATION_ENGINEER_BOARD => ["T26_StocksEscape"],
@@ -117,7 +120,7 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
                     Characters::LOCATION_IDLE_ENGINEER_BOARD => [Character::TYPE_ENGINEER]
                 ],
             ],
-             Trick::CATEGORY_SPIRITUAL => [
+            Trick::CATEGORY_SPIRITUAL => [
                 "tricks" => [
                     Tricks::LOCATION_PLAYER_BOARD => ["T13_MindReading"],
                 ],
@@ -140,5 +143,5 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
   ╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║   ███████║
    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
-  */    
+  */
 }

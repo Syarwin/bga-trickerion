@@ -22,7 +22,8 @@ class ChooseMagician extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_CHOOSE_MAGICIAN,
             type: StateType::ACTIVE_PLAYER,
@@ -42,7 +43,7 @@ class ChooseMagician extends ActionStateWithRevert
                 ->toArray()
         ];
         return $args;
-    }    
+    }
 
     /**
      * Player must resolve the choice.
@@ -53,16 +54,18 @@ class ChooseMagician extends ActionStateWithRevert
     public function actChooseMagician(int $activePlayerId, int $magicianId)
     {
         Log::step();
-        $magician = Magicians::get($magicianId);    
+        $magician = Magicians::get($magicianId);
         if (!in_array($magician, $this->getActionArgs($activePlayerId)["availableMagicians"])) {
             throw new UserException("You cannot select this magician");
         }
 
         $magician->assignToPlayer($activePlayerId);
 
-        Game::get()->notify->all("magicianChosen", clienttranslate('${player_name} has chosen a ${magician}'), [
+        $this->notify->all("magicianChosen", clienttranslate('${player_name} has chosen a magician: ${magician_name}'), [
             "player_id" => $activePlayerId,
-            "magician" => $magician
+            "magician" => $magician,
+            'magician_name' => $magician->getName(),
+            'i18n' => ['magician'],
         ]);
 
         if (Globals::isBeginnersSetup()) {
@@ -78,7 +81,7 @@ class ChooseMagician extends ActionStateWithRevert
                         "state" => LearnTrick::class,
                         "args" => [
                             "sourceName" => clienttranslate("setup"),
-                            "categories" => [ $magician->getFavoriteTrickCategory()]
+                            "categories" => [$magician->getFavoriteTrickCategory()]
                         ]
                     ],
                     [

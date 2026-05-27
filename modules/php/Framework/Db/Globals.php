@@ -8,13 +8,13 @@ namespace Bga\Games\trickerionlegendsofillusion\Framework\Db;
 
 abstract class Globals extends DB_Manager
 {
-    protected static $initialized = false;
-    protected static $data = [];
-    protected static $variables = [];
+    protected static bool $initialized = false;
+    protected static array $data = [];
+    protected static array $variables = [];
 
-    protected static $table = 'global_variables';
-    protected static $primary = 'name';
-    protected static function cast($row)
+    protected static string $table = 'global_variables';
+    protected static string $primary = 'name';
+    protected static function cast(array $row): mixed
     {
         $val = json_decode(\stripslashes($row['value']), true);
         if ($val == null) {
