@@ -13,7 +13,7 @@ class Characters extends CachedPieces
     protected static ?Collection $datas = null;
     protected static string $table = 'character';
     protected static string $prefix = 'character_';
-    protected static array $customFields = ["player_id", "character_type", "character_on_assistant_board"];
+    protected static array $customFields = ["player_id", "character_type", "character_idle_location"];
     protected static bool $autoIncrement = true;
     protected static bool $autoremovePrefix = false;
     protected static bool $autoreshuffle = false;
@@ -60,7 +60,7 @@ class Characters extends CachedPieces
                     'player_id' => $playerId,
                     'character_type' => $type,
                     'nbr' => $type === Character::TYPE_APPRENTICE ? 4 : 1,
-                    'character_on_assistant_board' => 0,
+                    'character_idle_location' => Character::getCharacterIdleLocation($type),
                 ];
             }
         }
@@ -75,7 +75,7 @@ class Characters extends CachedPieces
 
             self::getFiltered($playerId, self::LOCATION_SUPPLY, Character::TYPE_APPRENTICE)
                 ->first()
-                ->setLocation(self::LOCATION_IDLE_PLAYER_BOARD);
+                ->setLocation(self::LOCATION_IDLE_APPRENTICE_1);
         }
     }
 
@@ -96,9 +96,8 @@ class Characters extends CachedPieces
 
         $character->setLocation($location);
 
-        if ($type === Character::TYPE_APPRENTICE && $location === self::LOCATION_IDLE_ASSISTANT_BOARD) {
-            $character->setOnAssistantBoard(true);
-        }
+        // Set the idle location based on where the character is being placed
+        $character->setIdleLocation(Character::getCharacterIdleLocation($type));
 
         Game::get()->bga->notify->all("characterHired", clienttranslate('${player_name} hires ${character}'), [
             "player_id" => $playerId,
@@ -309,14 +308,14 @@ class Characters extends CachedPieces
     public static function isAssistantApprenticeSlotAvailable($playerId)
     {
         $isApprenticeOnAssistantBoard = self::getFiltered($playerId)
-            ->if("onAssistantBoard")
+            ->where("idleLocation", self::LOCATION_IDLE_ASSISTANT_BOARD)
             ->count() > 0;
 
         return !$isApprenticeOnAssistantBoard;
     }
 
     /*
-     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
+     ██████╗ ██████╗ ███╗   ██╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
     ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
     ██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║   ╚════██║
@@ -330,9 +329,27 @@ class Characters extends CachedPieces
 
     const LOCATION_IDLE_ANY = 'idle-%';
     const LOCATION_IDLE_PLAYER_BOARD = 'idle-player-board';
+    const LOCATION_IDLE_APPRENTICE_1 = 'idle-apprentice-1';
+    const LOCATION_IDLE_APPRENTICE_2 = 'idle-apprentice-2';
+    const LOCATION_IDLE_APPRENTICE_3 = 'idle-apprentice-3';
     const LOCATION_IDLE_MANAGER_BOARD = 'idle-manager-board';
     const LOCATION_IDLE_ASSISTANT_BOARD = 'idle-assistant-board';
     const LOCATION_IDLE_ENGINEER_BOARD = 'idle-engineer-board';
+
+    public static function getFreeApprenticeSlot(): string
+    {
+        $slots = [
+            self::LOCATION_IDLE_APPRENTICE_1,
+            self::LOCATION_IDLE_APPRENTICE_2,
+            self::LOCATION_IDLE_APPRENTICE_3,
+        ];
+        foreach ($slots as $slot) {
+            if (self::getInLocation($slot)->empty()) {
+                return $slot;
+            }
+        }
+        return self::LOCATION_IDLE_APPRENTICE_3;
+    }
 
     const LOCATION_BOARD_ANY = 'board-%';
 

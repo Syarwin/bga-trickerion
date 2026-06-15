@@ -1,5 +1,6 @@
 @use "_meeples.generated";
 
+// Meeple inside action status text
 #pagemaintitletext,
 #gameaction_status {
     .trickerion-meeple {
@@ -8,7 +9,47 @@
     }
 }
 
+// Base meeple styling
 .trickerion-meeple {
     display: inline-block;
     vertical-align: middle;
+    position: relative;
+    pointer-events: auto;
+
+    &.meeple-character {
+        width: 5rem;
+    }
+}
+
+// Meeple inside board slots — positioned absolutely to stack over slot icons
+[id^="board-"] .trickerion-meeple,
+.action-slot-theater .trickerion-meeple,
+// Meeple inside idle slots on the player board
+[id^="idle-"] .trickerion-meeple,
+// Component slots inside magician board
+.component-slot .trickerion-meeple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+// Count badge for components (rendered via ::before)
+.trickerion-meeple[data-count]::before {
+    content: attr(data-count);
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #222;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 8px;
+    border: 1px solid #fff;
+    z-index: 3;
+    min-width: 14px;
+    text-align: center;
 }

@@ -385,6 +385,7 @@ $trick-h: math.div($trick-w, 348) * 537;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
 
             i {
               font-size: 40px;

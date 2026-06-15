@@ -846,7 +846,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'engineer',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 3,
@@ -854,7 +854,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'manager',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 4,
@@ -862,7 +862,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'assistant',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 6,
@@ -870,7 +870,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 7,
@@ -878,7 +878,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 8,
@@ -886,7 +886,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 10,
@@ -894,7 +894,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'engineer',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 11,
@@ -902,7 +902,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'manager',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 12,
@@ -910,7 +910,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'assistant',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 14,
@@ -918,7 +918,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 15,
@@ -926,7 +926,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 16,
@@ -934,7 +934,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
         ],
         visible: [
@@ -944,15 +944,15 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'magician',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 5,
-                location: 'idle-player-board',
+                location: 'idle-apprentice-1',
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 9,
@@ -960,15 +960,15 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'magician',
-                onAssistantBoard: false,
+                idleLocation: 'idle-player-board',
             },
             {
                 id: 13,
-                location: 'idle-player-board',
+                location: 'idle-apprentice-1',
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                onAssistantBoard: false,
+                idleLocation: 'idle-apprentice-1',
             },
         ],
         hiredSpecialists: {

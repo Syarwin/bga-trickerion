@@ -17,6 +17,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Characters;
  * @property int $actionPoints The action points of the character
  * @property string $name The name of the character
  * @property bool $specialist Whether the character is a specialist
+ * @property string $idleLocation Where the character returns after the action phase
  */
 class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
@@ -28,7 +29,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         'state' => ['character_state', 'int'],
         'playerId' => ['player_id', 'int'],
         'type' => ['character_type', 'string'],
-        'onAssistantBoard' => ['character_on_assistant_board', 'bool'],
+        'idleLocation' => ['character_idle_location', 'string'],
     ];
 
     protected $staticAttributes = [
@@ -80,22 +81,30 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ][$type];
     }
 
+    /**
+     * Returns the default idle location for a given character type, independent of game state.
+     * This is used when creating characters and when no specific idle location has been set.
+     */
     public static function getCharacterIdleLocation(string $type)
     {
         if (self::isSpecialistType($type)) {
             return self::getSpecialistLocation($type);
         }
 
+        if ($type === Character::TYPE_APPRENTICE) {
+            return Characters::getFreeApprenticeSlot();
+        }
+
         return Characters::LOCATION_IDLE_PLAYER_BOARD;
     }
 
+    /**
+     * Returns where this character should return after the action phase.
+     * Reads the stored idleLocation field directly from the DB.
+     */
     public function getIdleLocation()
     {
-        if ($this->isOnAssistantBoard()) {
-            return Characters::LOCATION_IDLE_ASSISTANT_BOARD;
-        }
-
-        return self::getCharacterIdleLocation($this->type);
+        return $this->idleLocation;
     }
 
     public static function getSpecialistLocation(string $type)
@@ -115,7 +124,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             })->toArray();
     }
 
-    private function canPlayerPlaceInLocation($playerId, $location)
+    private function canPlayerPlaceInLocation(int $playerId, string $location)
     {
         $isOccupied = Characters::getInLocation($location)->first() !== null;
 
@@ -156,8 +165,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
     public function moveToAssistantBoard()
     {
-        $this->setLocation(Characters::LOCATION_IDLE_ASSISTANT_BOARD);
-        $this->setOnAssistantBoard(true);
+        $this->setIdleLocation(Characters::LOCATION_IDLE_ASSISTANT_BOARD);
 
         $attachedAssignment = $this->getAssignmentCard();
 
@@ -170,7 +178,9 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
     public function getWage($notifyAssistentDiscount = false)
     {
-        if ($this->isOnAssistantBoard()) {
+        // If on the assistant board (by idle location or current location), no wage
+        $isOnAssistantBoard = $this->idleLocation === Characters::LOCATION_IDLE_ASSISTANT_BOARD;
+        if ($isOnAssistantBoard) {
             if ($notifyAssistentDiscount) {
                 Game::get()->notify->all("message", clienttranslate('${player_name} doesn\'t pay wage to ${name} as it is on the assistant board'), [
                     "player_id" => $this->getPlayerId(),
@@ -182,6 +192,9 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
 
         if (in_array($this->getLocation(), [
             Characters::LOCATION_SUPPLY,
+            Characters::LOCATION_IDLE_APPRENTICE_1,
+            Characters::LOCATION_IDLE_APPRENTICE_2,
+            Characters::LOCATION_IDLE_APPRENTICE_3,
             Characters::LOCATION_IDLE_ENGINEER_BOARD,
             Characters::LOCATION_IDLE_MANAGER_BOARD,
             Characters::LOCATION_IDLE_ASSISTANT_BOARD,
@@ -199,12 +212,12 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     }
 
     /*
-    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
-    ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
-    ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
-    ██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║   ╚════██║
-    ╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║   ███████║
-    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+    ██████╗ ██████╗ ███╗   ██╗████████╗███████╗
+    ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔════╝
+    ██║     ██║   ██║██╔██╗ ██║   ██║   █████╗  
+    ██║     ██║   ██║██║╚██╗██║   ██║   ██╔══╝  
+    ╚██████╗╚██████╔╝██║ ╚████║   ██║   ███████╗
+    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
     */
 

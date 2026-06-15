@@ -1,5 +1,6 @@
 import { formatIcon } from './format';
 import { cards } from './Cards';
+import { meeples } from './Meeples';
 
 export const board = {
     isDarkAlley: function () {
@@ -27,6 +28,8 @@ export const board = {
     <div id="trickerion-player-board-wrapper"></div>
   </div>
 </div>
+
+<div id="trickerion-default-container"></div>
 
 <div id="floating-board-wrapper">
   <div id="floating-board"></div>
@@ -247,6 +250,8 @@ export const board = {
                 this.updateHiredSpecialists(player, gamedatas.characters.hiredSpecialists[player.id]);
             }
         });
+
+        meeples.init(gamedatas);
     },
 
     setupMagicianBoard(player: Player, magician: Magician) {

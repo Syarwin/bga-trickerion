@@ -22,7 +22,8 @@ class MoveApprentice extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_MOVE_APPRENTICE,
             type: StateType::ACTIVE_PLAYER,
@@ -31,7 +32,8 @@ class MoveApprentice extends ActionStateWithRevert
         );
     }
 
-    public function getCustomStateDescription() {
+    public function getCustomStateDescription()
+    {
         $actionArgs = $this->getActionArgs(Players::getActiveId());
 
         if (!$actionArgs["isSlotAvailable"]) {
@@ -43,11 +45,13 @@ class MoveApprentice extends ActionStateWithRevert
         return null;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return clienttranslate('Move apprentice');
     }
 
-    public function isDoable($playerId) {
+    public function isDoable($playerId)
+    {
         $args = $this->getActionArgs($playerId);
 
         return $args["isSlotAvailable"] && count($args["availableApprentices"]) > 0;
@@ -56,7 +60,7 @@ class MoveApprentice extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $availableApprentices = Characters::getFiltered($activePlayerId, Characters::LOCATION_IDLE_ANY, Character::TYPE_APPRENTICE)
-            ->where("onAssistantBoard", false)
+            ->whereNot("idleLocation", Characters::LOCATION_IDLE_ASSISTANT_BOARD)
             ->toArray();
 
         $args = [

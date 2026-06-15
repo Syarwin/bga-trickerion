@@ -1,4 +1,3 @@
-
 -- ------
 -- BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
 -- Trickerion implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Jurica Hladek <jurica.hladek@gmail.com>
@@ -84,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `character` (
   `character_state` int(10),
   `player_id` int(10),
   `character_type` varchar(32) NOT NULL,
-  `character_on_assistant_board` int(10) NOT NULL DEFAULT 0,
+  `character_idle_location` varchar(32) NOT NULL DEFAULT 'idle-player-board',
   PRIMARY KEY (`character_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

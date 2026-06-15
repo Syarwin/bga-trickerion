@@ -102,7 +102,7 @@ interface Poster extends Model<string, PosterLocation> {}
 type PosterLocation = 'supply' | 'board';
 
 interface Character extends Model<CharacterType, CharacterLocation> {
-    onAssistantBoard: boolean;
+    idleLocation: CharacterLocation;
     actionPoints?: number;
     name?: string;
     specialist?: boolean;
@@ -113,6 +113,9 @@ type CharacterLocation =
     | 'supply'
     | 'incoming'
     | 'idle-player-board'
+    | 'idle-apprentice-1'
+    | 'idle-apprentice-2'
+    | 'idle-apprentice-3'
     | 'idle-manager-board'
     | 'idle-assistant-board'
     | 'idle-engineer-board'
@@ -276,6 +279,8 @@ type ComponentType =
     | 'disguise'
     | 'cog';
 type ComponentLocation = 'player-board' | 'manager-board';
+
+type Meeple = Character | TrickMarker | Component;
 
 interface TrickerionGlobals {
     marketRow: MarketRow;
