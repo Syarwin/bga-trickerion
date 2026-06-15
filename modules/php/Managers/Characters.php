@@ -30,15 +30,13 @@ class Characters extends CachedPieces
     {
         return [
             "supply" => self::getInLocation(self::LOCATION_SUPPLY)->toArray(),
-            "board" => self::getInLocation(self::LOCATION_BOARD_ANY)->toArray(),
-            "idle" => self::getInLocation(self::LOCATION_IDLE_ANY)->toArray(),
+            "visible" => self::getInLocation(self::LOCATION_BOARD_ANY)->merge(self::getInLocation(self::LOCATION_IDLE_ANY))->toArray(),
             "hiredSpecialists" => Players::getAll()->map(function ($player) {
                 return self::getFiltered($player->id)
                     ->if('specialist')
                     ->whereNot('location', self::LOCATION_SUPPLY)
-                    ->map(function ($character) use ($player) {
-                        return $character->getType();
-                    })->toArray();
+                    ->map(fn($character) => $character->getType())
+                    ->toArray();
             }),
         ];
     }

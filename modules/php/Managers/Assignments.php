@@ -143,7 +143,7 @@ class Assignments extends CachedPieces
         ]);
     }
 
-    private static function getInitialData($assignment)
+    private static function getInitialData(Assignment $assignment)
     {
         if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
             return [
@@ -158,7 +158,7 @@ class Assignments extends CachedPieces
         }
     }
 
-    public static function getSpecialAssignmentInitialLocation($boardLocation)
+    public static function getSpecialAssignmentInitialLocation(string $boardLocation)
     {
         return [
             Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DECK,
@@ -168,7 +168,7 @@ class Assignments extends CachedPieces
         ][$boardLocation];
     }
 
-    public static function getSpecialAssignmentDiscardLocation($boardLocation)
+    public static function getSpecialAssignmentDiscardLocation(string $boardLocation)
     {
         return [
             Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DISCARD,
@@ -178,7 +178,7 @@ class Assignments extends CachedPieces
         ][$boardLocation];
     }
 
-    private static function getPermanentAssignmentInitialCopies($boardLocation)
+    private static function getPermanentAssignmentInitialCopies(string $boardLocation)
     {
         if (!Globals::isDarkAlley()) {
             return [
@@ -207,12 +207,12 @@ class Assignments extends CachedPieces
         }
 
         return $facupAssignments
-            ->filter(function ($assignment) {
+            ->filter(function (Assignment $assignment) {
                 return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
                     ->where("id", $assignment->getState())
                     ->count() > 0;
             })
-            ->map(function ($assignment) {
+            ->map(function (Assignment $assignment) {
                 $character = Characters::get($assignment->getState());
                 $possibleLocations = $character->getPossibleLocations($assignment->getBoardLocation());
 

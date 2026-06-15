@@ -1,0 +1,415 @@
+@use "variables";
+@use "sass:math";
+
+//$board-width: 1672px;
+$board-width: 967px;
+$board-height: 910px;
+
+$slot-gap: 0.75rem;
+$card-w: 100px;
+$card-h: 150px;
+$meeple-size: 56px;
+$trick-w: 214px;
+$trick-h: math.div($trick-w, 348) * 537;
+
+// Visual helpers
+%slot-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.magician-board {
+  position: relative;
+  height: calc(var(--magicianBoardScale) * #{$board-height});
+  margin: 20px auto 5px;
+
+  @for $i from 0 through 3 {
+    $width: $board-width + $i * 235px;
+    &[data-n-specialists="#{$i}"] {
+      width: calc(var(--magicianBoardScale) * #{$width});
+      .magician-board-inner {
+        width: $width;
+      }
+    }
+  }
+
+  .magician-board-inner {
+    height: $board-height;
+    transform: scale(var(--magicianBoardScale));
+    transform-origin: top left;
+    border-radius: 12px;
+    border: 4px solid rgb(66, 32, 0);
+    box-shadow: 0px 0px 8px 1px black;
+
+    // background-image: url("img/magician-boards/board-1.jpg");
+    // background-repeat: no-repeat;
+    // background-size: auto 100%;
+
+    .slot-workshop-logo {
+      position: absolute;
+      z-index: 2;
+      top: -27px;
+      left: -35px;
+      width: 128px;
+    }
+
+    .player-name {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      transform: translateX(-50%);
+      // background: #ebd5bd;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 10px;
+      padding: 5px 20px;
+      top: -16px;
+      z-index: 2;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    .magician-workshop {
+      width: 100%;
+      height: 500px;
+      display: flex;
+
+      .magician-workshop-main {
+        width: 967px;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+
+        .magician-card-holder {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+
+          width: 186px;
+          height: 281px;
+          padding-right: 2px;
+          padding-bottom: 2px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(201, 183, 85, 0.78);
+          border: 2px solid black;
+          border-radius: 8px;
+          outline: 1px solid #6e6e4d;
+          box-shadow: 0px 0px 7px #8b8c54;
+        }
+
+        .action-slots {
+          position: absolute;
+          top: 303px;
+          left: 28px;
+          display: flex;
+
+          .slot-workshop-slot-1 {
+            width: 90px;
+          }
+        }
+
+        .slot-workshop-shard-boost {
+          position: absolute;
+          top: 405px;
+          left: 14px;
+          width: 88px;
+        }
+
+        .magician-workshop-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 1029px;
+          height: 500px;
+          background-image: url("img/magician-boards.jpg");
+          background-size: 100% 400%;
+          border-top-left-radius: 12px;
+        }
+
+        .magician-tricks-components {
+          position: absolute;
+          top: 25px;
+          left: 240px;
+          width: 762px;
+          height: 479px;
+          display: grid;
+          grid-template-columns: repeat(6, 94px);
+          grid-template-rows: 354px 94px;
+          column-gap: 30px;
+        }
+      }
+
+      .slot-workshop-action-space {
+        position: absolute;
+        top: 395px;
+        left: 121px;
+        width: 90px;
+        box-shadow: 1px 1px 3px black;
+        border-radius: 11px;
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 16px;
+        box-sizing: border-box;
+
+        div {
+          width: 44px;
+          margin-right: 12px;
+        }
+
+        .slot-workshop-action-cost {
+          position: absolute;
+          width: 40px;
+          left: 22px;
+          bottom: -20px;
+          box-shadow: 1px 1px 2px black;
+          border-radius: 50%;
+          font-family: "Brandon Text Black";
+          font-size: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+
+          i {
+            font-size: 15px;
+          }
+
+          &::before {
+            content: "\e923";
+            font-family: "icomoon" !important;
+            speak: never;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            font-size: 8px;
+            margin: 2px 11px -16px;
+          }
+        }
+      }
+
+      .trick-slot {
+        width: $trick-w;
+        height: $trick-h;
+        grid-column: span 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(201, 183, 85, 0.51);
+        border: 2px solid black;
+        border-radius: 8px;
+        outline: 1px solid #6e6e4d;
+        box-shadow: 0px 0px 7px #8b8c54;
+      }
+
+      .component-slot {
+        @extend %slot-base;
+        border-radius: 0px;
+        border: 1px solid black;
+      }
+
+      .engineer-workshop,
+      .manager-workshop,
+      .assistant-workshop {
+        width: 233px;
+        position: relative;
+        overflow: hidden;
+        border-left: 2px solid black;
+
+        &.disabled {
+          display: none;
+        }
+
+        .specialist-workshop-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 366px;
+          height: 100%;
+          background-image: url("img/specialists.jpg");
+          background-size: 300% auto;
+        }
+
+        .trick-slot.engineer-slot {
+          position: absolute;
+          left: 7px;
+          top: 25px;
+          box-shadow: inset 0px 0px 12px 2px rgb(234, 90, 72);
+        }
+
+        .slot-workshop-prepare-bonus {
+          position: absolute;
+          left: 15px;
+          top: 361px;
+          width: 94px;
+        }
+      }
+
+      .engineer-workshop {
+        .specialist-workshop-background {
+          background-position-x: 50%;
+          left: -133px;
+        }
+
+        .slot-workshop-action-space {
+          left: 125px;
+
+          .slot-workshop-action-move-tricks {
+            width: 75px;
+            margin-right: 4px;
+            margin-bottom: -7px;
+          }
+        }
+      }
+
+      .manager-workshop {
+        .manager-components {
+          position: absolute;
+          z-index: 2;
+          top: 381px;
+          left: 10px;
+          display: flex;
+          column-gap: 10px;
+
+          .component-slot {
+            width: 100px;
+            border: none;
+          }
+        }
+
+        .specialist-workshop-background {
+          background-position-x: 100%;
+          left: -115px;
+        }
+
+        .slot-workshop-action-space {
+          top: 275px;
+          left: 70px;
+
+          .slot-workshop-action-move-components {
+            width: 75px;
+            margin-right: 4px;
+            margin-bottom: -7px;
+          }
+        }
+      }
+
+      .assistant-workshop {
+        .specialist-workshop-background {
+          left: -15px;
+        }
+
+        .slot-workshop-action-space {
+          left: 70px;
+
+          .slot-workshop-action-move-apprentice {
+            width: 75px;
+            margin-right: 4px;
+            margin-bottom: -7px;
+          }
+        }
+      }
+    }
+
+    .magician-assignments {
+      height: 410px;
+      width: 100%;
+      background-image: url("img/background.jpg");
+      background-size: cover;
+      box-shadow: 0px -13px 25px -13px black;
+      border-bottom-left-radius: 9px;
+      border-bottom-right-radius: 9px;
+      display: flex;
+      position: relative;
+      z-index: 2;
+
+      &[data-color="60aaa1"] {
+        background:
+          linear-gradient(0deg, rgba(120, 168, 163, 0.7), rgba(138, 138, 138, 0.3)), url("img/background.jpg");
+      }
+      &[data-color="cf4a1f"] {
+        background: linear-gradient(0deg, rgba(206, 106, 73, 0.7), rgba(138, 138, 138, 0.3)), url("img/background.jpg");
+      }
+      &[data-color="cc7f17"] {
+        background: linear-gradient(0deg, rgba(197, 141, 67, 0.7), rgba(138, 138, 138, 0.3)), url("img/background.jpg");
+      }
+      &[data-color="85902b"] {
+        background: linear-gradient(0deg, rgba(131, 139, 69, 0.7), rgba(138, 138, 138, 0.3)), url("img/background.jpg");
+      }
+
+      .magician-assignments-specialists,
+      .magician-assignments-main {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .magician-assignments-main {
+        width: 967px;
+        flex-shrink: 0;
+      }
+
+      .assignment-slot-holder {
+        width: 180px;
+        height: 390px;
+        &.disabled {
+          display: none;
+        }
+
+        .assignment-slot-header {
+          width: 150px;
+          height: 60px;
+          border: 2px solid black;
+          border-bottom: none;
+          border-top-left-radius: 15px;
+          border-top-right-radius: 15px;
+          margin: 50px auto 0px;
+
+          .slot-assignment-meeple-slot,
+          .slot-assignment-assistant-meeple-slot,
+          .slot-assignment-apprentice-meeple-slot {
+            width: 120px;
+            margin: -45px auto 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i {
+              font-size: 40px;
+              transform: rotate(-10deg);
+              color: #5b4d38;
+
+              &.svgicon-engineer {
+                font-size: 50px;
+              }
+              &.svgicon-assistant {
+                font-size: 35px;
+              }
+              &.svgicon-manager {
+                font-size: 50px;
+              }
+            }
+          }
+        }
+      }
+
+      .magician-assignments-specialists {
+        .assignment-slot-holder {
+          margin: 0 28px;
+        }
+      }
+    }
+  }
+}

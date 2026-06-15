@@ -23,6 +23,7 @@ $boardHeight: math.div(2887px, 3);
         position: relative;
         display: flex;
         justify-content: center;
+        flex-flow: column;
 
         #trickerion-board-wrapper {
             #trickerion-board {

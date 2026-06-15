@@ -1,402 +1,514 @@
 // Auto-generated sprite mixins
-$slot-sprite-width: 2276px;
-$slot-sprite-height: 2094px;
+$slot-sprite-width: 2704px;
+$slot-sprite-height: 2633px;
+
+@mixin slot-special-assignment-slot {
+  background-image: url('img/slots.png');
+  background-size: 515.047619% auto;
+  background-position: 0.000000% 0.000000%;
+  background-repeat: no-repeat;
+  aspect-ratio: 525/796;
+}
 
 @mixin slot-theater-action-slots {
   background-image: url('img/slots.png');
-  background-size: 376.821192% auto;
-  background-position: 0.000000% 0.000000%;
+  background-size: 447.682119% auto;
+  background-position: 25.285714% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 604/685;
 }
 
 @mixin slot-theater-perform {
   background-image: url('img/slots.png');
-  background-size: 972.649573% auto;
-  background-position: 29.872674% 0.000000%;
+  background-size: 1155.555556% auto;
+  background-position: 46.194332% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 234/498;
 }
 
 @mixin slot-market-costs {
   background-image: url('img/slots.png');
-  background-size: 511.460674% auto;
-  background-position: 46.422720% 0.000000%;
+  background-size: 607.640449% auto;
+  background-position: 61.133245% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 445/256;
 }
 
 @mixin slot-prophecies {
   background-image: url('img/slots.png');
-  background-size: 517.272727% auto;
-  background-position: 0.000000% 39.896074%;
+  background-size: 614.545455% auto;
+  background-position: 0.000000% 35.314839%;
   background-repeat: no-repeat;
   aspect-ratio: 440/362;
 }
 
+@mixin slot-assignment-slot {
+  background-image: url('img/slots.png');
+  background-size: 1028.136882% auto;
+  background-position: 0.000000% 52.348993%;
+  background-repeat: no-repeat;
+  aspect-ratio: 263/398;
+}
+
 @mixin slot-theater-link-bonus {
   background-image: url('img/slots.png');
-  background-size: 972.649573% auto;
-  background-position: 0.000000% 62.184381%;
+  background-size: 1155.555556% auto;
+  background-position: 10.890688% 52.185549%;
   background-repeat: no-repeat;
   aspect-ratio: 234/391;
 }
 
 @mixin slot-market-row-logo {
   background-image: url('img/slots.png');
-  background-size: 595.811518% auto;
-  background-position: 23.548046% 38.951522%;
+  background-size: 707.853403% auto;
+  background-position: 19.207580% 34.673584%;
   background-repeat: no-repeat;
   aspect-ratio: 382/320;
 }
 
 @mixin slot-dark-alley-logo {
   background-image: url('img/slots.png');
-  background-size: 598.947368% auto;
-  background-position: 43.987342% 38.951522%;
+  background-size: 711.578947% auto;
+  background-position: 35.886403% 34.673584%;
   background-repeat: no-repeat;
   aspect-ratio: 380/320;
 }
 
 @mixin slot-downtown-logo {
   background-image: url('img/slots.png');
-  background-size: 598.947368% auto;
-  background-position: 64.345992% 38.951522%;
+  background-size: 711.578947% auto;
+  background-position: 52.495697% 34.673584%;
   background-repeat: no-repeat;
   aspect-ratio: 380/320;
 }
 
+@mixin slot-workshop-logo {
+  background-image: url('img/slots.png');
+  background-size: 711.578947% auto;
+  background-position: 69.104991% 34.673584%;
+  background-repeat: no-repeat;
+  aspect-ratio: 380/320;
+}
+
+@mixin slot-assignment-meeple-slot {
+  background-image: url('img/slots.png');
+  background-size: 772.571429% auto;
+  background-position: 84.621920% 33.896872%;
+  background-repeat: no-repeat;
+  aspect-ratio: 350/267;
+}
+
+@mixin slot-assignment-assistant-meeple-slot {
+  background-image: url('img/slots.png');
+  background-size: 772.571429% auto;
+  background-position: 99.745115% 33.896872%;
+  background-repeat: no-repeat;
+  aspect-ratio: 350/267;
+}
+
+@mixin slot-assignment-apprentice-meeple-slot {
+  background-image: url('img/slots.png');
+  background-size: 772.571429% auto;
+  background-position: 21.622770% 49.450549%;
+  background-repeat: no-repeat;
+  aspect-ratio: 350/267;
+}
+
+@mixin slot-workshop-prepare-bonus {
+  background-image: url('img/slots.png');
+  background-size: 1064.566929% auto;
+  background-position: 0.000000% 68.763652%;
+  background-repeat: no-repeat;
+  aspect-ratio: 254/344;
+}
+
 @mixin slot-market-slot-3 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 79.741807% 38.176796%;
+  background-size: 1032.061069% auto;
+  background-position: 10.647011% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-downtown-slot-1 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 93.048659% 38.176796%;
+  background-size: 1032.061069% auto;
+  background-position: 21.621622% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-market-slot-1 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 11.916584% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 32.596233% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-alley-slot-1 {
   background-image: url('img/slots.png');
-  background-size: 865.399240% auto;
-  background-position: 25.235966% 58.508287%;
+  background-size: 1028.136882% auto;
+  background-position: 43.588693% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 263/284;
 }
 
 @mixin slot-market-slot-4 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 38.579940% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 54.586405% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-downtown-slot-2 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 51.886792% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 65.561016% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-downtown-slot-4 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 65.193644% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 76.535627% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-alley-slot-2 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 78.500497% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 87.510238% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-alley-slot-3 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 91.807349% 58.508287%;
+  background-size: 1032.061069% auto;
+  background-position: 98.484848% 67.007237%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-market-slot-2 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 0.000000% 80.441989%;
+  background-size: 1032.061069% auto;
+  background-position: 0.000000% 81.907195%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
 @mixin slot-alley-slot-4 {
   background-image: url('img/slots.png');
-  background-size: 865.399240% auto;
-  background-position: 13.313462% 80.441989%;
+  background-size: 1028.136882% auto;
+  background-position: 10.979107% 81.907195%;
   background-repeat: no-repeat;
   aspect-ratio: 263/284;
 }
 
 @mixin slot-downtown-slot-3 {
   background-image: url('img/slots.png');
-  background-size: 868.702290% auto;
-  background-position: 26.663357% 80.441989%;
+  background-size: 1032.061069% auto;
+  background-position: 21.990172% 81.907195%;
   background-repeat: no-repeat;
   aspect-ratio: 262/284;
 }
 
+@mixin slot-workshop-slot-1 {
+  background-image: url('img/slots.png');
+  background-size: 1028.136882% auto;
+  background-position: 35.436297% 49.283909%;
+  background-repeat: no-repeat;
+  aspect-ratio: 263/259;
+}
+
 @mixin slot-theater-logo {
   background-image: url('img/slots.png');
-  background-size: 940.495868% auto;
-  background-position: 63.962635% 0.000000%;
+  background-size: 1117.355372% auto;
+  background-position: 74.411048% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 242/205;
 }
 
-@mixin slot-alley-shard-boost {
+@mixin slot-workshop-manager-component-slot {
   background-image: url('img/slots.png');
-  background-size: 1073.584906% auto;
-  background-position: 75.048450% 0.000000%;
+  background-size: 1287.619048% auto;
+  background-position: 55.372895% 10.804124%;
   background-repeat: no-repeat;
-  aspect-ratio: 212/143;
+  aspect-ratio: 210/208;
 }
 
 @mixin slot-optical {
   background-image: url('img/slots.png');
-  background-size: 1083.809524% auto;
-  background-position: 41.142304% 13.540052%;
+  background-size: 1287.619048% auto;
+  background-position: 83.400160% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 @mixin slot-escape {
   background-image: url('img/slots.png');
-  background-size: 1083.809524% auto;
-  background-position: 51.597289% 13.540052%;
+  background-size: 1287.619048% auto;
+  background-position: 92.060946% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 @mixin slot-mechanical {
   background-image: url('img/slots.png');
-  background-size: 1083.809524% auto;
-  background-position: 62.052275% 13.540052%;
+  background-size: 1287.619048% auto;
+  background-position: 64.033681% 10.590137%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 @mixin slot-spiritual {
   background-image: url('img/slots.png');
-  background-size: 1083.809524% auto;
-  background-position: 72.507260% 13.540052%;
+  background-size: 1287.619048% auto;
+  background-position: 72.694467% 10.590137%;
   background-repeat: no-repeat;
   aspect-ratio: 210/159;
 }
 
 @mixin slot-market-action-space {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 29.511369% 26.304802%;
+  background-size: 1293.779904% auto;
+  background-position: 45.731463% 20.529532%;
   background-repeat: no-repeat;
   aspect-ratio: 209/178;
 }
 
 @mixin slot-alley-action-space {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 39.912917% 26.291080%;
+  background-size: 1293.779904% auto;
+  background-position: 54.348697% 20.521173%;
   background-repeat: no-repeat;
   aspect-ratio: 209/177;
 }
 
 @mixin slot-market-component-slot {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 38.945331% 77.241379%;
+  background-size: 1293.779904% auto;
+  background-position: 45.450902% 48.267327%;
   background-repeat: no-repeat;
   aspect-ratio: 209/209;
 }
 
 @mixin slot-downtown-shard-boost {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 85.486212% 0.000000%;
+  background-size: 1293.779904% auto;
+  background-position: 81.322645% 10.501002%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/138;
+}
+
+@mixin slot-workshop-action-space {
+  background-image: url('img/slots.png');
+  background-size: 1293.779904% auto;
+  background-position: 62.965932% 20.521173%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/177;
+}
+
+@mixin slot-workshop-shard-boost {
+  background-image: url('img/slots.png');
+  background-size: 1293.779904% auto;
+  background-position: 89.939880% 10.501002%;
   background-repeat: no-repeat;
   aspect-ratio: 209/138;
 }
 
 @mixin slot-market-shard-boost {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 95.887760% 0.000000%;
+  background-size: 1293.779904% auto;
+  background-position: 98.557114% 10.501002%;
+  background-repeat: no-repeat;
+  aspect-ratio: 209/138;
+}
+
+@mixin slot-alley-shard-boost {
+  background-image: url('img/slots.png');
+  background-size: 1293.779904% auto;
+  background-position: 71.583166% 20.200401%;
   background-repeat: no-repeat;
   aspect-ratio: 209/138;
 }
 
 @mixin slot-downtown-action-space {
   background-image: url('img/slots.png');
-  background-size: 1088.995215% auto;
-  background-position: 49.346880% 75.991649%;
+  background-size: 1293.779904% auto;
+  background-position: 54.068136% 47.657841%;
   background-repeat: no-repeat;
   aspect-ratio: 209/178;
 }
 
 @mixin slot-market-quick-order-slot {
   background-image: url('img/slots.png');
-  background-size: 1110.243902% auto;
-  background-position: 0.000000% 92.429857%;
+  background-size: 1319.024390% auto;
+  background-position: 32.212885% 79.242175%;
   background-repeat: no-repeat;
   aspect-ratio: 205/205;
 }
 
+@mixin slot-workshop-component-slot {
+  background-image: url('img/slots.png');
+  background-size: 1408.333333% auto;
+  background-position: 40.445860% 78.755628%;
+  background-repeat: no-repeat;
+  aspect-ratio: 192/190;
+}
+
 @mixin slot-theater {
   background-image: url('img/slots.png');
-  background-size: 1191.623037% auto;
-  background-position: 82.206235% 13.449692%;
+  background-size: 1415.706806% auto;
+  background-position: 99.960207% 0.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 191/146;
 }
 
 @mixin slot-alley-action-draw-further-cards {
   background-image: url('img/slots.png');
-  background-size: 1230.270270% auto;
-  background-position: 91.391679% 13.054310%;
+  background-size: 1461.621622% auto;
+  background-position: 79.436284% 19.795758%;
   background-repeat: no-repeat;
   aspect-ratio: 185/87;
 }
 
 @mixin slot-market-action-space-extended {
   background-image: url('img/slots.png');
-  background-size: 1338.823529% auto;
-  background-position: 58.641975% 75.991649%;
+  background-size: 1590.588235% auto;
+  background-position: 61.720600% 47.657841%;
   background-repeat: no-repeat;
   aspect-ratio: 170/178;
 }
 
 @mixin slot-market-action-order {
   background-image: url('img/slots.png');
-  background-size: 1330.994152% auto;
-  background-position: 99.857482% 13.021869%;
+  background-size: 1581.286550% auto;
+  background-position: 86.537702% 19.756958%;
   background-repeat: no-repeat;
   aspect-ratio: 171/82;
 }
 
 @mixin slot-market-row {
   background-image: url('img/slots.png');
-  background-size: 1330.994152% auto;
-  background-position: 49.406176% 25.648855%;
+  background-size: 1581.286550% auto;
+  background-position: 68.693249% 46.725240%;
   background-repeat: no-repeat;
   aspect-ratio: 171/129;
 }
 
 @mixin slot-downtown {
   background-image: url('img/slots.png');
-  background-size: 1338.823529% auto;
-  background-position: 57.787274% 25.635809%;
+  background-size: 1590.588235% auto;
+  background-position: 75.651144% 46.706587%;
   background-repeat: no-repeat;
   aspect-ratio: 170/128;
 }
 
 @mixin slot-workshop {
   background-image: url('img/slots.png');
-  background-size: 1338.823529% auto;
-  background-position: 66.144349% 25.596750%;
+  background-size: 1590.588235% auto;
+  background-position: 82.596685% 46.650718%;
   background-repeat: no-repeat;
   aspect-ratio: 170/125;
 }
 
 @mixin slot-downtown-action-set-die {
   background-image: url('img/slots.png');
-  background-size: 1354.761905% auto;
-  background-position: 74.430740% 25.390428%;
+  background-size: 1609.523810% auto;
+  background-position: 89.471609% 46.354992%;
   background-repeat: no-repeat;
   aspect-ratio: 168/109;
 }
 
 @mixin slot-theater-action-reschedule {
   background-image: url('img/slots.png');
-  background-size: 1422.500000% auto;
-  background-position: 82.372401% 25.099602%;
+  background-size: 1690.000000% auto;
+  background-position: 20.872642% 27.129957%;
   background-repeat: no-repeat;
   aspect-ratio: 160/86;
 }
 
 @mixin slot-alley-action-draw-first-card {
   background-image: url('img/slots.png');
-  background-size: 1431.446541% auto;
-  background-position: 100.000000% 52.765321%;
+  background-size: 1700.628931% auto;
+  background-position: 95.992141% 45.954438%;
   background-repeat: no-repeat;
   aspect-ratio: 159/87;
 }
 
 @mixin slot-downtown-action-hire-character {
   background-image: url('img/slots.png');
-  background-size: 1449.681529% auto;
-  background-position: 99.905616% 57.657658%;
+  background-size: 1722.292994% auto;
+  background-position: 19.984295% 56.878203%;
   background-repeat: no-repeat;
   aspect-ratio: 157/96;
 }
 
 @mixin slot-downtown-action-learn-trick {
   background-image: url('img/slots.png');
-  background-size: 1487.581699% auto;
-  background-position: 11.304757% 67.551327%;
+  background-size: 1767.320261% auto;
+  background-position: 47.589181% 75.867508%;
   background-repeat: no-repeat;
   aspect-ratio: 153/97;
 }
 
 @mixin slot-theater-action-space {
   background-image: url('img/slots.png');
-  background-size: 1527.516779% auto;
-  background-position: 66.337565% 74.285714%;
+  background-size: 1814.765101% auto;
+  background-position: 0.000000% 88.595438%;
   background-repeat: no-repeat;
   aspect-ratio: 149/134;
 }
 
 @mixin slot-market-action-quick-order {
   background-image: url('img/slots.png');
-  background-size: 1537.837838% auto;
-  background-position: 18.750000% 67.483742%;
+  background-size: 1827.027027% auto;
+  background-position: 26.291080% 56.855792%;
   background-repeat: no-repeat;
   aspect-ratio: 148/95;
 }
 
+@mixin slot-workshop-action-move-apprentice {
+  background-image: url('img/slots.png');
+  background-size: 1917.730496% auto;
+  background-position: 6.047600% 87.892021%;
+  background-repeat: no-repeat;
+  aspect-ratio: 141/114;
+}
+
+@mixin slot-workshop-action-move-tricks {
+  background-image: url('img/slots.png');
+  background-size: 1917.730496% auto;
+  background-position: 11.783067% 87.892021%;
+  background-repeat: no-repeat;
+  aspect-ratio: 141/114;
+}
+
 @mixin slot-downtown-action-take-coins {
   background-image: url('img/slots.png');
-  background-size: 1649.275362% auto;
-  background-position: 89.289055% 25.099602%;
+  background-size: 1959.420290% auto;
+  background-position: 27.162899% 27.129957%;
   background-repeat: no-repeat;
   aspect-ratio: 138/86;
 }
 
 @mixin slot-downtown-die-slot-bank-B {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
-  background-position: 9.864423% 89.172625%;
+  background-size: 1973.722628% auto;
+  background-position: 0.000000% 94.273128%;
   background-repeat: no-repeat;
   aspect-ratio: 137/136;
 }
 
 @mixin slot-downtown-die-slot-character-B {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
+  background-size: 1973.722628% auto;
   background-position: 0.000000% 100.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
@@ -404,243 +516,271 @@ $slot-sprite-height: 2094px;
 
 @mixin slot-downtown-die-slot-trick-A {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
-  background-position: 6.685367% 100.000000%;
+  background-size: 1973.722628% auto;
+  background-position: 5.570705% 100.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 @mixin slot-downtown-die-slot-character-A {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
-  background-position: 13.370734% 100.000000%;
+  background-size: 1973.722628% auto;
+  background-position: 11.141410% 100.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 @mixin slot-downtown-die-slot-trick-B {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
-  background-position: 20.056101% 100.000000%;
+  background-size: 1973.722628% auto;
+  background-position: 16.712115% 100.000000%;
   background-repeat: no-repeat;
   aspect-ratio: 137/137;
 }
 
 @mixin slot-downtown-die-slot-bank-A {
   background-image: url('img/slots.png');
-  background-size: 1661.313869% auto;
-  background-position: 16.549790% 89.172625%;
+  background-size: 1973.722628% auto;
+  background-position: 5.570705% 94.273128%;
   background-repeat: no-repeat;
   aspect-ratio: 137/136;
 }
 
+@mixin slot-workshop-action-move-components {
+  background-image: url('img/slots.png');
+  background-size: 2048.484848% auto;
+  background-position: 17.457232% 87.892021%;
+  background-repeat: no-repeat;
+  aspect-ratio: 132/114;
+}
+
 @mixin slot-market-action-buy {
   background-image: url('img/slots.png');
-  background-size: 1820.800000% auto;
-  background-position: 39.516504% 21.013780%;
+  background-size: 2163.200000% auto;
+  background-position: 91.857309% 19.603267%;
   background-repeat: no-repeat;
   aspect-ratio: 125/62;
 }
 
 @mixin slot-theater-no-shard-boost {
   background-image: url('img/slots.png');
-  background-size: 1835.483871% auto;
-  background-position: 95.399628% 25.049702%;
+  background-size: 2180.645161% auto;
+  background-position: 32.596899% 27.087417%;
   background-repeat: no-repeat;
   aspect-ratio: 124/82;
 }
 
 @mixin slot-downtown-action-reroll-die {
   background-image: url('img/slots.png');
-  background-size: 1865.573770% auto;
-  background-position: 99.442897% 34.429497%;
+  background-size: 2216.393443% auto;
+  background-position: 31.990705% 56.677141%;
   background-repeat: no-repeat;
   aspect-ratio: 122/87;
 }
 
+@mixin slot-workshop-action-prepare {
+  background-image: url('img/slots.png');
+  background-size: 2677.227723% auto;
+  background-position: 10.987322% 93.672901%;
+  background-repeat: no-repeat;
+  aspect-ratio: 101/120;
+}
+
 @mixin slot-alley-action-fortune-telling {
   background-image: url('img/slots.png');
-  background-size: 2127.102804% auto;
-  background-position: 98.755187% 39.575972%;
+  background-size: 2527.102804% auto;
+  background-position: 22.603003% 87.857143%;
   background-repeat: no-repeat;
   aspect-ratio: 107/113;
 }
 
 @mixin slot-market-quick-order-cost {
   background-image: url('img/slots.png');
-  background-size: 2253.465347% auto;
-  background-position: 25.425287% 67.450000%;
+  background-size: 2677.227723% auto;
+  background-position: 52.746831% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 101/94;
 }
 
 @mixin slot-theater-action-set-up-trick {
   background-image: url('img/slots.png');
-  background-size: 2370.833333% auto;
-  background-position: 97.110092% 62.481315%;
+  background-size: 2816.666667% auto;
+  background-position: 100.000000% 45.954438%;
   background-repeat: no-repeat;
   aspect-ratio: 96/87;
 }
 
 @mixin slot-component-basic {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 30.247479% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 56.704981% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-petroleum {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 34.830431% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 60.536398% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-animal {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 39.413382% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 64.367816% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-fabric {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 43.996334% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 68.199234% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-rope {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 48.579285% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 72.030651% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-cog {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 53.162236% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 75.862069% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-saw {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 57.745188% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 79.693487% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-glass {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 62.328139% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 83.524904% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-superior {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 66.911091% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 87.356322% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-metal {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 71.494042% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 91.187739% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-padlock {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 76.076994% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 95.019157% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-mirror {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 80.659945% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 98.850575% 75.777865%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-wood {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 85.242896% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 26.819923% 87.199685%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-disguise {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 89.825848% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 30.651341% 87.199685%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-component-advanced {
   background-image: url('img/slots.png');
-  background-size: 2421.276596% auto;
-  background-position: 94.408799% 67.450000%;
+  background-size: 2876.595745% auto;
+  background-position: 34.482759% 87.199685%;
   background-repeat: no-repeat;
   aspect-ratio: 94/94;
 }
 
 @mixin slot-downtown-action-cost {
   background-image: url('img/slots.png');
-  background-size: 2473.913043% auto;
-  background-position: 98.901099% 67.382617%;
+  background-size: 2939.130435% auto;
+  background-position: 38.284839% 87.131051%;
   background-repeat: no-repeat;
   aspect-ratio: 92/92;
 }
 
 @mixin slot-market-action-cost {
   background-image: url('img/slots.png');
-  background-size: 2473.913043% auto;
-  background-position: 71.703297% 72.727273%;
+  background-size: 2939.130435% auto;
+  background-position: 42.036753% 87.131051%;
+  background-repeat: no-repeat;
+  aspect-ratio: 92/92;
+}
+
+@mixin slot-workshop-action-cost {
+  background-image: url('img/slots.png');
+  background-size: 2939.130435% auto;
+  background-position: 45.788668% 87.131051%;
   background-repeat: no-repeat;
   aspect-ratio: 92/92;
 }
 
 @mixin slot-alley-action-cost {
   background-image: url('img/slots.png');
-  background-size: 2501.098901% auto;
-  background-position: 76.155606% 72.690964%;
+  background-size: 2971.428571% auto;
+  background-position: 49.521623% 87.096774%;
   background-repeat: no-repeat;
   aspect-ratio: 91/91;
 }
 
 @mixin slot-market-action-bargain {
   background-image: url('img/slots.png');
-  background-size: 2501.098901% auto;
-  background-position: 99.908467% 24.876604%;
+  background-size: 2971.428571% auto;
+  background-position: 37.160352% 26.939571%;
   background-repeat: no-repeat;
   aspect-ratio: 91/68;
 }
 
 @mixin slot-theater-action-cost {
   background-image: url('img/slots.png');
-  background-size: 3501.538462% auto;
-  background-position: 99.366802% 0.000000%;
+  background-size: 4160.000000% auto;
+  background-position: 40.469875% 26.908100%;
   background-repeat: no-repeat;
   aspect-ratio: 65/65;
 }
+.slot-special-assignment-slot {
+  @include slot-special-assignment-slot;
+}
+
 .slot-theater-action-slots {
   @include slot-theater-action-slots;
 }
@@ -657,6 +797,10 @@ $slot-sprite-height: 2094px;
   @include slot-prophecies;
 }
 
+.slot-assignment-slot {
+  @include slot-assignment-slot;
+}
+
 .slot-theater-link-bonus {
   @include slot-theater-link-bonus;
 }
@@ -671,6 +815,26 @@ $slot-sprite-height: 2094px;
 
 .slot-downtown-logo {
   @include slot-downtown-logo;
+}
+
+.slot-workshop-logo {
+  @include slot-workshop-logo;
+}
+
+.slot-assignment-meeple-slot {
+  @include slot-assignment-meeple-slot;
+}
+
+.slot-assignment-assistant-meeple-slot {
+  @include slot-assignment-assistant-meeple-slot;
+}
+
+.slot-assignment-apprentice-meeple-slot {
+  @include slot-assignment-apprentice-meeple-slot;
+}
+
+.slot-workshop-prepare-bonus {
+  @include slot-workshop-prepare-bonus;
 }
 
 .slot-market-slot-3 {
@@ -721,12 +885,16 @@ $slot-sprite-height: 2094px;
   @include slot-downtown-slot-3;
 }
 
+.slot-workshop-slot-1 {
+  @include slot-workshop-slot-1;
+}
+
 .slot-theater-logo {
   @include slot-theater-logo;
 }
 
-.slot-alley-shard-boost {
-  @include slot-alley-shard-boost;
+.slot-workshop-manager-component-slot {
+  @include slot-workshop-manager-component-slot;
 }
 
 .slot-optical {
@@ -761,8 +929,20 @@ $slot-sprite-height: 2094px;
   @include slot-downtown-shard-boost;
 }
 
+.slot-workshop-action-space {
+  @include slot-workshop-action-space;
+}
+
+.slot-workshop-shard-boost {
+  @include slot-workshop-shard-boost;
+}
+
 .slot-market-shard-boost {
   @include slot-market-shard-boost;
+}
+
+.slot-alley-shard-boost {
+  @include slot-alley-shard-boost;
 }
 
 .slot-downtown-action-space {
@@ -771,6 +951,10 @@ $slot-sprite-height: 2094px;
 
 .slot-market-quick-order-slot {
   @include slot-market-quick-order-slot;
+}
+
+.slot-workshop-component-slot {
+  @include slot-workshop-component-slot;
 }
 
 .slot-theater {
@@ -829,6 +1013,14 @@ $slot-sprite-height: 2094px;
   @include slot-market-action-quick-order;
 }
 
+.slot-workshop-action-move-apprentice {
+  @include slot-workshop-action-move-apprentice;
+}
+
+.slot-workshop-action-move-tricks {
+  @include slot-workshop-action-move-tricks;
+}
+
 .slot-downtown-action-take-coins {
   @include slot-downtown-action-take-coins;
 }
@@ -857,6 +1049,10 @@ $slot-sprite-height: 2094px;
   @include slot-downtown-die-slot-bank-A;
 }
 
+.slot-workshop-action-move-components {
+  @include slot-workshop-action-move-components;
+}
+
 .slot-market-action-buy {
   @include slot-market-action-buy;
 }
@@ -867,6 +1063,10 @@ $slot-sprite-height: 2094px;
 
 .slot-downtown-action-reroll-die {
   @include slot-downtown-action-reroll-die;
+}
+
+.slot-workshop-action-prepare {
+  @include slot-workshop-action-prepare;
 }
 
 .slot-alley-action-fortune-telling {
@@ -947,6 +1147,10 @@ $slot-sprite-height: 2094px;
 
 .slot-market-action-cost {
   @include slot-market-action-cost;
+}
+
+.slot-workshop-action-cost {
+  @include slot-workshop-action-cost;
 }
 
 .slot-alley-action-cost {

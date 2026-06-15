@@ -54,11 +54,13 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
 
     */
-    private static function isSpecialistType($type) {
+    private static function isSpecialistType(string $type)
+    {
         return in_array($type, [self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT]);
     }
 
-    public static function getCharacterActionPoints($type) {
+    public static function getCharacterActionPoints(string $type)
+    {
         return match ($type) {
             Character::TYPE_APPRENTICE => 1,
             Character::TYPE_ENGINEER, Character::TYPE_MANAGER, Character::TYPE_ASSISTANT => 2,
@@ -67,7 +69,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         };
     }
 
-    private static function getCharacterName($type)
+    private static function getCharacterName(string $type)
     {
         return [
             self::TYPE_MAGICIAN => clienttranslate('Magician'),
@@ -78,7 +80,8 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ][$type];
     }
 
-    public static function getCharacterIdleLocation($type) {
+    public static function getCharacterIdleLocation(string $type)
+    {
         if (self::isSpecialistType($type)) {
             return self::getSpecialistLocation($type);
         }
@@ -86,7 +89,8 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         return Characters::LOCATION_IDLE_PLAYER_BOARD;
     }
 
-    public function getIdleLocation() {
+    public function getIdleLocation()
+    {
         if ($this->isOnAssistantBoard()) {
             return Characters::LOCATION_IDLE_ASSISTANT_BOARD;
         }
@@ -94,7 +98,8 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         return self::getCharacterIdleLocation($this->type);
     }
 
-    public static function getSpecialistLocation($type) {
+    public static function getSpecialistLocation(string $type)
+    {
         return [
             self::TYPE_ENGINEER => Characters::LOCATION_IDLE_ENGINEER_BOARD,
             self::TYPE_MANAGER => Characters::LOCATION_IDLE_MANAGER_BOARD,
@@ -102,14 +107,16 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ][$type];
     }
 
-    public function getPossibleLocations($boardLocation) {
+    public function getPossibleLocations(string $boardLocation)
+    {
         return Characters::getPossibleLocations($this->type, $boardLocation)
-            ->filter(function($location) {
+            ->filter(function ($location) {
                 return $this->canPlayerPlaceInLocation($this->playerId, $location);
             })->toArray();
     }
 
-    private function canPlayerPlaceInLocation($playerId, $location) {
+    private function canPlayerPlaceInLocation($playerId, $location)
+    {
         $isOccupied = Characters::getInLocation($location)->first() !== null;
 
         if (Characters::isWorkshopLocation($location)) {
@@ -132,20 +139,23 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
             if ($day !== null && $day != explode("-", $location)[2]) {
                 return false;
             }
-        }            
-        
+        }
+
         return true;
     }
 
-    public static function getAllTypes() {
+    public static function getAllTypes()
+    {
         return [self::TYPE_MAGICIAN, self::TYPE_ENGINEER, self::TYPE_MANAGER, self::TYPE_ASSISTANT, self::TYPE_APPRENTICE];
     }
 
-    public function getAssignmentCard() {
+    public function getAssignmentCard()
+    {
         return Assignments::where("state", $this->getId())->first();
     }
 
-    public function moveToAssistantBoard() {
+    public function moveToAssistantBoard()
+    {
         $this->setLocation(Characters::LOCATION_IDLE_ASSISTANT_BOARD);
         $this->setOnAssistantBoard(true);
 
@@ -158,7 +168,8 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         ]);
     }
 
-    public function getWage($notifyAssistentDiscount = false) {
+    public function getWage($notifyAssistentDiscount = false)
+    {
         if ($this->isOnAssistantBoard()) {
             if ($notifyAssistentDiscount) {
                 Game::get()->notify->all("message", clienttranslate('${player_name} doesn\'t pay wage to ${name} as it is on the assistant board'), [
@@ -170,7 +181,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
         }
 
         if (in_array($this->getLocation(), [
-            Characters::LOCATION_SUPPLY, 
+            Characters::LOCATION_SUPPLY,
             Characters::LOCATION_IDLE_ENGINEER_BOARD,
             Characters::LOCATION_IDLE_MANAGER_BOARD,
             Characters::LOCATION_IDLE_ASSISTANT_BOARD,
@@ -195,7 +206,7 @@ class Character extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_
     ╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║   ███████║
     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
-    */    
+    */
 
     const TYPE_MAGICIAN = 'magician';
     const TYPE_ENGINEER = 'engineer';

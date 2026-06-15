@@ -24,11 +24,11 @@ interface TrickerionGamedatas extends ExtendedGamedatas<TrickerionPlayer> {
     performances: {
         active: Performance[];
         deck: {
-            "state": number;
-            "theater": string;
+            state: number;
+            theater: string;
         }[];
     };
-    assignments:  {
+    assignments: {
         hand: Assignment[];
         deckRemaining: {
             theater_deck: number;
@@ -52,8 +52,8 @@ interface TrickerionGamedatas extends ExtendedGamedatas<TrickerionPlayer> {
                         state: number;
                     }[];
                 };
-            }
-        }
+            };
+        };
     };
     prophecies: {
         pending: Prophecy[];
@@ -72,20 +72,19 @@ interface TrickerionGamedatas extends ExtendedGamedatas<TrickerionPlayer> {
     };
     characters: {
         supply: Character[];
-        board: Character[];
-        idle: Character[];
+        visible: Character[];
         hiredSpecialists: {
             [playerId: number]: CharacterType[];
-        }
-    },
+        };
+    };
     components: {
         player: {
             [playerId: number]: Component[];
-        }
-    }
+        };
+    };
     posters: {
         all: Poster[];
-    }
+    };
 }
 
 /*
@@ -98,10 +97,9 @@ interface TrickerionGamedatas extends ExtendedGamedatas<TrickerionPlayer> {
 
 */
 
-interface Poster extends Model<string, PosterLocation> {
-}
+interface Poster extends Model<string, PosterLocation> {}
 
-type PosterLocation = "supply" | "board";
+type PosterLocation = 'supply' | 'board';
 
 interface Character extends Model<CharacterType, CharacterLocation> {
     onAssistantBoard: boolean;
@@ -110,39 +108,40 @@ interface Character extends Model<CharacterType, CharacterLocation> {
     specialist?: boolean;
 }
 
-type CharacterType = "assistant" | "manager" | "engineer" | "apprentice" | "magician";
-type CharacterLocation = "supply"
-    | "incoming"
-    | "idle-player-board"
-    | "idle-manager-board"
-    | "idle-assistant-board"
-    | "idle-engineer-board"
-    | "board-downtown-1"
-    | "board-downtown-2"
-    | "board-downtown-3"
-    | "board-downtown-4"
-    | "board-market-row-1"
-    | "board-market-row-2"
-    | "board-market-row-3"
-    | "board-market-row-4"
-    | "board-theater-thursday-basic-1"
-    | "board-theater-thursday-basic-2"
-    | "board-theater-thursday-magician"
-    | "board-theater-friday-basic-1"
-    | "board-theater-friday-basic-2"
-    | "board-theater-friday-magician"
-    | "board-theater-saturday-basic-1"
-    | "board-theater-saturday-basic-2"
-    | "board-theater-saturday-magician"
-    | "board-theater-sunday-basic-1"
-    | "board-theater-sunday-basic-2"
-    | "board-theater-sunday-magician"
-    | "board-workshop-1"
-    | "board-workshop-2"
-    | "board-dark-alley-1"
-    | "board-dark-alley-2"
-    | "board-dark-alley-3"
-    | "board-dark-alley-4"
+type CharacterType = 'assistant' | 'manager' | 'engineer' | 'apprentice' | 'magician';
+type CharacterLocation =
+    | 'supply'
+    | 'incoming'
+    | 'idle-player-board'
+    | 'idle-manager-board'
+    | 'idle-assistant-board'
+    | 'idle-engineer-board'
+    | 'board-downtown-1'
+    | 'board-downtown-2'
+    | 'board-downtown-3'
+    | 'board-downtown-4'
+    | 'board-market-row-1'
+    | 'board-market-row-2'
+    | 'board-market-row-3'
+    | 'board-market-row-4'
+    | 'board-theater-thursday-basic-1'
+    | 'board-theater-thursday-basic-2'
+    | 'board-theater-thursday-magician'
+    | 'board-theater-friday-basic-1'
+    | 'board-theater-friday-basic-2'
+    | 'board-theater-friday-magician'
+    | 'board-theater-saturday-basic-1'
+    | 'board-theater-saturday-basic-2'
+    | 'board-theater-saturday-magician'
+    | 'board-theater-sunday-basic-1'
+    | 'board-theater-sunday-basic-2'
+    | 'board-theater-sunday-magician'
+    | 'board-workshop-1'
+    | 'board-workshop-2'
+    | 'board-dark-alley-1'
+    | 'board-dark-alley-2'
+    | 'board-dark-alley-3'
+    | 'board-dark-alley-4';
 
 interface TrickMarker extends Model<string, TrickMarkerLocation> {
     suit: Suit;
@@ -151,8 +150,8 @@ interface TrickMarker extends Model<string, TrickMarkerLocation> {
     topTrickCategory: string;
 }
 
-type TrickMarkerLocation = "available" | "prepared" | "scheduled";
-type Suit = "spades" | "hearts" | "diamonds" | "clubs";
+type TrickMarkerLocation = 'available' | 'prepared' | 'scheduled';
+type Suit = 'spades' | 'hearts' | 'diamonds' | 'clubs';
 
 interface Magician extends Model<string, MagicianLocation> {
     favoriteTrickCategory?: TrickCategory;
@@ -163,13 +162,13 @@ interface Magician extends Model<string, MagicianLocation> {
     };
 }
 
-type MagicianLocation = "available" | "player";
+type MagicianLocation = 'available' | 'player';
 
 interface Prophecy extends Model<string, ProphecyLocation> {
     ability?: string[];
 }
 
-type ProphecyLocation = "deck" | "active" | "pending" | "discard";
+type ProphecyLocation = 'deck' | 'active' | 'pending' | 'discard';
 
 interface Assignment extends Model<string, AssignmentLocation> {
     boardLocation?: BoardLocation;
@@ -179,32 +178,34 @@ interface Assignment extends Model<string, AssignmentLocation> {
     abilityText?: string[];
 }
 
-type BoardLocation = "theater" | "downtown" | "market-row" | "workshop" | "dark-alley";
-type AssignmentCategory = "special" | "permanent";
-type TargetAction = "any" 
-    | "set-up-trick"
-    | "perform"
-    | "reschedule"
-    | "prepare"
-    | "hire-character"
-    | "learn-trick"
-    | "take-coins"
-    | "buy"
-    | "order"
-    | "quick-order";
+type BoardLocation = 'theater' | 'downtown' | 'market-row' | 'workshop' | 'dark-alley';
+type AssignmentCategory = 'special' | 'permanent';
+type TargetAction =
+    | 'any'
+    | 'set-up-trick'
+    | 'perform'
+    | 'reschedule'
+    | 'prepare'
+    | 'hire-character'
+    | 'learn-trick'
+    | 'take-coins'
+    | 'buy'
+    | 'order'
+    | 'quick-order';
 
-type AssignmentLocation = "hand"
-    | "theater_deck"
-    | "downtown_deck"
-    | "workshop_deck"
-    | "market_row_deck"
-    | "theater_discard"
-    | "downtown_discard"
-    | "workshop_discard"
-    | "market_row_discard"
-    | "assigned-faceup"
-    | "assigned-facedown"
-    | "drawn";
+type AssignmentLocation =
+    | 'hand'
+    | 'theater_deck'
+    | 'downtown_deck'
+    | 'workshop_deck'
+    | 'market_row_deck'
+    | 'theater_discard'
+    | 'downtown_discard'
+    | 'workshop_discard'
+    | 'market_row_discard'
+    | 'assigned-faceup'
+    | 'assigned-facedown'
+    | 'drawn';
 
 interface Performance extends Model<string, PerformanceLocation> {
     name?: string;
@@ -213,7 +214,7 @@ interface Performance extends Model<string, PerformanceLocation> {
     bonus?: Yields;
 }
 
-type PerformanceTheater = "riverside_theater" | "grand_magorian" | "magnus_pantheon";
+type PerformanceTheater = 'riverside_theater' | 'grand_magorian' | 'magnus_pantheon';
 
 interface Slot {
     x: number;
@@ -223,10 +224,10 @@ interface Slot {
 
 interface Link {
     direction: LinkDirection;
-    shard: boolean
+    shard: boolean;
 }
 
-type LinkDirection = "up" | "down" | "left" | "right";
+type LinkDirection = 'up' | 'down' | 'left' | 'right';
 
 interface Yields {
     fame: number;
@@ -239,7 +240,7 @@ interface YieldModifier {
     coins: number;
 }
 
-type PerformanceLocation = "deck" | "active" | "box";
+type PerformanceLocation = 'deck' | 'active' | 'box';
 
 interface Trick extends Model<string, TrickLocation> {
     suit: Suit;
@@ -252,8 +253,8 @@ interface Trick extends Model<string, TrickLocation> {
     yields?: Yields;
 }
 
-type TrickLocation = "available" | "player-board" | "engineer-board" | "box";
-type TrickCategory = "spiritual" | "mechanical" | "escape" | "optical";
+type TrickLocation = 'available' | 'player-board' | 'engineer-board' | 'box';
+type TrickCategory = 'spiritual' | 'mechanical' | 'escape' | 'optical';
 
 interface Component extends Model<ComponentType, ComponentLocation> {
     count: number;
@@ -261,8 +262,20 @@ interface Component extends Model<ComponentType, ComponentLocation> {
     name?: string;
 }
 
-type ComponentType = "wood" | "glass" | "metal" | "fabric" | "rope" | "petroleum" | "saw" | "animal" | "padlock" | "mirror" | "disguise" | "cog";
-type ComponentLocation = "player-board" | "manager-board";
+type ComponentType =
+    | 'wood'
+    | 'glass'
+    | 'metal'
+    | 'fabric'
+    | 'rope'
+    | 'petroleum'
+    | 'saw'
+    | 'animal'
+    | 'padlock'
+    | 'mirror'
+    | 'disguise'
+    | 'cog';
+type ComponentLocation = 'player-board' | 'manager-board';
 
 interface TrickerionGlobals {
     marketRow: MarketRow;
@@ -290,9 +303,9 @@ interface MarketRow {
 }
 
 interface Dice {
-    trick: (TrickCategory | "any" | "not-available")[];
-    character: (CharacterType | "not-available")[];
-    money: (3 | 4 | 5 | 6 | "not-available")[];
+    trick: (TrickCategory | 'any' | 'not-available')[];
+    character: (CharacterType | 'not-available')[];
+    money: (3 | 4 | 5 | 6 | 'not-available')[];
 }
 
 /*
@@ -305,7 +318,7 @@ interface Dice {
 
 */
 
-interface AdvertiseArgs extends GenericArguments{
+interface AdvertiseArgs extends GenericArguments {
     cost: number;
 }
 
@@ -316,15 +329,15 @@ interface AssignCharactersArgs extends GenericArguments {
 
 interface BuyComponentsArgs extends GenericArguments {
     remainingActionPoints: number;
-    availableComponents:  {
+    availableComponents: {
         [componentTypeId: string]: {
             [location: string]: {
                 max: number;
                 maxWithBargain: number;
                 effectiveCost: number;
             };
-        }
-    }
+        };
+    };
 }
 
 interface ChooseMagicianArgs extends GenericArguments {
@@ -340,7 +353,7 @@ interface PerformanceArgs extends GenericArguments {
     availablePerformances: Performance[];
 }
 
-type Day = "thursday" | "friday" | "saturday" | "sunday";
+type Day = 'thursday' | 'friday' | 'saturday' | 'sunday';
 
 interface PlaceCharacterArgs extends GenericArguments {
     availableAssignments: {
@@ -413,7 +426,7 @@ interface PlayLocationActionArgs extends GenericArguments {
             shardCost?: number;
             args: any;
             ifCharacterHired?: CharacterType;
-        }
+        };
     };
     remainingAps: number;
 }
@@ -439,8 +452,8 @@ interface RescheduleArgs extends GenericArguments {
             [performanceId: string]: {
                 performance: Performance;
                 possibleSlots: Slot[];
-            }
-        }
+            };
+        };
     };
     sourceName: string;
 }
@@ -450,7 +463,7 @@ interface SetDieArgs extends GenericArguments {
     availableFaces: {
         [dieType: string]: {
             [dieId: number]: (string | number)[];
-        }
+        };
     };
     sourceName: string;
 }
@@ -461,7 +474,7 @@ interface SetupTrickArgs extends GenericArguments {
         [performanceId: string]: {
             possibleTricks: Trick[];
             possibleSlots: Slot[];
-        }
+        };
     };
     sourceName: string;
 }
@@ -485,21 +498,19 @@ interface AssignmentResetArgs {
     player_id: number;
     _private: {
         assignments: Assignment[];
-    }
+    };
 }
 
-interface AssignmentReturnedArgs {
-}
+interface AssignmentReturnedArgs {}
 
-interface AssignmentDiscardedArgs {
-}
+interface AssignmentDiscardedArgs {}
 
 interface AssignmentsDrawnArgs {
     player_id: number;
     count: number;
     _private: {
         assignments: Assignment[];
-    }
+    };
 }
 
 interface AssignmentsDiscardedArgs {
@@ -508,17 +519,17 @@ interface AssignmentsDiscardedArgs {
     _private: {
         assignments: Assignment[];
         keptAssignments: Assignment[];
-    }
+    };
 }
 
 interface AssignmentAssignedArgs {
     player_id: number;
     characterName: string;
-    characterId: number,
+    characterId: number;
     _private: {
         assignment: Assignment;
         assignment_name: string;
-    }
+    };
 }
 
 interface CharacterHiredArgs {

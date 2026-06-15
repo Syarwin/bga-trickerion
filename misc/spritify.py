@@ -14,7 +14,7 @@ DEFAULT_MARGIN = 6
 INPUT_DIR = f'{FILENAME_BASIS}/'
 OUTPUT_ROOT_DIR = "../"
 OUTPUT_SPRITE = f"img/{FILENAME_BASIS}.png"
-OUTPUT_SASS = f"modules/scss/_{FILENAME_BASIS}.generated.scss"
+OUTPUT_SASS = f"src/scss/_{FILENAME_BASIS}.generated.scss"
 OUTPUT_PREVIEW = f"./{CLASS_PREFIX}_preview.html" # this will be outputed in current dir
 
 # --- Packing Algorithm ---

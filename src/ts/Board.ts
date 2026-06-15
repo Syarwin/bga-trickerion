@@ -1,6 +1,11 @@
 import { formatIcon } from './format';
+import { cards } from './Cards';
 
 export const board = {
+    isDarkAlley: function () {
+        return true; // TODO
+    },
+
     init: function (gamedatas: TrickerionGamedatas) {
         let nPlayers = Object.keys(gamedatas.players).length;
 
@@ -145,7 +150,7 @@ export const board = {
 
         ////////////////////
         // DARK ALLEY
-        const isDarkAlley = true; // TODO
+        const isDarkAlley = this.isDarkAlley();
         if (isDarkAlley) {
             const alleyActions = {
                 'draw-first-card': 1,
@@ -161,7 +166,7 @@ export const board = {
             });
             const alleySlots = [2, 3, 4, 2];
             slotsHTML = '<div id="alley-action-slots" class="action-slots">';
-            marketSlots.forEach((n, i) => {
+            alleySlots.forEach((n, i) => {
                 let j = i + 1;
                 if (n > nPlayers) return;
                 slotsHTML += `<div id="board-dark-alley-${j}" class="slot-alley-slot-${j}"></div>`;
@@ -233,5 +238,144 @@ export const board = {
               ${slotsHTML}
             </div>`
         );
+
+        // Magician boards
+        Object.values(gamedatas.players).forEach((player) => {
+            let magician = gamedatas.magicians.player[player.id];
+            if (magician) {
+                this.setupMagicianBoard(player, magician);
+                this.updateHiredSpecialists(player, gamedatas.characters.hiredSpecialists[player.id]);
+            }
+        });
+    },
+
+    setupMagicianBoard(player: Player, magician: Magician) {
+        const isDarkAlley = this.isDarkAlley();
+
+        $('trickerion-player-board-wrapper').insertAdjacentHTML(
+            'beforeend',
+            `
+        <div class="magician-board" id="magician-board-${player.id}" data-magician-id="${magician.id}">
+          <div class="magician-board-inner" style="border-color:#${player.color}">
+            <div class="player-name" style="border-color:#${player.color}; background-color:#${player.color}">
+              ${player.name}
+            </div>
+            <div class="slot-workshop-logo"></div>
+            <div class="magician-workshop">
+              <div class="magician-workshop-main">
+                <div class="magician-workshop-background"></div>
+                <div class="magician-card-holder">
+                  ${cards.tplMagician(magician, '', isDarkAlley)}
+                </div>
+                <div class="slot-workshop-shard-boost"></div>
+                <div id="workshop-${player.id}-prepare" class="slot-workshop-action-space">
+                  <div class="slot-workshop-action-prepare"></div>
+                  <div class="slot-workshop-action-cost">?${formatIcon('action-point')}</div>
+                </div>
+
+                <div class="action-slots">
+                  <div id="board-workshop-${player.id}-1" class="slot-workshop-slot-1"></div>
+                  <div id="board-workshop-${player.id}-2" class="slot-workshop-slot-1"></div>
+                </div>
+                <div class="magician-tricks-components">
+                  <div class="trick-slot slot-1"></div>
+                  <div class="trick-slot slot-2"></div>
+                  <div class="trick-slot slot-3"></div>
+
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                  <div class="component-slot slot-workshop-component-slot"></div>
+                </div>
+              </div>
+              <div class="engineer-workshop">
+                <div class="specialist-workshop-background"></div>
+                <div class="trick-slot engineer-slot"></div>
+                <div class="slot-workshop-prepare-bonus"></div>
+                <div id="workshop-${player.id}-move-tricks" class="slot-workshop-action-space">
+                  <div class="slot-workshop-action-move-tricks"></div>
+                  <div class="slot-workshop-action-cost">1${formatIcon('action-point')}</div>
+                </div>
+              </div>
+              <div class="manager-workshop">
+                <div class="manager-components">
+                  <div class="component-slot slot-workshop-manager-component-slot"></div>
+                  <div class="component-slot slot-workshop-manager-component-slot"></div>
+                </div>
+
+                <div class="specialist-workshop-background"></div>
+                <div id="workshop-${player.id}-move-components" class="slot-workshop-action-space">
+                  <div class="slot-workshop-action-move-components"></div>
+                  <div class="slot-workshop-action-cost">1${formatIcon('action-point')}</div>
+                </div>
+              </div>
+              <div class="assistant-workshop">
+                <div class="specialist-workshop-background"></div>
+                <div id="workshop-${player.id}-move-apprentice" class="slot-workshop-action-space">
+                  <div class="slot-workshop-action-move-apprentice"></div>
+                  <div class="slot-workshop-action-cost">1${formatIcon('action-point')}</div>
+                </div>
+              </div>
+            </div>
+            <div class="magician-assignments" id="assignments-${player.id}" data-color="${player.color}">
+              <div class="magician-assignments-main"></div>
+              <div class="magician-assignments-specialists"></div>
+            </div>          
+          </div>
+        </div>
+      `
+        );
+
+        [
+            'magician',
+            'apprentice-1',
+            'apprentice-2',
+            'apprentice-3',
+            'apprentice-assistant',
+            'engineer',
+            'manager',
+            'assistant',
+        ].forEach((typeId, i) => {
+            let container = $(`assignments-${player.id}`).querySelector(
+                i < 5 ? '.magician-assignments-main' : '.magician-assignments-specialists'
+            );
+            let type = typeId.split('-')[0];
+            let meepleSlotClass = type == 'apprentice' ? 'apprentice-meeple' : 'meeple';
+            let slotClass = 'assignment';
+
+            // Assistant special slot
+            if (typeId === 'apprentice-assistant') {
+                meepleSlotClass = 'assistant-meeple';
+                slotClass = 'special-assignment';
+            }
+
+            container.insertAdjacentHTML(
+                'beforeend',
+                `<div class="assignment-slot-holder" id="assignment-slot-${player.id}-${typeId}">
+                <div class="assignment-slot-header">
+                  <div id="idle-${player.id}-${typeId}" class="slot-assignment-${meepleSlotClass}-slot">${formatIcon(type)}</div>
+                </div>
+                <div class="assignment-slot slot-${slotClass}-slot"></div>
+              </div>`
+            );
+        });
+    },
+
+    updateHiredSpecialists(player: Player, hiredSpecialists: CharacterType[]) {
+        let board = $(`magician-board-${player.id}`);
+        board.dataset.nSpecialists = '' + hiredSpecialists.length;
+
+        const characterTypes = ['engineer', 'manager', 'assistant'] satisfies CharacterType[];
+        characterTypes.forEach((characterType) => {
+            const hired = hiredSpecialists.includes(characterType);
+            board.querySelector(`.${characterType}-workshop`).classList.toggle('disabled', !hired);
+            $(`assignment-slot-${player.id}-${characterType}`).classList.toggle('disabled', !hired);
+
+            if (characterType === 'assistant') {
+                $(`assignment-slot-${player.id}-apprentice-assistant`).classList.toggle('disabled', !hired);
+            }
+        });
     },
 };
