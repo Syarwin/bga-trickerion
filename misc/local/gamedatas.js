@@ -61,7 +61,7 @@ export const gamedatas = {
         },
         pickingComponents: [],
         isDarkAlley: false,
-        isBeginnersSetup: false,
+        isBeginnersSetup: true,
     },
     tricks: {
         available: [
@@ -194,22 +194,6 @@ export const gamedatas = {
                 suit: null,
             },
             {
-                id: 25,
-                type: 'T25_BarricadedBarrels',
-                location: 'available',
-                state: 0,
-                playerId: null,
-                suit: null,
-            },
-            {
-                id: 26,
-                type: 'T26_StocksEscape',
-                location: 'available',
-                state: 0,
-                playerId: null,
-                suit: null,
-            },
-            {
                 id: 27,
                 type: 'T27_BurningMummy',
                 location: 'available',
@@ -323,15 +307,32 @@ export const gamedatas = {
             },
         ],
         player: {
-            2322020: [],
+            2322020: [
+                {
+                    id: 25,
+                    type: 'T25_BarricadedBarrels',
+                    location: 'player-board',
+                    state: 0,
+                    playerId: 2322020,
+                    suit: 'spades',
+                },
+                {
+                    id: 26,
+                    type: 'T26_StocksEscape',
+                    location: 'engineer-board',
+                    state: 0,
+                    playerId: 2322020,
+                    suit: 'hearts',
+                },
+            ],
             2322021: [],
         },
     },
     performances: {
         active: [
             {
-                id: 2,
-                type: 'P02_RiversideTheater',
+                id: 5,
+                type: 'P05_RiversideTheater',
                 location: 'active',
                 state: 1,
             },
@@ -452,13 +453,6 @@ export const gamedatas = {
     magicians: {
         available: [
             {
-                id: 1,
-                type: 'M01_MasterOfChains',
-                location: 'available',
-                state: 0,
-                playerId: null,
-            },
-            {
                 id: 2,
                 type: 'M02_TheGreatOptico',
                 location: 'available',
@@ -468,6 +462,13 @@ export const gamedatas = {
             {
                 id: 3,
                 type: 'M03_PriestessOfMysticism',
+                location: 'available',
+                state: 0,
+                playerId: null,
+            },
+            {
+                id: 4,
+                type: 'M04_TheMechaniker',
                 location: 'available',
                 state: 0,
                 playerId: null,
@@ -503,11 +504,17 @@ export const gamedatas = {
         ],
         player: {
             2322020: {
-                id: 4,
-                type: 'M04_TheMechaniker',
+                id: 1,
+                type: 'M01_MasterOfChains',
                 location: 'player',
                 state: 0,
                 playerId: 2322020,
+                favoriteTrickCategory: 'escape',
+                name: 'Master of Chains',
+                ability: {
+                    name: 'Break Free',
+                    effect: "Before the 'Performance' phase, you may take a special 'Reschedule' Action without placing any Characters. Unlike the normal 'Reschedule' Action, you receive the Link bonuses if you create Link(s) with this placement.",
+                },
             },
             2322021: null,
         },
@@ -841,20 +848,12 @@ export const gamedatas = {
     characters: {
         supply: [
             {
-                id: 2,
-                location: 'supply',
-                state: 0,
-                playerId: 2322020,
-                type: 'engineer',
-                idleLocation: 'idle-player-board',
-            },
-            {
                 id: 3,
                 location: 'supply',
                 state: 0,
                 playerId: 2322020,
                 type: 'manager',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-manager-board',
             },
             {
                 id: 4,
@@ -862,7 +861,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'assistant',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-assistant-board',
             },
             {
                 id: 6,
@@ -870,7 +869,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 7,
@@ -878,7 +877,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 8,
@@ -886,7 +885,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322020,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 10,
@@ -894,7 +893,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'engineer',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-engineer-board',
             },
             {
                 id: 11,
@@ -902,7 +901,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'manager',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-manager-board',
             },
             {
                 id: 12,
@@ -910,7 +909,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'assistant',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-assistant-board',
             },
             {
                 id: 14,
@@ -918,7 +917,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 15,
@@ -926,7 +925,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
             {
                 id: 16,
@@ -934,7 +933,7 @@ export const gamedatas = {
                 state: 0,
                 playerId: 2322021,
                 type: 'apprentice',
-                idleLocation: 'idle-player-board',
+                idleLocation: 'idle-apprentice-1',
             },
         ],
         visible: [
@@ -945,6 +944,14 @@ export const gamedatas = {
                 playerId: 2322020,
                 type: 'magician',
                 idleLocation: 'idle-player-board',
+            },
+            {
+                id: 2,
+                location: 'idle-engineer-board',
+                state: 0,
+                playerId: 2322020,
+                type: 'engineer',
+                idleLocation: 'idle-engineer-board',
             },
             {
                 id: 5,
@@ -972,7 +979,7 @@ export const gamedatas = {
             },
         ],
         hiredSpecialists: {
-            2322020: [],
+            2322020: ['engineer'],
             2322021: [],
         },
     },
@@ -985,7 +992,7 @@ export const gamedatas = {
                     location: 'player-board',
                     state: 0,
                     playerId: 2322020,
-                    count: 0,
+                    count: 2,
                 },
                 {
                     id: 2,
@@ -1193,7 +1200,7 @@ export const gamedatas = {
         },
     },
     gamestate: {
-        id: 901,
+        id: 903,
         active_player: '2322020',
         args: {
             optionalAction: false,
@@ -1208,114 +1215,28 @@ export const gamedatas = {
                 },
             ],
             previousEngineChoices: 1,
-            previousSteps: [20],
+            previousSteps: [29],
             automaticAction: false,
-            choices: [
-                {
-                    id: 0,
-                    description: 'Pick components',
-                    args: null,
-                    optionalAction: false,
-                    automaticAction: false,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-                {
-                    id: 1,
-                    description: {
-                        log: 'Learn a trick (${sourceName})',
-                        args: {
-                            sourceName: 'setup',
-                        },
-                    },
-                    args: {
-                        categories: ['mechanical'],
-                        sourceName: 'setup',
-                    },
-                    optionalAction: false,
-                    automaticAction: false,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-                {
-                    id: 2,
-                    description: 'Hire character',
-                    args: null,
-                    optionalAction: false,
-                    automaticAction: true,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-            ],
-            allChoices: [
-                {
-                    id: 0,
-                    description: 'Pick components',
-                    args: null,
-                    optionalAction: false,
-                    automaticAction: false,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-                {
-                    id: 1,
-                    description: {
-                        log: 'Learn a trick (${sourceName})',
-                        args: {
-                            sourceName: 'setup',
-                        },
-                    },
-                    args: {
-                        categories: ['mechanical'],
-                        sourceName: 'setup',
-                    },
-                    optionalAction: false,
-                    automaticAction: false,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-                {
-                    id: 2,
-                    description: 'Hire character',
-                    args: null,
-                    optionalAction: false,
-                    automaticAction: true,
-                    independentAction: false,
-                    irreversibleAction: false,
-                    source: null,
-                    sourceId: null,
-                },
-            ],
         },
         reflexion: {
             total: {
-                2322020: 7774992,
+                2322020: 7775119,
                 2322021: '7776000',
             },
             initial: {
-                2322020: 7775466,
+                2322020: 7775179,
             },
             initial_ts: {
-                2322020: 1779914277077,
+                2322020: 1781561893759,
             },
         },
         updateGameProgression: 0,
-        name: 'ResolveChoice',
+        name: 'ConfirmTurn',
         type: 'activeplayer',
-        description: '${actplayer} must choose which effect to resolve',
-        descriptionmyturn: '${you} must choose which effect to resolve',
+        description: '${actplayer} must finalize their decisions.',
+        descriptionmyturn: "${you} must finalize your decisions. When you do you won't be able to undo past this point",
         action: null,
-        possibleactions: ['actChooseAction', 'actRestart', 'actUndoToStep', 'actPassOptionalAction', 'actAnytimeAction'],
+        possibleactions: ['actConfirmTurn', 'actRestart', 'actUndoToStep', 'actPassOptionalAction', 'actAnytimeAction'],
         transitions: [],
         initialprivate: null,
     },
@@ -1883,8 +1804,10 @@ export const gamedatas = {
             description: '${actplayer} must choose which effect to resolve',
             descriptionmyturn: '${you} must choose which effect to resolve',
             action: null,
+            args: null,
             possibleactions: ['actChooseAction', 'actRestart', 'actUndoToStep', 'actPassOptionalAction', 'actAnytimeAction'],
             transitions: [],
+            updateGameProgression: false,
             initialprivate: null,
         },
         903: {
@@ -1893,10 +1816,8 @@ export const gamedatas = {
             description: '${actplayer} must finalize their decisions.',
             descriptionmyturn: "${you} must finalize your decisions. When you do you won't be able to undo past this point",
             action: null,
-            args: null,
             possibleactions: ['actConfirmTurn', 'actRestart', 'actUndoToStep', 'actPassOptionalAction', 'actAnytimeAction'],
             transitions: [],
-            updateGameProgression: false,
             initialprivate: null,
         },
         904: {
@@ -1937,7 +1858,7 @@ export const gamedatas = {
         },
     },
     notifications: {
-        last_packet_id: '3',
+        last_packet_id: '2',
         move_nbr: '2',
     },
     decision: {

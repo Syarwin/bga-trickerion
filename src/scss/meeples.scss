@@ -19,6 +19,13 @@
     &.meeple-character {
         width: 5rem;
     }
+
+    &.meeple-component {
+        width: 5rem;
+        border: 1px solid black;
+        box-shadow: 1px 1px 3px #000000b8;
+        border-radius: 3px;
+    }
 }
 
 // Meeple inside board slots — positioned absolutely to stack over slot icons

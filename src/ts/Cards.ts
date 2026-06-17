@@ -3,7 +3,10 @@ import { staticData } from './staticData.js';
 import { attachRegisteredTooltips, registerCustomTooltip } from './framework/utils.js';
 
 export const cards = {
-    init: function (gamedatas: TrickerionGamedatas) {},
+    init(gamedatas: TrickerionGamedatas) {
+        this.setupPerformanceCards(gamedatas);
+        this.setupTrickCards(gamedatas);
+    },
 
     //////////////////////////////////////////////////////////////////////////
     //  ____            __
@@ -13,7 +16,7 @@ export const cards = {
     // |_|   \___|_|  |_|  \___/|_|  |_| |_| |_|\__,_|_| |_|\___\___||___/
     //////////////////////////////////////////////////////////////////////////
 
-    tplPerformanceCard: function (card: Performance, prefix = '') {
+    tplPerformanceCard(card: Performance, prefix: string = '') {
         card = Object.assign(card, staticData.performances[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
@@ -41,13 +44,13 @@ export const cards = {
       </div>`;
     },
 
-    setupPerformanceCards: function (gamedatas) {
-        gamedatas.performances.active.forEach((card) => {
+    setupPerformanceCards(gamedatas: TrickerionGamedatas) {
+        gamedatas.performances.active.forEach((card: Performance) => {
             this.addPerformanceCard(card);
         });
     },
 
-    addPerformanceCard(card, location = null) {
+    addPerformanceCard(card: Performance, location: HTMLElement = null) {
         if ($('performance-' + card.id)) return;
         if (location == null) location = this.getPerformanceCardContainer(card);
 
@@ -55,7 +58,7 @@ export const cards = {
         attachRegisteredTooltips();
     },
 
-    getPerformanceCardContainer(card) {
+    getPerformanceCardContainer(card: Performance) {
         let container = null;
         if (card.location == 'active') {
             container = `performance-slot-${card.state}`;
@@ -76,7 +79,7 @@ export const cards = {
     // /_/   \_\___/___/_|\__, |_| |_|_| |_| |_|\___|_| |_|\__|
     //                    |___/
     ///////////////////////////////////////////////////////////////
-    tplAssignmentCard: function (card: Assignment, prefix = '') {
+    tplAssignmentCard(card: Assignment, prefix: string = '') {
         card = Object.assign(card, staticData.assignments[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
@@ -155,7 +158,7 @@ export const cards = {
     //   |_||_|  |_|\___|_|\_\___/
     ////////////////////////////////
 
-    tplTrickCard: function (card: Trick, prefix = '') {
+    tplTrickCard(card: Trick, prefix: string = '') {
         card = Object.assign(card, staticData.tricks[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
@@ -201,6 +204,78 @@ export const cards = {
       </div>`;
     },
 
+    setupTrickCards(gamedatas: TrickerionGamedatas) {
+        for (const playerIdStr of Object.keys(gamedatas.tricks.player)) {
+            const playerId = parseInt(playerIdStr, 10);
+            const tricks = gamedatas.tricks.player[playerId];
+            for (const trick of tricks) {
+                this.addTrickCard(trick);
+            }
+        }
+
+        // Setup modal content wrapper if not defined yet
+        ['spiritual', 'mechanical', 'escape', 'optical'].forEach((trickCategory) => {
+            if (!$(`${trickCategory}-tricks-deck`)) {
+                $('modals-content-holder').insertAdjacentHTML(
+                    'beforeend',
+                    `<div id="${trickCategory}-tricks-deck" class="tricks-deck"></div>`
+                );
+
+                // Add observer
+                let observer = new MutationObserver((mutationRecords) => {
+                    mutationRecords.forEach((record) => {
+                        $(`trick-deck-${trickCategory}-counter`).innerHTML = String(record.target.childNodes.length);
+                    });
+                });
+                observer.observe($(`${trickCategory}-tricks-deck`), { childList: true });
+            }
+        });
+        gamedatas.tricks.available.forEach((card) => {
+            this.addTrickCard(card);
+        });
+    },
+
+    addTrickCard(card: Trick, location: HTMLElement = null) {
+        if ($('performance-' + card.id)) return;
+        if (location == null) location = this.getTrickCardContainer(card);
+
+        $(location).insertAdjacentHTML('beforeend', this.tplTrickCard(card));
+        attachRegisteredTooltips();
+    },
+
+    getTrickCardContainer(card: Trick) {
+        let container = null;
+
+        // Trick on magician workshop => take the first available
+        if (card.location === 'player-board') {
+            let freeSlots = [...$(`magician-board-${card.playerId}`).querySelectorAll('.magician-workshop .trick-slot')].filter(
+                (elt) => elt.childNodes.length == 0
+            );
+            if (freeSlots.length) container = freeSlots[0];
+        }
+
+        // Trick on engineer workshop
+        if (card.location === 'engineer-board') {
+            let freeSlots = [...$(`magician-board-${card.playerId}`).querySelectorAll('.engineer-workshop .trick-slot')].filter(
+                (elt) => elt.childNodes.length == 0
+            );
+            if (freeSlots.length) container = freeSlots[0];
+        }
+
+        // Trick in decks
+        if (card.location === 'available') {
+            card = Object.assign(card, staticData.tricks[card.type]);
+            container = $(`${card.category}-tricks-deck`);
+        }
+
+        if (!$(container)) {
+            console.error('No container found for trick card', card);
+            return $('trickerion-default-container');
+        }
+
+        return $(container);
+    },
+
     /////////////////////////////////////////////////////////
     //  ____                  _               _
     // |  _ \ _ __ ___  _ __ | |__   ___  ___(_) ___  ___
@@ -210,7 +285,7 @@ export const cards = {
     //                 |_|
     /////////////////////////////////////////////////////////
 
-    tplProphecy: function (card: Prophecy, prefix = '') {
+    tplProphecy(card: Prophecy, prefix = '') {
         card = Object.assign(card, staticData.prophecies[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (prefix != 'tooltip') {
@@ -236,7 +311,7 @@ export const cards = {
     // |_|  |_|\__,_|\__, |_|\___|_|\__,_|_| |_|___/
     //               |___/
     /////////////////////////////////////////////////////////
-    tplMagician: function (card: Magician, prefix = '', isDarkAlley = false) {
+    tplMagician(card: Magician, prefix = '', isDarkAlley = false) {
         card = Object.assign(card, staticData.magicians[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
         if (isDarkAlley) prefixId += 'alley-';
@@ -257,7 +332,7 @@ export const cards = {
       </div>`;
     },
 
-    tplMagicianPoster: function (card: Poster, prefix = '') {
+    tplMagicianPoster(card: Poster, prefix = '') {
         let prefixId = prefix == '' ? '' : `${prefix}-`;
 
         return `<div id="${prefixId}poster-${card.id}" class="magician-poster ${prefix}" data-type="${card.type}">

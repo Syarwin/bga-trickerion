@@ -2,9 +2,11 @@
  * Meeples — manages all board pieces (characters, components, trick markers, academy markers).
  *
  * On init() it reads gamedatas and creates meeple DOM elements positioned in the correct slots.
- * getMeepleLocation() maps backend location strings → DOM elements, with a fallback hidden div
+ * getMeepleContainer() maps backend location strings → DOM elements, with a fallback hidden div
  * for robustness when the location has no visual slot yet.
  */
+
+import { addCustomTooltip } from './framework/utils';
 
 /** Map player color hex → sprite color name */
 const _colorName = (hex: string): string => {
@@ -33,10 +35,10 @@ export const meeples = {
 
         // 1. Characters (visible = not in supply)
         for (const character of gamedatas.characters.visible) {
-            this.createMeeple(character);
+            this.addMeeple(character);
         }
 
-        // visible already excludes supply, but if a supply meeple sneaks in, getMeepleLocation
+        // visible already excludes supply, but if a supply meeple sneaks in, getMeepleContainer
         // will return fallbackEl and log an error.
 
         // 2. Components (only those with count > 0)
@@ -45,7 +47,7 @@ export const meeples = {
             const components = gamedatas.components.player[playerId];
             for (const component of components) {
                 if (component.count <= 0) continue;
-                this.createMeeple(component);
+                this.addMeeple(component);
             }
         }
 
@@ -56,7 +58,7 @@ export const meeples = {
             ...gamedatas.trickMarkers.scheduled,
         ];
         for (const tm of allTrickMarkers) {
-            this.createMeeple(tm);
+            this.addMeeple(tm);
         }
 
         // 4. Academy markers — not yet supported in backend, skip for now
@@ -71,13 +73,15 @@ export const meeples = {
      * @param meeple    The meeple data.
      * @returns         The created element (fetched from the DOM after insertion).
      */
-    createMeeple(meeple: Meeple, container?: HTMLElement): HTMLElement {
-        if ($(`meeple-${meeple.id}`)) return;
+    addMeeple(meeple: Meeple, container?: HTMLElement): HTMLElement {
+        if ($(`meeple-${meeple.type}-${meeple.id}`)) return;
 
-        if (!container) container = this.getMeepleLocation(meeple);
-        container.insertAdjacentHTML('beforeend', this.tplMeeple(meeple));
+        if (!container) container = this.getMeepleContainer(meeple);
+        let infos = this.tplMeeple(meeple);
+        container.insertAdjacentHTML('beforeend', infos.html);
         const el = container.lastElementChild as HTMLElement;
         if (el) {
+            addCustomTooltip(el, infos.tooltip);
             return el;
         }
     },
@@ -85,26 +89,33 @@ export const meeples = {
     /**
      * Return the HTML string for a meeple element.
      */
-    tplMeeple(meeple: Meeple): string {
+    tplMeeple(meeple: Meeple): object {
         let cssClass: string;
         let count: number | undefined;
+        let tooltip: string;
 
         if ('suit' in meeple) {
             // TrickMarker
             const colorHex = _playerColors[meeple.playerId] ?? '';
             cssClass = `meeple-trick-marker-${_colorName(colorHex)}-${meeple.suit}  meeple-trick-marker`;
+            tooltip = 'Trick marker (TODO)';
         } else if ('count' in meeple) {
             // Component
             cssClass = `meeple-component-${meeple.type}  meeple-component`;
             count = meeple.count;
+            tooltip = _(meeple.type);
         } else {
             // Character
             const colorHex = _playerColors[meeple.playerId] ?? '';
             cssClass = `meeple-${_colorName(colorHex)}-${(meeple as Character).type} meeple-character`;
+            tooltip = _(meeple.type);
         }
 
         const dataAttr = count !== undefined && count > 0 ? ` data-count="${count}"` : '';
-        return `<div id='meeple-${meeple.id}' class="trickerion-meeple ${cssClass}"${dataAttr}></div>`;
+        return {
+            html: `<div id='meeple-${meeple.type}-${meeple.id}' class="trickerion-meeple ${cssClass}"${dataAttr}></div>`,
+            tooltip,
+        };
     },
 
     /**
@@ -114,7 +125,7 @@ export const meeples = {
      * Always returns a DOM element — logs an error + returns fallback if the
      * location has no visible slot or is unknown.
      */
-    getMeepleLocation(meeple: Meeple): HTMLElement {
+    getMeepleContainer(meeple: Meeple): HTMLElement {
         const fallback = $('trickerion-default-container');
 
         const location = meeple.location;

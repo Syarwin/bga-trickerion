@@ -13,6 +13,7 @@ export const board = {
         $('game_play_area').insertAdjacentHTML(
             'beforeend',
             `
+<div id="modals-content-holder"></div>
 <div id="trickerion-main-wrapper">
   <div id="trickerion-pending"></div>
   <div id="trickerion-main-container">

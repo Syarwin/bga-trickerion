@@ -19,7 +19,7 @@ interface TrickerionGamedatas extends ExtendedGamedatas<TrickerionPlayer> {
     globals: TrickerionGlobals;
     tricks: {
         available: Trick[];
-        player: { [playerId: number]: Trick };
+        player: { [playerId: number]: Trick[] };
     };
     performances: {
         active: Performance[];

@@ -27,6 +27,7 @@ $trick-h: math.div($trick-w, 348) * 537;
   position: relative;
   height: calc(var(--magicianBoardScale) * #{$board-height});
   margin: 20px auto 5px;
+  --trickCardScale: 0.59;
 
   @for $i from 0 through 3 {
     $width: $board-width + $i * 235px;
@@ -218,6 +219,7 @@ $trick-h: math.div($trick-w, 348) * 537;
         @extend %slot-base;
         border-radius: 0px;
         border: 1px solid black;
+        position: relative;
       }
 
       .engineer-workshop,
@@ -285,6 +287,7 @@ $trick-h: math.div($trick-w, 348) * 537;
 
           .component-slot {
             width: 100px;
+            position: relative;
             border: none;
           }
         }
