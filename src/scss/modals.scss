@@ -1,0 +1,153 @@
+/*
+ * Modal / popin component styles
+ * Corresponds to src/ts/framework/Modal.ts
+ *
+ * Customise by replacing "custom_popin" with your configured `class` value.
+ */
+@use "_slots.generated" as _slot;
+
+.custom_popin {
+  position: relative;
+  max-width: 90vw;
+  min-width: 300px;
+  width: 70%;
+  box-sizing: border-box;
+  background: url("img/background.jpg");
+  border: 2px #891216 solid;
+  border-radius: 15px;
+  padding: 1%;
+}
+
+.mobile_version .custom_popin {
+  padding: 10px;
+}
+
+.custom_popin_title {
+  @include _slot.slot-modal-header;
+  position: absolute;
+  left: 50%;
+  height: 50px;
+  line-height: 48px;
+  transform: translateX(-50%);
+  top: -36px;
+  font-size: 25px;
+  font-family: "Brandon Text Bold";
+  text-align: center;
+  text-transform: uppercase;
+  color: #891216;
+}
+
+.mobile_version .custom_popin_title {
+  font-size: 120%;
+}
+
+.custom_popin_closeicon,
+.custom_popin_helpicon {
+  background-color: #a47a77;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  font-size: 90%;
+  color: white !important;
+  border: 1px solid #35302d;
+  z-index: 2;
+
+  &:hover {
+    text-decoration: none !important;
+    color: #ccc !important;
+    transform: scale(1.1);
+  }
+
+  i {
+    margin-top: -2px;
+  }
+}
+
+.custom_popin_helpicon {
+  right: 47px;
+}
+
+.notouch-device .custom_popin_closeicon:hover,
+.notouch-device .custom_popin_helpicon:hover {
+  color: #555555 !important;
+}
+
+/* Trick decks tabbed popin */
+#tricks-decks {
+  padding-top: 10px;
+  --trickCardScale: 0.6;
+
+  #tricks-decks-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #bbb;
+
+    .tab {
+      padding: 5px 25px;
+      border: 1px solid #bbb;
+      border-bottom: none;
+      background: #e8e8e8;
+      cursor: pointer;
+      font-family: "Brandon Text Bold", sans-serif;
+      font-size: 18px;
+      text-transform: capitalize;
+      color: #555;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      gap: 8px;
+
+      &:hover {
+        background: #f0f0f0a8;
+      }
+
+      &:first-child {
+        border-radius: 6px 0 0 0;
+      }
+      &:last-child {
+        border-radius: 0 6px 0 0;
+      }
+    }
+  }
+
+  #tricks-decks-bodies {
+    background: #ffffffa8;
+    border: 2px solid #bbb;
+    border-top: none;
+    padding: 10px;
+    border-radius: 0px 0 6px 6px;
+  }
+
+  .tricks-deck {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    .trick-card {
+      margin: 5px;
+    }
+  }
+
+  $categories: "spiritual" "mechanical" "escape" "optical";
+  @each $cat in $categories {
+    &[data-visible="#{$cat}"] {
+      #tricks-decks-tabs .tab[data-category="#{$cat}"] {
+        background: #ffffffa8;
+        color: black;
+        border-bottom-color: white;
+        margin-bottom: -2px;
+      }
+
+      ##{$cat}-tricks-deck {
+        display: flex;
+      }
+    }
+  }
+}

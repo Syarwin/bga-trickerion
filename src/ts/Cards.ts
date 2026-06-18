@@ -1,6 +1,10 @@
 import { formatIcon, formatString } from './format.js';
 import { staticData } from './staticData.js';
 import { attachRegisteredTooltips, registerCustomTooltip } from './framework/utils.js';
+import { CloseAction, Modal } from './framework/Modal.js';
+
+const TRICK_CATEGORIES = ['spiritual', 'mechanical', 'escape', 'optical'] as const;
+type TrickCategory = (typeof TRICK_CATEGORIES)[number];
 
 export const cards = {
     init(gamedatas: TrickerionGamedatas) {
@@ -205,6 +209,9 @@ export const cards = {
     },
 
     setupTrickCards(gamedatas: TrickerionGamedatas) {
+        this.setupTrickModal();
+
+        // Setup each player's tricks
         for (const playerIdStr of Object.keys(gamedatas.tricks.player)) {
             const playerId = parseInt(playerIdStr, 10);
             const tricks = gamedatas.tricks.player[playerId];
@@ -213,25 +220,55 @@ export const cards = {
             }
         }
 
-        // Setup modal content wrapper if not defined yet
-        ['spiritual', 'mechanical', 'escape', 'optical'].forEach((trickCategory) => {
-            if (!$(`${trickCategory}-tricks-deck`)) {
-                $('modals-content-holder').insertAdjacentHTML(
-                    'beforeend',
-                    `<div id="${trickCategory}-tricks-deck" class="tricks-deck"></div>`
-                );
-
-                // Add observer
-                let observer = new MutationObserver((mutationRecords) => {
-                    mutationRecords.forEach((record) => {
-                        $(`trick-deck-${trickCategory}-counter`).innerHTML = String(record.target.childNodes.length);
-                    });
-                });
-                observer.observe($(`${trickCategory}-tricks-deck`), { childList: true });
-            }
-        });
+        // Setup available tricks
         gamedatas.tricks.available.forEach((card) => {
             this.addTrickCard(card);
+        });
+    },
+
+    setupTrickModal(): void {
+        // Create a single shared modal for showing deck contents with tabs
+        const deckModal = new Modal('trick-decks', {
+            class: 'custom_popin',
+            closeIcon: 'fa-times',
+            closeAction: CloseAction.Hide,
+            closeWhenClickOnUnderlay: true,
+            title: _('Trick decks'),
+            contents: `<div id="tricks-decks" data-visible="optical">
+                <div id="tricks-decks-tabs"></div>
+                <div id="tricks-decks-bodies"></div>
+            </div>`,
+            verticalAlign: 'top',
+        });
+
+        // One tab/deck per trick category
+        const tabsBar = $('tricks-decks-tabs');
+        const bodies = $('tricks-decks-bodies');
+        // Setup hidden deck containers, observers
+        TRICK_CATEGORIES.forEach((trickCategory) => {
+            // Tab
+            const tab = document.createElement('div');
+            tab.className = 'tab';
+            tab.dataset.category = trickCategory;
+            tab.innerHTML = `<div class="slot slot-${trickCategory}"></div> ${_(trickCategory)} <div class="slot slot-${trickCategory}"></div>`;
+            tab.addEventListener('click', () => ($('tricks-decks').dataset.visible = trickCategory));
+            tabsBar.appendChild(tab);
+
+            // Deck
+            bodies.insertAdjacentHTML('beforeend', `<div id="${trickCategory}-tricks-deck" class="tricks-deck"></div>`);
+
+            // Add observer to keep the counter updated
+            const deckBtn = $(`trick-deck-${trickCategory}`);
+            const observer = new MutationObserver((mutationRecords) => {
+                mutationRecords.forEach((record) => {
+                    $(`trick-deck-${trickCategory}-counter`).innerHTML = String(record.target.childNodes.length);
+                });
+            });
+            observer.observe($(`${trickCategory}-tricks-deck`), { childList: true });
+            deckBtn.addEventListener('click', () => {
+                $('tricks-decks').dataset.visible = trickCategory;
+                deckModal.show();
+            });
         });
     },
 

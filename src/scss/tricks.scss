@@ -19,15 +19,6 @@
     --trickCardScale: 0.8;
 }
 
-.tricks-deck {
-    visibility: hidden;
-    position: relative;
-    pointer-events: none;
-    .trick-card {
-        position: absolute;
-    }
-}
-
 .trick-card {
     position: relative;
     width: calc(var(--trickCardScale) * 348px);
