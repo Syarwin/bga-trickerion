@@ -59,6 +59,8 @@ export const addCustomTooltip = (elt: HTMLElement, html: string) => {
             tooltip.classList.remove('active');
             if (openingTooltip) clearTimeout(openingTooltip);
         });
+    } else {
+        gameui.addTooltipHtml(elt.id, html);
     }
 };
 

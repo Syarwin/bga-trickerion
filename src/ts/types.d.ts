@@ -289,6 +289,8 @@ interface TrickerionGlobals {
     dice: Dice;
     locationActions: LocationActions;
     drawAssignmentCardsAction: DrawAssignmentCardsAction;
+    isDarkAlley: boolean;
+    isBeginnersSetup: boolean;
 }
 
 interface DrawAssignmentCardsAction {

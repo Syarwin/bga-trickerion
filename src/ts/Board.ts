@@ -3,11 +3,13 @@ import { cards } from './Cards';
 import { meeples } from './Meeples';
 
 export const board = {
+    _isDarkAlley: false,
     isDarkAlley: function () {
-        return true; // TODO
+        return this._isDarkAlley;
     },
 
     init: function (gamedatas: TrickerionGamedatas) {
+        this._isDarkAlley = gamedatas.globals.isDarkAlley;
         let nPlayers = Object.keys(gamedatas.players).length;
 
         $('game_play_area').insertAdjacentHTML(
@@ -245,21 +247,31 @@ export const board = {
 
         // Magician boards
         Object.values(gamedatas.players).forEach((player) => {
-            let magician = gamedatas.magicians.player[player.id];
+            this.setupMagicianBoard(player);
+
+            const specialists = gamedatas.characters.hiredSpecialists[player.id];
+            this.updateHiredSpecialists(player, specialists);
+
+            const magician = gamedatas.magicians.player[player.id];
             if (magician) {
-                this.setupMagicianBoard(player, magician);
-                this.updateHiredSpecialists(player, gamedatas.characters.hiredSpecialists[player.id]);
+                this.updateMagicianBoard(player, magician);
             }
         });
     },
 
-    setupMagicianBoard(player: Player, magician: Magician) {
+    updateMagicianBoard(player: Player, magician: Magician) {
+        let oBoard = $(`magician-board-${player.id}`);
+        oBoard.dataset.magicianId = `${magician.id}`;
+        oBoard.querySelector('.magician-card-holder').innerHTML = cards.tplMagician(magician, '', this.isDarkAlley());
+    },
+
+    setupMagicianBoard(player: Player) {
         const isDarkAlley = this.isDarkAlley();
 
         $('trickerion-player-board-wrapper').insertAdjacentHTML(
             'beforeend',
             `
-        <div class="magician-board" id="magician-board-${player.id}" data-magician-id="${magician.id}">
+        <div class="magician-board" id="magician-board-${player.id}" data-magician-id="0">
           <div class="magician-board-inner" style="border-color:#${player.color}">
             <div class="player-name" style="border-color:#${player.color}; background-color:#${player.color}">
               ${player.name}
@@ -268,9 +280,7 @@ export const board = {
             <div class="magician-workshop">
               <div class="magician-workshop-main">
                 <div class="magician-workshop-background"></div>
-                <div class="magician-card-holder">
-                  ${cards.tplMagician(magician, '', isDarkAlley)}
-                </div>
+                <div class="magician-card-holder"></div>
                 <div class="slot-workshop-shard-boost"></div>
                 <div id="workshop-${player.id}-prepare" class="slot-workshop-action-space">
                   <div class="slot-workshop-action-prepare"></div>
