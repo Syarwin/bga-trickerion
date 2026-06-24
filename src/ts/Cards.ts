@@ -1,13 +1,16 @@
 import { formatIcon, formatString } from './format.js';
 import { staticData } from './staticData.js';
-import { attachRegisteredTooltips, registerCustomTooltip } from './framework/utils.js';
+import { attachRegisteredTooltips, getColorName, getPlayerColor, registerCustomTooltip } from './framework/utils.js';
 import { CloseAction, Modal } from './framework/Modal.js';
 
 const TRICK_CATEGORIES = ['spiritual', 'mechanical', 'escape', 'optical'] as const;
 type TrickCategory = (typeof TRICK_CATEGORIES)[number];
 
 export const cards = {
+    gamedatas: {},
+
     init(gamedatas: TrickerionGamedatas) {
+        this.gamedatas = gamedatas;
         this.setupPerformanceCards(gamedatas);
         this.setupTrickCards(gamedatas);
     },
@@ -273,11 +276,27 @@ export const cards = {
     },
 
     addTrickCard(card: Trick, location: HTMLElement = null) {
-        if ($('performance-' + card.id)) return;
+        if ($('trick-' + card.id)) return;
         if (location == null) location = this.getTrickCardContainer(card);
 
         $(location).insertAdjacentHTML('beforeend', this.tplTrickCard(card));
+        this.updateTrickCard(card);
         attachRegisteredTooltips();
+    },
+
+    updateTrickCard(card: Trick) {
+        let o = $('trick-' + card.id);
+        if (!o) return;
+
+        console.log('TEST', card);
+
+        if (card.playerId) {
+            o.dataset.color = getColorName(this.gamedatas.players[card.playerId].color);
+            o.dataset.suit = card.suit;
+        } else {
+            delete o.dataset.color;
+            delete o.dataset.suit;
+        }
     },
 
     getTrickCardContainer(card: Trick) {

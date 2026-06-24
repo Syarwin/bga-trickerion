@@ -6,18 +6,7 @@
  * for robustness when the location has no visual slot yet.
  */
 
-import { addCustomTooltip } from './framework/utils';
-
-/** Map player color hex → sprite color name */
-const _colorName = (hex: string): string => {
-    const map: Record<string, string> = {
-        '60aaa1': 'blue',
-        cf4a1f: 'red',
-        cc7f17: 'yellow',
-        '85902b': 'green',
-    };
-    return map[hex.toLowerCase()] ?? hex;
-};
+import { addCustomTooltip, getColorName } from './framework/utils';
 
 /** Player id → color hex, populated by init() */
 let _playerColors: Record<number, string> = {};
@@ -97,7 +86,7 @@ export const meeples = {
         if ('suit' in meeple) {
             // TrickMarker
             const colorHex = _playerColors[meeple.playerId] ?? '';
-            cssClass = `meeple-trick-marker-${_colorName(colorHex)}-${meeple.suit}  meeple-trick-marker`;
+            cssClass = `meeple-trick-marker-${getColorName(colorHex)}-${meeple.suit}  meeple-trick-marker`;
             tooltip = 'Trick marker (TODO)';
         } else if ('count' in meeple) {
             // Component
@@ -107,7 +96,7 @@ export const meeples = {
         } else {
             // Character
             const colorHex = _playerColors[meeple.playerId] ?? '';
-            cssClass = `meeple-${_colorName(colorHex)}-${(meeple as Character).type} meeple-character`;
+            cssClass = `meeple-${getColorName(colorHex)}-${(meeple as Character).type} meeple-character`;
             tooltip = _(meeple.type);
         }
 

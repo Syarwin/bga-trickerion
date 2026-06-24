@@ -8,6 +8,17 @@ let updatePlayerOrderingCallbacks: Array<() => void> = [];
 let buttonContainers: { [key: string]: HTMLElement } = {};
 const playerBoardsElement: HTMLElement = document.getElementById('player_boards');
 
+/** Map player color hex → sprite color name */
+export const getColorName = (hex: string): string => {
+    const map: Record<string, string> = {
+        '60aaa1': 'blue',
+        cf4a1f: 'red',
+        cc7f17: 'yellow',
+        '85902b': 'green',
+    };
+    return map[hex.toLowerCase()] ?? hex;
+};
+
 let isDebug = window.location.host == 'studio.boardgamearena.com' || window.location.hash.indexOf('debug') > -1;
 export const debug: (message: string, data: any) => void = isDebug ? console.info.bind(console) : function () {};
 
@@ -260,6 +271,10 @@ export const getPlayers = () => {
 
 export const getPlayerName = (playerId: string) => {
     return getPlayers()[playerId].name;
+};
+
+export const getPlayerColor = (playerId: string | number) => {
+    return getPlayers()[playerId].color;
 };
 
 export const getPlayerNameWithColor = (playerId: string) => {
