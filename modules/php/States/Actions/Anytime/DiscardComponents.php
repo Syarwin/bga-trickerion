@@ -15,6 +15,7 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Collection;
 use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 use Bga\Games\trickerionlegendsofillusion\Managers\Components;
 use Bga\Games\trickerionlegendsofillusion\Models\Component;
+use Override;
 
 class DiscardComponents extends ActionStateWithRevert
 {
@@ -22,7 +23,8 @@ class DiscardComponents extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_DISCARD_COMPONENT,
             type: StateType::ACTIVE_PLAYER,
@@ -31,8 +33,14 @@ class DiscardComponents extends ActionStateWithRevert
         );
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return clienttranslate('Discard components');
+    }
+
+    public function isDoable(int $playerId): bool
+    {
+        return !empty($this->getActionArgs($playerId)["availableComponents"]);
     }
 
     public function getActionArgs(int $activePlayerId): array
@@ -53,7 +61,7 @@ class DiscardComponents extends ActionStateWithRevert
     {
         Log::step();
         $availableIds = Collection::from($args["availableComponents"])->pluck("id")->toArray();
-        
+
         if (!in_array($componentId, $availableIds)) {
             throw new UserException(clienttranslate("You cannot discard this component"));
         }

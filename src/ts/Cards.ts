@@ -288,8 +288,6 @@ export const cards = {
         let o = $('trick-' + card.id);
         if (!o) return;
 
-        console.log('TEST', card);
-
         if (card.playerId) {
             o.dataset.color = getColorName(this.gamedatas.players[card.playerId].color);
             o.dataset.suit = card.suit;

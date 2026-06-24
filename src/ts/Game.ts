@@ -1,43 +1,45 @@
-import { ConfirmTurn } from "./framework/states/ConfirmTurn";
-import { StateProcessor } from "./framework/StateProcessor";
-import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, debug, initUtils } from "./framework/utils";
-import { ResolveChoice } from "./framework/states/ResolveChoice";
-import { overrideGamePrototype } from "./framework/overrideGamePrototype";
-import { DummyEnd } from "./framework/states/DummyEnd";
-import { showEngine } from "./framework/engine";
-import { AnytimeActions } from "./framework/states/AnytimeActions";
-import { ChooseMagician } from "./states/ChooseMagician";
-import { LearnTrick } from "./states/LearnTrick";
-import { PickComponents } from "./states/PickComponents";
-import { HireCharacter } from "./states/HireCharacter";
-import { PrepareTrick } from "./states/PrepareTrick";
-import { Advertise } from "./states/Advertise";
-import { PlaceCharacter } from "./states/PlaceCharacter";
-import { AssignCharacters } from "./states/AssignCharacters";
-import { StartAssignment } from "./states/StartAssignment";
-import { PlayLocationAction } from "./states/PlayLocationAction";
-import { DrawAssignmentCards } from "./states/DrawAssignmentCards";
-import { MakeDieUnavailable } from "./states/MakeDieUnavailable";
-import { TakeCoins } from "./states/TakeCoins";
-import { RerollDie } from "./states/RerollDie";
-import { SetDie } from "./states/SetDie";
-import { BuyComponents } from "./states/BuyComponents";
-import { OrderComponent } from "./states/OrderComponent";
-import { QuickOrderComponent } from "./states/QuickOrderComponent";
-import { DiscardComponents } from "./states/DiscardComponents";
-import { DiscardTrick } from "./states/DiscardTrick";
-import { MoveTrick } from "./states/MoveTrick";
-import { MoveComponents } from "./states/MoveComponents";
-import { MoveApprentice } from "./states/MoveApprentice";
-import { SetupTrick } from "./states/SetupTrick";
-import { Reschedule } from "./states/Reschedule";
-import { Performance } from "./states/Performance";
-import { board } from "./Board";
-import notifications from "./notifications";
-import { EnhanceCharacter } from "./states/EnhanceCharacter";
-import { FortuneTelling } from "./states/FortuneTelling";
-import { FinishSetup } from "./states/FinishSetup";
-import { PlaceCharacters } from "./states/PlaceCharacters";
+import { ConfirmTurn } from './framework/states/ConfirmTurn';
+import { StateProcessor } from './framework/StateProcessor';
+import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, debug, initUtils } from './framework/utils';
+import { ResolveChoice } from './framework/states/ResolveChoice';
+import { overrideGamePrototype } from './framework/overrideGamePrototype';
+import { DummyEnd } from './framework/states/DummyEnd';
+import { showEngine } from './framework/engine';
+import { AnytimeActions } from './framework/states/AnytimeActions';
+import { ChooseMagician } from './states/ChooseMagician';
+import { LearnTrick } from './states/LearnTrick';
+import { PickComponents } from './states/PickComponents';
+import { HireCharacter } from './states/HireCharacter';
+import { PrepareTrick } from './states/PrepareTrick';
+import { Advertise } from './states/Advertise';
+import { PlaceCharacter } from './states/PlaceCharacter';
+import { AssignCharacters } from './states/AssignCharacters';
+import { StartAssignment } from './states/StartAssignment';
+import { PlayLocationAction } from './states/PlayLocationAction';
+import { DrawAssignmentCards } from './states/DrawAssignmentCards';
+import { MakeDieUnavailable } from './states/MakeDieUnavailable';
+import { TakeCoins } from './states/TakeCoins';
+import { RerollDie } from './states/RerollDie';
+import { SetDie } from './states/SetDie';
+import { BuyComponents } from './states/BuyComponents';
+import { OrderComponent } from './states/OrderComponent';
+import { QuickOrderComponent } from './states/QuickOrderComponent';
+import { DiscardComponents } from './states/DiscardComponents';
+import { DiscardTrick } from './states/DiscardTrick';
+import { MoveTrick } from './states/MoveTrick';
+import { MoveComponents } from './states/MoveComponents';
+import { MoveApprentice } from './states/MoveApprentice';
+import { SetupTrick } from './states/SetupTrick';
+import { Reschedule } from './states/Reschedule';
+import { Performance } from './states/Performance';
+import { board } from './Board';
+import notifications from './notifications';
+import { EnhanceCharacter } from './states/EnhanceCharacter';
+import { FortuneTelling } from './states/FortuneTelling';
+import { FinishSetup } from './states/FinishSetup';
+import { PlaceCharacters } from './states/PlaceCharacters';
+import { cards } from './Cards';
+import { meeples } from './Meeples';
 
 export class Game {
     bga: ExtendedBga;
@@ -46,7 +48,7 @@ export class Game {
 
     constructor(bga: ExtendedBga) {
         this.bga = bga;
-        
+
         // Declare the State classes
         this.bga.states.register('ConfirmTurn', new ConfirmTurn(this, bga));
         this.bga.states.register('ConfirmPartialTurn', new ConfirmTurn(this, bga));
@@ -86,19 +88,21 @@ export class Game {
         this.bga.states.register('PlaceCharacters', new PlaceCharacters(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
-        initUtils(this.bga);        
+        initUtils(this.bga);
     }
-    
-    setup( gamedatas: TrickerionGamedatas ) {
+
+    setup(gamedatas: TrickerionGamedatas) {
         debug('Setup', gamedatas);
         this.gamedatas = gamedatas;
         this.render(gamedatas);
         this.setupNotifications();
         overrideGamePrototype(this.bga.gameui);
-        board.init(gamedatas);
     }
 
     render(gamedatas: TrickerionGamedatas) {
+        board.init(gamedatas);
+        cards.init(gamedatas);
+        meeples.init(gamedatas);
     }
 
     onEnteringState(stateName: string, args: Gamestate) {
@@ -112,7 +116,7 @@ export class Game {
 
     ///////////////////////////////////////////////////
     //// Utility methods
-    
+
     /*
     
         Here, you can defines some utility methods that you can use everywhere in your javascript
@@ -120,7 +124,6 @@ export class Game {
     
     */
 
-    
     ///////////////////////////////////////////////////
     //// Reaction to cometD notifications
 
@@ -134,9 +137,9 @@ export class Game {
     
     */
     setupNotifications() {
-        console.log( 'notifications subscriptions setup' );
-        
-        // automatically listen to the notifications, based on the `notif_xxx` function on this class. 
+        console.log('notifications subscriptions setup');
+
+        // automatically listen to the notifications, based on the `notif_xxx` function on this class.
         // Uncomment the logger param to see debug information in the console about notifications.
         this.bga.notifications.setupPromiseNotifications({
             handlers: [this, ...this.bga.states.getStateClasses(), ...notifications],
@@ -168,5 +171,4 @@ export class Game {
     async notif_engineShown(args: EngineShownArgs) {
         showEngine(args.engine);
     }
-    
 }

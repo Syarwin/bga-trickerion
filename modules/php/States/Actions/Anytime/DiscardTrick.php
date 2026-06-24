@@ -21,7 +21,8 @@ class DiscardTrick extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_DISCARD_TRICK,
             type: StateType::ACTIVE_PLAYER,
@@ -30,9 +31,16 @@ class DiscardTrick extends ActionStateWithRevert
         );
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return clienttranslate('Discard trick');
     }
+
+    public function isDoable(int $playerId): bool
+    {
+        return !empty($this->getActionArgs($playerId)["availableTricks"]);
+    }
+
 
     public function getActionArgs(int $activePlayerId): array
     {

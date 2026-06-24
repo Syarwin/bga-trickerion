@@ -50,7 +50,7 @@ class MoveApprentice extends ActionStateWithRevert
         return clienttranslate('Move apprentice');
     }
 
-    public function isDoable($playerId)
+    public function isDoable(int $playerId): bool
     {
         $args = $this->getActionArgs($playerId);
 

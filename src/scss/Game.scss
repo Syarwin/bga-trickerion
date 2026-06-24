@@ -50,6 +50,12 @@ html {
     position: relative;
 }
 
+#generalactions-persistant,
+#generalactions-restart {
+    display: inline;
+    float: right;
+}
+
 #restartAction {
     margin-left: 15px;
 }

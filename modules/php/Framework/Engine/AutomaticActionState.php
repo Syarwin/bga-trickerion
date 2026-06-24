@@ -13,7 +13,7 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
 {
     function __construct(
         protected Game $game,
-        public int $id, 
+        public int $id,
         public \Bga\GameFramework\StateType $type,
         public ?string $name = null,
         public string $description = '',
@@ -23,7 +23,8 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
         public string|int|null $initialPrivate = null,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             id: $id,
             type: $type,
             name: $name,
@@ -35,11 +36,13 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
         );
     }
 
-    public function getCustomStateDescription() {
+    public function getCustomStateDescription()
+    {
         return null;
     }
 
-    public function getNode() {
+    public function getNode()
+    {
         if ($this->node !== null) {
             return $this->node;
         }
@@ -47,7 +50,8 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
         return Engine::getNextUnresolved();
     }
 
-    public function getNodeArgs($field = null, $default = null) {
+    public function getNodeArgs($field = null, $default = null)
+    {
         $args = [];
 
         $node = $this->getNode();
@@ -62,40 +66,49 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
         return $args;
     }
 
-    public function isAutomatic() {
+    public function isAutomatic()
+    {
         return $this->type === StateType::GAME;
     }
 
-    public function isOptional() {
+    public function isOptional()
+    {
         return null;
     }
 
-    public function isIrreversible() {
+    public function isIrreversible()
+    {
         return $this->getNode()->getInfo()["irreversible"] ?? false;
     }
 
-    public function isDoable($playerId) {
+    public function isDoable(int $playerId): bool
+    {
         return true;
     }
 
-    public function isIndependent() {
+    public function isIndependent()
+    {
         return $this->getNode()->getInfo()["independent"] ?? false;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return null;
     }
 
-    protected function getPlayerId() {
+    protected function getPlayerId()
+    {
         $argsPlayerId = $this->getNodeArgs("playerId");
         return $argsPlayerId ?? Players::getActiveId();
     }
 
-    protected function getPlayer() {
+    protected function getPlayer()
+    {
         return Players::get($this->getPlayerId());
     }
 
-    protected function resolve($args = []) {
+    protected function resolve($args = [])
+    {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveAction($args);
         } else {
@@ -103,7 +116,8 @@ class AutomaticActionState extends \Bga\GameFramework\States\GameState
         }
     }
 
-    protected function resolveIrreversible($args = []) {
+    protected function resolveIrreversible($args = [])
+    {
         if ($this->isAutomatic() || ($args["automatic"] ?? false)) {
             return Engine::autoResolveIrreversibleAction($args);
         } else {

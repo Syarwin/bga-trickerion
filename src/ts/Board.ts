@@ -251,8 +251,6 @@ export const board = {
                 this.updateHiredSpecialists(player, gamedatas.characters.hiredSpecialists[player.id]);
             }
         });
-
-        meeples.init(gamedatas);
     },
 
     setupMagicianBoard(player: Player, magician: Magician) {

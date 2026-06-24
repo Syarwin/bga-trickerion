@@ -8,4 +8,5 @@ window._ = (str) => str;
 
 board.init(gamedatas);
 cards.init(gamedatas);
+meeples.init(gamedatas);
 attachRegisteredTooltips();
