@@ -60,6 +60,7 @@ export const addCustomTooltip = (elt: HTMLElement, html: string) => {
             if (openingTooltip) clearTimeout(openingTooltip);
         });
     } else {
+        if (elt.id === '') elt.id = 'tooltipable-' + customTooltipIdCounter++;
         gameui.addTooltipHtml(elt.id, html);
     }
 };

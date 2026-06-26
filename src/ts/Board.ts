@@ -1,6 +1,7 @@
-import { formatIcon } from './format';
+import { formatIcon, formatString } from './format';
 import { cards } from './Cards';
 import { meeples } from './Meeples';
+import { addCustomTooltip } from './framework/utils';
 
 export const board = {
     _isDarkAlley: false,
@@ -256,7 +257,13 @@ export const board = {
             if (magician) {
                 this.updateMagicianBoard(player, magician);
             }
+
+            // Attach tooltips for per-player workshop actions
+            this.attachActionTooltips(player.id);
         });
+
+        // Attach tooltips for board-level action spaces (downtown, market, alley, theater)
+        this.attachActionTooltips();
     },
 
     updateMagicianBoard(player: Player, magician: Magician) {
@@ -389,6 +396,210 @@ export const board = {
 
             if (characterType === 'assistant') {
                 $(`assignment-slot-${player.id}-apprentice-assistant`).classList.toggle('disabled', !hired);
+            }
+        });
+    },
+
+    // Tooltip descriptions for action spaces — fill in the strings below
+    // Use <iconname> for icons (e.g. <coin>, <shard>, <action-point>, <fame>)
+    // Use {{text}} for emphasis
+    getActionTooltips(): Record<string, Array<string>> {
+        const tooltips = {
+            // Downtown
+            'downtown-learn-trick': [
+                _('{{Learn trick:}}'),
+                _(
+                    'The player chooses a Trick from the Dahlgaard Residence, puts it on an empty Trick slot in their Workshop, and places one of their unused Symbol markers on it.'
+                ),
+                _(
+                    "The category of the newly learned Trick must correspond with the symbol on one of the Dahlgaard Residence dice. The '?' symbol means that any Trick category can be chosen."
+                ),
+                _("After learning the Trick, set the corresponding die to its 'X' face."),
+                _(
+                    "The player can always choose to learn a Trick from their Magician's Favorite Trick category instead of the ones available. A chosen die still has to be set to its 'X' face if a Trick is learned this way."
+                ),
+            ],
+            'downtown-hire-character': [
+                _('{{Hire character:}}'),
+                _(
+                    'The player chooses an Inn die and places an unused Character corresponding to the die roll from their supply on the Inn.'
+                ),
+                _(
+                    "The chosen die is then set to its 'X' face. During the 'Return Characters' phase at the end of the turn, the hired Character is added to the player's team."
+                ),
+                _(
+                    "If it was a Specialist, its Board Extension is also added to the player's Game Board. A player may only hire one of each type of Specialist (Assistant, Engineer, Manager)."
+                ),
+            ],
+            'downtown-take-coins': [
+                _('{{Take coins:}}'),
+                _(
+                    "The player chooses a Bank die and takes Coins equal to the die roll from the supply. Then, the player sets the chosen die to its 'X' face."
+                ),
+            ],
+            'downtown-reroll-die': [
+                _('{{Reroll die:}}'),
+                _(
+                    'The player may reroll a Dahlgaard Residence, Inn or Bank die. As a result, the Tricks, Characters and Coins available in the Downtown may change.'
+                ),
+            ],
+            'downtown-set-die': [
+                _('{{Set die:}}'),
+                _(
+                    "The player may freely change the result of any one die roll (e.g. change an 'X' roll to a Manager to hire it later)."
+                ),
+            ],
+            // Market Row
+            'market-buy': [
+                _('{{Buy:}}'),
+                _(
+                    "For 1 Action Point, the player may buy up to three Components of the same type. They also have to pay the price of each Component bought (1/2/3 Coins per Basic/Advanced/Superior Component). Only Components in the Market Row's Buy area (the current stock) can be bought this way."
+                ),
+                _(
+                    'Acquired Components are placed on the Component slots on the Player Game Board. Different Components occupy separate slots, but multiples of the same type are piled onto each other. The maximum number a player may have of a Component is 3. Players may return Components to the general supply at any time to make room for new ones.'
+                ),
+            ],
+            'market-bargain': [
+                _('{{Bargain:}}'),
+                _(
+                    "You may only use Bargain together with a 'Buy' Action. You may decrease the total price of Components you buy by 1 Coin per Action Point spent on 'Bargain'. You may never decrease the total price to 0."
+                ),
+            ],
+            'market-order': [
+                _('{{Order:}}'),
+                _(
+                    'If players need a Component which is not currently available in the Market Row, they have to Order it. For 1 Action Point, the player may place a Component from the supply onto an open slot in the Order area (as long as the same Component type is not already there).'
+                ),
+                _(
+                    "These Components will be moved to the corresponding slot in the Buy area during the 'Orders Arrive' phase, and will be available for purchase in the following turn."
+                ),
+            ],
+            'market-quick-order': [
+                _('{{Quick order:}}'),
+                _(
+                    "In some situations, players can't afford to wait a turn for the desired Components. For 2 Action Points, a player may place any Component onto the Quick Order slot in the Market Row (if the slot isn't empty, return the Component there to the supply first)."
+                ),
+                _(
+                    "That Component becomes part of the Market Row's stock this turn (for all players), and can be acquired with the 'Buy' Action. The Coin price of the Component on the Quick Order slot is increased by 1. During the 'End Turn' phase, the Component on the Quick Order slot is returned to the supply"
+                ),
+            ],
+            // Dark Alley
+            'alley-draw-first-card': [
+                _('{{Draw first card:}}'),
+                _(
+                    'The player draws two cards from any Special Assignment deck in the Dark Alley, chooses one to keep, and puts the other at the bottom of the deck. A player may only take this Action once per Character placement.'
+                ),
+            ],
+            'alley-draw-further-cards': [
+                _('{{Draw further cards:}}'),
+                _("This Action is resolved the same way as the 'Draw First Card' Action, except it costs two Action Points."),
+            ],
+            'alley-fortune-telling': [
+                _('{{Fortune telling:}}'),
+                _('The player may move each Pending Prophecy one slot in a clockwise direction.'),
+            ],
+            // Theater
+            'theater-set-up-trick': [
+                _('{{Set up Trick:}}'),
+                _(
+                    'The player may move one of their Trick markers from a Trick in the Workshop onto a free slot on a Performance card of their choice – this Trick will be represented by the marker until it is either Performed or the Performance card is discarded at the end of a turn'
+                ),
+                _(
+                    "The Trick marker's corner that corresponds with the Trick's category must be in a Link circle connecting two slots. Two Trick markers of the same color AND the same symbol (e.g. two blue Spades) cannot be in the same Performance."
+                ),
+                _(
+                    'After setting up a Trick marker, if two of the same Trick category symbols are in the same Link circle, those two Tricks are linked. The player who created the Link(s) immediately receives a bonus for each Link, depending on the Level of the Trick they placed to create the Link.'
+                ),
+                _(
+                    'Additionally, if there is a Shard symbol in the Link circle where the Link is created, {{each player with a Trick marker}} in the Link also immediately receives one Trickerion Shard. If a player creates a Link over a Shard symbol with their own Trick, they only receive a single Shard, not two.'
+                ),
+                _(
+                    'It is possible to create multiple Links with a single Trick marker placement. Creating Links is not obligatory.'
+                ),
+            ],
+            'theater-reschedule': [
+                _('{{Reschedule:}}'),
+                _(
+                    "You may move one of your Trick markers from a Performance card to a free slot on the same or any other Performance card. Rules of Trick marker placement apply. You don't receive Link bonuses for moving a Trick marker this way."
+                ),
+            ],
+            // Workshop (per player — {playerId} is auto-replaced)
+            'workshop-{playerId}-prepare': [
+                _('{{Prepare:}}'),
+                _(
+                    "The number of Action Points required to Prepare each Trick is printed in a circle in the lower left box (the Trick marker slot). Like at other Locations, players may take multiple 'Prepare' Actions with one Character — the only limit is the number of Action Points they have."
+                ),
+                _(
+                    'When a Trick is Prepared, place a number of Trick markers on it equal to the number of overlapping squares in the lower left box. Use Trick markers with the same symbol as the Symbol marker placed on the Trick when it was learned. The maximum number of Trick markers a player can have in the game of a given symbol is 4.'
+                ),
+                _(
+                    'Important: Players can always Prepare a Trick as long as they meet its Component requirements AND have no Trick markers on the Trick card itself (even if they have some in the Theater).'
+                ),
+                _(
+                    "Very Important : {{Components are NOT spent when a Trick is prepared!}} The same Component stack can be used for multiple Tricks requiring it and for multiple 'Prepare' Actions."
+                ),
+            ],
+            'workshop-{playerId}-move-tricks': [
+                _('{{Move tricks:}}'),
+                _(
+                    "The player moves one of their Tricks to the Engineer's Trick slot or exchanges the Trick there with another of their own Tricks."
+                ),
+            ],
+            'workshop-{playerId}-move-components': [
+                _('{{Move components:}}'),
+                _(
+                    "The player moves one of their Component piles to the Manager's Multi Component slot or exchanges the pile there with another one of their Component piles."
+                ),
+            ],
+            'workshop-{playerId}-move-apprentice': [
+                _('{{Move apprentice:}}'),
+                _(
+                    "The player permanently reallocates one of their Apprentices and the Assignment card below it (if any) to the Assistant's Apprentice slot (if it's empty)."
+                ),
+            ],
+            // Shard bonuses
+            'slot-workshop-shard-boost': [
+                _(
+                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+                ),
+            ],
+            'slot-downtown-shard-boost': [
+                _(
+                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+                ),
+            ],
+            'slot-market-shard-boost': [
+                _(
+                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+                ),
+            ],
+            'slot-alley-shard-boost': [
+                _(
+                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+                ),
+            ],
+            'slot-theater-no-shard-boost': [_("You {{can't}} buy Action Point by paying a Trickerion Shard at the theater.")],
+            'slot-workshop-prepare-bonus': [
+                _("Tricks on the Engineer's Trick slot receive 1 additional Trick marker when Prepared."),
+            ],
+        };
+
+        return tooltips;
+    },
+
+    attachActionTooltips(playerId: number = null) {
+        const tooltips = this.getActionTooltips() as Record<string, Array<string>>;
+        Object.entries(tooltips).forEach(([id, text]) => {
+            if (!text) return;
+            const desc = text.map((t) => formatString(t)).join('<br />');
+
+            // For workshop actions, resolve playerId placeholder
+            const resolvedId = id.replace('{playerId}', String(playerId ?? 0));
+            const elt = $(resolvedId);
+            if (elt) {
+                addCustomTooltip(elt, desc);
+            } else {
+                document.querySelectorAll(`.${resolvedId}`).forEach((e) => addCustomTooltip(e as HTMLElement, desc));
             }
         });
     },
