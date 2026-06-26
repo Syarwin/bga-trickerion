@@ -28,6 +28,7 @@
 @use "modals";
 @use "log";
 @use "magician-board";
+@use "dice";
 
 html {
     background-image: url("img/background.jpg");
@@ -57,7 +58,6 @@ html {
 #generalactions-persistant,
 #generalactions-restart {
     display: inline;
-    float: right;
 }
 
 #restartAction {

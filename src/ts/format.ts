@@ -31,6 +31,10 @@ const SVG_ICONS = [
     'spend',
     'trick-marker',
     'trick',
+    'spiritual',
+    'escape',
+    'mechanical',
+    'optical',
 ];
 const ICONS = [...SVG_ICONS];
 

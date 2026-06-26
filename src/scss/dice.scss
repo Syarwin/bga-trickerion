@@ -1,0 +1,89 @@
+.bga-dice_die.trickerion-die {
+    .bga-dice_die-faces {
+        .bga-dice_die-face {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            font-family: "Brandon Text Medium";
+            box-sizing: border-box;
+        }
+    }
+
+    &.die-character {
+        .die-face-character {
+            background: #757575;
+            border: 1px solid black;
+            box-shadow:
+                inset 1px 1px 3px white,
+                1px 1px 3px black;
+
+            i {
+                transform: rotate(12deg);
+
+                &.svgicon-engineer {
+                    font-size: 42px;
+                }
+                &.svgicon-assistant {
+                    font-size: 23px;
+                }
+                &.svgicon-manager {
+                    font-size: 40px;
+                }
+                &.svgicon-apprentice {
+                    font-size: 36px;
+                }
+            }
+
+            &.die-face-not-available {
+                font-weight: bold;
+                font-size: 30px;
+                font-family: "Brandon Text Black";
+            }
+        }
+    }
+
+    &.die-trick {
+        .die-face-trick {
+            background: #d4d4d4;
+            border: 1px solid black;
+            box-shadow:
+                inset 1px 1px 3px white,
+                1px 1px 3px black;
+            font-weight: bold;
+            font-size: 30px;
+
+            &.die-face-any {
+                font-family: "Brandon Text Black";
+            }
+        }
+    }
+
+    &.die-money {
+        .die-face-money {
+            background: #202020;
+            border: 1px solid rgb(43, 43, 43);
+            box-shadow:
+                inset 1px 1px 3px rgb(167, 167, 167),
+                1px 1px 3px black;
+            color: #cccccc;
+            font-size: 25px;
+
+            &.die-face-not-available {
+                font-family: "Brandon Text Black";
+                font-weight: bold;
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+.die-tooltip {
+    text-align: center;
+
+    .die-tooltip-current {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+}

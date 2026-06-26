@@ -2,14 +2,21 @@ import { formatIcon, formatString } from './format';
 import { cards } from './Cards';
 import { meeples } from './Meeples';
 import { addCustomTooltip } from './framework/utils';
+import { getAnimationManager } from './libLoader';
+import { dice } from './Dice';
 
 export const board = {
     _isDarkAlley: false,
+
     isDarkAlley: function () {
         return this._isDarkAlley;
     },
 
-    init: function (gamedatas: TrickerionGamedatas) {
+    getAnimationManager: function () {
+        return getAnimationManager();
+    },
+
+    init: async function (gamedatas: TrickerionGamedatas) {
         this._isDarkAlley = gamedatas.globals.isDarkAlley;
         let nPlayers = Object.keys(gamedatas.players).length;
 
@@ -264,6 +271,12 @@ export const board = {
 
         // Attach tooltips for board-level action spaces (downtown, market, alley, theater)
         this.attachActionTooltips();
+
+        // Initialize dice display
+        this.getAnimationManager(); // kick off loading in background
+        dice.init(gamedatas).then(() => {
+            dice.setupDebugPanel();
+        });
     },
 
     updateMagicianBoard(player: Player, magician: Magician) {

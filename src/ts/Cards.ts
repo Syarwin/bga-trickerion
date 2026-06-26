@@ -72,7 +72,7 @@ export const cards = {
         }
 
         if (!$(container)) {
-            console.error('No container found for performance card', card);
+            console.error('No container found for performance card', card, container);
             return $('trickerion-main-wrapper');
         }
         return $(container);
