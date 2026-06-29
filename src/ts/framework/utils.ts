@@ -1,4 +1,4 @@
-import { attach, onClick } from './event';
+import { attach, detachAll, onClick } from './event';
 
 export let gamegui: ExtendedGameGuiGeneric<Player, Gamedatas> = null;
 export let bga: ExtendedBga = null;
@@ -532,6 +532,13 @@ export const clearRestartActionButtonsNode = () => {
 
 export const isNode = (node: any): node is Node => {
     return node instanceof Node;
+};
+
+export const clearPossible = () => {
+    detachAll();
+    document.querySelectorAll('.selected, .selectable, .unselectable').forEach((el) => {
+        el.classList.remove('selected', 'selectable', 'unselectable');
+    });
 };
 
 export const onSelectN = function (options: Partial<SelectNConfig>) {

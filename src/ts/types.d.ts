@@ -332,6 +332,7 @@ interface AdvertiseArgs extends GenericArguments {
 interface AssignCharactersArgs extends GenericArguments {
     availableAssignments: Assignment[];
     availableCharacters: Character[];
+    pendingAssignments: { assignmentId: number; characterId: number }[];
 }
 
 interface BuyComponentsArgs extends GenericArguments {
@@ -537,6 +538,28 @@ interface AssignmentAssignedArgs {
         assignment: Assignment;
         assignment_name: string;
     };
+}
+
+interface AssignmentUnassignedArgs {
+    player_id: number;
+    characterName: string;
+    characterId: number;
+    assignment: Assignment;
+}
+
+interface AssignmentPendingArgs {
+    player_id: number;
+    characterName: string;
+    characterId: number;
+    assignment: Assignment;
+    assignment_name: string;
+}
+
+interface UnassignmentPendingArgs {
+    player_id: number;
+    characterId: number;
+    assignment: Assignment;
+    assignment_name: string;
 }
 
 interface CharacterHiredArgs {

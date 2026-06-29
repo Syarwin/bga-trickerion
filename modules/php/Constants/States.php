@@ -1,12 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Bga\Games\trickerionlegendsofillusion\Constants;
 
-class States {
+class States
+{
     //MAIN FLOW
     const ST_TURN_PREPARATION = 10;
     const ST_START_ASSIGNMENT = 40;
     const ST_ASSIGN_CHARACTERS = 50;
+    const ST_RESOLVE_ASSIGNMENTS = 55;
     const ST_PLACE_CHARACTERS = 60;
     const ST_PERFORMANCE_PHASE = 70;
     const ST_END_TURN_PHASE = 80;

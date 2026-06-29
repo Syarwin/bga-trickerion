@@ -15,7 +15,8 @@ class Globals extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\Global
         "pickingComponents" => "obj",
         "dice" => "obj",
         "locationActions" => "obj",
-        "drawAssignmentCardsAction" => "obj"
+        "drawAssignmentCardsAction" => "obj",
+        "pendingAssignments" => "obj"
     ];
 
     /*

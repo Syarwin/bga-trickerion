@@ -1,7 +1,7 @@
 import { formatIcon, formatString } from './format';
 import { cards } from './Cards';
 import { meeples } from './Meeples';
-import { addCustomTooltip } from './framework/utils';
+import { addCustomTooltip, getCurrentPlayerId } from './framework/utils';
 import { getAnimationManager } from './libLoader';
 import { dice } from './Dice';
 
@@ -42,8 +42,13 @@ export const board = {
 
 <div id="trickerion-default-container"></div>
 
-<div id="floating-board-wrapper">
-  <div id="floating-board"></div>
+<div id="floating-assignments-wrapper">
+  <div id="floating-assignments-button-container">
+    <div id="floating-assignments-button">
+      <i class="fa fa-chevron-up" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div id="floating-assignments"></div>
 </div>
 
 <svg style="display:none" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-question" role="img" xmlns="http://www.w3.org/2000/svg">
@@ -267,6 +272,10 @@ export const board = {
 
             // Attach tooltips for per-player workshop actions
             this.attachActionTooltips(player.id);
+
+            if (parseInt(player.id) === getCurrentPlayerId()) {
+                this.dockAssignments(player.id);
+            }
         });
 
         // Attach tooltips for board-level action spaces (downtown, market, alley, theater)
@@ -615,5 +624,62 @@ export const board = {
                 document.querySelectorAll(`.${resolvedId}`).forEach((e) => addCustomTooltip(e as HTMLElement, desc));
             }
         });
+    },
+
+    /** Track which player's assignments are currently docked */
+    _dockedPlayerId: null,
+
+    dockAssignments(playerId) {
+        if (this._dockedPlayerId === playerId) return;
+        this.undockAssignments();
+
+        const el = $(`assignments-${playerId}`);
+        if (!el) return;
+
+        const wrapper = $('floating-assignments-wrapper');
+        const target = $('floating-assignments');
+        if (!wrapper || !target) return;
+
+        target.appendChild(el);
+        wrapper.classList.add('active');
+
+        const btn = $('floating-assignments-button');
+        if (btn) {
+            btn.onclick = () => {
+                const isOpen = wrapper.dataset.open !== undefined;
+                if (isOpen) {
+                    delete wrapper.dataset.open;
+                } else {
+                    wrapper.dataset.open = '';
+                }
+            };
+        }
+
+        this._dockedPlayerId = playerId;
+    },
+
+    undockAssignments() {
+        if (this._dockedPlayerId === null) return;
+        const playerId = this._dockedPlayerId;
+
+        const el = $('floating-assignments')?.querySelector(`#assignments-${playerId}`);
+        if (!el) {
+            this._dockedPlayerId = null;
+            return;
+        }
+
+        const boardEl = $(`magician-board-${playerId}`);
+        const inner = boardEl?.querySelector('.magician-board-inner');
+        if (inner) {
+            inner.insertAdjacentElement('beforeend', el);
+        }
+
+        const wrapper = $('floating-assignments-wrapper');
+        if (wrapper) {
+            wrapper.classList.remove('active');
+            delete wrapper.dataset.open;
+        }
+
+        this._dockedPlayerId = null;
     },
 };

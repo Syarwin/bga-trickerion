@@ -1,97 +1,251 @@
 @use "variables.scss";
 @use "sass:math";
 @use "sass:list";
+@use "_slots.generated" as *;
 
 #pagemaintitletext,
 #gameaction_status,
 .player-board {
-    .assignment-card {
-        position: absolute;
-        left: 50%;
-    }
+  .assignment-card {
+    position: absolute;
+    left: 50%;
+  }
 }
 
 .assignment-card.tooltip {
-    --assignmentCardScale: 0.8;
+  --assignmentCardScale: 0.8;
 }
 .assignment-card {
-    position: relative;
-    width: calc(var(--assignmentCardScale) * 312px);
-    height: calc(var(--assignmentCardScale) * 476px);
+  position: relative;
+  width: calc(var(--assignmentCardScale) * 312px);
+  height: calc(var(--assignmentCardScale) * 476px);
 
-    &.unselectable {
-        cursor: not-allowed;
-        filter: grayscale(80%);
-        -webkit-transform: translateZ(0);
-        -webkit-perspective: 1000;
-        -webkit-backface-visibility: hidden;
+  &.unselectable {
+    cursor: not-allowed;
+    filter: grayscale(80%);
+    -webkit-transform: translateZ(0);
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+  }
+
+  &.selectable {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
+    box-shadow: 0px 0px 10px 0px #dbae00;
+  }
+
+  &.selected {
+    border: 2px solid rgb(60, 255, 0);
+    margin: -2px;
+    box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
+    border-radius: 4px;
+  }
+
+  .assignment-card-inner {
+    width: 312px;
+    height: 476px;
+    transform-origin: top left;
+    transform: scale(var(--assignmentCardScale));
+    border-radius: 15px;
+    box-shadow: 2px 2px 3px 1px black;
+    background-image: url("img/assignments.jpg");
+    background-size: 500% 400%;
+    position: absolute;
+    outline: 2px solid black;
+
+    .card-name {
+      position: absolute;
+      top: 186px;
+      left: 8px;
+      right: 8px;
+      text-align: center;
+      font-family: "Brandon Text Black";
+      text-transform: uppercase;
+      font-size: 20px;
+      line-height: 28px;
     }
 
-    &.selectable {
-        cursor: pointer;
-        &:hover {
-            transform: scale(1.1);
-        }
-        box-shadow: 0px 0px 10px 0px #dbae00;
-    }
+    .card-ability {
+      position: absolute;
+      top: 227px;
+      bottom: 5px;
+      left: 20px;
+      right: 20px;
+      font-family: "Brandon Text Medium";
+      font-size: 19px;
+      line-height: 26px;
 
-    &.selected {
-        border: 2px solid rgb(60, 255, 0);
-        margin: -2px;
-        box-shadow: 0px 0px 10px 0px rgb(43, 255, 0);
-        border-radius: 4px;
+      .corner {
+        float: right;
+        shape-outside: polygon(60px 122px, 0px 175px, 60px 175px);
+        width: 85px;
+        height: 240px;
+      }
+      i {
+        font-size: 22px;
+      }
     }
+  }
 
-    .assignment-card-inner {
-        width: 312px;
-        height: 476px;
-        transform-origin: top left;
-        transform: scale(var(--assignmentCardScale));
-        border-radius: 8px;
-        box-shadow: 2px 2px 3px 1px black;
-        background-image: url("img/assignments.jpg");
-        background-size: 500% 400%;
+  @each $type in variables.$assignmentCardTypes {
+    $i: list.index(variables.$assignmentCardTypes, $type) - 1;
+    &[data-asset="#{$type}"] .assignment-card-inner {
+      background-position-x: math.div(($i % 5) * 100%, 4);
+      background-position-y: math.div(((math.div($i - ($i % 5), 5)) * 100%), 3);
+    }
+  }
+}
+
+/*
+ * ── Floating assignments dock ─────────────────────────────
+ */
+
+#floating-assignments-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  transition: transform 0.8s;
+  z-index: 1000;
+  --assignmentCardScale: 0.4;
+
+  &:not(.active) {
+    display: none;
+  }
+
+  &[data-open] {
+    transform: translateY(0px);
+  }
+
+  transform: translateY(calc(100% - var(--assignmentCardScale) * 470px));
+  box-shadow: 0 0 10px 2px #181800;
+  background-color: rgba(123, 123, 123, 0.9);
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-top-right-radius: 17px;
+
+  #floating-assignments-button-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-start;
+    z-index: 5;
+    transition: top 0.8s;
+
+    #floating-assignments-button {
+      border: 1px solid black;
+      border-radius: 50%;
+      box-shadow: 2px 2px 5px black;
+      background-color: gray;
+      margin: 0px 5px;
+      margin-top: -38px;
+      cursor: pointer;
+      transform: translateY(0);
+      transition:
+        transform 0.4s,
+        margin 0.4s;
+
+      &:hover {
+        transform: translateY(-10px);
+      }
+
+      i {
+        width: 40px;
+        height: 40px;
+        margin: 4px;
+        display: flex;
+        justify-content: center;
+        font-size: 32px;
+        transition: rotate 0.5s;
+      }
+    }
+  }
+
+  &[data-open] #floating-assignments-button-container #floating-assignments-button {
+    margin-top: -58px;
+    margin-bottom: 20px;
+
+    i {
+      rotate: 180deg;
+    }
+  }
+
+  #floating-assignments .magician-assignments .assignment-slot-holder .assignment-card {
+    &[data-asset="A01_Theater"],
+    &[data-asset="A02_Downtown"],
+    &[data-asset="A03_MarketRow"],
+    &[data-asset="A04_Workshop"],
+    &[data-asset="A05_DarkAlley"] {
+      .assignment-card-inner::before {
+        content: "";
+        display: block;
         position: absolute;
-
-        .card-name {
-            position: absolute;
-            top: 186px;
-            left: 8px;
-            right: 8px;
-            text-align: center;
-            font-family: "Brandon Text Black";
-            text-transform: uppercase;
-            font-size: 20px;
-            line-height: 28px;
-        }
-
-        .card-ability {
-            position: absolute;
-            top: 227px;
-            bottom: 5px;
-            left: 20px;
-            right: 20px;
-            font-family: "Brandon Text Medium";
-            font-size: 19px;
-            line-height: 26px;
-
-            .corner {
-                float: right;
-                shape-outside: polygon(60px 122px, 0px 175px, 60px 175px);
-                width: 85px;
-                height: 240px;
-            }
-            i {
-                font-size: 22px;
-            }
-        }
+        @include slot-theater-logo;
+        width: 200px;
+        left: calc(50% - 100px);
+        top: -37px;
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
     }
 
-    @each $type in variables.$assignmentCardTypes {
-        $i: list.index(variables.$assignmentCardTypes, $type) - 1;
-        &[data-asset="#{$type}"] .assignment-card-inner {
-            background-position-x: math.div(($i % 5) * 100%, 4);
-            background-position-y: math.div(((math.div($i - ($i % 5), 5)) * 100%), 3);
-        }
+    &[data-asset="A02_Downtown"] .assignment-card-inner::before {
+      @include slot-downtown-logo;
     }
+    &[data-asset="A03_MarketRow"] .assignment-card-inner::before {
+      @include slot-market-row-logo;
+    }
+    &[data-asset="A04_Workshop"] .assignment-card-inner::before {
+      @include slot-workshop-logo;
+    }
+    &[data-asset="A05_DarkAlley"] .assignment-card-inner::before {
+      @include slot-dark-alley-logo;
+    }
+  }
+  &[data-open]
+    #floating-assignments
+    .magician-assignments
+    .assignment-slot-holder
+    .assignment-card
+    .assignment-card-inner::before {
+    opacity: 0;
+  }
+
+  #floating-assignments {
+    width: 100%;
+    height: 100%;
+    min-width: calc(var(--assignmentCardScale) * 375px);
+
+    .magician-assignments {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 5px;
+      padding: 0px 8px;
+      border-top-right-radius: 17px;
+
+      &[data-color="60aaa1"] {
+        background: linear-gradient(0deg, rgba(138, 138, 138, 0.3), rgba(120, 168, 163, 0.7));
+      }
+      &[data-color="cf4a1f"] {
+        background: linear-gradient(0deg, rgba(138, 138, 138, 0.3), rgba(206, 106, 73, 0.7));
+      }
+      &[data-color="cc7f17"] {
+        background: linear-gradient(0deg, rgba(138, 138, 138, 0.3), rgba(197, 141, 67, 0.7));
+      }
+      &[data-color="85902b"] {
+        background: linear-gradient(0deg, rgba(138, 138, 138, 0.3), rgba(131, 139, 69, 0.7));
+      }
+
+      .magician-assignments-specialists,
+      .magician-assignments-main {
+        gap: 5px;
+      }
+
+      .assignment-slot-holder {
+        flex-shrink: 0;
+      }
+    }
+  }
 }
