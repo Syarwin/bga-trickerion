@@ -1,4 +1,8 @@
 .player-board {
+    .fa.fa-star {
+        color: black;
+    }
+
     &[data-order]::before {
         content: attr(data-order);
         position: absolute;
@@ -7,7 +11,6 @@
         height: 18px;
         display: flex;
         justify-content: center;
-        align-items: center;
         border-radius: 50%;
         border: 1px solid black;
         z-index: 20;
@@ -15,6 +18,8 @@
         left: 3px;
         font-size: 15px;
         box-shadow: 0px 0px 1px black;
+        font-family: "Brandon Text Black";
+        line-height: 17px;
     }
 
     &.inactive {
@@ -24,4 +29,42 @@
             background: #c0c0c0;
         }
     }
+
+    .player-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Brandon Text Black";
+
+        .player-coins,
+        .player-shards {
+            padding: 1px 6px;
+            border: 1px solid black;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .player-shards {
+            gap: 6px;
+        }
+    }
+}
+
+// Floating resource animation
+.animation-elt {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: "Brandon Text Black";
+    border: 1px solid black;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }

@@ -41,6 +41,10 @@ const ICONS = [...SVG_ICONS];
 export const formatIcon = function (name: string, n = null, lowerCase = true) {
     let type = lowerCase ? name.toLowerCase() : name;
 
+    const NO_TEXT_ICONS = [];
+    let noText = NO_TEXT_ICONS.includes(name);
+    let text = n == null ? '' : `<span>${n}</span>`;
+
     if (SVG_ICONS.includes(type)) {
         let icon = `<i class='svgicon-${type}'>`;
         //   let nGlyphs = glyphs[type];
@@ -50,12 +54,8 @@ export const formatIcon = function (name: string, n = null, lowerCase = true) {
         //     }
         //   }
         icon += '</i>';
-        return icon;
+        return text + icon;
     }
-
-    const NO_TEXT_ICONS = [];
-    let noText = NO_TEXT_ICONS.includes(name);
-    let text = n == null ? '' : `<span>${n}</span>`;
 
     return `${noText ? text : ''}<div class="icon-container icon-container-${type}"><div class="nemesis-icon icon-${type}">${noText ? '' : text}</div></div>`;
 };

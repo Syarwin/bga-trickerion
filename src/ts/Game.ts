@@ -40,6 +40,7 @@ import { FinishSetup } from './states/FinishSetup';
 import { PlaceCharacters } from './states/PlaceCharacters';
 import { cards } from './Cards';
 import { meeples } from './Meeples';
+import { players } from './Players';
 
 export class Game {
     bga: ExtendedBga;
@@ -103,6 +104,9 @@ export class Game {
         board.init(gamedatas);
         cards.init(gamedatas);
         meeples.init(gamedatas);
+        players.init(gamedatas, this, this.bga);
+
+        window['players'] = players;
     }
 
     onEnteringState(stateName: string, args: Gamestate) {
