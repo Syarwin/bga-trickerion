@@ -1,36 +1,84 @@
-import { Game } from "../Game";
+import { Game } from '../Game';
+import { clearPossible } from '../framework/utils';
+import { onClick } from '../framework/event';
+import { dice } from '../Dice';
+import { formatIcon } from '../format';
+
+/** Map character die slot key → DOM element id */
+const CHAR_DIE_SLOTS: Record<string, string> = {
+    'character-0': 'die-character-0',
+    'character-1': 'die-character-1',
+};
 
 export class HireCharacter {
     game: Game;
     bga: ExtendedBga;
-    
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
     onEnteringState(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
-        if (isCurrentPlayerActive) {
-            for (const characterType of args.availableCharacterTypes) {
-                this.bga.statusBar.addActionButton(characterType, () => this.bga.actions.performAction("actHireCharacter", { characterType }));
+        this.onPlayerActivationChange(args, isCurrentPlayerActive);
+    }
+
+    onLeavingState(_args: HireCharacterArgs, _isCurrentPlayerActive: boolean) {
+        clearPossible();
+    }
+
+    onPlayerActivationChange(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
+        clearPossible();
+
+        if (!isCurrentPlayerActive) return;
+
+        this.bga.statusBar.removeActionButtons();
+
+        // Match available character types to character dice on the downtown board
+        const charDice = this.game.gamedatas?.globals?.dice?.character ?? [];
+        const availableSet = new Set(args.availableCharacterTypes);
+
+        for (const slotKey of Object.keys(CHAR_DIE_SLOTS)) {
+            const idx = slotKey === 'character-0' ? 0 : 1;
+            const faceValue = charDice[idx];
+
+            if (faceValue === 'not-available') continue;
+
+            // The die face is a character type — check if it's available
+            if (typeof faceValue === 'string' && availableSet.has(faceValue)) {
+                const domId = CHAR_DIE_SLOTS[slotKey];
+                const el = $(domId);
+                if (!el) continue;
+
+                el.classList.add('selectable');
+
+                onClick(el, () => {
+                    this.bga.actions.performAction('actHireCharacter', { characterType: faceValue });
+                    dice.rollDie(slotKey, 'not-available');
+                    clearPossible();
+                    this.bga.statusBar.removeActionButtons();
+                });
             }
         }
-    }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
-    }
-
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
-    onPlayerActivationChange(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
+        // Fallback: action buttons for each available character type
+        for (const charType of args.availableCharacterTypes) {
+            this.bga.statusBar.addActionButton(
+                formatIcon(charType) + ' ' + _(charType),
+                () => {
+                    this.bga.actions.performAction('actHireCharacter', { characterType: charType });
+                    // Roll the matching die to X
+                    for (const [slotKey] of Object.entries(CHAR_DIE_SLOTS)) {
+                        const idx = slotKey === 'character-0' ? 0 : 1;
+                        if (charDice[idx] === charType) {
+                            dice.rollDie(slotKey, 'not-available');
+                            break;
+                        }
+                    }
+                    clearPossible();
+                    this.bga.statusBar.removeActionButtons();
+                }
+            );
+        }
     }
 }

@@ -437,6 +437,7 @@ interface PlayLocationActionArgs extends GenericArguments {
         };
     };
     remainingAps: number;
+    locationId: string;
 }
 
 interface PrepareTrickArgs extends GenericArguments {
@@ -782,14 +783,14 @@ interface TrickMarkerMovedToPerformanceArgs {
 }
 
 interface AdvertisedArgs {
-    playerId: number;
+    player_id: number;
     cost: number;
     poster: Poster;
     fame: number;
 }
 
 interface MagicianChosenArgs {
-    playerId: number;
+    player_id: number;
     magician: Magician;
 }
 

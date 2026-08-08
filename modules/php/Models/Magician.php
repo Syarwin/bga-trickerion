@@ -59,6 +59,13 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
     {
         $setupData = self::beginnersSetupData($this->getFavoriteTrickCategory());
 
+        $characters = $setupData["characters"] ?? [];
+        foreach ($characters as $location => $characterTypes) {
+            foreach ($characterTypes as $characterType) {
+                Characters::hire($characterType, $this->getPlayerId(), $location);
+            }
+        }
+
         $tricks = $setupData["tricks"] ?? [];
         foreach ($tricks as $location => $trickTypes) {
             foreach ($trickTypes as $trickType) {
@@ -71,13 +78,6 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
         foreach ($components as $location => $componentTypes) {
             foreach ($componentTypes as $componentType) {
                 Players::get($this->getPlayerId())->incComponent($componentType, 1, $location);
-            }
-        }
-
-        $characters = $setupData["characters"] ?? [];
-        foreach ($characters as $location => $characterTypes) {
-            foreach ($characterTypes as $characterType) {
-                Characters::hire($characterType, $this->getPlayerId(), $location);
             }
         }
     }

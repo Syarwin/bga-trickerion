@@ -1,6 +1,7 @@
 import { getAnimationManager } from './libLoader';
-import { addUpdatePlayerOrderingCallback, getCurrentPlayerId } from './framework/utils';
+import { addUpdatePlayerOrderingCallback, getCurrentPlayerId, attachRegisteredTooltips } from './framework/utils';
 import { formatIcon } from './format';
+import { cards } from './Cards';
 
 export class Players {
     game: any;
@@ -53,6 +54,10 @@ export class Players {
     <span id="counter-${playerId}-shard"></span>
     ${formatIcon('shard')}
   </div>
+  <div class="player-fame">
+    <span id="counter-${playerId}-fame"></span>
+    ${formatIcon('fame')}
+  </div>
 </div>
 `
         );
@@ -66,12 +71,24 @@ export class Players {
         const shardCounter = new ebg.counter();
         shardCounter.create(`counter-${playerId}-shard`, { value: 0 });
         this.counters.set(`shard-${playerId}`, shardCounter);
+
+        // Create counter for fame
+        const fameCounter = new ebg.counter();
+        fameCounter.create(`counter-${playerId}-fame`, { value: 0 });
+        this.counters.set(`fame-${playerId}`, fameCounter);
+
+        // Set initial fame value
+        const player = this.gamedatas!.players[playerId];
+        if (player) {
+            fameCounter.setValue(parseInt(player.score, 10) || 0);
+        }
     }
 
     /**
      * Get a player's counter by type
+     * Public so PlayerNotifications can access the fame counter.
      */
-    private getCounter(playerId: number, type: 'coin' | 'shard'): Counter | null {
+    getCounter(playerId: number, type: 'coin' | 'shard' | 'fame'): Counter | null {
         return this.counters.get(`${type}-${playerId}`) || null;
     }
 
@@ -228,6 +245,27 @@ export class Players {
         }
 
         this.updatePlayerPanelOrdering();
+    }
+
+    async onMagicianChosen(args: MagicianChosenArgs): Promise<void> {
+        const magician = args.magician;
+        const playerId = args.player_id;
+        
+        // Update the player's magician data
+        this.gamedatas.magicians.player[playerId] = magician;
+        
+        // Update the magician board if it exists
+        const board = $(`magician-board-${playerId}`);
+        if (board) {
+            board.dataset.magicianId = String(magician.id);
+            
+            // Update the magician card display
+            const magicianHolder = board.querySelector('.magician-card-holder');
+            if (magicianHolder) {
+                magicianHolder.innerHTML = cards.tplMagician(magician, '', this.gamedatas?.globals.isDarkAlley ?? false);
+                attachRegisteredTooltips();
+            }
+        }
     }
 }
 

@@ -73,7 +73,16 @@ export class AssignCharacters {
             if (!assignment) continue;
 
             const idleLoc = charIdToIdle[entry.characterId];
-            const suffix = idleLoc ? IDLE_TO_SLOT[idleLoc] : null;
+            let suffix = idleLoc ? IDLE_TO_SLOT[idleLoc] : null;
+            
+            // Special case: apprentice on assistant board uses different slot
+            if (idleLoc === 'idle-assistant-board') {
+                const character = this.game.gamedatas.characters.visible.find(c => c.id === entry.characterId);
+                if (character && character.type === 'apprentice') {
+                    suffix = 'apprentice-assistant';
+                }
+            }
+            
             if (!suffix) continue;
 
             const slotHolder = $(`assignment-slot-${playerId}-${suffix}`);
@@ -96,7 +105,13 @@ export class AssignCharacters {
 
         /* ── 3. Available character slots (not in pending) ── */
         for (const character of args.availableCharacters) {
-            const suffix = IDLE_TO_SLOT[character.idleLocation];
+            let suffix = IDLE_TO_SLOT[character.idleLocation];
+            
+            // Special case: apprentice on assistant board uses different slot
+            if (character.idleLocation === 'idle-assistant-board' && character.type === 'apprentice') {
+                suffix = 'apprentice-assistant';
+            }
+            
             if (!suffix || pendingInSlot.has(suffix)) continue;
 
             const slotHolder = $(`assignment-slot-${playerId}-${suffix}`);
@@ -121,10 +136,14 @@ export class AssignCharacters {
                     this._selectedCharacterId = null;
                 } else {
                     if (this._selectedCharacterId !== null) {
-                        const prevSuffix =
-                            IDLE_TO_SLOT[
-                                args.availableCharacters.find((c) => c.id === this._selectedCharacterId)?.idleLocation ?? ''
-                            ];
+                        const prevChar = args.availableCharacters.find((c) => c.id === this._selectedCharacterId);
+                        let prevSuffix = prevChar ? IDLE_TO_SLOT[prevChar.idleLocation] : null;
+                        
+                        // Special case: apprentice on assistant board uses different slot
+                        if (prevChar && prevChar.idleLocation === 'idle-assistant-board' && prevChar.type === 'apprentice') {
+                            prevSuffix = 'apprentice-assistant';
+                        }
+                        
                         if (prevSuffix) {
                             const prevHolder = $(`assignment-slot-${playerId}-${prevSuffix}`);
                             if (prevHolder) prevHolder.querySelector('.assignment-slot')?.classList.remove('selected');

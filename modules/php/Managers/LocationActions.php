@@ -28,7 +28,8 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\TakeCoins;
 
 class LocationActions
 {
-    public static function init($locationId = null, $actionPoints = 0) {
+    public static function init($locationId = null, $actionPoints = 0)
+    {
         Globals::setLocationActions([
             "locationId" => $locationId,
             "remainingActionPoints" => $actionPoints,
@@ -36,7 +37,8 @@ class LocationActions
         ]);
     }
 
-    public static function resolvePlaceCharacter($character, $locationId) {
+    public static function resolvePlaceCharacter($character, $locationId)
+    {
         if (in_array($locationId, [
             Characters::LOCATION_BOARD_THEATER_THURSDAY_MAGICIAN,
             Characters::LOCATION_BOARD_THEATER_FRIDAY_MAGICIAN,
@@ -67,23 +69,33 @@ class LocationActions
         ]);
     }
 
-    public static function incActionPoints(int $points) {
+    public static function incActionPoints(int $points)
+    {
         $locationActions = Globals::getLocationActions();
         $locationActions["remainingActionPoints"] += $points;
         Globals::setLocationActions($locationActions);
     }
 
-    public static function getRemainingActionPoints() {
+    public static function getLocationId()
+    {
+        $locationActions = Globals::getLocationActions();
+        return $locationActions["locationId"] ?? '';
+    }
+
+    public static function getRemainingActionPoints()
+    {
         $locationActions = Globals::getLocationActions();
         return $locationActions["remainingActionPoints"];
     }
 
-    public static function isOneTimeActionUsed($actionId) {
+    public static function isOneTimeActionUsed($actionId)
+    {
         $locationActions = Globals::getLocationActions();
         return in_array($actionId, $locationActions["oneTimeActionsUsed"]);
     }
 
-    public static function markOneTimeActionUsed($actionId) {
+    public static function markOneTimeActionUsed($actionId)
+    {
         $locationActions = Globals::getLocationActions();
         if (!in_array($actionId, $locationActions["oneTimeActionsUsed"])) {
             $locationActions["oneTimeActionsUsed"][] = $actionId;
@@ -91,10 +103,11 @@ class LocationActions
         }
     }
 
-    public static function getActions($playerId) {
+    public static function getActions($playerId)
+    {
         $availableActions = self::getAvailableLocationActions();
         $player = Players::get($playerId);
-        
+
         //filter out one time actions that have already been used
         foreach ($availableActions as $actionKey => $action) {
             if (($action["singleUse"] ?? false) && self::isOneTimeActionUsed($actionKey)) {
@@ -119,12 +132,12 @@ class LocationActions
                 unset($availableActions[$actionKey]);
             }
 
-            if (!is_null($action["state"])){
+            if (!is_null($action["state"])) {
                 $actionNode = Engine::buildTree([
                     "state" => $action["state"],
                     "args" => $action["args"] ?? []
                 ]);
-    
+
                 if (!$actionNode->isDoable($playerId)) {
                     unset($availableActions[$actionKey]);
                 }
@@ -134,7 +147,8 @@ class LocationActions
         return $availableActions;
     }
 
-    public static function playAction($playerId, $actionId) {
+    public static function playAction($playerId, $actionId)
+    {
         $availableActions = self::getActions($playerId);
         if (!isset($availableActions[$actionId])) {
             throw new UserException("Action not available: " . $actionId);
@@ -144,7 +158,7 @@ class LocationActions
 
         $actionPoints = $selectedAction["actionPoints"] ?? 0;
         self::incActionPoints(-$actionPoints);
-        
+
         if (($selectedAction["singleUse"] ?? false)) {
             self::markOneTimeActionUsed($actionId);
         }
@@ -155,7 +169,8 @@ class LocationActions
         ]);
     }
 
-    private static function getAvailableLocationActions() {
+    private static function getAvailableLocationActions()
+    {
         $locationActions = Globals::getLocationActions();
         return match ($locationActions["locationId"]) {
             Characters::LOCATION_BOARD_DARK_ALLEY_1,

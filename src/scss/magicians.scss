@@ -76,6 +76,25 @@
                 text-transform: uppercase;
             }
         }
+
+        .magician-poster-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-image: url("img/poster-icon.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+
+            &.visible {
+                opacity: 1;
+            }
+        }
     }
 
     @each $type in variables.$magicianTypes {

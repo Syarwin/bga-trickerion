@@ -1,4 +1,3 @@
-import { bga } from '../framework/utils';
 import { AssignmentNotifications } from './AssignmentNotifications';
 import { CharacterNotifications } from './CharacterNotifications';
 import { ComponentNotifications } from './ComponentNotifications';
@@ -12,15 +11,15 @@ import { TrickMarkerNotifications } from './TrickMarkerNotifications';
 import { TrickNotifications } from './TrickNotifications';
 
 export default [
-    new AssignmentNotifications(bga),
-    new CharacterNotifications(bga),
-    new ComponentNotifications(bga),
-    new DieNotifications(bga),
-    new MarketRowNotifications(bga),
-    new PerformanceNotifications(bga),
-    new PlayerNotifications(bga),
-    new PosterNotifications(bga),
-    new ProphecyNotifications(bga),
-    new TrickNotifications(bga),
-    new TrickMarkerNotifications(bga),
+    new AssignmentNotifications(),
+    new CharacterNotifications(),
+    new ComponentNotifications(),
+    new DieNotifications(),
+    new MarketRowNotifications(),
+    new PerformanceNotifications(),
+    new PlayerNotifications(),
+    new PosterNotifications(),
+    new ProphecyNotifications(),
+    new TrickNotifications(),
+    new TrickMarkerNotifications(),
 ];

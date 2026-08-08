@@ -86,6 +86,35 @@ export const cards = {
     // /_/   \_\___/___/_|\__, |_| |_|_| |_| |_|\___|_| |_|\__|
     //                    |___/
     ///////////////////////////////////////////////////////////////
+    /**
+     * Render a facedown assignment card inside a vertical flip container.
+     * - .flip-front shows a generic card back
+     * - .flip-back shows the full faceup card (name + ability)
+     * The container has id `flip-assignment-card-${card.id}` so the reveal
+     * can just add `.flipped` to trigger the CSS 3D rotation.
+     */
+    tplFacedownAssignmentCard(card: Assignment): string {
+        const faceupHtml = this.tplAssignmentCard(card, 'flip-back');
+        // Wrap in a positioned container matching the assignment card dimensions
+        // so the flip doesn't rely on the parent slot having explicit size.
+        const cardW = 312;
+        const cardH = 476;
+        return `<div id="flip-assignment-card-${card.id}" class="flip-container vertical" style="width:${cardW}px;height:${cardH}px;transform:scale(var(--assignmentCardScale));transform-origin:top left;position:relative">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="assignment-card" style="width:${cardW}px;height:${cardH}px;position:relative">
+                <div class="assignment-card-inner" style="transform:none;position:absolute;top:0;left:0">
+                  <div class="card-back" style="width:100%;height:100%;background:#333;border-radius:15px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flip-back">
+              ${faceupHtml}
+            </div>
+          </div>
+        </div>`;
+    },
+
     tplAssignmentCard(card: Assignment, prefix: string = '') {
         card = Object.assign(card, staticData.assignments[card.type]);
         let prefixId = prefix == '' ? '' : `${prefix}-`;
@@ -205,7 +234,9 @@ export const cards = {
           <div class="trick-bonus-fame">${card.yields.fame}</div>
           <div class="trick-bonus-coins">${card.yields.coins}</div>
           <div class="symbol-marker-slot"></div>
-          <div class="trick-marker-slots" data-n="${card.slots}"></div>
+          <div class="trick-marker-slots" data-n="${card.slots}">
+            ${Array.from({length: card.slots}, (_, i) => `<div class="trick-marker-slot" data-slotid="${i}"></div>`).join('')}
+          </div>
           <div class="trick-components">${componentsHTML}</div>
         </div>
       </div>`;
@@ -382,6 +413,7 @@ export const cards = {
         return `<div id="${prefixId}magician-${card.id}" class="magician-card ${prefix}" data-type="${card.type + (isDarkAlley ? '_alley' : '')}">
         <div class="magician-card-inner">
           <div class="magician-name"><span>${_(card.name)}</span></div>
+          <div class="magician-poster-overlay"></div>
         </div>
       </div>`;
     },

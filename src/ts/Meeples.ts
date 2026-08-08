@@ -252,8 +252,27 @@ export const meeples = {
             return fallback;
         }
 
-        // Trick marker locations — for now, use pending area
-        if (location === 'available' || location === 'prepared' || location === 'scheduled') {
+        // Trick marker on prepared trick — place on trick card
+        if (location === 'prepared' && 'trickId' in meeple && meeple.trickId) {
+            const trickEl = document.getElementById(`trick-${meeple.trickId}`);
+            if (trickEl) {
+                const slots = trickEl.querySelectorAll<HTMLElement>('.trick-marker-slot:not(:has(.trickerion-meeple))');
+                if (slots.length > 0) {
+                    return slots[0];
+                }
+                // If no free slots, fall back to the trick marker slots container
+                const container = trickEl.querySelector<HTMLElement>('.trick-marker-slots');
+                if (container) return container;
+            }
+            // If trick card not found, fall back to pending area
+            const el = document.getElementById('trickerion-pending');
+            if (el) return el;
+            console.error(`[Meeples] Trick card #trick-${meeple.trickId} not found and #trickerion-pending not found for prepared trick marker`, meeple);
+            return fallback;
+        }
+
+        // Trick marker locations — for other locations, use pending area
+        if (location === 'available' || location === 'scheduled') {
             const el = document.getElementById('trickerion-pending');
             if (el) return el;
             console.error(`[Meeples] #trickerion-pending not found for trick marker location ${location}`, meeple);

@@ -1,34 +1,32 @@
-import { Game } from "../Game";
+import { Game } from '../Game';
 
 export class PlaceCharacters {
     game: Game;
     bga: ExtendedBga;
-    
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onEnteringState(args: object, isCurrentPlayerActive: boolean) {
-    }
+    onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {}
+
+    onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {}
+
+    onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {}
 
     /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
+     * Fires from PlaceCharacters.onEnteringState() after ResolveAssignments.
+     * All facedown assignment cards become faceup — just add .flipped to the
+     * flip container to trigger the CSS 3D rotation.
      */
-    onLeavingState(args: object, isCurrentPlayerActive: boolean) {
-    }
-
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
-    onPlayerActivationChange(args: object, isCurrentPlayerActive: boolean) {
-    }
-
     async notif_assignmentsRevealed(args: AssignmentsRevealedArgs) {
+        for (const assignment of args.assignments) {
+            // Query the flip container by id
+            const flipContainer = $(`flip-assignment-card-${assignment.id}`);
+            if (flipContainer) {
+                flipContainer.classList.add('flipped');
+            }
+        }
     }
 }

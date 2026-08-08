@@ -49,6 +49,7 @@ export class Game {
 
     constructor(bga: ExtendedBga) {
         this.bga = bga;
+        initUtils(this.bga);
 
         // Declare the State classes
         this.bga.states.register('ConfirmTurn', new ConfirmTurn(this, bga));
@@ -89,7 +90,6 @@ export class Game {
         this.bga.states.register('PlaceCharacters', new PlaceCharacters(this, bga));
 
         this.stateProcessor = new StateProcessor(this, bga);
-        initUtils(this.bga);
     }
 
     setup(gamedatas: TrickerionGamedatas) {
@@ -148,6 +148,7 @@ export class Game {
         this.bga.notifications.setupPromiseNotifications({
             handlers: [this, ...this.bga.states.getStateClasses(), ...notifications],
             onStart: (notifName, msg, args) => {
+                debug(`Notification ${notifName}`, args);
                 $('pagemaintitletext').innerHTML = msg;
                 $('gameaction_status').innerHTML = msg;
             },

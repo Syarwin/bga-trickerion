@@ -20,7 +20,8 @@ class PlayLocationAction extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_PLAY_LOCATION_ACTIONS,
             type: StateType::ACTIVE_PLAYER,
@@ -29,7 +30,8 @@ class PlayLocationAction extends ActionStateWithRevert
         );
     }
 
-    public function isOptional() {
+    public function isOptional()
+    {
         return true;
     }
 
@@ -38,10 +40,12 @@ class PlayLocationAction extends ActionStateWithRevert
         $args = [];
         $args["availableActions"] = LocationActions::getActions($activePlayerId);
         $args["remainingAps"] = LocationActions::getRemainingActionPoints();
+        $args["locationId"] = LocationActions::getLocationId();
         return $args;
-    }    
+    }
 
-    public function onEnteringState(array $args, int $activePlayerId) {
+    public function onEnteringState(array $args, int $activePlayerId)
+    {
         if (count($args["availableActions"]) == 0) {
             return $this->resolve([
                 "automatic" => true
@@ -58,7 +62,7 @@ class PlayLocationAction extends ActionStateWithRevert
         Engine::insertAsSibling([
             "state" => PlayLocationAction::class
         ]);
-            
+
         return $this->resolve(["actionId" => $actionId]);
     }
 }

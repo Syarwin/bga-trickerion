@@ -1,36 +1,46 @@
-import { Game } from "../Game";
+import { Game } from '../Game';
+import { clearPossible } from '../framework/utils';
+import { formatIcon } from '../format';
+import { staticData } from '../staticData';
 
 export class DiscardTrick {
     game: Game;
     bga: ExtendedBga;
-    
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
     onEnteringState(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
-        if (isCurrentPlayerActive) {
-            for (const trick of args.availableTricks) {
-                this.bga.statusBar.addActionButton(trick.type, () => this.bga.actions.performAction("actDiscardTrick", { trickId: trick.id }));
-            }
-        }
+        this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
+    onLeavingState(_args: DiscardTrickArgs, _isCurrentPlayerActive: boolean) {
+        clearPossible();
     }
 
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
     onPlayerActivationChange(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
+        clearPossible();
+        if (!isCurrentPlayerActive) return;
+
+        this.bga.statusBar.removeActionButtons();
+
+        for (const trick of args.availableTricks) {
+            // Get category from static data if not on the model
+            const cat = trick.category ?? (staticData.tricks[trick.type] as any)?.category;
+            const icon = cat ? formatIcon(cat) : '';
+            const name = (staticData.tricks[trick.type] as any)?.name ?? trick.type;
+            const label = `${icon} ${_(name)}`;
+
+            this.bga.statusBar.addActionButton(
+                label,
+                () => {
+                    clearPossible();
+                    this.bga.statusBar.removeActionButtons();
+                    this.bga.actions.performAction('actDiscardTrick', { trickId: trick.id });
+                }
+            );
+        }
     }
 }

@@ -1,50 +1,77 @@
-import { Game } from "../Game";
+import { Game } from '../Game';
+import { clearPossible } from '../framework/utils';
+import { onClick } from '../framework/event';
+import { formatIcon } from '../format';
+
+/** Map order slot index → DOM element id */
+const ORDER_SLOT_IDS = ['order-slot-0', 'order-slot-1', 'order-slot-2', 'order-slot-3'];
 
 export class OrderComponent {
     game: Game;
     bga: ExtendedBga;
-    
+    private _currentArgs: OrderComponentArgs | null = null;
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
     onEnteringState(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
-        if (isCurrentPlayerActive) {
-            console.dir(args);
-            for (const component of args.availableComponents) {
-                const button = this.bga.statusBar.addActionButton(component, () => {
+        this._currentArgs = args;
+        this.onPlayerActivationChange(args, isCurrentPlayerActive);
+    }
+
+    onLeavingState(_args: OrderComponentArgs, _isCurrentPlayerActive: boolean) {
+        clearPossible();
+    }
+
+    onPlayerActivationChange(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
+        clearPossible();
+        if (!isCurrentPlayerActive) return;
+
+        this._currentArgs = args;
+        this.bga.statusBar.removeActionButtons();
+
+        // Phase 1: Show available component types as buttons
+        for (const component of args.availableComponents) {
+            const label = `${formatIcon(component)} ${_(component)}`;
+            this.bga.statusBar.addActionButton(
+                label,
+                () => {
+                    clearPossible();
                     this.bga.statusBar.removeActionButtons();
-
-                    for(const slot of args.availableOrderSlots) {
-                        this.bga.statusBar.addActionButton(`Place at ${slot}`, () => {
-                            this.bga.actions.performAction("actOrderComponents", { component, slotId: slot });
-                        });
-                    }
-
-                    this.bga.statusBar.addActionButton("Cancel", () => {
-                        this.bga.statusBar.removeActionButtons();
-                        this.onEnteringState(args, isCurrentPlayerActive);
-                    });
-                });
-            }
+                    this._showOrderSlots(args, component);
+                }
+            );
         }
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
-    }
+    /** Phase 2: highlight empty order slots on the board + Cancel */
+    private _showOrderSlots(args: OrderComponentArgs, component: string) {
+        for (const slot of args.availableOrderSlots) {
+            const domId = ORDER_SLOT_IDS[slot];
+            if (!domId) continue;
 
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
-    onPlayerActivationChange(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
+            const el = $(domId);
+            if (!el) continue;
+
+            el.classList.add('selectable');
+            onClick(el, () => {
+                clearPossible();
+                this.bga.statusBar.removeActionButtons();
+                this.bga.actions.performAction('actOrderComponents', { component, slotId: slot });
+            });
+        }
+
+        // Cancel back to Phase 1
+        this.bga.statusBar.addActionButton(
+            _('Cancel'),
+            () => {
+                clearPossible();
+                this.bga.statusBar.removeActionButtons();
+                if (this._currentArgs) this.onPlayerActivationChange(this._currentArgs, true);
+            },
+            { color: 'alert' }
+        );
     }
 }

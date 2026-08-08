@@ -37,7 +37,8 @@
         font-family: "Brandon Text Black";
 
         .player-coins,
-        .player-shards {
+        .player-shards,
+        .player-fame {
             padding: 1px 6px;
             border: 1px solid black;
             background: rgba(255, 255, 255, 0.6);
@@ -48,6 +49,10 @@
         }
 
         .player-shards {
+            gap: 6px;
+        }
+
+        .player-fame {
             gap: 6px;
         }
     }
@@ -67,4 +72,25 @@
     display: flex;
     align-items: center;
     gap: 3px;
+}
+
+// Poster overlay for player panel
+.player-panel-poster-overlay {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-image: url("img/poster-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+
+    &.visible {
+        opacity: 1;
+    }
 }

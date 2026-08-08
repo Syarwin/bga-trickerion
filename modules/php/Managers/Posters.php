@@ -29,7 +29,7 @@ class Posters extends CachedPieces
     public static function getUiData(?int $playerId = null): array
     {
         return [
-            "all" => self::getAll(),
+            "all" => self::getAll()->toArray(),
         ];
     }
 

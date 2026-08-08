@@ -1,34 +1,47 @@
 import { Game } from "../Game";
+import { cards } from "../Cards";
+import { attachRegisteredTooltips } from "../framework/utils";
 
+/**
+ * FinishSetup visual state.
+ *
+ * Transitional state at the end of setup. Renders initial pending prophecies
+ * on the Dark Alley board (if Dark Alley expansion is active).
+ */
 export class FinishSetup {
     game: Game;
     bga: ExtendedBga;
-    
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onEnteringState(args: object, isCurrentPlayerActive: boolean) {
+    onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
+        // Transition state — UI setup is already complete from board.init()
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: object, isCurrentPlayerActive: boolean) {
+    onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
+        // Nothing to clean up
     }
 
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
-    onPlayerActivationChange(args: object, isCurrentPlayerActive: boolean) {
+    onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
+        // Game state — not player-interactive
     }
 
     async notif_pendingProphecies(args: PendingPropheciesArgs) {
+        // Initial pending prophecies are revealed — render them in the Dark Alley area
+        const container = document.getElementById('alley-pending-prophecies');
+        if (!container) return;
+
+        container.innerHTML = '';
+        for (const prophecy of args.prophecies) {
+            container.insertAdjacentHTML('beforeend', cards.tplProphecy(prophecy));
+        }
+        attachRegisteredTooltips();
+
+        // Update gamedatas
+        const gamedatas = this.bga.gameui.gamedatas as TrickerionGamedatas;
+        gamedatas.prophecies.pending = args.prophecies;
     }
 }

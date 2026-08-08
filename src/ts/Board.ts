@@ -113,7 +113,7 @@ export const board = {
           ${trickDecksHTML}
           ${actionsHTML}
           ${slotsHTML}
-          <div class="slot-downtown-shard-boost"></div>
+          <div class="slot-downtown-shard-boost" id="downtown-shard-boost"></div>
         </div>`
         );
 
@@ -160,7 +160,7 @@ export const board = {
           <div id="market-logo" class="slot-market-row-logo"></div>
           <div class="slot-market-costs"></div>
           <div class="slot-market-quick-order-cost"></div>
-          <div class="slot-market-shard-boost"></div>
+          <div class="slot-market-shard-boost" id="market-shard-boost"></div>
           ${actionsHTML}
           ${slotsHTML}
           ${marketsHTML}
@@ -207,11 +207,14 @@ export const board = {
                 `
               <div id="board-dark-alley-inner">
                 <div id="alley-logo" class="slot-dark-alley-logo"></div>
-                <div class="slot-alley-shard-boost"></div>
+                <div class="slot-alley-shard-boost" id="alley-shard-boost"></div>
                 ${actionsHTML}
                 ${slotsHTML}
                 ${assignmentDecksHTML}
-                <div class="slot-prophecies"></div>
+                <div class="slot-prophecies">
+                  <div id="alley-active-prophecy" class="alley-prophecy-slot active"></div>
+                  <div id="alley-pending-prophecies" class="alley-prophecy-slot pending"></div>
+                </div>
               </div>`
             );
         }
@@ -270,6 +273,9 @@ export const board = {
                 this.updateMagicianBoard(player, magician);
             }
 
+            // Check if player has advertised and show poster overlay
+            this.updateAdvertisingPosterOverlay(player.id, gamedatas);
+
             // Attach tooltips for per-player workshop actions
             this.attachActionTooltips(player.id);
 
@@ -310,7 +316,7 @@ export const board = {
               <div class="magician-workshop-main">
                 <div class="magician-workshop-background"></div>
                 <div class="magician-card-holder"></div>
-                <div class="slot-workshop-shard-boost"></div>
+                <div class="slot-workshop-shard-boost" id="workshop-${player.id}-shard-boost"></div>
                 <div id="workshop-${player.id}-prepare" class="slot-workshop-action-space">
                   <div class="slot-workshop-action-prepare"></div>
                   <div class="slot-workshop-action-cost">?${formatIcon('action-point')}</div>
@@ -421,6 +427,51 @@ export const board = {
             }
         });
     },
+
+    updateAdvertisingPosterOverlay(playerId: number, gamedatas: TrickerionGamedatas) {
+        // Check if player has a poster on the board (has advertised)
+        const hasAdvertised = gamedatas.posters.all.some(
+            (poster: any) => poster.playerId === playerId && poster.location === 'board'
+        );
+
+        if (hasAdvertised) {
+            // Show poster overlay on magician card
+            const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
+            if (magicianCard) {
+                magicianCard.classList.add('visible');
+            }
+
+            // Show poster overlay in player panel
+            const playerPanel = document.getElementById(`player_board_${playerId}`);
+            if (playerPanel) {
+                const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
+                if (panelPosterOverlay) {
+                    panelPosterOverlay.classList.add('visible');
+                } else {
+                    // Create poster overlay if it doesn't exist
+                    const overlay = document.createElement('div');
+                    overlay.className = 'player-panel-poster-overlay visible';
+                    playerPanel.prepend(overlay);
+                }
+            }
+        } else {
+            // Hide poster overlay on magician card
+            const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
+            if (magicianCard) {
+                magicianCard.classList.remove('visible');
+            }
+
+            // Hide poster overlay in player panel
+            const playerPanel = document.getElementById(`player_board_${playerId}`);
+            if (playerPanel) {
+                const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
+                if (panelPosterOverlay) {
+                    panelPosterOverlay.classList.remove('visible');
+                }
+            }
+        }
+    },
+
 
     // Tooltip descriptions for action spaces — fill in the strings below
     // Use <iconname> for icons (e.g. <coin>, <shard>, <action-point>, <fame>)

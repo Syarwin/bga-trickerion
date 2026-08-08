@@ -1,39 +1,41 @@
-import { Game } from "../Game";
+import { Game } from '../Game';
+import { clearPossible } from '../framework/utils';
+import { formatIcon } from '../format';
 
 export class QuickOrderComponent {
     game: Game;
     bga: ExtendedBga;
-    
+
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
         this.bga = bga;
     }
 
-    /**
-     * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
-     */
     onEnteringState(args: QuickOrderComponentArgs, isCurrentPlayerActive: boolean) {
-        if (isCurrentPlayerActive) {
-            console.dir(args);
-            for (const component of args.availableComponents) {
-                const button = this.bga.statusBar.addActionButton(component, () => {
-                    this.bga.actions.performAction("actQuickOrderComponents", { component });
-                });
-            }
-        }
+        this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }
 
-    /**
-     * This method is called each time we are leaving the game state. You can use this method to perform some user interface changes at this moment.
-     */
-    onLeavingState(args: QuickOrderComponentArgs, isCurrentPlayerActive: boolean) {
+    onLeavingState(_args: QuickOrderComponentArgs, _isCurrentPlayerActive: boolean) {
+        clearPossible();
     }
 
-    /**
-     * This method is called each time the current player becomes active or inactive in a MULTIPLE_ACTIVE_PLAYER state. You can use this method to perform some user interface changes at this moment.
-     * on MULTIPLE_ACTIVE_PLAYER states, you may want to call this function in onEnteringState using `this.onPlayerActivationChange(args, isCurrentPlayerActive)` at the end of onEnteringState.
-     * If your state is not a MULTIPLE_ACTIVE_PLAYER one, you can delete this function.
-     */
     onPlayerActivationChange(args: QuickOrderComponentArgs, isCurrentPlayerActive: boolean) {
+        clearPossible();
+        if (!isCurrentPlayerActive) return;
+
+        this.bga.statusBar.removeActionButtons();
+
+        // Single-step: show available component types, click to place on quick order slot
+        for (const component of args.availableComponents) {
+            const label = `${formatIcon(component)} ${_(component)}`;
+            this.bga.statusBar.addActionButton(
+                label,
+                () => {
+                    clearPossible();
+                    this.bga.statusBar.removeActionButtons();
+                    this.bga.actions.performAction('actQuickOrderComponents', { component });
+                }
+            );
+        }
     }
 }
