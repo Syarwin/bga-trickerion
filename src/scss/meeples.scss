@@ -29,8 +29,11 @@
 
     &.meeple-trick-marker {
         width: 6.6em;
-        border: 1px solid black;
-        box-shadow: 1px 1px 3px #000000b8;
+        box-shadow:
+            1px 1px 3px rgba(0, 0, 0, 0.7215686275),
+            1px 1px 0px 1px gray,
+            inset 1px 1px 1px white;
+        border-radius: 3px;
     }
 }
 

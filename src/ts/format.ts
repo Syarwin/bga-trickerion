@@ -1,3 +1,5 @@
+import { staticData } from "./staticData";
+
 const SVG_ICONS = [
     'action-point',
     'active-player',
@@ -75,11 +77,66 @@ export const logOverride = {
     magician: (args: { magician: Magician }) => {
         return args.magician.type;
     },
-    trick: (args: { trick: Trick }) => {
-        return args.trick.type;
+    trick: (args: { trick: Trick }) => {        
+        // Enhanced trick formatting with name, suit, and category icons
+        const trick = Object.assign(args.trick, staticData.tricks[args.trick?.type]);
+
+        if (!trick) return 'unknown';
+        
+        // Get the trick type and name - use name if available, otherwise type
+        const type = trick.type || 'unknown';
+        const name = trick.name || '';
+        
+        // Get suit and category for icons
+        const suit = trick.suit || '';
+        const category = trick.category || '';
+        
+        // Build the formatted string with icons
+        let result = _(name);
+        
+        // Add category icon if available
+        if (category) {
+            result += ` (<i class='svgicon-${category.toLowerCase()}'></i>)`;
+        }
+                
+        // Add suit icon if available
+        // if (suit) {
+        //     result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
+        // }
+        
+        return result;
     },
     previousTrick: (args: { previousTrick?: Trick }) => {
-        return args.previousTrick?.type;
+        const trick = args.previousTrick;
+        if (!trick) return 'unknown';
+        
+        // Get the trick type and name
+        const type = trick.type || 'unknown';
+        const name = trick.name || '';
+        const suit = trick.suit || '';
+        const category = trick.category || '';
+        
+        // Build the formatted string with icons
+        let result = '';
+        
+        // Add category icon if available
+        if (category) {
+            result += `<i class='svgicon-${category.toLowerCase()}'></i> `;
+        }
+        
+        // Add the trick name/translation
+        if (name) {
+            result += (typeof _ !== 'undefined' ? _(name) : name);
+        } else {
+            result += type;
+        }
+        
+        // Add suit icon if available
+        if (suit) {
+            result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
+        }
+        
+        return result;
     },
     character: (args: { character: Character }) => {
         return args.character.type;
