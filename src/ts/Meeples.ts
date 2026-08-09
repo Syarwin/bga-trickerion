@@ -47,10 +47,11 @@ export const meeples = {
             ...gamedatas.trickMarkers.scheduled,
         ];
         for (const tm of allTrickMarkers) {
-            this.addMeeple(tm);
+            tm.type = "trickMarker";
+            if(tm.location !== 'available'){
+                this.addMeeple(tm);
+            }
         }
-
-        // 4. Academy markers — not yet supported in backend, skip for now
     },
 
     /**

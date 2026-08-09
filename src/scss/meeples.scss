@@ -26,6 +26,12 @@
         box-shadow: 1px 1px 3px #000000b8;
         border-radius: 3px;
     }
+
+    &.meeple-trick-marker {
+        width: 6.6em;
+        border: 1px solid black;
+        box-shadow: 1px 1px 3px #000000b8;
+    }
 }
 
 // Meeple inside board slots — positioned absolutely to stack over slot icons
