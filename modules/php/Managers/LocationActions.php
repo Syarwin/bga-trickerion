@@ -60,13 +60,54 @@ class LocationActions
             "state" => PlayLocationAction::class
         ]);
 
-        Game::get()->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} (for ${actionPoints}) AP'), [
+        $locationName = self::getLocationDisplayName($locationId);
+
+        Game::get()->bga->notify->all("characterPlaced", clienttranslate('${player_name} places ${character} on ${locationName} for ${actionPoints}${AP}'), [
             "player_id" => $character->getPlayerId(),
             "character" => Characters::get($character->getId()),
             "locationId" => $locationId,
-            "locationName" => $locationId,
-            "actionPoints" => $actionPoints
+            "locationName" => $locationName,
+            "actionPoints" => $actionPoints,
+            "AP" => clienttranslate('AP'),
         ]);
+    }
+
+    /**
+     * Get a user-friendly display name for a location
+     */
+    private static function getLocationDisplayName($locationId)
+    {
+        // Map location IDs to display names
+        $niceNames = [
+            'board-downtown-1' => clienttranslate('Downtown'),
+            'board-downtown-2' => clienttranslate('Downtown'),
+            'board-downtown-3' => clienttranslate('Downtown'),
+            'board-downtown-4' => clienttranslate('Downtown'),
+            'board-market-row-1' => clienttranslate('Market Row'),
+            'board-market-row-2' => clienttranslate('Market Row'),
+            'board-market-row-3' => clienttranslate('Market Row'),
+            'board-market-row-4' => clienttranslate('Market Row'),
+            'board-theater-thursday-basic-1' => clienttranslate('Theater'),
+            'board-theater-thursday-basic-2' => clienttranslate('Theater'),
+            'board-theater-friday-basic-1' => clienttranslate('Theater'),
+            'board-theater-friday-basic-2' => clienttranslate('Theater'),
+            'board-theater-saturday-basic-1' => clienttranslate('Theater'),
+            'board-theater-saturday-basic-2' => clienttranslate('Theater'),
+            'board-theater-sunday-basic-1' => clienttranslate('Theater'),
+            'board-theater-sunday-basic-2' => clienttranslate('Theater'),
+            'board-theater-thursday-magician' => clienttranslate('Theater'),
+            'board-theater-friday-magician' => clienttranslate('Theater'),
+            'board-theater-saturday-magician' => clienttranslate('Theater'),
+            'board-theater-sunday-magician' => clienttranslate('Theater'),
+            'board-workshop-1' => clienttranslate('Workshop'),
+            'board-workshop-2' => clienttranslate('Workshop'),
+            'board-dark-alley-1' => clienttranslate('Dark Alley'),
+            'board-dark-alley-2' => clienttranslate('Dark Alley'),
+            'board-dark-alley-3' => clienttranslate('Dark Alley'),
+            'board-dark-alley-4' => clienttranslate('Dark Alley'),
+        ];
+
+        return $niceNames[$locationId] ?? $locationId;
     }
 
     public static function incActionPoints(int $points)

@@ -99,10 +99,6 @@ export class CharacterNotifications {
 
     async notif_wagesPaid(_args: WagesPaidArgs) {}
 
-    async notif_characterPlaced(args: CharacterPlacedArgs) {
-        meeples.addMeeple(args.character);
-    }
-
     async notif_apprenticeMovedToAssistant(args: ApprenticeMovedToAssistantArgs) {
         const character = args.character;
         const oldMeeple = $(`meeple-${character.type}-${character.id}`);

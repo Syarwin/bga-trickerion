@@ -110,6 +110,7 @@ export class Game {
     }
 
     onEnteringState(stateName: string, args: Gamestate) {
+        debug(`Entering state: ${stateName}`, args);
         this.stateProcessor.process(args.args, args);
     }
 
@@ -117,16 +118,6 @@ export class Game {
         clearPersistantActionButtonsNode();
         clearRestartActionButtonsNode();
     }
-
-    ///////////////////////////////////////////////////
-    //// Utility methods
-
-    /*
-    
-        Here, you can defines some utility methods that you can use everywhere in your javascript
-        script. Typically, functions that are used in multiple state classes or outside a state class.
-    
-    */
 
     ///////////////////////////////////////////////////
     //// Reaction to cometD notifications
@@ -153,8 +144,8 @@ export class Game {
                 $('gameaction_status').innerHTML = msg;
             },
             onEnd: (notifName, msg, args) => {
-                $('pagemaintitletext').innerHTML = '';
-                $('gameaction_status').innerHTML = '';
+                // $('pagemaintitletext').innerHTML = '';
+                // $('gameaction_status').innerHTML = '';
             },
         });
     }

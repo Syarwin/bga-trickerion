@@ -17,6 +17,7 @@ export const board = {
     },
 
     init: async function (gamedatas: TrickerionGamedatas) {
+        this._dockedPlayerId = null;
         this._isDarkAlley = gamedatas.globals.isDarkAlley;
         let nPlayers = Object.keys(gamedatas.players).length;
 
@@ -289,9 +290,7 @@ export const board = {
 
         // Initialize dice display
         this.getAnimationManager(); // kick off loading in background
-        dice.init(gamedatas).then(() => {
-            dice.setupDebugPanel();
-        });
+        dice.init(gamedatas);
     },
 
     updateMagicianBoard(player: Player, magician: Magician) {

@@ -62,7 +62,7 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
         $characters = $setupData["characters"] ?? [];
         foreach ($characters as $location => $characterTypes) {
             foreach ($characterTypes as $characterType) {
-                Characters::hire($characterType, $this->getPlayerId(), $location);
+                Characters::hire($characterType, $this->getPlayerId(), $location, true);
             }
         }
 

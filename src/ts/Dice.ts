@@ -78,7 +78,10 @@ export const dice = {
      * Called from board.init() after the DOM is built.
      */
     async init(gamedatas: TrickerionGamedatas): Promise<void> {
-        if (initialized) return;
+        if (initialized){
+            this.updateDice(gamedatas);
+            return;
+        }
         initialized = true;
 
         const BgaDice = await useDice();

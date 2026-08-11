@@ -43,6 +43,6 @@ class ResolveAssignments extends GameState
     Globals::setPendingAssignments([]);
 
     // Transition to PlaceCharacters
-    $this->game->gamestate->nextState(PlaceCharacters::class);
+    return PlaceCharacters::class;
   }
 }

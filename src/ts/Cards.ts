@@ -13,6 +13,7 @@ export const cards = {
         this.gamedatas = gamedatas;
         this.setupPerformanceCards(gamedatas);
         this.setupTrickCards(gamedatas);
+        this.setupAssignmentCards(gamedatas);
     },
 
     //////////////////////////////////////////////////////////////////////////
@@ -258,6 +259,79 @@ export const cards = {
         gamedatas.tricks.available.forEach((card) => {
             this.addTrickCard(card);
         });
+    },
+
+    setupAssignmentCards(gamedatas: TrickerionGamedatas) {
+        // Map idle location → assignment slot suffix (same as AssignCharacters.IDLE_TO_SLOT)
+        const IDLE_TO_SLOT: Record<string, string> = {
+            'idle-player-board': 'magician',
+            'idle-apprentice-1': 'apprentice-1',
+            'idle-apprentice-2': 'apprentice-2',
+            'idle-apprentice-3': 'apprentice-3',
+            'idle-engineer-board': 'engineer',
+            'idle-manager-board': 'manager',
+            'idle-assistant-board': 'assistant',
+        };
+        
+        // Build charId → idleLocation lookup for all players
+        const charIdToIdle: Record<number, string> = {};
+        for (const ch of gamedatas.characters.visible) {
+            charIdToIdle[ch.id] = ch.idleLocation;
+        }
+        
+        // Place assigned assignment cards in their character slots for all players
+        for (const playerIdStr of Object.keys(gamedatas.players)) {
+            const playerId = parseInt(playerIdStr);
+            
+            // Get this player's assigned assignments from both sources
+            const playerAssigned = [
+                ...gamedatas.assignments.assigned.my.filter(a => a.playerId === playerId),
+                ...(gamedatas.assignments.assigned.other[playerId]?.revealed || [])
+            ];
+            
+            // For each assigned assignment, find its character and place the card in the slot
+            for (const assignment of playerAssigned) {
+                // The state field corresponds to the character ID for assigned cards
+                const characterId = assignment.state;
+                const idleLoc = charIdToIdle[characterId];
+                let suffix = idleLoc ? IDLE_TO_SLOT[idleLoc] : null;
+                
+                // Special case: apprentice on assistant board uses different slot
+                if (idleLoc === 'idle-assistant-board') {
+                    const character = gamedatas.characters.visible.find(c => c.id === characterId);
+                    if (character && character.type === 'apprentice') {
+                        suffix = 'apprentice-assistant';
+                    }
+                }
+                
+                if (!suffix) continue;
+                
+                const slotHolder = $(`assignment-slot-${playerId}-${suffix}`);
+                if (!slotHolder) continue;
+                const slot = slotHolder.querySelector('.assignment-slot') as HTMLElement;
+                if (!slot) continue;
+                
+                // Only set if not already there
+                if (slot.querySelector(`#assignment-card-${assignment.id}`)) continue;
+                
+                slot.innerHTML = this.tplAssignmentCard(assignment);
+                slot.dataset.assignmentId = String(assignment.id);
+                slot.dataset.characterId = String(characterId);
+                slot.classList.add('assigned');
+            }
+        }
+        
+        // // Place unassigned cards (in hand) in the pending area
+        // const pending = $('trickerion-pending');
+        // if (!pending) return;
+        
+        // gamedatas.assignments.hand.forEach(assignment => {
+        //     if (!$(`assignment-card-${assignment.id}`)) {
+        //         pending.insertAdjacentHTML('beforeend', this.tplAssignmentCard(assignment));
+        //     }
+        // });
+        
+        attachRegisteredTooltips();
     },
 
     setupTrickModal(): void {

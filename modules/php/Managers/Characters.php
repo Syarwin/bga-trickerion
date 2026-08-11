@@ -89,7 +89,7 @@ class Characters extends CachedPieces
 
     */
 
-    public static function hire(string $type, int $playerId, string $location)
+    public static function hire(string $type, int $playerId, string $location, bool $isSetup)
     {
         $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY, $type)
             ->first();
@@ -97,7 +97,11 @@ class Characters extends CachedPieces
         $character->setLocation($location);
 
         // Set the idle location based on where the character is being placed
-        $character->setIdleLocation(Character::getCharacterIdleLocation($type));
+        $idleLocation = Character::getCharacterIdleLocation($type);
+        if ($isSetup && $location == Characters::LOCATION_IDLE_ASSISTANT_BOARD) {
+            $idleLocation = $location;
+        }
+        $character->setIdleLocation($idleLocation);
 
         Game::get()->bga->notify->all("characterHired", clienttranslate('${player_name} hires ${character}'), [
             "player_id" => $playerId,

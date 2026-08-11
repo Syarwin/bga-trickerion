@@ -74,6 +74,9 @@ export const formatString = function (str: string) {
 };
 
 export const logOverride = {
+    AP: (args: { AP: string}) => {
+        return formatIcon('action-point');
+    },
     magician: (args: { magician: Magician }) => {
         return args.magician.type;
     },

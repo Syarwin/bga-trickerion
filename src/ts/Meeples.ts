@@ -108,6 +108,10 @@ export const meeples = {
         };
     },
 
+    getMeeple(meeple:Meeple):HTMLElement {
+        return $(`meeple-${meeple.type}-${meeple.id}`);
+    },
+
     /**
      * Map a backend location string to a DOM element.
      *

@@ -1,38 +1,8 @@
 import { Game } from '../Game';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick, detachAll } from '../framework/event';
-
-/**
- * Map backend CharacterLocation → DOM element ID for board slots.
- * All locations correspond directly to their DOM id, except workshop
- * which is player-specific (resolved at runtime).
- */
-const BOARD_LOCATION_DOM_IDS: Record<string, string> = {
-    'board-downtown-1': 'board-downtown-1',
-    'board-downtown-2': 'board-downtown-2',
-    'board-downtown-3': 'board-downtown-3',
-    'board-downtown-4': 'board-downtown-4',
-    'board-market-row-1': 'board-market-row-1',
-    'board-market-row-2': 'board-market-row-2',
-    'board-market-row-3': 'board-market-row-3',
-    'board-market-row-4': 'board-market-row-4',
-    'board-dark-alley-1': 'board-dark-alley-1',
-    'board-dark-alley-2': 'board-dark-alley-2',
-    'board-dark-alley-3': 'board-dark-alley-3',
-    'board-dark-alley-4': 'board-dark-alley-4',
-    'board-theater-thursday-basic-1': 'board-theater-thursday-basic-1',
-    'board-theater-thursday-basic-2': 'board-theater-thursday-basic-2',
-    'board-theater-thursday-magician': 'board-theater-thursday-magician',
-    'board-theater-friday-basic-1': 'board-theater-friday-basic-1',
-    'board-theater-friday-basic-2': 'board-theater-friday-basic-2',
-    'board-theater-friday-magician': 'board-theater-friday-magician',
-    'board-theater-saturday-basic-1': 'board-theater-saturday-basic-1',
-    'board-theater-saturday-basic-2': 'board-theater-saturday-basic-2',
-    'board-theater-saturday-magician': 'board-theater-saturday-magician',
-    'board-theater-sunday-basic-1': 'board-theater-sunday-basic-1',
-    'board-theater-sunday-basic-2': 'board-theater-sunday-basic-2',
-    'board-theater-sunday-magician': 'board-theater-sunday-magician',
-};
+import { board } from '../Board';
+import { meeples } from '../Meeples';
 
 /** Map idle location → assignment slot suffix (same as AssignCharacters.IDLE_TO_SLOT) */
 const IDLE_TO_SLOT: Record<string, string> = {
@@ -52,6 +22,24 @@ export class PlaceCharacter {
     private _selectedSlotHolder: Element | null = null;
     /** Store the full args so we can re-render on cancel without a server round-trip */
     private _currentArgs: PlaceCharacterArgs | null = null;
+
+    /** Get the DOM ID for a character's idle slot */
+    private _getIdleElementId(character: Character): string | null {
+        const playerId = character.playerId;
+        if (!playerId) return null;
+        
+        const idleLoc = character.idleLocation;
+        if (idleLoc === 'idle-player-board') {
+            return `idle-${playerId}-magician`;
+        } else if (idleLoc === 'idle-assistant-board' && character.type === 'apprentice') {
+            return `idle-${playerId}-apprentice-assistant`;
+        } else if (idleLoc.match(/^idle-(apprentice-\d+)$/)) {
+            return `idle-${playerId}-${idleLoc.replace('idle-', '')}`;
+        } else if (idleLoc.match(/^idle-(engineer|manager|assistant)-board$/)) {
+            return `idle-${playerId}-${idleLoc.replace('idle-', '').replace('-board', '')}`;
+        }
+        return null;
+    }
 
     constructor(game: Game, bga: ExtendedBga) {
         this.game = game;
@@ -78,41 +66,39 @@ export class PlaceCharacter {
         this.bga.statusBar.removeActionButtons();
         const playerId = getCurrentPlayerId();
 
-        // Make each available character slot clickable
+        // Make each available character meeple clickable
         for (const entry of args.availableAssignments) {
-            const idleLoc = entry.character.idleLocation;
-            const suffix = IDLE_TO_SLOT[idleLoc];
-            if (!suffix) continue;
-
-            const slotHolder = $(`assignment-slot-${playerId}-${suffix}`);
-            if (!slotHolder) continue;
-
-            onClick(slotHolder, () => this._selectCharacter(entry, slotHolder));
+            const meepleEl = meeples.getMeeple(entry.character);
+            onClick(meepleEl, () => this._selectCharacter(entry));
         }
     }
 
     // ── Selection Logic ────────────────────────────────────
 
     private _selectCharacter(
-        entry: PlaceCharacterArgs['availableAssignments'][0],
-        slotHolder: Element
-    ) {
+        entry: PlaceCharacterArgs['availableAssignments'][0]) {
         // Deselect previous
         this._deselect();
 
         // Select this one
+        const meepleEl = meeples.getMeeple(entry.character);
+        const idleLoc = entry.character.idleLocation;
+        const suffix = IDLE_TO_SLOT[idleLoc];
+        const slotHolder = $(`assignment-slot-${entry.character.playerId}-${suffix}`);
+        
+        // Add selected class to the meeple element
         this._selectedCharacterId = entry.character.id;
+        meepleEl.classList.add('selected');
         this._selectedSlotHolder = slotHolder;
         slotHolder.classList.add('selected');
 
         // Highlight possible board locations
         const playerId = getCurrentPlayerId();
         for (const locationId of entry.possibleLocations) {
-            const domId = this._resolveLocationDomId(locationId, playerId);
-            if (!domId) continue;
-            const el = $(domId);
-            if (!el) continue;
-
+            const el = $(this._resolveLocationDomId(locationId, playerId));
+            if(!el){
+                continue;
+            }
             el.classList.add('selectable');
 
             // Each location click fires the place action immediately
@@ -160,6 +146,15 @@ export class PlaceCharacter {
     private _cleanup() {
         this._selectedCharacterId = null;
         this._selectedSlotHolder = null;
+        
+        // Remove selectable and selected from all character meeples
+        document.querySelectorAll('.trickerion-meeple.meeple-character.selectable').forEach(el => {
+            el.classList.remove('selectable');
+        });
+        
+        document.querySelectorAll('.trickerion-meeple.meeple-character.selected').forEach(el => {
+            el.classList.remove('selected');
+        });
     }
 
     /**
@@ -171,7 +166,7 @@ export class PlaceCharacter {
         if (wsMatch) {
             return `board-workshop-${playerId}-${wsMatch[1]}`;
         }
-        return BOARD_LOCATION_DOM_IDS[locationId] ?? null;
+        return locationId;
     }
 
     /**
@@ -205,5 +200,18 @@ export class PlaceCharacter {
     async notif_characterPlaced(args: CharacterPlacedArgs) {
         // Deselect after placement so UI is clean for the next placement
         this._deselect();
+        
+        const character = args.character;
+        const meepleEl = meeples.getMeeple(character);
+        const targetEl = meeples.getMeepleContainer(character);
+        
+        // Use animation manager to slide the meeple
+        const animManager = await board.getAnimationManager();
+        await animManager.slideAndAttach(meepleEl, targetEl, {
+            duration: 1200,
+            toPlaceholder: 'off',
+            fromPlaceholder: 'off',
+            preserveScale: true,
+        });
     }
 }

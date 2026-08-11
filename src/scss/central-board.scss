@@ -234,6 +234,12 @@ $downtownHeight: 340px;
                         }
                     }
                 }
+
+                .trickerion-meeple {
+                    width: 4rem;
+                    left: 49%;
+                    top: 48%;
+                }
             }
         }
 
@@ -447,6 +453,12 @@ $marketHeight: 365px;
                             box-shadow: inset 0px 0px 15px 12px gold;
                         }
                     }
+                }
+
+                .trickerion-meeple {
+                    width: 4rem;
+                    left: 49%;
+                    top: 48%;
                 }
             }
         }
@@ -667,6 +679,12 @@ $alleyHeight: 365px;
                         }
                     }
                 }
+
+                .trickerion-meeple {
+                    width: 4rem;
+                    left: 49%;
+                    top: 48%;
+                }
             }
         }
 
@@ -711,20 +729,6 @@ $alleyHeight: 365px;
             height: 42px;
             box-shadow: 1px 1px 2px black;
             border-radius: 8px;
-
-            &.selectable {
-                cursor: pointer;
-                box-shadow:
-                    inset 0px 0px 13px 7px gold,
-                    1px 1px 2px black;
-
-                &:hover {
-                    transform: scale(1.05);
-                    box-shadow:
-                        inset 0px 0px 15px 12px gold,
-                        1px 1px 2px black;
-                }
-            }
         }
 
         .slot-prophecies {
@@ -898,6 +902,12 @@ $theaterHeight: 580px;
                     }
                 }
             }
+
+            .trickerion-meeple {
+                width: 4rem;
+                left: 49%;
+                top: 48%;
+            }
         }
 
         .slot-theater-perform {
@@ -945,6 +955,28 @@ $theaterHeight: 580px;
                 margin-top: -6px;
                 padding: 0px;
             }
+        }
+    }
+}
+
+.slot-downtown-action-space,
+.slot-downtown-shard-boost,
+.slot-market-action-space,
+.slot-market-shard-boost,
+.slot-theater-action-space,
+.slot-alley-action-space,
+.slot-alley-shard-boost {
+    &.selectable {
+        cursor: pointer;
+        box-shadow:
+            inset 0px 0px 13px 5px gold,
+            1px 1px 2px black !important;
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow:
+                inset 0px 0px 15px 8px gold,
+                1px 1px 2px black !important;
         }
     }
 }
