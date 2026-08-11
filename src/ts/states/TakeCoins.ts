@@ -2,6 +2,7 @@ import { Game } from '../Game';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
+import { translate } from '../format';
 
 /** Map bank die slot key → DOM element id */
 const BANK_DIE_SLOTS: Record<string, string> = {
@@ -41,10 +42,6 @@ export class TakeCoins {
             const idx = slotKey === 'money-0' ? 0 : 1;
             const faceValue = moneyDice[idx];
 
-            // Only make clickable if the die is available (not 'X') and the
-            // value is one of the available coin amounts
-            if (faceValue === 'not-available') continue;
-
             const amount = Number(faceValue);
             if (isNaN(amount) || !availableSet.has(amount)) continue;
 
@@ -56,35 +53,14 @@ export class TakeCoins {
 
             onClick(el, () => {
                 this.bga.actions.performAction('actTakeCoins', { coins: amount });
-
-                // Roll the die to "X" for visual feedback
-                dice.rollDie(slotKey, 'not-available');
-
-                // Deselect everything
-                clearPossible();
-                this.bga.statusBar.removeActionButtons();
             });
         }
 
-        // Fallback: add action buttons for each available coin amount
         for (const coins of args.availableCoins) {
             this.bga.statusBar.addActionButton(
-                _('Get ${coins} coins').replace('${coins}', String(coins)),
+                translate(_('Get ${coins} <coin>'), { coins }),
                 () => {
-                    clearPossible();
                     this.bga.actions.performAction('actTakeCoins', { coins });
-
-                    // Also roll the matching die to "X" if found
-                    for (const [slotKey, domId] of Object.entries(BANK_DIE_SLOTS)) {
-                        const idx = slotKey === 'money-0' ? 0 : 1;
-                        const faceValue = moneyDice[idx];
-                        if (Number(faceValue) === coins) {
-                            dice.rollDie(slotKey, 'not-available');
-                            break;
-                        }
-                    }
-
-                    this.bga.statusBar.removeActionButtons();
                 }
             );
         }

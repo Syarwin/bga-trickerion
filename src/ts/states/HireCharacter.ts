@@ -54,7 +54,6 @@ export class HireCharacter {
 
                 onClick(el, () => {
                     this.bga.actions.performAction('actHireCharacter', { characterType: faceValue });
-                    dice.rollDie(slotKey, 'not-available');
                     clearPossible();
                     this.bga.statusBar.removeActionButtons();
                 });
@@ -67,14 +66,6 @@ export class HireCharacter {
                 formatIcon(charType) + ' ' + _(charType),
                 () => {
                     this.bga.actions.performAction('actHireCharacter', { characterType: charType });
-                    // Roll the matching die to X
-                    for (const [slotKey] of Object.entries(CHAR_DIE_SLOTS)) {
-                        const idx = slotKey === 'character-0' ? 0 : 1;
-                        if (charDice[idx] === charType) {
-                            dice.rollDie(slotKey, 'not-available');
-                            break;
-                        }
-                    }
                     clearPossible();
                     this.bga.statusBar.removeActionButtons();
                 }

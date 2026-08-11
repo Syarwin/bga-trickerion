@@ -642,10 +642,13 @@ interface DiceMadeUnavailableArgs {
     player_id: number;
     dieFace: string | number;
     dieId: string;
+    dieType: string;
 }
 
 interface DiceRerolledArgs {
     player_id: number;
+    dieType: string;
+    dieId: number;
     dieFace: string | number;
     newDieFace: string | number;
     newDice: Dice;
@@ -653,6 +656,8 @@ interface DiceRerolledArgs {
 
 interface DiceSetArgs {
     player_id: number;
+    dieType: string;
+    dieId: number;
     oldDieFace: string | number;
     newDieFace: string | number;
     newDice: Dice;

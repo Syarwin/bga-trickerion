@@ -8,7 +8,8 @@ use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class Dice
 {
-    public static function init() {
+    public static function init()
+    {
         Globals::setDice([
             self::DICE_TYPE_TRICK => [
                 self::NOT_AVAILABLE,
@@ -25,7 +26,8 @@ class Dice
         ]);
     }
 
-    public static function roll() {
+    public static function roll()
+    {
         $dice = Globals::getDice();
         $dice[self::DICE_TYPE_TRICK] = [
             self::getRandomTrickDie(),
@@ -46,7 +48,8 @@ class Dice
         ]);
     }
 
-    public static function setDieUnavailable(string $dieType, string|int $dieFace) {
+    public static function setDieUnavailable(string $dieType, string|int $dieFace)
+    {
         $dice = Globals::getDice();
         if (isset($dice[$dieType])) {
             $dieIndex = array_search($dieFace, $dice[$dieType]);
@@ -56,6 +59,7 @@ class Dice
 
                 Game::get()->bga->notify->all("dieMadeUnavailable", clienttranslate('${player_name} has turned ${dieFace} to "X"'), [
                     "player_id" => Players::getActiveId(),
+                    "dieType" => $dieType,
                     "dieFace" => $dieFace,
                     "dieId" => $dieIndex,
                 ]);
@@ -63,18 +67,20 @@ class Dice
         }
     }
 
-    public static function getDice(string $dieType, bool $onlyAvailable = true) {
+    public static function getDice(string $dieType, bool $onlyAvailable = true)
+    {
         $dice = Globals::getDice();
         $typeDice = $dice[$dieType] ?? [self::NOT_AVAILABLE, self::NOT_AVAILABLE];
         if ($onlyAvailable) {
-            return array_values(array_filter($typeDice, function($die) {
+            return array_values(array_filter($typeDice, function ($die) {
                 return $die !== self::NOT_AVAILABLE;
             }));
         }
         return $typeDice;
     }
 
-    public static function rerollDie(string $dieType, int $dieId) {
+    public static function rerollDie(string $dieType, int $dieId)
+    {
         $dice = Globals::getDice();
         if (isset($dice[$dieType])) {
             if (isset($dice[$dieType][$dieId])) {
@@ -95,6 +101,8 @@ class Dice
 
                 Game::get()->bga->notify->all("dieRerolled", clienttranslate('${player_name} has rerolled ${dieFace} to ${newDieFace}'), [
                     "player_id" => Players::getActiveId(),
+                    "dieType" => $dieType,
+                    "dieId" => $dieId,
                     "dieFace" => $dieFace,
                     "newDieFace" => $dice[$dieType][$dieId],
                     "newDice" => $dice
@@ -103,7 +111,8 @@ class Dice
         }
     }
 
-    public static function setDie(string $dieType, int $dieId, string|int $dieFace) {
+    public static function setDie(string $dieType, int $dieId, string|int $dieFace)
+    {
         $dice = Globals::getDice();
         if (isset($dice[$dieType]) && isset($dice[$dieType][$dieId])) {
             $oldDieFace = $dice[$dieType][$dieId];
@@ -112,6 +121,8 @@ class Dice
 
             Game::get()->bga->notify->all("dieSet", clienttranslate('${player_name} has set ${oldDieFace} to ${newDieFace}'), [
                 "player_id" => Players::getActiveId(),
+                "dieType" => $dieType,
+                "dieId" => $dieId,
                 "oldDieFace" => $oldDieFace,
                 "newDieFace" => $dieFace,
                 "newDice" => $dice
@@ -119,7 +130,8 @@ class Dice
         }
     }
 
-    public static function getTrickDieFaces() {
+    public static function getTrickDieFaces()
+    {
         return [
             Trick::CATEGORY_ESCAPE,
             Trick::CATEGORY_MECHANICAL,
@@ -130,12 +142,14 @@ class Dice
         ];
     }
 
-    private static function getRandomTrickDie() {
+    private static function getRandomTrickDie()
+    {
         $i = bga_rand(0, 5);
         return self::getTrickDieFaces()[$i];
     }
 
-    public static function getCharacterDieFaces(int $die) {
+    public static function getCharacterDieFaces(int $die)
+    {
         if ($die == 0) {
             return [
                 self::NOT_AVAILABLE,
@@ -157,12 +171,14 @@ class Dice
         }
     }
 
-    private static function getRandomCharacterDie(int $die) {
+    private static function getRandomCharacterDie(int $die)
+    {
         $i = bga_rand(0, 5);
         return self::getCharacterDieFaces($die)[$i];
     }
 
-    public static function getMoneyDieFaces() {
+    public static function getMoneyDieFaces()
+    {
         return [
             3,
             4,
@@ -173,7 +189,8 @@ class Dice
         ];
     }
 
-    private static function getRandomMoneyDie() {
+    private static function getRandomMoneyDie()
+    {
         $i = bga_rand(0, 5);
         return self::getMoneyDieFaces()[$i];
     }

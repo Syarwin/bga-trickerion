@@ -1,3 +1,4 @@
+import { bga } from "./framework/utils";
 import { staticData } from "./staticData";
 
 const SVG_ICONS = [
@@ -165,5 +166,9 @@ export const logOverride = {
         return args.assignments.map((a) => a.type).join(', ');
     },
 };
+
+export const translate = function(log: string, args: Object): string{
+    return bga.gameui.format_string_recursive(log, args);
+}
 
 export const onLogAdded = {};

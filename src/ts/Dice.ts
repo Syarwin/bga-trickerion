@@ -53,7 +53,6 @@ const NOT_AVAILABLE = 'not-available';
 const ANY = 'any';
 
 let diceManager: any = null;
-let initialized = false;
 
 /** Maps backend slot id → DOM element id */
 const SLOT_MAP: Record<string, string> = {
@@ -65,6 +64,13 @@ const SLOT_MAP: Record<string, string> = {
     'money-1': 'die-bank-1',
 };
 
+/** Maps die type and die ID to slot key */
+const DIE_TYPE_TO_SLOT: Record<string, (id: number) => string> = {
+    'character': (id: number) => `character-${id}`,
+    'trick': (id: number) => `trick-${id}`,
+    'money': (id: number) => `money-${id}`,
+};
+
 /** Stores the created LineStock instances per slot key */
 const stocks: Record<string, any> = {};
 
@@ -74,16 +80,23 @@ export const dice = {
     },
 
     /**
+     * Get the slot key for a die given its type and ID.
+     * 
+     * @param dieType the die type ('character', 'trick', or 'money')
+     * @param dieId the die ID (0 or 1)
+     * @returns the slot key (e.g., 'money-0') or null if not found
+     */
+    getSlotKey(dieType: string, dieId: number | string): string | null {
+        const fn = DIE_TYPE_TO_SLOT[dieType];
+        if (!fn) return null;
+        return fn(Number(dieId));
+    },
+
+    /**
      * Initialize all dice from gamedatas.
      * Called from board.init() after the DOM is built.
      */
     async init(gamedatas: TrickerionGamedatas): Promise<void> {
-        if (initialized){
-            this.updateDice(gamedatas);
-            return;
-        }
-        initialized = true;
-
         const BgaDice = await useDice();
         const animationManager = await getAnimationManager();
 
@@ -222,8 +235,13 @@ export const dice = {
 
     /**
      * Roll a die in the given slot with an animation.
+     * 
+     * @param slotKey the slot key (e.g., 'money-0', 'money-1')
+     * @param newFace the new face value (e.g., 3, 4, 5, 6, 'not-available')
+     * @param effect the roll effect to use (default: 'rollOutPauseAndBack', use 'turn' for simple rotation)
+     * @returns a promise that resolves when the animation completes
      */
-    async rollDie(slotKey: string, newFace: number | string): Promise<void> {
+    async rollDie(slotKey: string, newFace: number | string, effect?: string): Promise<void> {
         const stock = stocks[slotKey];
         if (!stock) return;
 
@@ -232,13 +250,18 @@ export const dice = {
 
         // Update the face on the die data
         dieData[0].face = newFace;
-        stock.rollDie(dieData[0], { effect: 'rollOutPauseAndBack', duration: 1000 });
-
-        // Update tooltip
+        
+        // Update tooltip immediately
         const dieContainer = document.getElementById(SLOT_MAP[slotKey]);
         if (dieContainer) {
             this.attachDieTooltip(dieContainer, dieData[0]);
         }
+
+        // Return the animation promise
+        return stock.rollDie(dieData[0], { 
+            effect: effect ?? 'rollOutPauseAndBack', 
+            duration: 1000 
+        });
     },
 
     /**

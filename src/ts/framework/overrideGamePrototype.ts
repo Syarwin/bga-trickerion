@@ -1,4 +1,4 @@
-import { logOverride, onLogAdded } from "../format";
+import { formatString, logOverride, onLogAdded } from "../format";
 import { getRandomId, updatePlayerOrdering } from "./utils";
 
 export const overrideGamePrototype = function(gameui: ExtendedGameGui) {
@@ -27,6 +27,7 @@ export const overrideGamePrototype = function(gameui: ExtendedGameGui) {
             }
 
             args = replaceArgs(args);
+            log = formatString(log);
         }
         
         return gameui.constructor.prototype.format_string_recursive.call(this, log, args);

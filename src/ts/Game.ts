@@ -1,6 +1,6 @@
 import { ConfirmTurn } from './framework/states/ConfirmTurn';
 import { StateProcessor } from './framework/StateProcessor';
-import { clearPersistantActionButtonsNode, clearRestartActionButtonsNode, debug, initUtils } from './framework/utils';
+import { clearPersistantActionButtonsNode, clearPossible, clearRestartActionButtonsNode, debug, initUtils } from './framework/utils';
 import { ResolveChoice } from './framework/states/ResolveChoice';
 import { overrideGamePrototype } from './framework/overrideGamePrototype';
 import { DummyEnd } from './framework/states/DummyEnd';
@@ -140,6 +140,7 @@ export class Game {
             handlers: [this, ...this.bga.states.getStateClasses(), ...notifications],
             onStart: (notifName, msg, args) => {
                 debug(`Notification ${notifName}`, args);
+                clearPossible();
                 $('pagemaintitletext').innerHTML = msg;
                 $('gameaction_status').innerHTML = msg;
             },

@@ -66,12 +66,6 @@ export class RerollDie {
                     clearPossible();
                     this.bga.statusBar.removeActionButtons();
                     this.bga.actions.performAction('actRerollDie', { dieType, dieId });
-
-                    // Animate die roll to not-available
-                    const slotKey = DOM_ID_TO_SLOT[domId];
-                    if (slotKey) {
-                        dice.rollDie(slotKey, 'not-available');
-                    }
                 }));
             }
         }

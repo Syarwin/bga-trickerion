@@ -94,12 +94,6 @@ export class SetDie {
                     clearPossible();
                     this.bga.statusBar.removeActionButtons();
                     this.bga.actions.performAction('actSetDie', { dieType, dieId, dieFace: String(dieFace) });
-
-                    // Animate die to new face
-                    const slotKey = DOM_ID_TO_SLOT[domId];
-                    if (slotKey) {
-                        dice.rollDie(slotKey, dieFace);
-                    }
                 })
             );
         }
