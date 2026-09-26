@@ -262,13 +262,13 @@ class Characters extends CachedPieces
                 $totalWages += $character->getWage(true);
             }
 
-            Players::get($playerId)->payCoins($totalWages);
-
-            Game::get()->bga->notify->all("wagesPaid", clienttranslate('${player_name} pays ${totalWages} for wages for ${characterCount} characters'), [
-                "player_id" => $playerId,
-                "characterCount" => count($characters),
-                "totalWages" => $totalWages,
-            ]);
+            Players::get($playerId)->payCoins(
+                $totalWages,
+                clienttranslate('${player_name} pays ${abs_coins} for wages for ${characterCount} characters'),
+                [
+                    "characterCount" => count($characters),
+                ]
+            );
         });
     }
 
