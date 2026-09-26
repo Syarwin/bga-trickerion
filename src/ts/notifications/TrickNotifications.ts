@@ -18,6 +18,7 @@ export class TrickNotifications {
             fromPlaceholder: 'off',
             toPlaceholder: 'off',
         });
+        cards.updateTrickCard(args.trick);
     }
 
     async notif_trickDiscarded(args: TrickDiscardedArgs) {

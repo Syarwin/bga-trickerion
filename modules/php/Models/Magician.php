@@ -71,6 +71,7 @@ class Magician extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_M
             foreach ($trickTypes as $trickType) {
                 $trick = Tricks::getAll()->where("type", $trickType)->first();
                 $trick->learnTrick($this->getPlayerId(), $location);
+                $trick->prepare(false);
             }
         }
 
