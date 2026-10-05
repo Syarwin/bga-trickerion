@@ -17,12 +17,43 @@ export const board = {
         return this._boardLayout;
     },
 
-    setBoardLayout: function (layout: 'flex' | 'absolute') {
+    setBoardLayout: function (layout: 'flex' | 'absolute', persist = true) {
         this._boardLayout = layout;
         const boardEl = document.getElementById('trickerion-board');
         if (boardEl) {
             boardEl.dataset.boardLayout = layout;
         }
+        if (persist) {
+            localStorage.setItem('trickerion-board-layout', layout);
+        }
+        this.updateToggleButton();
+    },
+
+    isMobile: function () {
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    },
+
+    initBoardLayout: function () {
+        // Check localStorage first
+        const savedLayout = localStorage.getItem('trickerion-board-layout');
+        if (savedLayout === 'flex' || savedLayout === 'absolute') {
+            this._boardLayout = savedLayout;
+        } else {
+            // Default based on device
+            this._boardLayout = this.isMobile() ? 'flex' : 'absolute';
+        }
+        
+        // Apply to DOM
+        const boardEl = document.getElementById('trickerion-board');
+        if (boardEl) {
+            boardEl.dataset.boardLayout = this._boardLayout;
+        }
+    },
+
+    toggleBoardLayout: function () {
+        const newLayout = this._boardLayout === 'flex' ? 'absolute' : 'flex';
+        this.setBoardLayout(newLayout);
+        this.updateToggleButton();
     },
 
     getAnimationManager: function () {
@@ -32,6 +63,7 @@ export const board = {
     init: async function (gamedatas: TrickerionGamedatas) {
         this._dockedPlayerId = null;
         this._isDarkAlley = gamedatas.globals.isDarkAlley;
+        this.initBoardLayout();
         let nPlayers = Object.keys(gamedatas.players).length;
 
         $('game_play_area').insertAdjacentHTML(
@@ -41,8 +73,9 @@ export const board = {
 <div id="trickerion-main-wrapper">
   <div id="trickerion-pending"></div>
   <div id="trickerion-main-container">
+    <div id="trickerion-board-layout-toggle" class="board-layout-toggle"></div>
     <div id="trickerion-board-wrapper">
-      <div id="trickerion-board" data-board-layout="flex">
+      <div id="trickerion-board" data-dark-alley="${this._isDarkAlley? 1 : 0}">
         <div id="board-background"></div>
         <div id="board-downtown"></div>
         <div id="board-market-row"></div>
@@ -304,6 +337,31 @@ export const board = {
         // Initialize dice display
         this.getAnimationManager(); // kick off loading in background
         dice.init(gamedatas);
+
+        // Setup board layout toggle button
+        const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
+        if (toggleBtn) {
+            toggleBtn.onclick = () => this.toggleBoardLayout();
+            this.updateToggleButton();
+        }
+
+        // Add resize listener to update default layout on orientation change
+        window.addEventListener('resize', () => {
+            // Only update if we're using the default (no saved preference)
+            const savedLayout = localStorage.getItem('trickerion-board-layout');
+            if (!savedLayout) {
+                this.setBoardLayout(this.isMobile() ? 'flex' : 'absolute', false);
+            }
+        });
+    },
+
+    updateToggleButton: function () {
+        const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
+        if (toggleBtn) {
+            const currentLayout = this.getBoardLayout();
+            toggleBtn.textContent = currentLayout === 'flex' ? 'Switch to Full Board' : 'Switch to Flex Layout';
+            toggleBtn.title = currentLayout === 'flex' ? 'Switch to absolute positioned full board layout' : 'Switch to flexible individual boards layout';
+        }
     },
 
     updateMagicianBoard(player: Player, magician: Magician) {
