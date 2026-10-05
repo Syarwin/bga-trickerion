@@ -7,9 +7,22 @@ import { dice } from './Dice';
 
 export const board = {
     _isDarkAlley: false,
+    _boardLayout: 'flex',
 
     isDarkAlley: function () {
         return this._isDarkAlley;
+    },
+
+    getBoardLayout: function () {
+        return this._boardLayout;
+    },
+
+    setBoardLayout: function (layout: 'flex' | 'absolute') {
+        this._boardLayout = layout;
+        const boardEl = document.getElementById('trickerion-board');
+        if (boardEl) {
+            boardEl.dataset.boardLayout = layout;
+        }
     },
 
     getAnimationManager: function () {
@@ -29,11 +42,11 @@ export const board = {
   <div id="trickerion-pending"></div>
   <div id="trickerion-main-container">
     <div id="trickerion-board-wrapper">
-      <div id="trickerion-board">
+      <div id="trickerion-board" data-board-layout="flex">
         <div id="board-background"></div>
         <div id="board-downtown"></div>
-        <div id="board-theater"></div>
         <div id="board-market-row"></div>
+        <div id="board-theater"></div>
         <div id="board-dark-alley"></div>
       </div>
     </div>
