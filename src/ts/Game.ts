@@ -158,6 +158,7 @@ export class Game {
             this.bga.playerPanels.getElement(+playerId).innerHTML = '';
         }
 
+        Object.entries(args.data).forEach(([key, value]) => this.bga.gameui.gamedatas[key] = value);
         this.render(args.data as TrickerionGamedatas);
     }
 

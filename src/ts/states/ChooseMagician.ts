@@ -18,7 +18,7 @@ export class ChooseMagician {
         let elements = {};
         for (const magician of args.availableMagicians) {
             $('trickerion-pending').insertAdjacentHTML('beforeend', cards.tplMagician(magician, '', isDarkAlley));
-            elements[magician.id] = $(`magician-${magician.id}`);
+            elements[magician.id] = $(`${isDarkAlley? "alley-" : ""}magician-${magician.id}`);
         }
         attachRegisteredTooltips();
 

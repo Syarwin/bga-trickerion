@@ -47,9 +47,10 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
         $component->incCount($count);
 
-        Game::get()->bga->notify->all("componentChanged", clienttranslate('${player_name} gets ${count} ${component}'), [
+        Game::get()->bga->notify->all("componentChanged", clienttranslate('${player_name} gets ${n} ${component}'), [
             "player_id" => $this->id,
-            "count" => $count,
+            'n' => $count,
+            "count" => $component->getCount(),
             "component" => $component,
         ]);
     }

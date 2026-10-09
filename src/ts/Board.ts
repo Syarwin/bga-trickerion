@@ -309,6 +309,7 @@ export const board = {
         );
 
         // Magician boards
+        console.log(gamedatas.characters);
         Object.values(gamedatas.players).forEach((player) => {
             this.setupMagicianBoard(player);
 

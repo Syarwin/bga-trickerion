@@ -703,6 +703,7 @@ interface InitiativeAdjustedArgs {
 interface ComponentChangedArgs {
     player_id: number;
     count: number;
+    n: number;
     component: Component;
 }
 
