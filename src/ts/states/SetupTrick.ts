@@ -1,5 +1,5 @@
 import { Game } from '../Game';
-import { clearPossible, getCurrentPlayerId } from '../framework/utils';
+import { getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
@@ -31,20 +31,9 @@ export class SetupTrick {
 
     onEnteringState(args: SetupTrickArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: SetupTrickArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-        this._cleanup();
-    }
-
-    onPlayerActivationChange(args: SetupTrickArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         this._cleanup();
         if (!isCurrentPlayerActive) return;
 
-        this._currentArgs = args;
         this.bga.statusBar.removeActionButtons();
 
         if (!args.availablePerformances.length) {
@@ -58,6 +47,11 @@ export class SetupTrick {
 
         this._resetSelection();
         this._showPhase1(args);
+    }
+
+    onLeavingState(_args: SetupTrickArgs, _isCurrentPlayerActive: boolean) {
+        this._cleanup();
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     // ============================================

@@ -1,5 +1,4 @@
 import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 
@@ -19,17 +18,6 @@ export class BuyComponents {
     }
 
     onEnteringState(args: BuyComponentsArgs, isCurrentPlayerActive: boolean) {
-        this._currentArgs = args;
-        this._isCurrentPlayerActive = isCurrentPlayerActive;
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: BuyComponentsArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
-
-    onPlayerActivationChange(args: BuyComponentsArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         if (!isCurrentPlayerActive) return;
 
         this._currentArgs = args;
@@ -38,6 +26,10 @@ export class BuyComponents {
         this.bga.statusBar.removeActionButtons();
 
         this._showBuySlots(args);
+    }
+
+    onLeavingState(_args: BuyComponentsArgs, _isCurrentPlayerActive: boolean) {
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     /** Phase 1: highlight buy slots that contain a buyable component */

@@ -1,5 +1,4 @@
 import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
 
@@ -13,15 +12,6 @@ export class DiscardTrick {
     }
 
     onEnteringState(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: DiscardTrickArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
-
-    onPlayerActivationChange(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         if (!isCurrentPlayerActive) return;
 
         this.bga.statusBar.removeActionButtons();
@@ -36,7 +26,6 @@ export class DiscardTrick {
             this.bga.statusBar.addActionButton(
                 label,
                 () => {
-                    clearPossible();
                     this.bga.statusBar.removeActionButtons();
                     this.bga.actions.performAction('actDiscardTrick', { trickId: trick.id });
                 }

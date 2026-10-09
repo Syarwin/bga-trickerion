@@ -32,17 +32,11 @@ export class SetDie {
         this.bga = bga;
     }
 
-    onEnteringState(args: SetDieArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
     onLeavingState(_args: SetDieArgs, _isCurrentPlayerActive: boolean) {
         clearPossible();
     }
 
-    onPlayerActivationChange(args: SetDieArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-
+    onEnteringState(args: SetDieArgs, isCurrentPlayerActive: boolean) {
         if (!isCurrentPlayerActive) return;
 
         this.bga.statusBar.removeActionButtons();
@@ -59,9 +53,6 @@ export class SetDie {
 
         for (const [dieType, faces] of Object.entries(rolledDice)) {
             for (let dieId = 0; dieId < faces.length; dieId++) {
-                const face = faces[dieId];
-                if (face === 'not-available') continue;
-
                 const domId = DIE_SLOT_MAP[dieType]?.[dieId];
                 if (!domId) continue;
 
@@ -90,11 +81,11 @@ export class SetDie {
             const label = this._faceLabel(dieFace, dieType);
             this.bga.statusBar.addActionButton(
                 label,
-                irreversibleAction(() => {
+                () => {
                     clearPossible();
                     this.bga.statusBar.removeActionButtons();
                     this.bga.actions.performAction('actSetDie', { dieType, dieId, dieFace: String(dieFace) });
-                })
+                }
             );
         }
 

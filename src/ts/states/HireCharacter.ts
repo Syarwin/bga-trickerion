@@ -1,5 +1,4 @@
 import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
 import { formatIcon } from '../format';
@@ -20,16 +19,6 @@ export class HireCharacter {
     }
 
     onEnteringState(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: HireCharacterArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
-
-    onPlayerActivationChange(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-
         if (!isCurrentPlayerActive) return;
 
         this.bga.statusBar.removeActionButtons();
@@ -54,7 +43,6 @@ export class HireCharacter {
 
                 onClick(el, () => {
                     this.bga.actions.performAction('actHireCharacter', { characterType: faceValue });
-                    clearPossible();
                     this.bga.statusBar.removeActionButtons();
                 });
             }
@@ -66,10 +54,13 @@ export class HireCharacter {
                 formatIcon(charType) + ' ' + _(charType),
                 () => {
                     this.bga.actions.performAction('actHireCharacter', { characterType: charType });
-                    clearPossible();
                     this.bga.statusBar.removeActionButtons();
                 }
             );
         }
+    }
+
+    onLeavingState(_args: HireCharacterArgs, _isCurrentPlayerActive: boolean) {
+        // clearPossible() is handled by Game.onLeavingState
     }
 }

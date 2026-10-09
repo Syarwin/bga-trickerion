@@ -1,5 +1,4 @@
 import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
 import { formatIcon } from '../format';
 
 /**
@@ -20,18 +19,6 @@ export class Advertise {
     }
 
     onEnteringState(args: AdvertiseArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: AdvertiseArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-        // Remove highlight from advertise action space
-        const actionEl = document.getElementById('theater-perform');
-        if (actionEl) actionEl.classList.remove('selectable');
-    }
-
-    onPlayerActivationChange(args: AdvertiseArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         if (!isCurrentPlayerActive) return;
 
         this.bga.statusBar.removeActionButtons();
@@ -52,7 +39,6 @@ export class Advertise {
         this.bga.statusBar.addActionButton(
             label,
             () => {
-                clearPossible();
                 this.bga.statusBar.removeActionButtons();
                 if (actionEl) actionEl.classList.remove('selectable');
                 this.bga.actions.performAction('actAdvertise');
@@ -63,13 +49,19 @@ export class Advertise {
         this.bga.statusBar.addActionButton(
             _('Skip'),
             () => {
-                clearPossible();
                 this.bga.statusBar.removeActionButtons();
                 if (actionEl) actionEl.classList.remove('selectable');
                 this.bga.actions.performAction('actSkipAdvertise');
             },
             { color: 'secondary' }
         );
+    }
+
+    onLeavingState(_args: AdvertiseArgs, _isCurrentPlayerActive: boolean) {
+        // Remove highlight from advertise action space
+        const actionEl = document.getElementById('theater-perform');
+        if (actionEl) actionEl.classList.remove('selectable');
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     async notif_advertised(args: AdvertisedArgs) {

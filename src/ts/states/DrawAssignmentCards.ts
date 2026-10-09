@@ -1,5 +1,5 @@
 import { Game } from '../Game';
-import { clearPossible, attachRegisteredTooltips } from '../framework/utils';
+import { attachRegisteredTooltips } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { irreversibleAction } from '../framework/engine';
 import { cards } from '../Cards';
@@ -22,16 +22,6 @@ export class DrawAssignmentCards {
     }
 
     onEnteringState(args: DrawAssignmentCardsArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: DrawAssignmentCardsArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-        this._cleanup();
-    }
-
-    onPlayerActivationChange(args: DrawAssignmentCardsArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         this._cleanup();
         if (!isCurrentPlayerActive) return;
 
@@ -46,7 +36,6 @@ export class DrawAssignmentCards {
                 highlighted = true;
 
                 onClick(deckEl, irreversibleAction(() => {
-                    clearPossible();
                     this._cleanup();
                     this.bga.statusBar.removeActionButtons();
                     this.bga.actions.performAction('actDrawAssignmentCards', { deckLocationId: locationId });
@@ -73,6 +62,11 @@ export class DrawAssignmentCards {
         if (args.drawnCards.length > 0) {
             this._showDrawnCards(args);
         }
+    }
+
+    onLeavingState(_args: DrawAssignmentCardsArgs, _isCurrentPlayerActive: boolean) {
+        this._cleanup();
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     private _showDrawnCards(args: DrawAssignmentCardsArgs) {
@@ -115,7 +109,6 @@ export class DrawAssignmentCards {
                     const id = el.id?.replace('assignment-card-', '');
                     if (id) selectedIds.push(id);
                 });
-                clearPossible();
                 this.bga.statusBar.removeActionButtons();
                 this.bga.actions.performAction('actDiscardCards', { cardIds: selectedIds });
             }

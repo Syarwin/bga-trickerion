@@ -1,5 +1,5 @@
 import { Game } from '../Game';
-import { clearPossible, getCurrentPlayerId } from '../framework/utils';
+import { getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
@@ -16,20 +16,10 @@ export class MoveTrick {
 
     onEnteringState(args: MoveTrickArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: MoveTrickArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
         this._cleanup();
-    }
 
-    onPlayerActivationChange(args: MoveTrickArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-        this._cleanup();
         if (!isCurrentPlayerActive) return;
 
-        this._currentArgs = args;
         this.bga.statusBar.removeActionButtons();
 
         if (!args.availableTricks.length) {
@@ -54,7 +44,6 @@ export class MoveTrick {
             highlighted = true;
 
             onClick(el, () => {
-                clearPossible();
                 this.bga.statusBar.removeActionButtons();
                 this.bga.actions.performAction('actMoveTrick', { trickId: trick.id });
             });
@@ -81,13 +70,17 @@ export class MoveTrick {
                 this.bga.statusBar.addActionButton(
                     label,
                     () => {
-                        clearPossible();
                         this.bga.statusBar.removeActionButtons();
                         this.bga.actions.performAction('actMoveTrick', { trickId: trick.id });
                     }
                 );
             }
         }
+    }
+
+    onLeavingState(_args: MoveTrickArgs, _isCurrentPlayerActive: boolean) {
+        this._cleanup();
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     private _cleanup() {

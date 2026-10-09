@@ -1,5 +1,4 @@
 import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 
 /**
@@ -23,20 +22,9 @@ export class Performance {
 
     onEnteringState(args: PerformanceArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: PerformanceArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-        this._cleanup();
-    }
-
-    onPlayerActivationChange(args: PerformanceArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
         this._cleanup();
         if (!isCurrentPlayerActive) return;
 
-        this._currentArgs = args;
         this.bga.statusBar.removeActionButtons();
 
         if (!args.availablePerformances.length) {
@@ -58,7 +46,6 @@ export class Performance {
             highlighted = true;
 
             onClick(el, () => {
-                clearPossible();
                 this._cleanup();
                 this.bga.statusBar.removeActionButtons();
                 // Mark this performance as chosen (visual feedback)
@@ -83,7 +70,6 @@ export class Performance {
                 this.bga.statusBar.addActionButton(
                     _(name),
                     () => {
-                        clearPossible();
                         this._cleanup();
                         this.bga.statusBar.removeActionButtons();
                         this.bga.actions.performAction('actSelectPerformance', {
@@ -93,6 +79,11 @@ export class Performance {
                 );
             }
         }
+    }
+
+    onLeavingState(_args: PerformanceArgs, _isCurrentPlayerActive: boolean) {
+        this._cleanup();
+        // clearPossible() is handled by Game.onLeavingState
     }
 
     async notif_performanceChosen(args: PerformanceChosenArgs) {

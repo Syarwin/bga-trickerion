@@ -33,28 +33,13 @@ export class RerollDie {
     }
 
     onEnteringState(args: RerollDieArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
-    }
-
-    onLeavingState(_args: RerollDieArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
-
-    onPlayerActivationChange(args: RerollDieArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-
         if (!isCurrentPlayerActive) return;
-
-        this.bga.statusBar.removeActionButtons();
 
         const rolledDice = args.availableDice;
 
         // Make each available die on the board clickable
         for (const [dieType, faces] of Object.entries(rolledDice)) {
             for (let dieId = 0; dieId < faces.length; dieId++) {
-                const face = faces[dieId];
-                if (face === 'not-available') continue;
-
                 const domId = DIE_SLOT_MAP[dieType]?.[dieId];
                 if (!domId) continue;
 
@@ -70,6 +55,7 @@ export class RerollDie {
             }
         }
 
+        // TODO : please document to know when this might be used
         // Source label for context
         if (args.sourceName) {
             this.bga.statusBar.addActionButton(
@@ -81,5 +67,10 @@ export class RerollDie {
                 { color: 'alert' }
             );
         }
+
+    }
+
+    onLeavingState(_args: RerollDieArgs, _isCurrentPlayerActive: boolean) {
+        clearPossible();
     }
 }

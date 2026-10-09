@@ -115,6 +115,7 @@ export class Game {
     }
 
     onLeavingState(stateName: string, args: Gamestate) {
+        clearPossible();
         clearPersistantActionButtonsNode();
         clearRestartActionButtonsNode();
     }
