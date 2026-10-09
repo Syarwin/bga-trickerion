@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
@@ -23,15 +23,7 @@ const DOM_ID_TO_SLOT: Record<string, string> = {
     'die-bank-1': 'money-1',
 };
 
-export class SetDie {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class SetDie extends State {
     onLeavingState(_args: SetDieArgs, _isCurrentPlayerActive: boolean) {
         clearPossible();
     }

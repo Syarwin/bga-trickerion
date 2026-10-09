@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 
@@ -40,15 +40,7 @@ const LOCATION_SHARD_BOOST_IDS: Record<string, string> = {
     'board-workshop': 'workshop-{playerId}-shard-boost',
 };
 
-export class PlayLocationAction {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class PlayLocationAction extends State {
     onEnteringState(args: PlayLocationActionArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }

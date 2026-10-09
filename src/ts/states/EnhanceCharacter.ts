@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { State } from "../framework/State";
 
 /**
  * EnhanceCharacter visual state.
@@ -7,15 +7,7 @@ import { Game } from "../Game";
  * The `notif_characterEnhanced` notification handles any visual feedback.
  * Currently this is a backend-driven auto state with no UI interaction needed.
  */
-export class EnhanceCharacter {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class EnhanceCharacter extends State {
     onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
         // Auto state — no user interaction needed
     }

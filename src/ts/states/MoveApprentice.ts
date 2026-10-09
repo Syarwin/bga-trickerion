@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 
@@ -8,15 +8,7 @@ import { onClick } from '../framework/event';
  */
 const APPRENTICE_SLOT_SUFFIXES = ['apprentice-1', 'apprentice-2', 'apprentice-3'];
 
-export class MoveApprentice {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class MoveApprentice extends State {
     onEnteringState(args: MoveApprenticeArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }

@@ -1,14 +1,6 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 
-export class PlaceCharacters {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class PlaceCharacters extends State {
     onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {}
 
     onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {}

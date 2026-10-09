@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { cards } from '../Cards';
 import { attachRegisteredTooltips, clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
@@ -17,18 +17,11 @@ const IDLE_TO_SLOT: Record<string, string> = {
     'idle-assistant-board': 'assistant',
 };
 
-export class AssignCharacters {
-    game: Game;
-    bga: ExtendedBga;
+export class AssignCharacters extends State {
     private _selectedAssignmentId: number | null = null;
     private _selectedCharacterId: number | null = null;
     /** Map assignmentId → characterId for currently pending assignments (tracked in-memory) */
     private _pendingAssignments: Map<number, number> = new Map();
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: AssignCharactersArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);

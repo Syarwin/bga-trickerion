@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { formatIcon } from '../format';
 
 /**
@@ -9,15 +9,7 @@ import { formatIcon } from '../format';
  * Optional action — player can Skip.
  * After advertising, renders the poster element on the board via notif_advertised.
  */
-export class Advertise {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class Advertise extends State {
     onEnteringState(args: AdvertiseArgs, isCurrentPlayerActive: boolean) {
         if (!isCurrentPlayerActive) return;
 

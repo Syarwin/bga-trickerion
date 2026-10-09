@@ -218,7 +218,7 @@ class LocationActions
             Characters::LOCATION_BOARD_DARK_ALLEY_2,
             Characters::LOCATION_BOARD_DARK_ALLEY_3,
             Characters::LOCATION_BOARD_DARK_ALLEY_4 => [
-                "draw_Assignment_cards" => [
+                "draw_assignment_cards" => [
                     "state" => DrawAssignmentCards::class,
                     //during action AP will be spent so minActionPoints indicates whether the action can be selected but will not spend AP immediately
                     "minActionPoints" => DrawAssignmentCardsAction::getCurrentCost(),

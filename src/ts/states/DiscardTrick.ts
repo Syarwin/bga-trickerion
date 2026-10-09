@@ -1,16 +1,8 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
 
-export class DiscardTrick {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class DiscardTrick extends State {
     onEnteringState(args: DiscardTrickArgs, isCurrentPlayerActive: boolean) {
         if (!isCurrentPlayerActive) return;
 

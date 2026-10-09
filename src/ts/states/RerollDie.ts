@@ -1,76 +1,45 @@
-import { Game } from '../Game';
-import { clearPossible } from '../framework/utils';
+import { State } from '../framework/State';
 import { onClick } from '../framework/event';
-import { dice } from '../Dice';
 import { irreversibleAction } from '../framework/engine';
 
 /**
  * Map die type + index → DOM element id.
  */
 const DIE_SLOT_MAP: Record<string, Record<number, string>> = {
-    character: { 0: 'die-character-0', 1: 'die-character-1' },
-    trick: { 0: 'die-trick-0', 1: 'die-trick-1' },
-    money: { 0: 'die-bank-0', 1: 'die-bank-1' },
+  character: { 0: 'die-character-0', 1: 'die-character-1' },
+  trick: { 0: 'die-trick-0', 1: 'die-trick-1' },
+  money: { 0: 'die-bank-0', 1: 'die-bank-1' },
 };
 
-/** Reverse map DOM id → (type, idx) so we can roll the animation */
-const DOM_ID_TO_SLOT: Record<string, string> = {
-    'die-character-0': 'character-0',
-    'die-character-1': 'character-1',
-    'die-trick-0': 'trick-0',
-    'die-trick-1': 'trick-1',
-    'die-bank-0': 'money-0',
-    'die-bank-1': 'money-1',
-};
+export class RerollDie extends State {
+  onEnteringState(args: RerollDieArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
 
-export class RerollDie {
-    game: Game;
-    bga: ExtendedBga;
+    const rolledDice = args.availableDice;
 
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
+    // Make each available die on the board clickable
+    for (const [dieType, faces] of Object.entries(rolledDice)) {
+      for (let dieId = 0; dieId < faces.length; dieId++) {
+        const domId = DIE_SLOT_MAP[dieType]?.[dieId];
+        onClick(
+          $(domId),
+          irreversibleAction(() => {
+            this.bga.actions.performAction('actRerollDie', { dieType, dieId });
+          })
+        );
+      }
     }
 
-    onEnteringState(args: RerollDieArgs, isCurrentPlayerActive: boolean) {
-        if (!isCurrentPlayerActive) return;
-
-        const rolledDice = args.availableDice;
-
-        // Make each available die on the board clickable
-        for (const [dieType, faces] of Object.entries(rolledDice)) {
-            for (let dieId = 0; dieId < faces.length; dieId++) {
-                const domId = DIE_SLOT_MAP[dieType]?.[dieId];
-                if (!domId) continue;
-
-                const el = $(domId);
-                if (!el) continue;
-
-                el.classList.add('selectable');
-                onClick(el, irreversibleAction(() => {
-                    clearPossible();
-                    this.bga.statusBar.removeActionButtons();
-                    this.bga.actions.performAction('actRerollDie', { dieType, dieId });
-                }));
-            }
-        }
-
-        // TODO : please document to know when this might be used
-        // Source label for context
-        if (args.sourceName) {
-            this.bga.statusBar.addActionButton(
-                _('Cancel'),
-                () => {
-                    clearPossible();
-                    this.bga.actions.performAction('actPass', {});
-                },
-                { color: 'alert' }
-            );
-        }
-
+    // TODO : please document to know when this might be used
+    // Source label for context
+    if (args.sourceName) {
+      this.bga.statusBar.addActionButton(
+        _('Cancel'),
+        () => {
+          this.bga.actions.performAction('actPass', {});
+        },
+        { color: 'alert' }
+      );
     }
-
-    onLeavingState(_args: RerollDieArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
+  }
 }

@@ -1,18 +1,11 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
 
-export class MoveTrick {
-    game: Game;
-    bga: ExtendedBga;
+export class MoveTrick extends State {
     private _currentArgs: MoveTrickArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: MoveTrickArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

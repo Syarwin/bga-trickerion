@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
@@ -10,15 +10,7 @@ const BANK_DIE_SLOTS: Record<string, string> = {
     'money-1': 'die-bank-1',
 };
 
-export class TakeCoins {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class TakeCoins extends State {
     onEnteringState(args: TakeCoinsArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }

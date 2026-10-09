@@ -1,16 +1,8 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { cards } from '../Cards';
 import { attachRegisteredTooltips, onSelectN } from '../framework/utils';
 
-export class ChooseMagician {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class ChooseMagician extends State {
     onEnteringState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
         if (!isCurrentPlayerActive) return;
         const isDarkAlley = this.game.gamedatas.globals.isDarkAlley;

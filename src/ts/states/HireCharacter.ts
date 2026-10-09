@@ -1,66 +1,39 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
 import { formatIcon } from '../format';
 
 /** Map character die slot key → DOM element id */
 const CHAR_DIE_SLOTS: Record<string, string> = {
-    'character-0': 'die-character-0',
-    'character-1': 'die-character-1',
+  'character-0': 'die-character-0',
+  'character-1': 'die-character-1',
 };
 
-export class HireCharacter {
-    game: Game;
-    bga: ExtendedBga;
+export class HireCharacter extends State {
+  onEnteringState(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
 
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
+    // Match available character types to character dice on the downtown board
+    const charDice = this.game.gamedatas?.globals?.dice?.character ?? [];
+    const availableSet = new Set(args.availableCharacterTypes);
+
+    for (const slotKey of Object.keys(CHAR_DIE_SLOTS)) {
+      const idx = slotKey === 'character-0' ? 0 : 1;
+      const faceValue = charDice[idx];
+      if (faceValue === 'not-available') continue;
+
+      // The die face is a character type — check if it's available
+      if (typeof faceValue === 'string' && availableSet.has(faceValue)) {
+        const domId = CHAR_DIE_SLOTS[slotKey];
+        onClick($(domId), () => this.bga.actions.performAction('actHireCharacter', { characterType: faceValue }));
+      }
     }
 
-    onEnteringState(args: HireCharacterArgs, isCurrentPlayerActive: boolean) {
-        if (!isCurrentPlayerActive) return;
-
-        this.bga.statusBar.removeActionButtons();
-
-        // Match available character types to character dice on the downtown board
-        const charDice = this.game.gamedatas?.globals?.dice?.character ?? [];
-        const availableSet = new Set(args.availableCharacterTypes);
-
-        for (const slotKey of Object.keys(CHAR_DIE_SLOTS)) {
-            const idx = slotKey === 'character-0' ? 0 : 1;
-            const faceValue = charDice[idx];
-
-            if (faceValue === 'not-available') continue;
-
-            // The die face is a character type — check if it's available
-            if (typeof faceValue === 'string' && availableSet.has(faceValue)) {
-                const domId = CHAR_DIE_SLOTS[slotKey];
-                const el = $(domId);
-                if (!el) continue;
-
-                el.classList.add('selectable');
-
-                onClick(el, () => {
-                    this.bga.actions.performAction('actHireCharacter', { characterType: faceValue });
-                    this.bga.statusBar.removeActionButtons();
-                });
-            }
-        }
-
-        // Fallback: action buttons for each available character type
-        for (const charType of args.availableCharacterTypes) {
-            this.bga.statusBar.addActionButton(
-                formatIcon(charType) + ' ' + _(charType),
-                () => {
-                    this.bga.actions.performAction('actHireCharacter', { characterType: charType });
-                    this.bga.statusBar.removeActionButtons();
-                }
-            );
-        }
+    // Fallback: action buttons for each available character type
+    for (const charType of args.availableCharacterTypes) {
+      this.bga.statusBar.addActionButton(formatIcon(charType) + ' ' + _(charType), () => {
+        this.bga.actions.performAction('actHireCharacter', { characterType: charType });
+      });
     }
-
-    onLeavingState(_args: HireCharacterArgs, _isCurrentPlayerActive: boolean) {
-        // clearPossible() is handled by Game.onLeavingState
-    }
+  }
 }

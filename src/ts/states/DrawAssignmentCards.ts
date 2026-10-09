@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { attachRegisteredTooltips } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { irreversibleAction } from '../framework/engine';
@@ -12,15 +12,7 @@ import { cards } from '../Cards';
  *   2. Discard phase — drawn cards shown as actual assignment card templates in an
  *      overlay container with click-to-toggle selection, then a Discard button.
  */
-export class DrawAssignmentCards {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class DrawAssignmentCards extends State {
     onEnteringState(args: DrawAssignmentCardsArgs, isCurrentPlayerActive: boolean) {
         this._cleanup();
         if (!isCurrentPlayerActive) return;

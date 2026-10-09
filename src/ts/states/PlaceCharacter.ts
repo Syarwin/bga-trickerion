@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick, detachAll } from '../framework/event';
 import { board } from '../Board';
@@ -15,9 +15,7 @@ const IDLE_TO_SLOT: Record<string, string> = {
     'idle-assistant-board': 'assistant',
 };
 
-export class PlaceCharacter {
-    game: Game;
-    bga: ExtendedBga;
+export class PlaceCharacter extends State {
     private _selectedCharacterId: number | null = null;
     private _selectedSlotHolder: Element | null = null;
     /** Store the full args so we can re-render on cancel without a server round-trip */
@@ -39,11 +37,6 @@ export class PlaceCharacter {
             return `idle-${playerId}-${idleLoc.replace('idle-', '').replace('-board', '')}`;
         }
         return null;
-    }
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
     }
 
     onEnteringState(args: PlaceCharacterArgs, isCurrentPlayerActive: boolean) {

@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { dice } from '../Dice';
@@ -10,15 +10,8 @@ import { dice } from '../Dice';
  * We match available die faces to the physical dice displayed on the
  * downtown board and make them clickable.
  */
-export class MakeDieUnavailable {
-    game: Game;
-    bga: ExtendedBga;
+export class MakeDieUnavailable extends State {
     private _currentArgs: MakeDieUnavailableArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: MakeDieUnavailableArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { State } from "../framework/State";
 import { cards } from "../Cards";
 import { attachRegisteredTooltips } from "../framework/utils";
 
@@ -11,15 +11,7 @@ import { attachRegisteredTooltips } from "../framework/utils";
  * The active player can click "I want to change my assignments" to
  * re-enter the AssignCharacters private state.
  */
-export class StartAssignment {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class StartAssignment extends State {
     onEnteringState(args: AssignCharactersArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }

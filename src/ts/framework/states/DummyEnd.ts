@@ -1,14 +1,6 @@
-import { Game } from "../../Game";
+import { State } from "../State";
 
-export class DummyEnd {
-    game: Game;
-    bga: ExtendedBga;
-    
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class DummyEnd extends State {
     /**
      * This method is called each time we are entering the game state. You can use this method to perform some user interface changes at this moment.
      */

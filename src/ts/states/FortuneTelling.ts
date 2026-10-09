@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { State } from "../framework/State";
 import { clearPossible, attachRegisteredTooltips, getCurrentPlayerId } from "../framework/utils";
 import { onClick } from "../framework/event";
 import { cards } from "../Cards";
@@ -11,15 +11,7 @@ import { cards } from "../Cards";
  * The notification `notif_propheciesUpdated` re-renders the pending prophecies
  * with a brief visual highlight on each.
  */
-export class FortuneTelling {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class FortuneTelling extends State {
     onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
         // This is an automatic state — nothing to do on enter
     }

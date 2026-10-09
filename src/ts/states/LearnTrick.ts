@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 
@@ -9,15 +9,8 @@ import { onClick } from '../framework/event';
  * When the state is active, the trick deck buttons on the board are highlighted
  * and clicking them opens the modal where available tricks are clickable.
  */
-export class LearnTrick {
-    game: Game;
-    bga: ExtendedBga;
+export class LearnTrick extends State {
     private _selectableTrickIds: Set<number> = new Set();
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: LearnTrickArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);

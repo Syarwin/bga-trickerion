@@ -23,7 +23,8 @@ class HireCharacter extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_HIRE_CHARACTER,
             type: StateType::ACTIVE_PLAYER,
@@ -32,7 +33,8 @@ class HireCharacter extends ActionStateWithRevert
         );
     }
 
-    public function getCustomStateDescription() {
+    public function getCustomStateDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "description" => clienttranslate('${actplayer} must hire a character (${sourceName})'),
@@ -42,7 +44,8 @@ class HireCharacter extends ActionStateWithRevert
         return null;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "log" => clienttranslate('Hire a character (${sourceName})'),
@@ -59,7 +62,7 @@ class HireCharacter extends ActionStateWithRevert
         $sourceName = $this->getNodeArgs("sourceName");
 
         $availableCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_SUPPLY);
-        
+
         $types = $this->getNodeArgs("types", Character::getAllTypes());
 
         $useDice = $this->getNodeArgs("useDice", false);
@@ -77,8 +80,8 @@ class HireCharacter extends ActionStateWithRevert
         }
 
         $availableCharacters = $availableCharacters->where("type", $types);
-        
-        $availableCharacterTypes = $availableCharacters->pluck('type')->toArray(); 
+
+        $availableCharacterTypes = $availableCharacters->pluck('type')->toArray();
         $availableCharacterTypes = array_unique($availableCharacterTypes);
 
         $args = [
@@ -86,7 +89,7 @@ class HireCharacter extends ActionStateWithRevert
             "availableCharacterTypes" => $availableCharacterTypes
         ];
         return $args;
-    }    
+    }
 
     /**
      * Player must resolve the choice.
@@ -103,13 +106,15 @@ class HireCharacter extends ActionStateWithRevert
             throw new UserException("You cannot hire this character");
         }
 
-        $location = $this->getNodeArgs("location", Character::getCharacterIdleLocation($characterType));
+        // TODO : check why LOCATION_INCOMING was used
+        //        $location = $this->getNodeArgs("location", Character::getCharacterIdleLocation($characterType));
+        $location = Character::getCharacterIdleLocation($characterType);
         Characters::hire($characterType, $activePlayerId, $location);
 
         $useDice = $this->getNodeArgs("useDice", false);
         if ($useDice) {
             $allDice = Dice::getDice(Dice::DICE_TYPE_CHARACTER);
-            $dice = array_values(array_filter($allDice, function($die) use ($characterType) {
+            $dice = array_values(array_filter($allDice, function ($die) use ($characterType) {
                 return $die == $characterType || $die == Dice::ANY;
             }));
 

@@ -1,16 +1,8 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { formatIcon } from '../format';
 
-export class DiscardComponents {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class DiscardComponents extends State {
     onEnteringState(args: DiscardComponentArgs, isCurrentPlayerActive: boolean) {
         this.onPlayerActivationChange(args, isCurrentPlayerActive);
     }

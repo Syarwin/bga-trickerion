@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { State } from "../framework/State";
 import { cards } from "../Cards";
 import { attachRegisteredTooltips } from "../framework/utils";
 
@@ -8,15 +8,7 @@ import { attachRegisteredTooltips } from "../framework/utils";
  * Transitional state at the end of setup. Renders initial pending prophecies
  * on the Dark Alley board (if Dark Alley expansion is active).
  */
-export class FinishSetup {
-    game: Game;
-    bga: ExtendedBga;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
-
+export class FinishSetup extends State {
     onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
         // Transition state — UI setup is already complete from board.init()
     }

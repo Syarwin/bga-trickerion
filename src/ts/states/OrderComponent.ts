@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
@@ -6,15 +6,8 @@ import { formatIcon } from '../format';
 /** Map order slot index → DOM element id */
 const ORDER_SLOT_IDS = ['order-slot-0', 'order-slot-1', 'order-slot-2', 'order-slot-3'];
 
-export class OrderComponent {
-    game: Game;
-    bga: ExtendedBga;
+export class OrderComponent extends State {
     private _currentArgs: OrderComponentArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

@@ -89,7 +89,7 @@ class Characters extends CachedPieces
 
     */
 
-    public static function hire(string $type, int $playerId, string $location, bool $isSetup)
+    public static function hire(string $type, int $playerId, string $location, bool $isSetup = false)
     {
         $character = self::getFiltered($playerId, Characters::LOCATION_SUPPLY, $type)
             ->first();

@@ -1,18 +1,11 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
 
-export class PrepareTrick {
-    game: Game;
-    bga: ExtendedBga;
+export class PrepareTrick extends State {
     private _currentArgs: PrepareTrickArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: PrepareTrickArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

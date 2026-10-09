@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
@@ -12,19 +12,12 @@ import { formatIcon } from '../format';
  *
  * Each phase has a Back button, and the entire flow has Cancel.
  */
-export class Reschedule {
-    game: Game;
-    bga: ExtendedBga;
+export class Reschedule extends State {
     private _currentArgs: RescheduleArgs | null = null;
 
     private _selectedTrickMarker: TrickMarker | null = null;
     private _selectedPerformanceId: string | null = null;
     private _selectedSlotId: string | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: RescheduleArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

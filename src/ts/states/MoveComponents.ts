@@ -1,17 +1,10 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible, getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 
-export class MoveComponents {
-    game: Game;
-    bga: ExtendedBga;
+export class MoveComponents extends State {
     private _currentArgs: MoveComponentsArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: MoveComponentsArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;

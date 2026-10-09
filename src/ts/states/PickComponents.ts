@@ -1,4 +1,4 @@
-import { Game } from '../Game';
+import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { formatIcon } from '../format';
 
@@ -9,15 +9,8 @@ import { formatIcon } from '../format';
  * Shows remaining budget, available component types as clickable icons with cost.
  * When budget is depleted, auto-resolves. Player can "Done" early.
  */
-export class PickComponents {
-    game: Game;
-    bga: ExtendedBga;
+export class PickComponents extends State {
     private _currentArgs: PickComponentsArgs | null = null;
-
-    constructor(game: Game, bga: ExtendedBga) {
-        this.game = game;
-        this.bga = bga;
-    }
 
     onEnteringState(args: PickComponentsArgs, isCurrentPlayerActive: boolean) {
         this._currentArgs = args;
