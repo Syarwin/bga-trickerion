@@ -25,15 +25,13 @@ export class HireCharacter extends State {
       // The die face is a character type — check if it's available
       if (typeof faceValue === 'string' && availableSet.has(faceValue)) {
         const domId = CHAR_DIE_SLOTS[slotKey];
-        onClick($(domId), () => this.bga.actions.performAction('actHireCharacter', { characterType: faceValue }));
+        this.actionOnClick(domId, 'actHireCharacter', { characterType: faceValue });
       }
     }
 
     // Fallback: action buttons for each available character type
     for (const charType of args.availableCharacterTypes) {
-      this.bga.statusBar.addActionButton(formatIcon(charType) + ' ' + _(charType), () => {
-        this.bga.actions.performAction('actHireCharacter', { characterType: charType });
-      });
+      this.addActionBtn(formatIcon(charType) + ' ' + _(charType), 'actHireCharacter', { characterType: charType });
     }
   }
 }

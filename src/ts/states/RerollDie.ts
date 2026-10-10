@@ -21,25 +21,14 @@ export class RerollDie extends State {
     for (const [dieType, faces] of Object.entries(rolledDice)) {
       for (let dieId = 0; dieId < faces.length; dieId++) {
         const domId = DIE_SLOT_MAP[dieType]?.[dieId];
-        onClick(
-          $(domId),
-          irreversibleAction(() => {
-            this.bga.actions.performAction('actRerollDie', { dieType, dieId });
-          })
-        );
+        this.actionOnClick(domId, 'actRerollDie', { dieType, dieId }, true);
       }
     }
 
     // TODO : please document to know when this might be used
     // Source label for context
     if (args.sourceName) {
-      this.bga.statusBar.addActionButton(
-        _('Cancel'),
-        () => {
-          this.bga.actions.performAction('actPass', {});
-        },
-        { color: 'alert' }
-      );
+      this.addActionBtn(_('Cancel'), 'actPass', {}, { color: 'alert' });
     }
   }
 }
