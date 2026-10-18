@@ -1,126 +1,71 @@
 import { State } from '../framework/State';
-import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
-import { dice } from '../Dice';
-import { irreversibleAction } from '../framework/engine';
+import { getFaceLabel } from '../Dice';
 
 /**
  * Map die type + index → DOM element id.
  */
 const DIE_SLOT_MAP: Record<string, Record<number, string>> = {
-    character: { 0: 'die-character-0', 1: 'die-character-1' },
-    trick: { 0: 'die-trick-0', 1: 'die-trick-1' },
-    money: { 0: 'die-bank-0', 1: 'die-bank-1' },
-};
-
-/** Reverse map DOM id → slotKey for dice.rollDie() */
-const DOM_ID_TO_SLOT: Record<string, string> = {
-    'die-character-0': 'character-0',
-    'die-character-1': 'character-1',
-    'die-trick-0': 'trick-0',
-    'die-trick-1': 'trick-1',
-    'die-bank-0': 'money-0',
-    'die-bank-1': 'money-1',
+  character: { 0: 'die-character-0', 1: 'die-character-1' },
+  trick: { 0: 'die-trick-0', 1: 'die-trick-1' },
+  money: { 0: 'die-bank-0', 1: 'die-bank-1' },
 };
 
 export class SetDie extends State {
-    onLeavingState(_args: SetDieArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
+  onEnteringState(args: SetDieArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
 
-    onEnteringState(args: SetDieArgs, isCurrentPlayerActive: boolean) {
-        if (!isCurrentPlayerActive) return;
+    const rolledDice = args.availableDice;
 
-        this.bga.statusBar.removeActionButtons();
+    for (const [dieType, faces] of Object.entries(rolledDice)) {
+      for (let dieId = 0; dieId < faces.length; dieId++) {
+        const domId = DIE_SLOT_MAP[dieType]?.[dieId];
+        if (!domId) continue;
 
-        // Phase 1: Show available dice on the board
-        this._showDiceSelection(args);
-    }
-
-    /**
-     * Phase 1: Make each available die clickable on the board.
-     */
-    private _showDiceSelection(args: SetDieArgs) {
-        const rolledDice = args.availableDice;
-
-        for (const [dieType, faces] of Object.entries(rolledDice)) {
-            for (let dieId = 0; dieId < faces.length; dieId++) {
-                const domId = DIE_SLOT_MAP[dieType]?.[dieId];
-                if (!domId) continue;
-
-                const el = $(domId);
-                if (!el) continue;
-
-                el.classList.add('selectable');
-                onClick(el, () => {
-                    clearPossible();
-                    this._showFaceSelection(args, dieType, dieId, domId);
-                });
-            }
-        }
-    }
-
-    /**
-     * Phase 2: Show the possible faces for the selected die + Cancel.
-     */
-    private _showFaceSelection(args: SetDieArgs, dieType: string, dieId: number, domId: string) {
-        this.bga.statusBar.removeActionButtons();
-
-        const faces = args.availableFaces[dieType]?.[dieId];
-        if (!faces || faces.length === 0) return;
-
-        for (const dieFace of faces) {
-            const label = this._faceLabel(dieFace, dieType);
-            this.bga.statusBar.addActionButton(
-                label,
-                () => {
-                    clearPossible();
-                    this.bga.statusBar.removeActionButtons();
-                    this.bga.actions.performAction('actSetDie', { dieType, dieId, dieFace: String(dieFace) });
-                }
-            );
-        }
-
-        // Cancel: go back to Phase 1
-        this.bga.statusBar.addActionButton(
-            _('Cancel'),
-            () => {
-                clearPossible();
-                this.bga.statusBar.removeActionButtons();
-                this._showDiceSelection(args);
+        onClick(domId, () => {
+          // Transition to client state for Phase 2
+          this.bga.states.setClientState('client_setDieFace', {
+            descriptionmyturn: _('${you} must select a face for ${dieType} die'),
+            args: {
+              ...args,
+              selectedDieType: dieType,
+              selectedDieId: dieId,
+              selectedDomId: domId,
+              dieType,
             },
-            { color: 'alert' }
-        );
+          });
+        });
+      }
+    }
+  }
+}
+
+// Client state for Phase 2: Face selection
+export class ClientSetDieFace extends State {
+  onEnteringState(args: ClientSetDieFaceArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
+
+    const dieType = args.selectedDieType;
+    const dieId = args.selectedDieId;
+    const faces = args.availableFaces[dieType]?.[dieId];
+
+    if (!faces || faces.length === 0) {
+      this.bga.states.restoreServerGameState();
+      return;
     }
 
-    /**
-     * Build a human-readable label for a die face.
-     */
-    private _faceLabel(face: string | number, dieType: string): string {
-        if (face === 'not-available') return 'X';
-        if (face === 'any') return '?';
-
-        const labels: Record<string, Record<string | number, string>> = {
-            character: {
-                apprentice: _('Apprentice'),
-                assistant: _('Assistant'),
-                manager: _('Manager'),
-                engineer: _('Engineer'),
-            },
-            trick: {
-                escape: _('Escape'),
-                mechanical: _('Mechanical'),
-                optical: _('Optical'),
-                spiritual: _('Spiritual'),
-                any: '?',
-            },
-            money: {},
-        };
-
-        if (typeof face === 'string' && labels[dieType]?.[face]) {
-            return labels[dieType][face];
-        }
-
-        return `${face} ${dieType === 'money' ? 'coins' : ''}`.trim();
+    for (const dieFace of faces) {
+      const label = getFaceLabel(dieFace, dieType);
+      this.addActionBtn(label, 'actSetDie', { dieType, dieId, dieFace: String(dieFace) });
     }
+
+    // Cancel: go back to Phase 1
+    this.addCancelStateBtn();
+  }
+}
+
+interface ClientSetDieFaceArgs extends SetDieArgs {
+  selectedDieType: string;
+  selectedDieId: number;
+  selectedDomId: string;
 }

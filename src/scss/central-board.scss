@@ -316,6 +316,10 @@ $downtownHeight: 340px;
                     transform: scale(1.1);
                 }
 
+                &.highlighted {
+                    box-shadow: 0px 0px 5px 4px #fde253;
+                }
+
                 .trick-type {
                     position: absolute;
                     left: 33px;

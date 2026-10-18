@@ -30,7 +30,7 @@ const FACE_DEFS: Record<string, (number | string)[]> = {
 };
 
 /** Human-readable labels for tooltips */
-const getFaceLabels = function (): Record<string, Record<string | number, string>> {
+export const getFaceLabels = function (): Record<string, Record<string | number, string>> {
     return {
         trick: {
             escape: _('Escape'),
@@ -51,6 +51,26 @@ const getFaceLabels = function (): Record<string, Record<string | number, string
 
 const NOT_AVAILABLE = 'not-available';
 const ANY = 'any';
+
+/**
+ * Get a human-readable label for a die face.
+ *
+ * @param face the face value (e.g., 'escape', 'apprentice', 3, 'not-available', 'any')
+ * @param dieType the die type ('character', 'trick', or 'money')
+ * @returns a human-readable label
+ */
+export function getFaceLabel(face: string | number, dieType: string): string {
+    if (face === NOT_AVAILABLE) return 'X';
+    if (face === ANY) return '?';
+
+    const labels = getFaceLabels();
+
+    if (typeof face === 'string' && labels[dieType]?.[face]) {
+        return labels[dieType][face];
+    }
+
+    return `${face} ${dieType === 'money' ? 'coins' : ''}`.trim();
+}
 
 let diceManager: any = null;
 

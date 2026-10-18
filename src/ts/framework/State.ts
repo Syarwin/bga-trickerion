@@ -31,4 +31,16 @@ export class State {
     };
     this.bga.statusBar.addActionButton(label, callback, params);
   }
+
+  addCancelStateBtn(label?: string) {
+    if (label === null) label = _('Cancel');
+
+    this.bga.statusBar.addActionButton(
+      label,
+      () => {
+        this.bga.states.restoreServerGameState();
+      },
+      { color: 'secondary' }
+    );
+  }
 }

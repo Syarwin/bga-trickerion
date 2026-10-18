@@ -20,7 +20,7 @@ import { DrawAssignmentCards } from './states/DrawAssignmentCards';
 import { MakeDieUnavailable } from './states/MakeDieUnavailable';
 import { TakeCoins } from './states/TakeCoins';
 import { RerollDie } from './states/RerollDie';
-import { SetDie } from './states/SetDie';
+import { SetDie, ClientSetDieFace } from './states/SetDie';
 import { BuyComponents } from './states/BuyComponents';
 import { OrderComponent } from './states/OrderComponent';
 import { QuickOrderComponent } from './states/QuickOrderComponent';
@@ -75,6 +75,7 @@ export class Game {
         this.bga.states.register('TakeCoins', new TakeCoins(this, bga));
         this.bga.states.register('RerollDie', new RerollDie(this, bga));
         this.bga.states.register('SetDie', new SetDie(this, bga));
+        this.bga.states.register('client_setDieFace', new ClientSetDieFace(this, bga));
         this.bga.states.register('BuyComponents', new BuyComponents(this, bga));
         this.bga.states.register('OrderComponent', new OrderComponent(this, bga));
         this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
