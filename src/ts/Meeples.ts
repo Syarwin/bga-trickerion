@@ -12,280 +12,331 @@ import { addCustomTooltip, getColorName } from './framework/utils';
 let _playerColors: Record<number, string> = {};
 
 export const meeples = {
-    /**
-     * Initialize all meeples from gamedatas.
-     * Called from board.init() after the DOM is built.
-     */
-    init(gamedatas: TrickerionGamedatas): void {
-        _playerColors = {};
-        for (const player of Object.values(gamedatas.players)) {
-            _playerColors[player.id] = player.color;
+  /**
+   * Initialize all meeples from gamedatas.
+   * Called from board.init() after the DOM is built.
+   */
+  init(gamedatas: TrickerionGamedatas): void {
+    _playerColors = {};
+    for (const player of Object.values(gamedatas.players)) {
+      _playerColors[player.id] = player.color;
+    }
+
+    // 1. Characters (visible = not in supply)
+    for (const character of gamedatas.characters.visible) {
+      this.addMeeple(character);
+    }
+
+    // visible already excludes supply, but if a supply meeple sneaks in, getMeepleContainer
+    // will return fallbackEl and log an error.
+
+    // 2. Components (only those with count > 0)
+    for (const playerIdStr of Object.keys(gamedatas.components.player)) {
+      const playerId = parseInt(playerIdStr, 10);
+      const components = gamedatas.components.player[playerId];
+      for (const component of components) {
+        if (component.count <= 0) continue;
+        this.addMeeple(component);
+      }
+    }
+
+    // 3. Trick markers — available/prepared/scheduled are placed in the pending area for now
+    const allTrickMarkers = [
+      ...gamedatas.trickMarkers.available,
+      ...gamedatas.trickMarkers.prepared,
+      ...gamedatas.trickMarkers.scheduled,
+    ];
+    for (const tm of allTrickMarkers) {
+      tm.type = 'trickMarker';
+      if (tm.location !== 'available') {
+        this.addMeeple(tm);
+      }
+    }
+
+    // 4. Market row components
+    if (gamedatas.globals?.marketRow) {
+      const marketRow = gamedatas.globals.marketRow;
+
+      // Buy area components
+      for (const [slotIndex, componentType] of Object.entries(marketRow.buyArea)) {
+        if (componentType) {
+          const component: any = {
+            id: `market-buy-${slotIndex}`,
+            type: componentType,
+            location: `buy-slot-${slotIndex}`,
+            count: null,
+          };
+          this.addMeeple(component);
         }
+      }
 
-        // 1. Characters (visible = not in supply)
-        for (const character of gamedatas.characters.visible) {
-            this.addMeeple(character);
+      // Order area components
+      for (const [slotIndex, componentType] of Object.entries(marketRow.orderArea)) {
+        if (componentType) {
+          const component: any = {
+            id: `market-order-${slotIndex}`,
+            type: componentType,
+            location: `order-slot-${slotIndex}`,
+            count: null,
+          };
+          this.addMeeple(component);
         }
+      }
 
-        // visible already excludes supply, but if a supply meeple sneaks in, getMeepleContainer
-        // will return fallbackEl and log an error.
+      // Quick order component
+      if (marketRow.quickOrder) {
+        const quickOrder: any = { ...marketRow.quickOrder };
+        quickOrder.id = 'market-quick-order';
+        quickOrder.location = 'quick-order-slot';
+        this.addMeeple(quickOrder);
+      }
+    }
+  },
 
-        // 2. Components (only those with count > 0)
-        for (const playerIdStr of Object.keys(gamedatas.components.player)) {
-            const playerId = parseInt(playerIdStr, 10);
-            const components = gamedatas.components.player[playerId];
-            for (const component of components) {
-                if (component.count <= 0) continue;
-                this.addMeeple(component);
-            }
-        }
+  /**
+   * Create a meeple DOM element inside the given container.
+   *
+   * Uses tplMeeple() to generate the HTML, then inserts it via insertAdjacentHTML.
+   *
+   * @param container The parent element to insert into.
+   * @param meeple    The meeple data.
+   * @returns         The created element (fetched from the DOM after insertion).
+   */
+  addMeeple(meeple: Meeple, container?: HTMLElement): HTMLElement {
+    if ($(`meeple-${meeple.type}-${meeple.id}`)) return;
 
-        // 3. Trick markers — available/prepared/scheduled are placed in the pending area for now
-        const allTrickMarkers = [
-            ...gamedatas.trickMarkers.available,
-            ...gamedatas.trickMarkers.prepared,
-            ...gamedatas.trickMarkers.scheduled,
-        ];
-        for (const tm of allTrickMarkers) {
-            tm.type = "trickMarker";
-            if(tm.location !== 'available'){
-                this.addMeeple(tm);
-            }
-        }
-    },
+    if (!container) container = this.getMeepleContainer(meeple);
+    let infos = this.tplMeeple(meeple);
+    container.insertAdjacentHTML('beforeend', infos.html);
+    const el = container.lastElementChild as HTMLElement;
+    if (el) {
+      addCustomTooltip(el, infos.tooltip);
+      return el;
+    }
+  },
 
-    /**
-     * Create a meeple DOM element inside the given container.
-     *
-     * Uses tplMeeple() to generate the HTML, then inserts it via insertAdjacentHTML.
-     *
-     * @param container The parent element to insert into.
-     * @param meeple    The meeple data.
-     * @returns         The created element (fetched from the DOM after insertion).
-     */
-    addMeeple(meeple: Meeple, container?: HTMLElement): HTMLElement {
-        if ($(`meeple-${meeple.type}-${meeple.id}`)) return;
+  /**
+   * Return the HTML string for a meeple element.
+   */
+  tplMeeple(meeple: Meeple): object {
+    let cssClass: string;
+    let count: number | undefined;
+    let tooltip: string;
 
-        if (!container) container = this.getMeepleContainer(meeple);
-        let infos = this.tplMeeple(meeple);
-        container.insertAdjacentHTML('beforeend', infos.html);
-        const el = container.lastElementChild as HTMLElement;
-        if (el) {
-            addCustomTooltip(el, infos.tooltip);
-            return el;
-        }
-    },
+    if ('suit' in meeple) {
+      // TrickMarker
+      const colorHex = _playerColors[meeple.playerId] ?? '';
+      cssClass = `meeple-trick-marker-${getColorName(colorHex)}-${meeple.suit}  meeple-trick-marker`;
+      tooltip = 'Trick marker (TODO)';
+    } else if ('count' in meeple) {
+      // Component
+      cssClass = `meeple-component-${meeple.type}  meeple-component`;
+      count = meeple.count;
+      tooltip = _(meeple.type);
+    } else {
+      // Character
+      const colorHex = _playerColors[meeple.playerId] ?? '';
+      cssClass = `meeple-${getColorName(colorHex)}-${(meeple as Character).type} meeple-character`;
+      tooltip = _(meeple.type);
+    }
 
-    /**
-     * Return the HTML string for a meeple element.
-     */
-    tplMeeple(meeple: Meeple): object {
-        let cssClass: string;
-        let count: number | undefined;
-        let tooltip: string;
+    const dataAttr = count !== undefined && count > 0 ? ` data-count="${count}"` : '';
+    return {
+      html: `<div id='meeple-${meeple.type}-${meeple.id}' class="trickerion-meeple ${cssClass}"${dataAttr}></div>`,
+      tooltip,
+    };
+  },
 
-        if ('suit' in meeple) {
-            // TrickMarker
-            const colorHex = _playerColors[meeple.playerId] ?? '';
-            cssClass = `meeple-trick-marker-${getColorName(colorHex)}-${meeple.suit}  meeple-trick-marker`;
-            tooltip = 'Trick marker (TODO)';
-        } else if ('count' in meeple) {
-            // Component
-            cssClass = `meeple-component-${meeple.type}  meeple-component`;
-            count = meeple.count;
-            tooltip = _(meeple.type);
-        } else {
-            // Character
-            const colorHex = _playerColors[meeple.playerId] ?? '';
-            cssClass = `meeple-${getColorName(colorHex)}-${(meeple as Character).type} meeple-character`;
-            tooltip = _(meeple.type);
-        }
+  getMeeple(meeple: Meeple): HTMLElement {
+    return $(`meeple-${meeple.type}-${meeple.id}`);
+  },
 
-        const dataAttr = count !== undefined && count > 0 ? ` data-count="${count}"` : '';
-        return {
-            html: `<div id='meeple-${meeple.type}-${meeple.id}' class="trickerion-meeple ${cssClass}"${dataAttr}></div>`,
-            tooltip,
-        };
-    },
+  /**
+   * Map a backend location string to a DOM element.
+   *
+   * Handles board slots, idle slots, and player-specific workshop slots.
+   * Always returns a DOM element — logs an error + returns fallback if the
+   * location has no visible slot or is unknown.
+   */
+  getMeepleContainer(meeple: Meeple): HTMLElement {
+    const fallback = $('trickerion-default-container');
 
-    getMeeple(meeple:Meeple):HTMLElement {
-        return $(`meeple-${meeple.type}-${meeple.id}`);
-    },
+    const location = meeple.location;
+    const playerId = meeple.playerId;
+    // Extract character type for assistant-board disambiguation
+    const characterType = 'type' in meeple ? ((meeple as Character).type as string | undefined) : undefined;
+    // Locations that have no visible DOM
+    if (location === 'supply' || location === 'incoming') {
+      console.error(`[Meeples] Meeple at "${location}" has no visible DOM element`, meeple);
+      return fallback;
+    }
 
-    /**
-     * Map a backend location string to a DOM element.
-     *
-     * Handles board slots, idle slots, and player-specific workshop slots.
-     * Always returns a DOM element — logs an error + returns fallback if the
-     * location has no visible slot or is unknown.
-     */
-    getMeepleContainer(meeple: Meeple): HTMLElement {
-        const fallback = $('trickerion-default-container');
+    // Direct board slots (location equals DOM id)
+    const directIdMatch = location.match(/^board-(downtown|market-row|dark-alley)-(\d+)$/);
+    if (directIdMatch) {
+      const el = document.getElementById(location);
+      if (el) return el;
+      console.error(`[Meeples] Board slot element #${location} not found in DOM`, meeple);
+      return fallback;
+    }
 
-        const location = meeple.location;
-        const playerId = meeple.playerId;
-        // Extract character type for assistant-board disambiguation
-        const characterType = 'type' in meeple ? ((meeple as Character).type as string | undefined) : undefined;
-        // Locations that have no visible DOM
-        if (location === 'supply' || location === 'incoming') {
-            console.error(`[Meeples] Meeple at "${location}" has no visible DOM element`, meeple);
-            return fallback;
-        }
+    // Basic 1, Basic 2, Magician theater slots
+    const theaterMatch = location.match(/^board-theater-(thursday|friday|saturday|sunday)-(basic-1|basic-2|magician)$/);
+    if (theaterMatch) {
+      const el = document.getElementById(location);
+      if (el) return el;
+      console.error(`[Meeples] Theater slot element #${location} not found in DOM`, meeple);
+      return fallback;
+    }
 
-        // Direct board slots (location equals DOM id)
-        const directIdMatch = location.match(/^board-(downtown|market-row|dark-alley)-(\d+)$/);
-        if (directIdMatch) {
-            const el = document.getElementById(location);
-            if (el) return el;
-            console.error(`[Meeples] Board slot element #${location} not found in DOM`, meeple);
-            return fallback;
-        }
-
-        // Basic 1, Basic 2, Magician theater slots
-        const theaterMatch = location.match(/^board-theater-(thursday|friday|saturday|sunday)-(basic-1|basic-2|magician)$/);
-        if (theaterMatch) {
-            const el = document.getElementById(location);
-            if (el) return el;
-            console.error(`[Meeples] Theater slot element #${location} not found in DOM`, meeple);
-            return fallback;
-        }
-
-        // Workshop slots: board-workshop-{1,2} → #board-workshop-{playerId}-{n}
-        const workshopMatch = location.match(/^board-workshop-(\d+)$/);
-        if (workshopMatch) {
-            if (playerId === undefined) {
-                console.error(`[Meeples] Workshop location ${location} requires playerId`, meeple);
-                return fallback;
-            }
-            const slotNumber = workshopMatch[1];
-            const domId = `board-workshop-${playerId}-${slotNumber}`;
-            const el = document.getElementById(domId);
-            if (el) return el;
-            console.error(`[Meeples] Workshop slot element #${domId} not found`, meeple);
-            return fallback;
-        }
-
-        // Apprentice idle slots: idle-apprentice-{1,2,3} → #idle-{playerId}-apprentice-{n}
-        const apprenticeMatch = location.match(/^idle-apprentice-(\d+)$/);
-        if (apprenticeMatch) {
-            if (playerId === undefined) {
-                console.error(`[Meeples] Apprentice location ${location} requires playerId`, meeple);
-                return fallback;
-            }
-            const domId = `idle-${playerId}-apprentice-${apprenticeMatch[1]}`;
-            const el = document.getElementById(domId);
-            if (el) return el;
-            console.error(`[Meeples] Apprentice idle element #${domId} not found`, meeple);
-            return fallback;
-        }
-
-        // Idle player board (magician): idle-player-board → #idle-{playerId}-magician
-        if (location === 'idle-player-board') {
-            if (playerId === undefined) {
-                console.error(`[Meeples] idle-player-board requires playerId`, meeple);
-                return fallback;
-            }
-            const domId = `idle-${playerId}-magician`;
-            const el = document.getElementById(domId);
-            if (el) return el;
-            console.error(`[Meeples] Idle element #${domId} not found`, meeple);
-            return fallback;
-        }
-
-        // Specialist idle slots: idle-{type}-board → #idle-{playerId}-{type}
-        const specialistMatch = location.match(/^idle-(manager|engineer|assistant)-board$/);
-        if (specialistMatch) {
-            if (playerId === undefined) {
-                console.error(`[Meeples] ${location} requires playerId`, meeple);
-                return fallback;
-            }
-            const specialistType = specialistMatch[1];
-            // Assistant board has two slots: one for assistant, one for apprentice
-            if (specialistType === 'assistant' && characterType === 'apprentice') {
-                const domId = `idle-${playerId}-apprentice-assistant`;
-                const el = document.getElementById(domId);
-                if (el) return el;
-                console.error(`[Meeples] Assistant-apprentice element #${domId} not found`, meeple);
-                return fallback;
-            }
-            const domId = `idle-${playerId}-${specialistType}`;
-            const el = document.getElementById(domId);
-            if (el) return el;
-            console.error(`[Meeples] Idle element #${domId} not found`, meeple);
-            return fallback;
-        }
-
-        // Component player-board → first free component slot in magician board
-        if (location === 'player-board') {
-            if (playerId === undefined) {
-                console.error(`[Meeples] Component location 'player-board' requires playerId`, meeple);
-                return fallback;
-            }
-            const boardEl = document.getElementById(`magician-board-${playerId}`);
-            if (!boardEl) {
-                console.error(`[Meeples] Magician board #magician-board-${playerId} not found`, meeple);
-                return fallback;
-            }
-            const slots = boardEl.querySelectorAll<HTMLElement>('.magician-tricks-components .component-slot');
-            for (const slot of slots) {
-                if (!slot.querySelector('.trickerion-meeple')) {
-                    return slot;
-                }
-            }
-            console.error(`[Meeples] No free component slot on player board ${playerId}`, meeple);
-            return fallback;
-        }
-
-        // Component manager-board → first free manager component slot
-        if (location === 'manager-board') {
-            if (playerId === undefined) {
-                console.error(`[Meeples] Component location 'manager-board' requires playerId`, meeple);
-                return fallback;
-            }
-            const boardEl = document.getElementById(`magician-board-${playerId}`);
-            if (!boardEl) {
-                console.error(`[Meeples] Magician board #magician-board-${playerId} not found`, meeple);
-                return fallback;
-            }
-            const slots = boardEl.querySelectorAll<HTMLElement>('.manager-workshop .component-slot');
-            for (const slot of slots) {
-                if (!slot.querySelector('.trickerion-meeple')) {
-                    return slot;
-                }
-            }
-            console.error(`[Meeples] No free manager component slot on player board ${playerId}`);
-            return fallback;
-        }
-
-        // Trick marker on prepared trick — place on trick card
-        if (location === 'prepared' && 'trickId' in meeple && meeple.trickId) {
-            const trickEl = document.getElementById(`trick-${meeple.trickId}`);
-            if (trickEl) {
-                const slots = trickEl.querySelectorAll<HTMLElement>('.trick-marker-slot:not(:has(.trickerion-meeple))');
-                if (slots.length > 0) {
-                    return slots[0];
-                }
-                // If no free slots, fall back to the trick marker slots container
-                const container = trickEl.querySelector<HTMLElement>('.trick-marker-slots');
-                if (container) return container;
-            }
-            // If trick card not found, fall back to pending area
-            const el = document.getElementById('trickerion-pending');
-            if (el) return el;
-            console.error(`[Meeples] Trick card #trick-${meeple.trickId} not found and #trickerion-pending not found for prepared trick marker`, meeple);
-            return fallback;
-        }
-
-        // Trick marker locations — for other locations, use pending area
-        if (location === 'available' || location === 'scheduled') {
-            const el = document.getElementById('trickerion-pending');
-            if (el) return el;
-            console.error(`[Meeples] #trickerion-pending not found for trick marker location ${location}`, meeple);
-            return fallback;
-        }
-
-        // Unknown location — log and fall back
-        console.error(`[Meeples] Unknown meeple location: "${location}"`, meeple);
+    // Workshop slots: board-workshop-{1,2} → #board-workshop-{playerId}-{n}
+    const workshopMatch = location.match(/^board-workshop-(\d+)$/);
+    if (workshopMatch) {
+      if (playerId === undefined) {
+        console.error(`[Meeples] Workshop location ${location} requires playerId`, meeple);
         return fallback;
-    },
+      }
+      const slotNumber = workshopMatch[1];
+      const domId = `board-workshop-${playerId}-${slotNumber}`;
+      const el = document.getElementById(domId);
+      if (el) return el;
+      console.error(`[Meeples] Workshop slot element #${domId} not found`, meeple);
+      return fallback;
+    }
+
+    // Apprentice idle slots: idle-apprentice-{1,2,3} → #idle-{playerId}-apprentice-{n}
+    const apprenticeMatch = location.match(/^idle-apprentice-(\d+)$/);
+    if (apprenticeMatch) {
+      if (playerId === undefined) {
+        console.error(`[Meeples] Apprentice location ${location} requires playerId`, meeple);
+        return fallback;
+      }
+      const domId = `idle-${playerId}-apprentice-${apprenticeMatch[1]}`;
+      const el = document.getElementById(domId);
+      if (el) return el;
+      console.error(`[Meeples] Apprentice idle element #${domId} not found`, meeple);
+      return fallback;
+    }
+
+    // Idle player board (magician): idle-player-board → #idle-{playerId}-magician
+    if (location === 'idle-player-board') {
+      if (playerId === undefined) {
+        console.error(`[Meeples] idle-player-board requires playerId`, meeple);
+        return fallback;
+      }
+      const domId = `idle-${playerId}-magician`;
+      const el = document.getElementById(domId);
+      if (el) return el;
+      console.error(`[Meeples] Idle element #${domId} not found`, meeple);
+      return fallback;
+    }
+
+    // Specialist idle slots: idle-{type}-board → #idle-{playerId}-{type}
+    const specialistMatch = location.match(/^idle-(manager|engineer|assistant)-board$/);
+    if (specialistMatch) {
+      if (playerId === undefined) {
+        console.error(`[Meeples] ${location} requires playerId`, meeple);
+        return fallback;
+      }
+      const specialistType = specialistMatch[1];
+      // Assistant board has two slots: one for assistant, one for apprentice
+      if (specialistType === 'assistant' && characterType === 'apprentice') {
+        const domId = `idle-${playerId}-apprentice-assistant`;
+        const el = document.getElementById(domId);
+        if (el) return el;
+        console.error(`[Meeples] Assistant-apprentice element #${domId} not found`, meeple);
+        return fallback;
+      }
+      const domId = `idle-${playerId}-${specialistType}`;
+      const el = document.getElementById(domId);
+      if (el) return el;
+      console.error(`[Meeples] Idle element #${domId} not found`, meeple);
+      return fallback;
+    }
+
+    // Component player-board → first free component slot in magician board
+    if (location === 'player-board') {
+      if (playerId === undefined) {
+        console.error(`[Meeples] Component location 'player-board' requires playerId`, meeple);
+        return fallback;
+      }
+      const boardEl = document.getElementById(`magician-board-${playerId}`);
+      if (!boardEl) {
+        console.error(`[Meeples] Magician board #magician-board-${playerId} not found`, meeple);
+        return fallback;
+      }
+      const slots = boardEl.querySelectorAll<HTMLElement>('.magician-tricks-components .component-slot');
+      for (const slot of slots) {
+        if (!slot.querySelector('.trickerion-meeple')) {
+          return slot;
+        }
+      }
+      console.error(`[Meeples] No free component slot on player board ${playerId}`, meeple);
+      return fallback;
+    }
+
+    // Component manager-board → first free manager component slot
+    if (location === 'manager-board') {
+      if (playerId === undefined) {
+        console.error(`[Meeples] Component location 'manager-board' requires playerId`, meeple);
+        return fallback;
+      }
+      const boardEl = document.getElementById(`magician-board-${playerId}`);
+      if (!boardEl) {
+        console.error(`[Meeples] Magician board #magician-board-${playerId} not found`, meeple);
+        return fallback;
+      }
+      const slots = boardEl.querySelectorAll<HTMLElement>('.manager-workshop .component-slot');
+      for (const slot of slots) {
+        if (!slot.querySelector('.trickerion-meeple')) {
+          return slot;
+        }
+      }
+      console.error(`[Meeples] No free manager component slot on player board ${playerId}`);
+      return fallback;
+    }
+
+    // Market row component slots (buy-slot-0..3, order-slot-0..3, quick-order-slot)
+    const marketRowMatch = location.match(/^(buy-slot|order-slot|quick-order-slot)-?(\d*)$/);
+    if (marketRowMatch) {
+      const el = document.getElementById(location);
+      if (el) return el;
+      console.error(`[Meeples] Market row slot element #${location} not found`, meeple);
+      return fallback;
+    }
+
+    // Trick marker on prepared trick — place on trick card
+    if (location === 'prepared' && 'trickId' in meeple && meeple.trickId) {
+      const trickEl = document.getElementById(`trick-${meeple.trickId}`);
+      if (trickEl) {
+        const slots = trickEl.querySelectorAll<HTMLElement>('.trick-marker-slot:not(:has(.trickerion-meeple))');
+        if (slots.length > 0) {
+          return slots[0];
+        }
+        // If no free slots, fall back to the trick marker slots container
+        const container = trickEl.querySelector<HTMLElement>('.trick-marker-slots');
+        if (container) return container;
+      }
+      // If trick card not found, fall back to pending area
+      const el = document.getElementById('trickerion-pending');
+      if (el) return el;
+      console.error(
+        `[Meeples] Trick card #trick-${meeple.trickId} not found and #trickerion-pending not found for prepared trick marker`,
+        meeple
+      );
+      return fallback;
+    }
+
+    // Trick marker locations — for other locations, use pending area
+    if (location === 'available' || location === 'scheduled') {
+      const el = document.getElementById('trickerion-pending');
+      if (el) return el;
+      console.error(`[Meeples] #trickerion-pending not found for trick marker location ${location}`, meeple);
+      return fallback;
+    }
+
+    // Unknown location — log and fall back
+    console.error(`[Meeples] Unknown meeple location: "${location}"`, meeple);
+    return fallback;
+  },
 };

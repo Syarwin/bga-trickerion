@@ -1,174 +1,191 @@
-import { bga } from "./framework/utils";
-import { staticData } from "./staticData";
+import { bga } from './framework/utils';
+import { staticData } from './staticData';
 
 const SVG_ICONS = [
-    'action-point',
-    'active-player',
-    'advertise',
-    'apprentice',
-    'assignment',
-    'assistant',
-    'coin',
-    'component',
-    'diamond-ring',
-    'die',
-    'disk-apprentice',
-    'disk-assistant',
-    'disk-engineer',
-    'disk-magician',
-    'disk-manager',
-    'disk',
-    'end',
-    'engineer',
-    'fame',
-    'fame-threshold',
-    'link-shard',
-    'link',
-    'magician',
-    'manager',
-    'other-players',
-    'performance',
-    'perform',
-    'shard',
-    'special-assignment',
-    'spend',
-    'trick-marker',
-    'trick',
-    'spiritual',
-    'escape',
-    'mechanical',
-    'optical',
+  'action-point',
+  'active-player',
+  'advertise',
+  'apprentice',
+  'assignment',
+  'assistant',
+  'coin',
+  'component',
+  'diamond-ring',
+  'die',
+  'disk-apprentice',
+  'disk-assistant',
+  'disk-engineer',
+  'disk-magician',
+  'disk-manager',
+  'disk',
+  'end',
+  'engineer',
+  'fame',
+  'fame-threshold',
+  'link-shard',
+  'link',
+  'magician',
+  'manager',
+  'other-players',
+  'performance',
+  'perform',
+  'shard',
+  'special-assignment',
+  'spend',
+  'trick-marker',
+  'trick',
+  'spiritual',
+  'escape',
+  'mechanical',
+  'optical',
 ];
-const ICONS = [...SVG_ICONS];
+const ICONS = [
+  ...SVG_ICONS,
+  'wood',
+  'glass',
+  'metal',
+  'fabric',
+  'rope',
+  'petroleum',
+  'saw',
+  'animal',
+  'padlock',
+  'mirror',
+  'disguise',
+  'cog',
+];
 
 export const formatIcon = function (name: string, n = null, lowerCase = true) {
-    let type = lowerCase ? name.toLowerCase() : name;
+  let type = lowerCase ? name.toLowerCase() : name;
 
-    const NO_TEXT_ICONS = [];
-    let noText = NO_TEXT_ICONS.includes(name);
-    let text = n == null ? '' : `<span>${n}</span>`;
+  const NO_TEXT_ICONS = [];
+  let noText = NO_TEXT_ICONS.includes(name);
+  let text = n == null ? '' : `<span>${n}</span>`;
 
-    if (SVG_ICONS.includes(type)) {
-        let icon = `<i class='svgicon-${type}'>`;
-        //   let nGlyphs = glyphs[type];
-        //   if (nGlyphs > 1) {
-        //     for (let i = 1; i <= nGlyphs; i++) {
-        //       icon += `<span class="path${i}"></span>`;
-        //     }
-        //   }
-        icon += '</i>';
-        return text + icon;
-    }
+  if (SVG_ICONS.includes(type)) {
+    let icon = `<i class='svgicon-${type}'>`;
+    //   let nGlyphs = glyphs[type];
+    //   if (nGlyphs > 1) {
+    //     for (let i = 1; i <= nGlyphs; i++) {
+    //       icon += `<span class="path${i}"></span>`;
+    //     }
+    //   }
+    icon += '</i>';
+    return text + icon;
+  }
 
-    return `${noText ? text : ''}<div class="icon-container icon-container-${type}"><div class="nemesis-icon icon-${type}">${noText ? '' : text}</div></div>`;
+  return `${noText ? text : ''}<div class="icon-container icon-container-${type}"><div class="trickerion-meeple meeple-${type}">${noText ? '' : text}</div></div>`;
 };
 
 export const formatString = function (str: string) {
-    str = str.replaceAll('\n', '<br />');
-    ICONS.forEach((name) => {
-        str = str.replaceAll(new RegExp('<' + name + '>', 'g'), formatIcon(name));
-    });
-    str = str.replaceAll(new RegExp('<bullet>', 'g'), '&nbsp;&nbsp;·');
-    str = str.replace(/\{\{([^\}]+)\}\}/gi, '<span class="emph">$1</span>'); // Replace {{my wrapped text}} by <span class="emph">my wrapped text</span>
+  str = str.replaceAll('\n', '<br />');
+  ICONS.forEach((name) => {
+    str = str.replaceAll(new RegExp('<' + name + '>', 'g'), formatIcon(name));
+  });
+  str = str.replaceAll(new RegExp('<bullet>', 'g'), '&nbsp;&nbsp;·');
+  str = str.replace(/\{\{([^\}]+)\}\}/gi, '<span class="emph">$1</span>'); // Replace {{my wrapped text}} by <span class="emph">my wrapped text</span>
 
-    return str;
+  return str;
 };
 
 export const logOverride = {
-    AP: (args: { AP: string}) => {
-        return formatIcon('action-point');
-    },
-    magician: (args: { magician: Magician }) => {
-        return args.magician.type;
-    },
-    trick: (args: { trick: Trick }) => {        
-        // Enhanced trick formatting with name, suit, and category icons
-        const trick = Object.assign(args.trick, staticData.tricks[args.trick?.type]);
+  coin: (args: { coin: string }) => {
+    return formatIcon('coin');
+  },
+  AP: (args: { AP: string }) => {
+    return formatIcon('action-point');
+  },
+  magician: (args: { magician: Magician }) => {
+    return args.magician.type;
+  },
+  trick: (args: { trick: Trick }) => {
+    // Enhanced trick formatting with name, suit, and category icons
+    const trick = Object.assign(args.trick, staticData.tricks[args.trick?.type]);
 
-        if (!trick) return 'unknown';
-        
-        // Get the trick type and name - use name if available, otherwise type
-        const type = trick.type || 'unknown';
-        const name = trick.name || '';
-        
-        // Get suit and category for icons
-        const suit = trick.suit || '';
-        const category = trick.category || '';
-        
-        // Build the formatted string with icons
-        let result = _(name);
-        
-        // Add category icon if available
-        if (category) {
-            result += ` (<i class='svgicon-${category.toLowerCase()}'></i>)`;
-        }
-                
-        // Add suit icon if available
-        // if (suit) {
-        //     result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
-        // }
-        
-        return result;
-    },
-    previousTrick: (args: { previousTrick?: Trick }) => {
-        const trick = args.previousTrick;
-        if (!trick) return 'unknown';
-        
-        // Get the trick type and name
-        const type = trick.type || 'unknown';
-        const name = trick.name || '';
-        const suit = trick.suit || '';
-        const category = trick.category || '';
-        
-        // Build the formatted string with icons
-        let result = '';
-        
-        // Add category icon if available
-        if (category) {
-            result += `<i class='svgicon-${category.toLowerCase()}'></i> `;
-        }
-        
-        // Add the trick name/translation
-        if (name) {
-            result += (typeof _ !== 'undefined' ? _(name) : name);
-        } else {
-            result += type;
-        }
-        
-        // Add suit icon if available
-        if (suit) {
-            result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
-        }
-        
-        return result;
-    },
-    character: (args: { character: Character }) => {
-        return args.character.type;
-    },
-    component: (args: { component: Component }) => {
-        return args.component.type;
-    },
-    secondComponent: (args: { secondComponent?: Component }) => {
-        return args.secondComponent?.type;
-    },
-    dice: (args: { dice: Dice }) => {
-        const allDice = [...args.dice.trick, ...args.dice.character, ...args.dice.money];
+    if (!trick) return 'unknown';
 
-        return allDice.join(', ');
-    },
-    performance: (args: { performance: Performance }) => {
-        return args.performance.type;
-    },
-    prophecy: (args: { prophecy: Prophecy }) => {
-        return args.prophecy.type;
-    },
-    assignments: (args: { assignments: Assignment[] }) => {
-        return args.assignments.map((a) => a.type).join(', ');
-    },
+    // Get the trick type and name - use name if available, otherwise type
+    const type = trick.type || 'unknown';
+    const name = trick.name || '';
+
+    // Get suit and category for icons
+    const suit = trick.suit || '';
+    const category = trick.category || '';
+
+    // Build the formatted string with icons
+    let result = _(name);
+
+    // Add category icon if available
+    if (category) {
+      result += ` (<i class='svgicon-${category.toLowerCase()}'></i>)`;
+    }
+
+    // Add suit icon if available
+    // if (suit) {
+    //     result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
+    // }
+
+    return result;
+  },
+  previousTrick: (args: { previousTrick?: Trick }) => {
+    const trick = args.previousTrick;
+    if (!trick) return 'unknown';
+
+    // Get the trick type and name
+    const type = trick.type || 'unknown';
+    const name = trick.name || '';
+    const suit = trick.suit || '';
+    const category = trick.category || '';
+
+    // Build the formatted string with icons
+    let result = '';
+
+    // Add category icon if available
+    if (category) {
+      result += `<i class='svgicon-${category.toLowerCase()}'></i> `;
+    }
+
+    // Add the trick name/translation
+    if (name) {
+      result += typeof _ !== 'undefined' ? _(name) : name;
+    } else {
+      result += type;
+    }
+
+    // Add suit icon if available
+    if (suit) {
+      result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
+    }
+
+    return result;
+  },
+  character: (args: { character: Character }) => {
+    return args.character.type;
+  },
+  component: (args: { component: Component }) => {
+    return formatIcon('component-' + args.component.type);
+  },
+  secondComponent: (args: { secondComponent?: Component }) => {
+    return args.secondComponent?.type;
+  },
+  dice: (args: { dice: Dice }) => {
+    const allDice = [...args.dice.trick, ...args.dice.character, ...args.dice.money];
+
+    return allDice.join(', ');
+  },
+  performance: (args: { performance: Performance }) => {
+    return args.performance.type;
+  },
+  prophecy: (args: { prophecy: Prophecy }) => {
+    return args.prophecy.type;
+  },
+  assignments: (args: { assignments: Assignment[] }) => {
+    return args.assignments.map((a) => a.type).join(', ');
+  },
 };
 
-export const translate = function(log: string, args: Object): string{
-    return bga.gameui.format_string_recursive(log, args);
-}
+export const translate = function (log: string, args: Object): string {
+  return bga.gameui.format_string_recursive(log, args);
+};
 
 export const onLogAdded = {};

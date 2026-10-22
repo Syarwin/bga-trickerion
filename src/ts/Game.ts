@@ -21,7 +21,7 @@ import { MakeDieUnavailable } from './states/MakeDieUnavailable';
 import { TakeCoins } from './states/TakeCoins';
 import { RerollDie } from './states/RerollDie';
 import { SetDie, ClientSetDieFace } from './states/SetDie';
-import { BuyComponents } from './states/BuyComponents';
+import { BuyComponents, ClientBuyComponentsLocation, ClientBuyComponentsCount, ClientBuyComponentsBargain } from './states/BuyComponents';
 import { OrderComponent } from './states/OrderComponent';
 import { QuickOrderComponent } from './states/QuickOrderComponent';
 import { DiscardComponents } from './states/DiscardComponents';
@@ -77,6 +77,9 @@ export class Game {
         this.bga.states.register('SetDie', new SetDie(this, bga));
         this.bga.states.register('client_setDieFace', new ClientSetDieFace(this, bga));
         this.bga.states.register('BuyComponents', new BuyComponents(this, bga));
+        this.bga.states.register('client_buyComponentsLocation', new ClientBuyComponentsLocation(this, bga));
+        this.bga.states.register('client_buyComponentsCount', new ClientBuyComponentsCount(this, bga));
+        this.bga.states.register('client_buyComponentsBargain', new ClientBuyComponentsBargain(this, bga));
         this.bga.states.register('OrderComponent', new OrderComponent(this, bga));
         this.bga.states.register('QuickOrderComponent', new QuickOrderComponent(this, bga));
         this.bga.states.register('DiscardComponents', new DiscardComponents(this, bga));

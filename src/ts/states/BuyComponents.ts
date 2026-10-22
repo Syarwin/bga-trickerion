@@ -1,125 +1,206 @@
 import { State } from '../framework/State';
 import { onClick } from '../framework/event';
-import { formatIcon } from '../format';
+import { clearPossible } from '../framework/utils';
+import { formatIcon, translate } from '../format';
 
 /** Map buy slot index → DOM element id */
 const BUY_SLOT_IDS = ['buy-slot-0', 'buy-slot-1', 'buy-slot-2', 'buy-slot-3'];
 
-export class BuyComponents extends State {
-  /** Stash args so Cancel can re-enter Phase 1 */
-  private _currentArgs: BuyComponentsArgs | null = null;
-  private _isCurrentPlayerActive = false;
+// ========== Helper Functions ==========
 
+/**
+ * Get translated and properly formatted string for a component type (capitalized).
+ * Maps internal component type IDs to display names.
+ */
+function getComponentDisplayName(componentType: string): string {
+  const componentMap: Record<string, string> = {
+    wood: _('Wood'),
+    glass: _('Glass'),
+    metal: _('Metal'),
+    fabric: _('Fabric'),
+    rope: _('Rope'),
+    petroleum: _('Petroleum'),
+    saw: _('Saw'),
+    animal: _('Animal'),
+    padlock: _('Padlock'),
+    mirror: _('Mirror'),
+    disguise: _('Disguise'),
+    cog: _('Cog'),
+  };
+  return componentMap[componentType] ?? _(componentType);
+}
+
+/**
+ * Get translated name of a location.
+ * Maps internal location IDs to display names.
+ */
+function getLocationDisplayName(locationId: string): string {
+  const locationMap: Record<string, string> = {
+    'player-board': _('Player board'),
+    'manager-board': _('Manager board'),
+  };
+  return locationMap[locationId] ?? _(locationId);
+}
+
+// ========== Main Server State ==========
+
+export class BuyComponents extends State {
   onEnteringState(args: BuyComponentsArgs, isCurrentPlayerActive: boolean) {
     if (!isCurrentPlayerActive) return;
 
-    this._currentArgs = args;
-    this._isCurrentPlayerActive = true;
-
-    this.bga.statusBar.removeActionButtons();
-
-    this._showBuySlots(args);
-  }
-
-  onLeavingState(_args: BuyComponentsArgs, _isCurrentPlayerActive: boolean) {
-    // clearPossible() is handled by Game.onLeavingState
-  }
-
-  /** Phase 1: highlight buy slots that contain a buyable component */
-  private _showBuySlots(args: BuyComponentsArgs) {
     const buyArea = this.game.gamedatas?.globals?.marketRow?.buyArea ?? {};
 
-    // Map each buy slot index → componentType (if present)
+    // Highlight buy slots that contain a buyable component
     for (let slotIdx = 0; slotIdx < BUY_SLOT_IDS.length; slotIdx++) {
       const componentType = buyArea[slotIdx];
       if (!componentType) continue;
       // Check if this component is actually available to buy
       if (!args.availableComponents[componentType]) continue;
 
-      const el = $(BUY_SLOT_IDS[slotIdx]);
-      if (!el) continue;
-
-      el.classList.add('selectable');
-      onClick(el, () => {
-        this._showCountSelection(args, componentType);
-      });
+      const componentName = getComponentDisplayName(componentType);
+      const callback = () => {
+        // Always transition to location client state, which will auto-skip if only one location
+        this.bga.states.setClientState('client_buyComponentsLocation', {
+          descriptionmyturn: _('Where do want to place the ${comp} once bought?'),
+          args: {
+            comp: componentName,
+            availableComponents: args.availableComponents,
+            remainingActionPoints: args.remainingActionPoints,
+            selectedComponentType: componentType,
+            slotIdx,
+          },
+        });
+      };
+      onClick(BUY_SLOT_IDS[slotIdx], callback);
+      this.bga.statusBar.addActionButton(componentName, callback);
     }
   }
+}
 
-  /** Phase 2: show count buttons for the selected component */
-  private _showCountSelection(args: BuyComponentsArgs, componentType: string) {
-    this.bga.statusBar.removeActionButtons();
+// ========== Client State: Select Location ==========
 
-    const compData = args.availableComponents[componentType];
-    if (!compData) return;
+interface ClientBuyComponentsLocationArgs extends BuyComponentsArgs {
+  selectedComponentType: string;
+  component: string;
+  slotIdx: number;
+}
 
-    // Find first location with max > 0
-    const locationId = Object.keys(compData).find((loc) => compData[loc].max > 0);
-    if (!locationId) return;
+export class ClientBuyComponentsLocation extends State {
+  onEnteringState(args: ClientBuyComponentsLocationArgs, isCurrentPlayerActive: boolean) {
+    $(BUY_SLOT_IDS[args.slotIdx]).classList.add('selected');
+    const componentType = args.selectedComponentType;
+    const locations = args.availableComponents[componentType];
+    const locationIds = Object.keys(locations);
 
-    const { max, maxWithBargain, effectiveCost } = compData[locationId];
-    const label = _(componentType) + ` (${effectiveCost} ${formatIcon('coin')} each)`;
+    // Helper lambda to transition to count selection
+    const onChooseLocation = (locationId: string) => {
+      this.bga.states.setClientState('client_buyComponentsCount', {
+        descriptionmyturn: _('How much ${comp} do you want to buy (${cost}${coin} each)?'),
+        args: {
+          ...args,
+          selectedLocationId: locationId,
+          cost: locations[locationId].effectiveCost,
+          coin: formatIcon('coin'),
+        },
+      });
+    };
 
-    // Show component info
-    this.bga.statusBar.addActionButton(label, () => {}, { disabled: true });
+    // Auto-skip if only one location
+    if (locationIds.length === 1) {
+      onChooseLocation(locationIds[0]);
+      return;
+    }
+
+    // Show location options
+    for (const locationId of locationIds) {
+      const cost = locations[locationId].effectiveCost;
+      this.bga.statusBar.addActionButton(
+        getLocationDisplayName(locationId) + ' ' + translate(_('(${cost}${coin} each)'), { cost, coin: formatIcon('coin') }),
+        () => onChooseLocation(locationId)
+      );
+    }
+
+    this.addCancelStateBtn();
+  }
+}
+
+// ========== Client State: Select Count ==========
+
+interface ClientBuyComponentsCountArgs extends BuyComponentsArgs {
+  selectedComponentType: string;
+  selectedLocationId: string;
+  slotIdx: number;
+}
+
+export class ClientBuyComponentsCount extends State {
+  onEnteringState(args: ClientBuyComponentsCountArgs, isCurrentPlayerActive: boolean) {
+    $(BUY_SLOT_IDS[args.slotIdx]).classList.add('selected');
+    const componentType = args.selectedComponentType;
+    const locationId = args.selectedLocationId;
+    const { max, maxWithBargain, effectiveCost } = args.availableComponents[componentType][locationId];
 
     // Show count options
     for (let count = 1; count <= maxWithBargain; count++) {
       const totalCost = effectiveCost * count;
       const isBargain = count > max;
+
       let btnLabel = `${count} × ${formatIcon(componentType)} → ${totalCost} ${formatIcon('coin')}`;
-      if (isBargain) {
-        btnLabel += ` (${_('bargain')})`;
-      }
-
-      this.bga.statusBar.addActionButton(btnLabel, () => {
-        if (args.remainingActionPoints > 0 && count <= max) {
-          this._showBargainOrBuy(args, componentType, locationId, count, totalCost);
-        } else {
-          // No bargain possible — go directly
-          this.bga.statusBar.removeActionButtons();
-          this.bga.actions.performAction('actBuyComponents', {
-            component: componentType,
-            locationId,
-            count,
-            bargain: 0,
+      if (isBargain || args.remainingActionPoints > 0) {
+        // Bargain is possible - go to Phase 3
+        this.bga.statusBar.addActionButton(btnLabel, () => {
+          this.bga.states.setClientState('client_buyComponentsBargain', {
+            descriptionmyturn: _('How much do you want to bargain for ${count} ${comp}(s)'),
+            args: {
+              ...args,
+              selectedCount: count,
+              selectedTotalCost: totalCost,
+              count,
+              comp: getComponentDisplayName(componentType),
+            },
           });
-        }
-      });
-    }
-
-    // Cancel back to Phase 1
-    this.bga.statusBar.addActionButton(
-      _('Cancel'),
-      () => {
-        this.bga.statusBar.removeActionButtons();
-        if (this._currentArgs) this._showBuySlots(this._currentArgs);
-      },
-      { color: 'alert' }
-    );
-  }
-
-  /** Phase 3: offer Buy (no bargain) or pick a bargain amount */
-  private _showBargainOrBuy(
-    args: BuyComponentsArgs,
-    componentType: string,
-    locationId: string,
-    count: number,
-    totalCost: number
-  ) {
-    this.bga.statusBar.removeActionButtons();
-
-    // Buy without bargain
-    this.bga.statusBar.addActionButton(
-      _('Buy for ${cost} ${coin}').replace('${cost}', String(totalCost)).replace('${coin}', formatIcon('coin')),
-      () => {
-        this.bga.statusBar.removeActionButtons();
-        this.bga.actions.performAction('actBuyComponents', {
+        });
+      } else {
+        // No bargain possible - go directly
+        this.addActionBtn(btnLabel, 'actBuyComponents', {
           component: componentType,
           locationId,
           count,
           bargain: 0,
         });
+      }
+    }
+
+    this.addCancelStateBtn();
+  }
+}
+
+// ========== Client State: Select Bargain ==========
+
+interface ClientBuyComponentsBargainArgs extends BuyComponentsArgs {
+  slotIdx: number;
+  selectedComponentType: string;
+  selectedLocationId: string;
+  selectedCount: number;
+  selectedTotalCost: number;
+}
+
+export class ClientBuyComponentsBargain extends State {
+  onEnteringState(args: ClientBuyComponentsBargainArgs, isCurrentPlayerActive: boolean) {
+    $(BUY_SLOT_IDS[args.slotIdx]).classList.add('selected');
+    const componentType = args.selectedComponentType;
+    const locationId = args.selectedLocationId;
+    const count = args.selectedCount;
+    const totalCost = args.selectedTotalCost;
+
+    // Buy without bargain
+    this.addActionBtn(
+      _('Buy for ${cost} ${coin}').replace('${cost}', String(totalCost)).replace('${coin}', formatIcon('coin')),
+      'actBuyComponents',
+      {
+        component: componentType,
+        locationId,
+        count,
+        bargain: 0,
       }
     );
 
@@ -128,30 +209,22 @@ export class BuyComponents extends State {
       const maxBargain = Math.min(args.remainingActionPoints, totalCost);
       for (let bargain = 1; bargain <= maxBargain; bargain++) {
         const finalCost = totalCost - bargain;
-        this.bga.statusBar.addActionButton(
+        this.addActionBtn(
           _('Bargain ${n} (pay ${cost} ${coin})')
             .replace('${n}', String(bargain))
             .replace('${cost}', String(finalCost))
             .replace('${coin}', formatIcon('coin')),
-          () => {
-            this.bga.actions.performAction('actBuyComponents', {
-              component: componentType,
-              locationId,
-              count,
-              bargain,
-            });
+          'actBuyComponents',
+          {
+            component: componentType,
+            locationId,
+            count,
+            bargain,
           }
         );
       }
     }
 
-    // Cancel back to Phase 2
-    this.bga.statusBar.addActionButton(
-      _('Back'),
-      () => {
-        if (this._currentArgs) this._showCountSelection(this._currentArgs, componentType);
-      },
-      { color: 'alert' }
-    );
+    this.addCancelStateBtn();
   }
 }

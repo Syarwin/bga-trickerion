@@ -1,5 +1,6 @@
 import { formatIcon } from '../format';
 import { bga } from '../framework/utils';
+import { meeples } from '../Meeples';
 
 const BUY_SLOT_IDS = ['buy-slot-0', 'buy-slot-1', 'buy-slot-2', 'buy-slot-3'];
 const ORDER_SLOT_IDS = ['order-slot-0', 'order-slot-1', 'order-slot-2', 'order-slot-3'];
@@ -16,11 +17,27 @@ export class MarketRowNotifications {
         }
 
         for (let i = 0; i < BUY_SLOT_IDS.length; i++) {
-            const el = $(BUY_SLOT_IDS[i]);
+            const slotId = BUY_SLOT_IDS[i];
+            const el = $(slotId);
             if (!el) continue;
             const componentType = args.components[i];
-            el.innerHTML = componentType ? formatIcon(componentType) : '';
+            
+            // Remove old meeple if exists
+            const oldMeeple = el.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             el.dataset.component = componentType ?? '';
+            
+            if (componentType) {
+                // Create new component meeple
+                const component: any = {
+                    id: `market-buy-${i}`,
+                    type: componentType,
+                    location: slotId,
+                    count: 1,
+                };
+                meeples.addMeeple(component, el);
+            }
         }
     }
 
@@ -29,8 +46,20 @@ export class MarketRowNotifications {
         (gamedatas.globals.marketRow as any).quickOrder = args.component;
         const el = $(QUICK_ORDER_ID);
         if (el) {
-            el.innerHTML = formatIcon(args.component);
+            // Remove old meeple if exists
+            const oldMeeple = el.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             el.dataset.component = args.component;
+            
+            // Create new quick order component meeple
+            const component: any = {
+                id: 'market-quick-order',
+                type: args.component,
+                location: QUICK_ORDER_ID,
+                count: 1,
+            };
+            meeples.addMeeple(component, el);
         }
     }
 
@@ -38,10 +67,23 @@ export class MarketRowNotifications {
         const gamedatas = bga.gameui.gamedatas as TrickerionGamedatas;
         gamedatas.globals.marketRow.orderArea[args.slot] = args.component;
 
-        const el = $(ORDER_SLOT_IDS[args.slot]);
+        const slotId = ORDER_SLOT_IDS[args.slot];
+        const el = $(slotId);
         if (el) {
-            el.innerHTML = formatIcon(args.component);
+            // Remove old meeple if exists
+            const oldMeeple = el.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             el.dataset.component = args.component;
+            
+            // Create new order component meeple
+            const component: any = {
+                id: `market-order-${args.slot}`,
+                type: args.component,
+                location: slotId,
+                count: 1,
+            };
+            meeples.addMeeple(component, el);
         }
     }
 
@@ -50,15 +92,32 @@ export class MarketRowNotifications {
         gamedatas.globals.marketRow.buyArea[args.slot] = args.componentId;
         delete gamedatas.globals.marketRow.orderArea[args.slot];
 
-        const buyEl = $(BUY_SLOT_IDS[args.slot]);
+        const buySlotId = BUY_SLOT_IDS[args.slot];
+        const orderSlotId = ORDER_SLOT_IDS[args.slot];
+        
+        // Update buy slot - remove old and add new meeple
+        const buyEl = $(buySlotId);
         if (buyEl) {
-            buyEl.innerHTML = formatIcon(args.componentId);
+            const oldMeeple = buyEl.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             buyEl.dataset.component = args.componentId;
+            
+            const component: any = {
+                id: `market-buy-${args.slot}`,
+                type: args.componentId,
+                location: buySlotId,
+                count: 1,
+            };
+            meeples.addMeeple(component, buyEl);
         }
 
-        const orderEl = $(ORDER_SLOT_IDS[args.slot]);
+        // Clear order slot
+        const orderEl = $(orderSlotId);
         if (orderEl) {
-            orderEl.innerHTML = '';
+            const oldMeeple = orderEl.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             delete orderEl.dataset.component;
         }
     }
@@ -69,7 +128,9 @@ export class MarketRowNotifications {
 
         const el = $(QUICK_ORDER_ID);
         if (el) {
-            el.innerHTML = '';
+            const oldMeeple = el.querySelector('.trickerion-meeple');
+            if (oldMeeple) oldMeeple.remove();
+            
             delete el.dataset.component;
         }
     }

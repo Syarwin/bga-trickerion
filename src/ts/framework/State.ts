@@ -32,8 +32,8 @@ export class State {
     this.bga.statusBar.addActionButton(label, callback, params);
   }
 
-  addCancelStateBtn(label?: string) {
-    if (label === null) label = _('Cancel');
+  addCancelStateBtn(label: string = '') {
+    if (label === '') label = _('Cancel');
 
     this.bga.statusBar.addActionButton(
       label,

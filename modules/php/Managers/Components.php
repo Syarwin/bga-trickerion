@@ -162,18 +162,20 @@ class Components extends CachedPieces
         Players::get($playerId)->payCoins($cost);
         LocationActions::incActionPoints(-$bargain);
 
-        $message = clienttranslate('${player_name} bought ${count} <component>for ${cost} and placed it at the ${location}');
+        $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} and placed it at the ${location}');
         if ($bargain > 0) {
-            $message = clienttranslate('${player_name} bought ${count} <component>for ${cost} (after bargaining ${bargain} coins) and placed it at the ${location}');
+            $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} (after bargaining ${bargain}${coin}) and placed it at the ${location}');
         }
 
         Game::get()->bga->notify->all("componentBought", $message, [
             "player_id" => $playerId,
             "component" => $component,
             "count" => $count,
+            "coin" => clienttranslate("coin(s)"),
             "location" => self::getLocationName($locationId),
             "cost" => $cost,
-            "bargain" => $bargain
+            "bargain" => $bargain,
+            "i18n" => ['component', 'coin'],
         ]);
     }
 

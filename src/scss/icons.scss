@@ -6,6 +6,24 @@
   vertical-align: middle;
   margin: 0 0.08em;
   font-size: 1em;
+
+  .meeple-component-wood,
+  .meeple-component-glass,
+  .meeple-component-metal,
+  .meeple-component-fabric,
+  .meeple-component-rope,
+  .meeple-component-petroleum,
+  .meeple-component-saw,
+  .meeple-component-animal,
+  .meeple-component-padlock,
+  .meeple-component-mirror,
+  .meeple-component-disguise,
+  .meeple-component-cog {
+    width: 2rem;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px #000000b8;
+    border-radius: 3px;
+  }
 }
 
 // #animation-coin,

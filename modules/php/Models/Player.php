@@ -83,10 +83,11 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
     {
         $this->incCoins(-$count);
 
-        Game::get()->bga->notify->all("coinsChanged", $msg ?? clienttranslate('${player_name} pays ${abs_coins} coins'), $datas + [
+        Game::get()->bga->notify->all("coinsChanged", $msg ?? clienttranslate('${player_name} pays ${abs_coins}${coin}'), $datas + [
             "player_id" => $this->id,
             "abs_coins" => $count,
             "coins" => -$count,
+            "coin" => clienttranslate("coin(s)"),
             "newValue" => $this->getCoins(),
         ]);
     }
