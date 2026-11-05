@@ -39,13 +39,13 @@ export const attachRegisteredTooltips = () => {
 };
 
 let openingTooltip = null;
-export const addCustomTooltip = (elt: HTMLElement, html: string) => {
+export const addCustomTooltip = (elt: HTMLElement, html: string | (() => string)) => {
   if (gamegui === null) {
     let tooltip = document.createElement('div');
 
     tooltip.setAttribute('role', 'tooltip');
     tooltip.setAttribute('inert', 'true');
-    tooltip.innerHTML = html;
+    tooltip.innerHTML = typeof html == 'function' ? html() : html;
 
     elt.appendChild(tooltip);
 
@@ -61,7 +61,7 @@ export const addCustomTooltip = (elt: HTMLElement, html: string) => {
     });
   } else {
     if (elt.id === '') elt.id = 'tooltipable-' + customTooltipIdCounter++;
-    gameui.addTooltipHtml(elt.id, html);
+    gameui.addTooltipHtml(elt.id, html as any);
   }
 };
 

@@ -13,26 +13,26 @@
  *
  */
 
-@use 'nouislider';
-@use 'variables';
-@use 'icons';
-@use 'meeples';
-@use 'central-board';
-@use 'player-board';
-@use 'player-panel';
-@use 'performance-cards';
-@use 'assignment-cards';
-@use 'tricks';
-@use 'prophecies';
-@use 'magicians';
-@use 'modals';
-@use 'log';
-@use 'magician-board';
-@use 'dice';
-@use 'flip';
+@use "nouislider";
+@use "variables";
+@use "icons";
+@use "meeples";
+@use "central-board";
+@use "player-board";
+@use "player-panel";
+@use "performance-cards";
+@use "assignment-cards";
+@use "tricks";
+@use "prophecies";
+@use "magicians";
+@use "modals";
+@use "log";
+@use "magician-board";
+@use "dice";
+@use "flip";
 
 html {
-  background-image: url('img/background.jpg');
+  background-image: url("img/background.jpg");
   // background-size: cover;
   // background-attachment: fixed;
 }
@@ -72,10 +72,18 @@ html {
   background: #d97050;
 }
 
-[data-undobuttons='0'] #btnUndoLastStep {
+.bgabutton_blue.selected {
+  background: linear-gradient(180deg, #04b804, #009600);
+
+  &:hover {
+    background: linear-gradient(180deg, #04b804, #04b804);
+  }
+}
+
+[data-undobuttons="0"] #btnUndoLastStep {
   display: none;
 }
-[data-undobuttons='2'] #btnRestartTurn {
+[data-undobuttons="2"] #btnRestartTurn {
   display: none;
 }
 

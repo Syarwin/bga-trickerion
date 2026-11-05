@@ -27,7 +27,7 @@ class SetupTrick extends ActionStateWithRevert
       id: States::ST_SETUP_TRICK,
       type: StateType::ACTIVE_PLAYER,
       description: clienttranslate('${actplayer} must setup a trick'),
-      descriptionMyTurn: clienttranslate('${you} must setup a trick'),
+      descriptionMyTurn: clienttranslate('${you} must choose a trick to setup'),
     );
   }
 

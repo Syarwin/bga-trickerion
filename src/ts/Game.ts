@@ -40,7 +40,11 @@ import { DiscardTrick } from './states/DiscardTrick';
 import { MoveTrick } from './states/MoveTrick';
 import { MoveComponents } from './states/MoveComponents';
 import { MoveApprentice } from './states/MoveApprentice';
-import { SetupTrick } from './states/SetupTrick';
+import {
+  SetupTrick,
+  ClientSetupTrickSelectSlot,
+  ClientSetupTrickSelectDirection,
+} from './states/SetupTrick';
 import { Reschedule } from './states/Reschedule';
 import { Performance } from './states/Performance';
 import { board } from './Board';
@@ -100,6 +104,8 @@ export class Game {
     this.bga.states.register('MoveComponents', new MoveComponents(this, bga));
     this.bga.states.register('MoveApprentice', new MoveApprentice(this, bga));
     this.bga.states.register('SetupTrick', new SetupTrick(this, bga));
+    this.bga.states.register('client_setupTrickSelectSlot', new ClientSetupTrickSelectSlot(this, bga));
+    this.bga.states.register('client_setupTrickSelectDirection', new ClientSetupTrickSelectDirection(this, bga));
     this.bga.states.register('Reschedule', new Reschedule(this, bga));
     this.bga.states.register('FortuneTelling', new FortuneTelling(this, bga));
     this.bga.states.register('FinishSetup', new FinishSetup(this, bga));

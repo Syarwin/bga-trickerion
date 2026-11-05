@@ -1,316 +1,199 @@
 import { State } from '../framework/State';
-import { getCurrentPlayerId } from '../framework/utils';
 import { onClick } from '../framework/event';
 import { formatIcon } from '../format';
 import { staticData } from '../staticData';
+import { addCustomTooltip } from '../framework/utils';
+import { meeples } from '../Meeples';
 
 /**
- * SetupTrick visual state — 4-phase wizard:
- *   1. Select performance card (click on board)
- *   2. Select trick to place (click trick card on player board)
- *   3. Select slot on the performance (click slot on performance card)
- *   4. Select direction (button — limited options, usually 1-3 per slot)
- *
- * Each phase has a Back button to return to the previous phase,
- * and the entire flow has a Cancel to leave the state.
+ * SetupTrick - 3-phase flow:
+ *   1. Select trick to place (server state)
+ *   2. Select slot on any valid performance (client state: ClientSetupTrickSelectSlot)
+ *   3. Select direction (client state: ClientSetupTrickSelectDirection)
  */
+
+// ========== Server State: Phase 1 - Select Trick ==========
+
 export class SetupTrick extends State {
-  private _currentArgs: SetupTrickArgs | null = null;
-
-  /** Phase state */
-  private _selectedPerformanceId: string | null = null;
-  private _selectedTrick: Trick | null = null;
-  private _selectedSlotId: string | null = null;
-
   onEnteringState(args: SetupTrickArgs, isCurrentPlayerActive: boolean) {
-    this._currentArgs = args;
-    this._cleanup();
     if (!isCurrentPlayerActive) return;
 
-    this.bga.statusBar.removeActionButtons();
-
-    if (!args.availablePerformances.length) {
-      this.bga.statusBar.addActionButton(_('No performances available'), () => {}, { disabled: true });
-      return;
-    }
-
-    this._resetSelection();
-    this._showPhase1(args);
-  }
-
-  onLeavingState(_args: SetupTrickArgs, _isCurrentPlayerActive: boolean) {
-    this._cleanup();
-    // clearPossible() is handled by Game.onLeavingState
-  }
-
-  // ============================================
-  // Phase 1: Select a performance card
-  // ============================================
-  private _showPhase1(args: SetupTrickArgs) {
-    this.bga.statusBar.removeActionButtons();
-
-    let highlighted = false;
-    for (const perf of args.availablePerformances) {
-      // Check if this performance actually has any tricks + slots available
+    // Collect all unique tricks from all performances
+    const trickSet = new Set<Trick>();
+    args.availablePerformances.forEach((perf) => {
       const perfData = args.possibleTricksAndSlots[perf.id];
-      if (!perfData || !perfData.possibleTricks.length) continue;
-
-      const el = $(`performance-${perf.id}`);
-      if (!el) continue;
-
-      el.classList.add('selectable');
-      highlighted = true;
-
-      onClick(el, () => {
-        this._selectedPerformanceId = String(perf.id);
-        this._showPhase2(args, perf);
+      perfData.possibleTricks.forEach((trick) => {
+        trickSet.add(trick);
       });
-    }
+    });
 
-    // Fallback: buttons
-    if (!highlighted) {
-      for (const perf of args.availablePerformances) {
-        const perfData = args.possibleTricksAndSlots[perf.id];
-        if (!perfData || !perfData.possibleTricks.length) continue;
+    // Click on trick cards
+    Array.from(trickSet).forEach((trick) => {
+      const catIcon = formatIcon(staticData.tricks[trick.type]?.category);
 
-        const name = perf.name ?? perf.type;
-        this.bga.statusBar.addActionButton(_(name), () => {
-          this._selectedPerformanceId = String(perf.id);
-          this._showPhase2(args, perf);
+      const callback = () => {
+        this.bga.states.setClientState('client_setupTrickSelectSlot', {
+          descriptionmyturn: _('Select the performance slot where you want to place the trick marker upon (${icon})'),
+          args: {
+            possibleTricksAndSlots: args.possibleTricksAndSlots,
+            availablePerformances: args.availablePerformances,
+            selectedTrick: trick,
+            icon: catIcon,
+          },
         });
-      }
-    }
+      };
 
-    // Cancel
-    if (highlighted) {
-      this.bga.statusBar.addActionButton(
-        _('Cancel'),
-        () => {
-          this._cleanup();
-          this.bga.statusBar.removeActionButtons();
-        },
-        { color: 'alert' }
-      );
-    }
+      const oCard = $(`trick-${trick.id}`);
+      onClick(oCard, callback);
+
+      const name = staticData.tricks[trick.type]?.name;
+      const btn = this.bga.statusBar.addActionButton(catIcon + _(name), callback);
+      addCustomTooltip(btn, oCard.outerHTML);
+    });
   }
+}
 
-  // ============================================
-  // Phase 2: Select a trick to place on the performance
-  // ============================================
-  private _showPhase2(args: SetupTrickArgs, perf: Performance) {
-    this._selectedTrick = null;
-    this._selectedSlotId = null;
+// ========== Client State: Phase 2 - Select Slot ==========
 
-    const perfData = args.possibleTricksAndSlots[perf.id];
-    if (!perfData || !perfData.possibleTricks.length) {
-      this._goBackToPhase1(args);
-      return;
-    }
+interface ClientSetupTrickSelectSlotArgs extends SetupTrickArgs {
+  selectedTrick: Trick;
+}
 
-    let highlighted = false;
-    for (const trick of perfData.possibleTricks) {
-      const el = $(`trick-${trick.id}`);
-      if (!el) continue;
+export class ClientSetupTrickSelectSlot extends State {
+  onEnteringState(args: ClientSetupTrickSelectSlotArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
+    this.addCancelStateBtn();
+    $(`trick-${args.selectedTrick.id}`).classList.add('selected');
 
-      el.classList.add('selectable');
-      highlighted = true;
+    // Find all performances where this trick can be placed
+    args.availablePerformances.forEach((perf) => {
+      const perfData = args.possibleTricksAndSlots[perf.id];
+      if (!perfData?.possibleTricks?.some((t) => t.id === args.selectedTrick.id)) return;
 
-      onClick(el, () => {
-        this._selectedTrick = trick;
-        this._showPhase3(args, perf, trick);
-      });
-    }
-
-    // Fallback: action buttons
-    if (!highlighted) {
-      for (const trick of perfData.possibleTricks) {
-        const cat = trick.category ?? (staticData.tricks[trick.type] as any)?.category;
-        const icon = cat ? formatIcon(cat) : '';
-        const name = (staticData.tricks[trick.type] as any)?.name ?? trick.type;
-        const label = `${icon} ${_(name)}`;
-
-        this.bga.statusBar.addActionButton(label, () => {
-          this._selectedTrick = trick;
-          this._showPhase3(args, perf, trick);
-        });
-      }
-    }
-
-    // Back to phase 1
-    this.bga.statusBar.addActionButton(
-      _('Back'),
-      () => {
-        this._goBackToPhase1(args);
-      },
-      { color: 'alert' }
-    );
-  }
-
-  // ============================================
-  // Phase 3: Select a slot on the performance card
-  // ============================================
-  private _showPhase3(args: SetupTrickArgs, perf: Performance, trick: Trick) {
-    this.bga.statusBar.removeActionButtons();
-
-    const perfData = args.possibleTricksAndSlots[perf.id];
-    if (!perfData) {
-      this._goBackToPhase2(args, perf);
-      return;
-    }
-
-    const availableSlots = perfData.possibleSlots;
-    const slotIds = Object.keys(availableSlots);
-    if (!slotIds.length) {
-      this._goBackToPhase2(args, perf);
-      return;
-    }
-
-    // Highlight available slots on the performance card
-    let highlighted = false;
-    for (const slotId of slotIds) {
-      const slot = availableSlots[slotId];
-      // Find the slot element inside the performance card
       const perfEl = $(`performance-${perf.id}`);
-      if (!perfEl) continue;
-
-      const slotEl = perfEl.querySelector(`.trick-marker-slot[data-slotid="${slotId}"]`) as HTMLElement;
-      if (!slotEl) continue;
-
-      slotEl.classList.add('selectable');
-      highlighted = true;
-
-      onClick(slotEl, () => {
-        this._selectedSlotId = slotId;
-        this._showPhase4(args, perf, trick, slotId, slot.links);
-      });
-    }
-
-    // Fallback: action buttons
-    if (!highlighted) {
-      for (const slotId of slotIds) {
-        this.bga.statusBar.addActionButton(_('Slot ${id}').replace('${id}', slotId), () => {
-          this._selectedSlotId = slotId;
-          this._showPhase4(args, perf, trick, slotId, availableSlots[slotId].links);
+      Object.entries(perfData.possibleSlots).forEach(([slotId, slot]) => {
+        const slotEl = perfEl?.querySelector(`.trick-marker-slot[data-slotid="${slotId}"]`) as HTMLElement;
+        onClick(slotEl, () => {
+          this.bga.states.setClientState('client_setupTrickSelectDirection', {
+            descriptionmyturn: _('Please choose the orientation of the trick marker ${icon} icon'),
+            args: {
+              ...args,
+              selectedPerformanceId: perf.id,
+              selectedSlotId: slotId,
+              slotLinks: slot.links,
+            },
+          });
         });
-      }
-    }
-
-    // Back to phase 2
-    this.bga.statusBar.addActionButton(
-      _('Back'),
-      () => {
-        this._goBackToPhase2(args, perf);
-      },
-      { color: 'alert' }
-    );
-  }
-
-  // ============================================
-  // Phase 4: Select direction (link) for the slot
-  // ============================================
-  private _showPhase4(args: SetupTrickArgs, perf: Performance, trick: Trick, slotId: string, links: Link[]) {
-    this.bga.statusBar.removeActionButtons();
-
-    if (!links.length) {
-      // No direction options — auto-resolve with empty direction?
-      this.bga.actions.performAction('actSetupTrick', {
-        trickId: trick.id,
-        performanceId: perf.id,
-        slotId,
-        direction: '',
       });
-      return;
-    }
+    });
+  }
+}
 
-    for (const link of links) {
-      const dirIcon = this._directionIcon(link.direction);
+// ========== Client State: Phase 3 - Select Direction ==========
+
+interface ClientSetupTrickSelectDirectionArgs extends ClientSetupTrickSelectSlotArgs {
+  selectedPerformanceId: string;
+  selectedSlotId: string;
+  slotLinks: Link[];
+}
+
+export class ClientSetupTrickSelectDirection extends State {
+  private _previewMeeple: HTMLElement | null = null;
+  private _selectedLink: Link | null = null;
+
+  onEnteringState(args: ClientSetupTrickSelectDirectionArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
+
+    this.addCancelStateBtn();
+
+    const perfEl = $(`performance-${args.selectedPerformanceId}`);
+    const slotEl = perfEl?.querySelector(`.trick-marker-slot[data-slotid="${args.selectedSlotId}"]`) as HTMLElement;
+
+    // Add direction buttons
+    const dirIcons: Record<string, string> = { up: '↑', down: '↓', left: '←', right: '→' };
+    args.slotLinks.forEach((link) => {
+      const dirIcon = dirIcons[link.direction] ?? '?';
       const shardLabel = link.shard ? ` (${formatIcon('shard')})` : '';
-      const label = `${dirIcon} ${_(link.direction)}${shardLabel}`;
+      this.bga.statusBar.addActionButton(
+        `${dirIcon} ${shardLabel}`,
+        () => {
+          this._selectedLink = link;
+          this._updatePreviewRotation(slotEl, args.selectedTrick, link.direction);
+        },
+        { id: `btnDir${link.direction}` }
+      );
+    });
 
-      this.bga.statusBar.addActionButton(label, () => {
-        this.bga.actions.performAction('actSetupTrick', {
-          trickId: trick.id,
-          performanceId: perf.id,
-          slotId,
-          direction: link.direction,
-        });
+    this.bga.statusBar.addActionButton(_('Confirm'), () => {
+      this.bga.actions.performAction('actSetupTrick', {
+        trickId: args.selectedTrick.id,
+        performanceId: args.selectedPerformanceId,
+        slotId: args.selectedSlotId,
+        direction: this._selectedLink.direction,
       });
-    }
-
-    // Back to phase 3
-    this.bga.statusBar.addActionButton(
-      _('Back'),
-      () => {
-        this._showPhase3(args, perf, trick);
-      },
-      { color: 'alert' }
-    );
-  }
-
-  // ============================================
-  // Navigation helpers
-  // ============================================
-  private _goBackToPhase1(args: SetupTrickArgs) {
-    this._resetSelection();
-    this._showPhase1(args);
-  }
-
-  private _goBackToPhase2(args: SetupTrickArgs, perf: Performance) {
-    this._selectedTrick = null;
-    this._selectedSlotId = null;
-    this._showPhase2(args, perf);
-  }
-
-  private _resetSelection() {
-    this._selectedPerformanceId = null;
-    this._selectedTrick = null;
-    this._selectedSlotId = null;
-  }
-
-  // ============================================
-  // Cleanup
-  // ============================================
-  private _cleanup() {
-    this._resetSelection();
-
-    // Remove selectable from all performance cards
-    document.querySelectorAll('[id^="performance-"]').forEach((el) => {
-      el.classList.remove('selectable');
     });
 
-    // Remove selectable from all trick cards
-    if (this._currentArgs) {
-      for (const perf of this._currentArgs.availablePerformances) {
-        const perfData = this._currentArgs.possibleTricksAndSlots[perf.id];
-        if (!perfData) continue;
-        for (const trick of perfData.possibleTricks) {
-          const el = $(`trick-${trick.id}`);
-          if (el) el.classList.remove('selectable');
-        }
-      }
-    }
-
-    // Remove selectable from all slot elements
-    document.querySelectorAll('.trick-marker-slot').forEach((el) => {
-      el.classList.remove('selectable');
-    });
+    // Create preview at the slot
+    this._selectedLink = args.slotLinks[0] ?? null;
+    this._createPreview(slotEl, args.selectedTrick, this._selectedLink.direction);
   }
 
-  /**
-   * Return a small direction arrow icon for display.
-   */
-  private _directionIcon(direction: string): string {
-    switch (direction) {
-      case 'up':
-        return '↑';
-      case 'down':
-        return '↓';
-      case 'left':
-        return '←';
-      case 'right':
-        return '→';
-      default:
-        return '?';
+  onLeavingState() {
+    this._removePreview();
+  }
+
+  private _createPreview(slotEl: HTMLElement, trick: Trick, direction: string) {
+    this._removePreview();
+
+    const trickCard = $(`trick-${trick.id}`);
+    const sourceMeepleEl = trickCard?.querySelector('.meeple-trick-marker');
+    this._previewMeeple = sourceMeepleEl.cloneNode(true) as any;
+    this._previewMeeple.classList.add('preview');
+    slotEl.insertAdjacentElement('beforeend', this._previewMeeple);
+    this._updatePreviewRotation(slotEl, trick, direction);
+  }
+
+  private _removePreview() {
+    if (this._previewMeeple) {
+      this._previewMeeple.remove();
+      this._previewMeeple = null;
     }
+  }
+
+  private _updatePreviewRotation(_slotEl: HTMLElement, trick: Trick, direction: string) {
+    if (!this._previewMeeple) return;
+
+    const el = this._previewMeeple;
+    const rotation = this._computeRotation(trick, direction);
+    el.style.rotate = `${rotation}deg`;
+
+    $('generalactions')
+      .querySelectorAll('.selected')
+      .forEach((o) => o.classList.remove('selected'));
+    $(`btnDir${direction}`).classList.add('selected');
+  }
+
+  private _computeRotation(trick: Trick, direction: string): number {
+    const categoryToCorner: Record<string, number> = {
+      spiritual: 0,
+      mechanical: 1,
+      optical: 2,
+      escape: 3,
+    };
+
+    const directionToTarget: Record<string, number> = {
+      up: 0,
+      right: 1,
+      down: 2,
+      left: 3,
+    };
+
+    const cornerIndex = categoryToCorner[trick.category ?? ''] ?? 0;
+    const targetIndex = directionToTarget[direction] ?? 0;
+
+    const baseRotation = -90;
+    const additionalRotation = (targetIndex - cornerIndex) * 90;
+
+    return baseRotation + additionalRotation;
   }
 }

@@ -1,6 +1,6 @@
-@use 'variables.scss';
-@use 'sass:math';
-@use 'sass:list';
+@use "variables.scss";
+@use "sass:math";
+@use "sass:list";
 
 #pagemaintitletext,
 #gameaction_status,
@@ -49,7 +49,7 @@
     transform: scale(var(--performanceCardScale));
     border-radius: 8px;
     box-shadow: 2px 2px 3px 1px black;
-    background-image: url('img/performances.jpg');
+    background-image: url("img/performances.jpg");
     background-size: 700% 500%;
     position: absolute;
 
@@ -65,7 +65,7 @@
       text-align: center;
 
       span {
-        font-family: 'Brandon Text Medium';
+        font-family: "Brandon Text Medium";
         text-transform: uppercase;
         font-size: 17px;
         line-height: 28px;
@@ -77,7 +77,7 @@
       left: 129px;
       bottom: 18px;
       width: 76px;
-      font-family: 'Brandon Text Black';
+      font-family: "Brandon Text Black";
       display: flex;
       justify-content: center;
       align-items: center;
@@ -116,20 +116,25 @@
           }
         }
 
-        // Trick markers inside slots need counter-rotation to appear upright
         .trickerion-meeple.meeple-trick-marker {
-          rotate: -45deg;
           transform-origin: center center;
+          position: initial;
+          transform: none;
+          width: 6.3em;
+
+          &.preview {
+            opacity: 0.7;
+          }
         }
       }
     }
   }
-  &[data-theater='grand_magorian'] .performance-card-inner .card-name {
+  &[data-theater="grand_magorian"] .performance-card-inner .card-name {
     left: 78px;
     width: 180px;
     top: 24px;
   }
-  &[data-theater='magnus_pantheon'] .performance-card-inner .card-name {
+  &[data-theater="magnus_pantheon"] .performance-card-inner .card-name {
     left: 88px;
     width: 161px;
     top: 20px;
@@ -160,7 +165,7 @@
 
   @each $type in variables.$performanceCardTypes {
     $i: list.index(variables.$performanceCardTypes, $type) - 1;
-    &[data-type='#{$type}'] .performance-card-inner {
+    &[data-type="#{$type}"] .performance-card-inner {
       background-position-x: math.div(($i % 7) * 100%, 6);
       background-position-y: math.div((math.div($i - ($i % 7), 7)) * 100%, 4);
     }

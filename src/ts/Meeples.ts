@@ -6,6 +6,7 @@
  * for robustness when the location has no visual slot yet.
  */
 
+import { getComponentDisplayName } from './format';
 import { addCustomTooltip, getColorName } from './framework/utils';
 
 /** Player id → color hex, populated by init() */
@@ -135,7 +136,7 @@ export const meeples = {
       // Component
       cssClass = `meeple-component-${meeple.type}  meeple-component`;
       count = meeple.count;
-      tooltip = _(meeple.type);
+      tooltip = getComponentDisplayName(meeple.type);
     } else {
       // Character
       const colorHex = _playerColors[meeple.playerId] ?? '';
