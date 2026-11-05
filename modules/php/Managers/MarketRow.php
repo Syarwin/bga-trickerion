@@ -7,7 +7,8 @@ use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class MarketRow
 {
-    public static function init() {
+    public static function init()
+    {
         Globals::setMarketRow([
             "buyArea" => [],
             "quickOrder" => null,
@@ -15,7 +16,8 @@ class MarketRow
         ]);
     }
 
-    public static function setBuyArea(array $components) {
+    public static function setBuyArea(array $components)
+    {
         $marketRow = Globals::getMarketRow();
         $marketRow["buyArea"] = $components;
         Globals::setMarketRow($marketRow);
@@ -25,29 +27,33 @@ class MarketRow
         ]);
     }
 
-    public static function getBuyArea(): array {
+    public static function getBuyArea(): array
+    {
         $marketRow = Globals::getMarketRow();
         return $marketRow["buyArea"];
     }
 
-    public static function setQuickOrder($component) {
+    public static function setQuickOrder(string $componentType)
+    {
         $marketRow = Globals::getMarketRow();
-        $marketRow["quickOrder"] = $component;
+        $marketRow["quickOrder"] = $componentType;
         Globals::setMarketRow($marketRow);
+        $component = new Component(['component_id' => 'market-quick-order', 'component_type' => $componentType]);
 
-        Game::get()->bga->notify->all("quickOrderSet", clienttranslate('${player_name} made a new component available through the quick order: ${componentName}'), [
+        Game::get()->bga->notify->all("quickOrderSet", clienttranslate('${player_name} made a new component available through the quick order: ${component}'), [
             "player_id" => Players::getActiveId(),
-            "componentName" => Component::getComponentName($component),
             "component" => $component
         ]);
     }
 
-    public static function getQuickOrder() {
+    public static function getQuickOrder()
+    {
         $marketRow = Globals::getMarketRow();
         return $marketRow["quickOrder"];
     }
 
-    public static function getBuyableComponents() {
+    public static function getBuyableComponents()
+    {
         $buyArea = self::getBuyArea();
         $quickOrder = self::getQuickOrder();
         if (!is_null($quickOrder)) {
@@ -56,7 +62,8 @@ class MarketRow
         return $buyArea;
     }
 
-    public static function getOrderableComponents() {
+    public static function getOrderableComponents()
+    {
         //all components that are not in buy area or order area
         $marketRow = Globals::getMarketRow();
         $unavailableComponents = array_merge($marketRow["buyArea"], $marketRow["orderArea"]);
@@ -65,8 +72,9 @@ class MarketRow
         $orderableComponents = array_values(array_diff($allComponents, $unavailableComponents));
         return $orderableComponents;
     }
-    
-    public static function getComponentsForQuickOrder() {
+
+    public static function getComponentsForQuickOrder()
+    {
         //all components that are not in buy area or order area
         $marketRow = Globals::getMarketRow();
         $unavailableComponents = $marketRow["buyArea"];
@@ -80,7 +88,8 @@ class MarketRow
         return $componentsForQuickOrder;
     }
 
-    public static function getEmptyOrderSlots() {
+    public static function getEmptyOrderSlots()
+    {
         $marketRow = Globals::getMarketRow();
         $usedSlots = array_keys($marketRow["orderArea"]);
         $allSlots = [0, 1, 2, 3];
@@ -88,7 +97,8 @@ class MarketRow
         return array_values(array_diff($allSlots, $usedSlots));
     }
 
-    public static function addToOrder(string $component, int $slot) {
+    public static function addToOrder(string $component, int $slot)
+    {
         $marketRow = Globals::getMarketRow();
         $marketRow["orderArea"][$slot] = $component;
         Globals::setMarketRow($marketRow);
@@ -101,7 +111,8 @@ class MarketRow
         ]);
     }
 
-    public static function ordersArrive() {
+    public static function ordersArrive()
+    {
         $marketRow = Globals::getMarketRow();
         $orderArea = $marketRow["orderArea"];
         $marketRow["orderArea"] = [];
@@ -114,7 +125,7 @@ class MarketRow
                 "componentId" => $component,
                 "secondComponentId" => $previouslyAvailableComponent,
                 "slot" => $slot
-                
+
             ]);
         }
 
@@ -123,7 +134,8 @@ class MarketRow
         return $orderArea;
     }
 
-    public static function clearQuickOrder() {
+    public static function clearQuickOrder()
+    {
         $marketRow = Globals::getMarketRow();
         $previousQuickOrder = $marketRow["quickOrder"];
         $marketRow["quickOrder"] = null;

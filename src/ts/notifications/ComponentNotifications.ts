@@ -37,7 +37,7 @@ export class ComponentNotifications {
     }
 
     if (args.cost > 0) {
-      await players.animatePlayerCounter(playerId, 'coin', args.cost);
+      await players.animatePlayerCounter(playerId, 'coin', -args.cost);
     }
   }
 

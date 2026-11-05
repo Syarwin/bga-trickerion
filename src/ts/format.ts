@@ -189,3 +189,25 @@ export const translate = function (log: string, args: Object): string {
 };
 
 export const onLogAdded = {};
+
+/**
+ * Get translated and properly formatted string for a component type (capitalized).
+ * Maps internal component type IDs to display names.
+ */
+export const getComponentDisplayName = function (componentType: string): string {
+  const componentMap: Record<string, string> = {
+    wood: _('Wood'),
+    glass: _('Glass'),
+    metal: _('Metal'),
+    fabric: _('Fabric'),
+    rope: _('Rope'),
+    petroleum: _('Petroleum'),
+    saw: _('Saw'),
+    animal: _('Animal'),
+    padlock: _('Padlock'),
+    mirror: _('Mirror'),
+    disguise: _('Disguise'),
+    cog: _('Cog'),
+  };
+  return componentMap[componentType] ?? _(componentType);
+};

@@ -20,7 +20,8 @@ class QuickOrderComponent extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_QUICK_ORDER_COMPONENT,
             type: StateType::ACTIVE_PLAYER,
@@ -29,7 +30,8 @@ class QuickOrderComponent extends ActionStateWithRevert
         );
     }
 
-    public function getCustomStateDescription() {
+    public function getCustomStateDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "description" => clienttranslate('${actplayer} must quick order components (${sourceName})'),
@@ -39,7 +41,8 @@ class QuickOrderComponent extends ActionStateWithRevert
         return null;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "log" => clienttranslate('Quick order components (${sourceName})'),
@@ -54,12 +57,12 @@ class QuickOrderComponent extends ActionStateWithRevert
     public function getActionArgs(int $activePlayerId): array
     {
         $availableComponents = MarketRow::getComponentsForQuickOrder();
-        
+
         $args = [
             "availableComponents" => $availableComponents
         ];
         return $args;
-    }    
+    }
 
     /**
      * Player must resolve the choice.
@@ -67,15 +70,15 @@ class QuickOrderComponent extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actQuickOrderComponents(int $activePlayerId, array $args, string $component)
+    public function actQuickOrderComponents(int $activePlayerId, array $args, string $componentType)
     {
         Log::step();
-        if (!in_array($component, $args["availableComponents"])) {
+        if (!in_array($componentType, $args["availableComponents"])) {
             throw new UserException(clienttranslate("This component is not available for quick order"));
         }
-        
-        MarketRow::setQuickOrder($component);
 
-        return $this->resolve(["component" => $component]);
-    } 
+        MarketRow::setQuickOrder($componentType);
+
+        return $this->resolve(["component" => $componentType]);
+    }
 }

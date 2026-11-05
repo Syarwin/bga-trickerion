@@ -159,7 +159,7 @@ class Components extends CachedPieces
         $component->setLocation($locationId);
 
         $cost = $component->getEffectiveCost() * $count - $bargain;
-        Players::get($playerId)->payCoins($cost);
+        Players::get($playerId)->incCoins(-$cost);
         LocationActions::incActionPoints(-$bargain);
 
         $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} and placed it at the ${location}');

@@ -85,9 +85,12 @@ export const meeples = {
 
       // Quick order component
       if (marketRow.quickOrder) {
-        const quickOrder: any = { ...marketRow.quickOrder };
-        quickOrder.id = 'market-quick-order';
-        quickOrder.location = 'quick-order-slot';
+        const quickOrder: any = {
+          id: `market-quick-order`,
+          type: marketRow.quickOrder,
+          location: 'quick-order-slot',
+          count: null,
+        };
         this.addMeeple(quickOrder);
       }
     }

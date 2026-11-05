@@ -1,35 +1,18 @@
 import { State } from '../framework/State';
 import { onClick } from '../framework/event';
 import { clearPossible } from '../framework/utils';
-import { formatIcon, translate } from '../format';
+import { formatIcon, getComponentDisplayName, translate } from '../format';
 
 /** Map buy slot index → DOM element id */
-const BUY_SLOT_IDS = ['buy-slot-0', 'buy-slot-1', 'buy-slot-2', 'buy-slot-3'];
+const BUY_SLOT_IDS = {
+  '-1': 'quick-order-slot',
+  0: 'buy-slot-0',
+  1: 'buy-slot-1',
+  2: 'buy-slot-2',
+  3: 'buy-slot-3',
+};
 
 // ========== Helper Functions ==========
-
-/**
- * Get translated and properly formatted string for a component type (capitalized).
- * Maps internal component type IDs to display names.
- */
-function getComponentDisplayName(componentType: string): string {
-  const componentMap: Record<string, string> = {
-    wood: _('Wood'),
-    glass: _('Glass'),
-    metal: _('Metal'),
-    fabric: _('Fabric'),
-    rope: _('Rope'),
-    petroleum: _('Petroleum'),
-    saw: _('Saw'),
-    animal: _('Animal'),
-    padlock: _('Padlock'),
-    mirror: _('Mirror'),
-    disguise: _('Disguise'),
-    cog: _('Cog'),
-  };
-  return componentMap[componentType] ?? _(componentType);
-}
-
 /**
  * Get translated name of a location.
  * Maps internal location IDs to display names.
@@ -48,14 +31,19 @@ export class BuyComponents extends State {
   onEnteringState(args: BuyComponentsArgs, isCurrentPlayerActive: boolean) {
     if (!isCurrentPlayerActive) return;
 
-    const buyArea = this.game.gamedatas?.globals?.marketRow?.buyArea ?? {};
+    const buyArea = Object.assign({}, this.game.gamedatas?.globals?.marketRow?.buyArea ?? {});
+
+    const quickOrder = this.game.gamedatas?.globals?.marketRow?.quickOrder;
+    if (quickOrder) {
+      buyArea[-1] = quickOrder;
+    }
 
     // Highlight buy slots that contain a buyable component
-    for (let slotIdx = 0; slotIdx < BUY_SLOT_IDS.length; slotIdx++) {
+    Object.keys(BUY_SLOT_IDS).forEach((slotIdx) => {
       const componentType = buyArea[slotIdx];
-      if (!componentType) continue;
+      if (!componentType) return;
       // Check if this component is actually available to buy
-      if (!args.availableComponents[componentType]) continue;
+      if (!args.availableComponents[componentType]) return;
 
       const componentName = getComponentDisplayName(componentType);
       const callback = () => {
@@ -73,7 +61,7 @@ export class BuyComponents extends State {
       };
       onClick(BUY_SLOT_IDS[slotIdx], callback);
       this.bga.statusBar.addActionButton(componentName, callback);
-    }
+    });
   }
 }
 
