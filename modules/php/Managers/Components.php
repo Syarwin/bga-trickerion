@@ -10,33 +10,32 @@ use Bga\Games\trickerionlegendsofillusion\Models\Component;
 
 class Components extends CachedPieces
 {
-    protected static ?Collection $datas = null;
-    protected static string $table = 'component';
-    protected static string $prefix = 'component_';
-    protected static array $customFields = ["player_id", "component_type", "component_count"];
-    protected static bool $autoIncrement = true;
-    protected static bool $autoremovePrefix = false;
-    protected static bool $autoreshuffle = false;
-    protected static array $autoreshuffleCustom = [];
+  protected static ?Collection $datas = null;
+  protected static string $table = 'component';
+  protected static string $prefix = 'component_';
+  protected static array $customFields = ['player_id', 'component_type', 'component_count'];
+  protected static bool $autoIncrement = true;
+  protected static bool $autoremovePrefix = false;
+  protected static bool $autoreshuffle = false;
+  protected static array $autoreshuffleCustom = [];
 
-    public static function autoreshuffleListener(string $location) {}
+  public static function autoreshuffleListener(string $location) {}
 
-    public static function cast(array $raw): Component
-    {
-        return new Component($raw);
-    }
+  public static function cast(array $raw): Component
+  {
+    return new Component($raw);
+  }
 
-    public static function getUiData($playerId = null): array
-    {
-        return [
-            "player" => Players::getAll()->map(function ($player) {
-                return self::getFiltered($player->id)
-                    ->toArray();
-            }),
-        ];
-    }
+  public static function getUiData($playerId = null): array
+  {
+    return [
+      'player' => Players::getAll()->map(function ($player) {
+        return self::getFiltered($player->id)->toArray();
+      }),
+    ];
+  }
 
-    /*
+  /*
   ███████╗███████╗████████╗██╗   ██╗██████╗
   ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
   ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -45,25 +44,25 @@ class Components extends CachedPieces
   ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
   */
 
-    /* Creation of the cards */
-    public static function setupNewGame()
-    {
-        $components = [];
-        foreach (Players::getAll() as $playerId => $_) {
-            foreach (self::getAllComponents() as $type) {
-                $components[] = [
-                    'player_id' => $playerId,
-                    'component_type' => $type,
-                    'component_count' => 0,
-                ];
-            }
-        }
-
-        // Create the components
-        self::create($components, self::LOCATION_PLAYER_BOARD, 0);
+  /* Creation of the cards */
+  public static function setupNewGame()
+  {
+    $components = [];
+    foreach (Players::getAll() as $playerId => $_) {
+      foreach (self::getAllComponents() as $type) {
+        $components[] = [
+          'player_id' => $playerId,
+          'component_type' => $type,
+          'component_count' => 0,
+        ];
+      }
     }
 
-    /*
+    // Create the components
+    self::create($components, self::LOCATION_PLAYER_BOARD, 0);
+  }
+
+  /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
     ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -73,113 +72,126 @@ class Components extends CachedPieces
 
     */
 
-    public static function getAllComponents(): array
-    {
-        return [Component::WOOD, Component::GLASS, Component::METAL, Component::FABRIC, Component::ROPE, Component::PETROLEUM, Component::SAW, Component::ANIMAL, Component::PADLOCK, Component::MIRROR, Component::DISGUISE, Component::COG];
+  public static function getAllComponents(): array
+  {
+    return [
+      Component::WOOD,
+      Component::GLASS,
+      Component::METAL,
+      Component::FABRIC,
+      Component::ROPE,
+      Component::PETROLEUM,
+      Component::SAW,
+      Component::ANIMAL,
+      Component::PADLOCK,
+      Component::MIRROR,
+      Component::DISGUISE,
+      Component::COG,
+    ];
+  }
+
+  public static function getAffordableComponents(int $maxValue, ?array $limit = null): array
+  {
+    if (is_null($limit)) {
+      $limit = self::getAllComponents();
     }
 
-    public static function getAffordableComponents(int $maxValue, ?array $limit = null): array
-    {
-        if (is_null($limit)) {
-            $limit = self::getAllComponents();
+    $components = [];
+    foreach ($limit as $component) {
+      if (Component::getCostValue($component) <= $maxValue) {
+        $components[] = $component;
+      }
+    }
+    return $components;
+  }
+
+  public static function getLocationName(string $location): string
+  {
+    return match ($location) {
+      self::LOCATION_PLAYER_BOARD => clienttranslate('player board'),
+      self::LOCATION_MANAGER_BOARD => clienttranslate('manager board'),
+      default => throw new \InvalidArgumentException("Unknown location: $location"),
+    };
+  }
+
+  public static function getAvailableSlots(string $location, int $playerId): int
+  {
+    $player = Players::get($playerId);
+    $usedSlotCounts = self::getFiltered($playerId, $location)->whereNot('count', 0)->count();
+    $totalSlotCounts = $location === self::LOCATION_PLAYER_BOARD ? 6 : ($player->hasSpecialist(Character::TYPE_MANAGER) ? 2 : 0);
+    return $totalSlotCounts - $usedSlotCounts;
+  }
+
+  public static function getMaxCounts(array $components, int $playerId): array
+  {
+    $maxCounts = [];
+    $player = Players::get($playerId);
+    foreach ($components as $component) {
+      $component = self::getFiltered($playerId, null, $component)->first();
+
+      $playerAvailableLocations = [];
+      foreach ([self::LOCATION_PLAYER_BOARD, self::LOCATION_MANAGER_BOARD] as $location) {
+        if (self::getAvailableSlots($location, $playerId) > 0) {
+          $playerAvailableLocations[] = $location;
         }
+      }
 
-        $components = [];
-        foreach ($limit as $component) {
-            if (Component::getCostValue($component) <= $maxValue) {
-                $components[] = $component;
-            }
-        }
-        return $components;
+      $availableLocations = $component->getCount() > 0 ? [$component->getLocation()] : $playerAvailableLocations;
+
+      $maxCounts[$component->getType()] = [];
+
+      $playerCoins = $player->getCoins();
+      $componentCost = $component->getEffectiveCost();
+      $maxAffordableByCoins = floor($playerCoins / $componentCost);
+
+      foreach ($availableLocations as $location) {
+        $maxSpace = $location == Components::LOCATION_PLAYER_BOARD ? 3 : 2;
+        $availableSpace = $maxSpace - $component->getCount();
+
+        $availableBargain = LocationActions::getRemainingActionPoints();
+        $maxWithBargain = min($availableSpace, $maxAffordableByCoins + $availableBargain);
+
+        $maxCounts[$component->getType()][$location] = [
+          'max' => min($availableSpace, $maxAffordableByCoins),
+          'maxWithBargain' => $maxWithBargain,
+          'effectiveCost' => $componentCost,
+        ];
+      }
+    }
+    return $maxCounts;
+  }
+
+  public static function addComponent(int $playerId, string $component, string $locationId, int $count, int $bargain)
+  {
+    $component = self::getFiltered($playerId, null, $component)->first();
+
+    $component->incCount($count);
+    $component->setLocation($locationId);
+
+    $cost = $component->getEffectiveCost() * $count - $bargain;
+    Players::get($playerId)->incCoins(-$cost);
+    LocationActions::incActionPoints(-$bargain);
+
+    $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} and placed it at the ${location}');
+    if ($bargain > 0) {
+      $message = clienttranslate(
+        '${player_name} bought ${count} ${component} for ${cost}${coin} (after bargaining ${bargain}${coin}) and placed it at the ${location}',
+      );
     }
 
-    public static function getLocationName(string $location): string
-    {
-        return match ($location) {
-            self::LOCATION_PLAYER_BOARD => clienttranslate("player board"),
-            self::LOCATION_MANAGER_BOARD => clienttranslate("manager board"),
-            default => throw new \InvalidArgumentException("Unknown location: $location"),
-        };
-    }
+    Game::get()->bga->notify->all('componentBought', $message, [
+      'player_id' => $playerId,
+      'component' => $component,
+      'count' => $count,
+      'coin' => clienttranslate('coin(s)'),
+      'location' => self::getLocationName($locationId),
+      'cost' => $cost,
+      'bargain' => $bargain,
+      'i18n' => ['component', 'coin'],
+    ]);
+  }
 
-    public static function getAvailableSlots(string $location, int $playerId): int
-    {
-        $player = Players::get($playerId);
-        $usedSlotCounts = self::getFiltered($playerId, $location)->whereNot("count", 0)->count();
-        $totalSlotCounts = $location === self::LOCATION_PLAYER_BOARD ? 6 : ($player->hasSpecialist(Character::TYPE_MANAGER) ? 2 : 0);
-        return $totalSlotCounts - $usedSlotCounts;
-    }
-
-    public static function getMaxCounts(array $components, int $playerId): array
-    {
-        $maxCounts = [];
-        $player = Players::get($playerId);
-        foreach ($components as $component) {
-            $component = self::getFiltered($playerId, null, $component)
-                ->first();
-
-            $playerAvailableLocations = [];
-            foreach ([self::LOCATION_PLAYER_BOARD, self::LOCATION_MANAGER_BOARD] as $location) {
-                if (self::getAvailableSlots($location, $playerId) > 0) {
-                    $playerAvailableLocations[] = $location;
-                }
-            }
-
-            $availableLocations = $component->getCount() > 0 ? [$component->getLocation()] : $playerAvailableLocations;
-
-            $maxCounts[$component->getType()] = [];
-
-            $playerCoins = $player->getCoins();
-            $componentCost = $component->getEffectiveCost();
-            $maxAffordableByCoins = floor($playerCoins / $componentCost);
-
-            foreach ($availableLocations as $location) {
-                $maxSpace = $location == Components::LOCATION_PLAYER_BOARD ? 3 : 2;
-                $availableSpace = $maxSpace - $component->getCount();
-
-                $availableBargain = LocationActions::getRemainingActionPoints();
-                $maxWithBargain = min($availableSpace, $maxAffordableByCoins + $availableBargain);
-
-                $maxCounts[$component->getType()][$location] = [
-                    'max' => min($availableSpace, $maxAffordableByCoins),
-                    'maxWithBargain' => $maxWithBargain,
-                    "effectiveCost" => $componentCost
-                ];
-            }
-        }
-        return $maxCounts;
-    }
-
-    public static function addComponent(int $playerId, string $component, string $locationId, int $count, int $bargain)
-    {
-        $component = self::getFiltered($playerId, null, $component)
-            ->first();
-
-        $component->incCount($count);
-        $component->setLocation($locationId);
-
-        $cost = $component->getEffectiveCost() * $count - $bargain;
-        Players::get($playerId)->incCoins(-$cost);
-        LocationActions::incActionPoints(-$bargain);
-
-        $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} and placed it at the ${location}');
-        if ($bargain > 0) {
-            $message = clienttranslate('${player_name} bought ${count} ${component} for ${cost}${coin} (after bargaining ${bargain}${coin}) and placed it at the ${location}');
-        }
-
-        Game::get()->bga->notify->all("componentBought", $message, [
-            "player_id" => $playerId,
-            "component" => $component,
-            "count" => $count,
-            "coin" => clienttranslate("coin(s)"),
-            "location" => self::getLocationName($locationId),
-            "cost" => $cost,
-            "bargain" => $bargain,
-            "i18n" => ['component', 'coin'],
-        ]);
-    }
-
-    /*
+  /*
      ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
     ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
@@ -189,7 +201,7 @@ class Components extends CachedPieces
 
     */
 
-    const LOCATION_PLAYER_BOARD = "player-board";
-    const LOCATION_MANAGER_BOARD = "manager-board";
-    const LOCATION_PLAYER_ANY = "%-board";
+  const LOCATION_PLAYER_BOARD = 'player-board';
+  const LOCATION_MANAGER_BOARD = 'manager-board';
+  const LOCATION_PLAYER_ANY = '%-board';
 }

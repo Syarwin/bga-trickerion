@@ -19,63 +19,63 @@ use Override;
 
 class DiscardComponents extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct(
-            $game,
-            node: $node,
-            id: States::ST_DISCARD_COMPONENT,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must decide which components to discard'),
-            descriptionMyTurn: clienttranslate('${you} must decide which components to discard'),
-        );
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_DISCARD_COMPONENT,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must decide which components to discard'),
+      descriptionMyTurn: clienttranslate('${you} must decide which components to discard'),
+    );
+  }
+
+  public function getDescription()
+  {
+    return clienttranslate('Discard components');
+  }
+
+  public function isDoable(int $playerId): bool
+  {
+    return !empty($this->getActionArgs($playerId)['availableComponents']);
+  }
+
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $args = [
+      'availableComponents' => Components::getFiltered($activePlayerId, Components::LOCATION_PLAYER_ANY)
+        ->whereNot('count', 0)
+        ->toArray(),
+    ];
+    return $args;
+  }
+
+  /**
+   * Player must resolve the choice.
+   *
+   * @throws UserException
+   */
+  #[PossibleAction]
+  public function actDiscardComponent(int $activePlayerId, array $args, int $componentId)
+  {
+    Log::step();
+    $availableIds = Collection::from($args['availableComponents'])->pluck('id')->toArray();
+
+    if (!in_array($componentId, $availableIds)) {
+      throw new UserException(clienttranslate('You cannot discard this component'));
     }
 
-    public function getDescription()
-    {
-        return clienttranslate('Discard components');
-    }
+    $component = Components::get($componentId);
+    $component->setCount(0);
+    $component->setLocation(Components::LOCATION_PLAYER_BOARD);
 
-    public function isDoable(int $playerId): bool
-    {
-        return !empty($this->getActionArgs($playerId)["availableComponents"]);
-    }
+    $this->notify->all('componentDiscarded', clienttranslate('${player_name} discards all ${componentName}'), [
+      'player_id' => $activePlayerId,
+      'component' => $component,
+      'componentName' => Component::getComponentName($component->getType()),
+    ]);
 
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $args = [
-            "availableComponents" => Components::getFiltered($activePlayerId, Components::LOCATION_PLAYER_ANY)->whereNot("count", 0)->toArray()
-        ];
-        return $args;
-    }
-
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actDiscardComponent(int $activePlayerId, array $args, int $componentId)
-    {
-        Log::step();
-        $availableIds = Collection::from($args["availableComponents"])->pluck("id")->toArray();
-
-        if (!in_array($componentId, $availableIds)) {
-            throw new UserException(clienttranslate("You cannot discard this component"));
-        }
-
-        $component = Components::get($componentId);
-        $component->setCount(0);
-        $component->setLocation(Components::LOCATION_PLAYER_BOARD);
-
-        $this->notify->all("componentDiscarded", clienttranslate('${player_name} discards all ${componentName}'), [
-            "player_id" => $activePlayerId,
-            "component" => $component,
-            "componentName" => Component::getComponentName($component->getType())
-        ]);
-
-        return $this->resolve(["discardComponentId" => $componentId]);
-    }
+    return $this->resolve(['discardComponentId' => $componentId]);
+  }
 }

@@ -12,20 +12,14 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 
 class Message extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_MESSAGE,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_MESSAGE, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $this->notify->all("message", $this->getNodeArgs("message", ""), $this->getNodeArgs("args", []));
-        return $this->resolve();
-    }    
+  function onEnteringState(int $activePlayerId)
+  {
+    $this->notify->all('message', $this->getNodeArgs('message', ''), $this->getNodeArgs('args', []));
+    return $this->resolve();
+  }
 }

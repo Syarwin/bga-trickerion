@@ -19,118 +19,115 @@ use Bga\Games\trickerionlegendsofillusion\Models\Character;
 
 class HireCharacter extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct(
-            $game,
-            node: $node,
-            id: States::ST_HIRE_CHARACTER,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must hire a character'),
-            descriptionMyTurn: clienttranslate('${you} must hire a character'),
-        );
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_HIRE_CHARACTER,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must hire a character'),
+      descriptionMyTurn: clienttranslate('${you} must hire a character'),
+    );
+  }
+
+  public function getCustomStateDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'description' => clienttranslate('${actplayer} must hire a character (${sourceName})'),
+        'descriptionMyTurn' => clienttranslate('${you} must hire a character (${sourceName})'),
+      ];
+    }
+    return null;
+  }
+
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Hire a character (${sourceName})'),
+        'args' => [
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
+    }
+    return clienttranslate('Hire a character');
+  }
+
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $sourceName = $this->getNodeArgs('sourceName');
+
+    $availableCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_SUPPLY);
+
+    $types = $this->getNodeArgs('types', Character::getAllTypes());
+
+    $useDice = $this->getNodeArgs('useDice', false);
+    if ($useDice) {
+      foreach (Dice::getDice(Dice::DICE_TYPE_CHARACTER) as $die) {
+        if ($die == Dice::ANY) {
+          $types = array_merge(Character::getAllTypes(), $types);
+        } else {
+          $types[] = $die;
+        }
+      }
     }
 
-    public function getCustomStateDescription()
-    {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "description" => clienttranslate('${actplayer} must hire a character (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must hire a character (${sourceName})'),
-            ];
-        }
-        return null;
+    $availableCharacters = $availableCharacters->where('type', $types);
+
+    $availableCharacterTypes = $availableCharacters->pluck('type')->toArray();
+    $availableCharacterTypes = array_unique($availableCharacterTypes);
+
+    $args = [
+      'sourceName' => $sourceName,
+      'availableCharacterTypes' => $availableCharacterTypes,
+    ];
+    return $args;
+  }
+
+  /**
+   * Player must resolve the choice.
+   *
+   * @throws UserException
+   */
+  #[PossibleAction]
+  public function actHireCharacter(int $activePlayerId, string $characterType)
+  {
+    Log::step();
+
+    $availableCharacterTypes = $this->getActionArgs($activePlayerId)['availableCharacterTypes'];
+    if (!in_array($characterType, $availableCharacterTypes)) {
+      throw new UserException('You cannot hire this character');
     }
 
-    public function getDescription()
-    {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Hire a character (${sourceName})'),
-                "args" => [
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return clienttranslate('Hire a character');
+    // TODO : check why LOCATION_INCOMING was used
+    //        $location = $this->getNodeArgs("location", Character::getCharacterIdleLocation($characterType));
+    $location = Character::getCharacterIdleLocation($characterType);
+    Characters::hire($characterType, $activePlayerId, $location);
+
+    $useDice = $this->getNodeArgs('useDice', false);
+    if ($useDice) {
+      $allDice = Dice::getDice(Dice::DICE_TYPE_CHARACTER);
+      $dice = array_values(
+        array_filter($allDice, function ($die) use ($characterType) {
+          return $die == $characterType || $die == Dice::ANY;
+        }),
+      );
+
+      if (count($dice) == 1 || count($allDice) == 1) {
+        Dice::setDieUnavailable(Dice::DICE_TYPE_CHARACTER, $dice[0] ?? $allDice[0]);
+      } else {
+        Engine::insertAsChild([
+          'state' => MakeDieUnavailable::class,
+          'args' => [
+            'dieType' => Dice::DICE_TYPE_CHARACTER,
+            'sourceName' => clienttranslate('Hire Character'),
+          ],
+        ]);
+      }
     }
 
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $sourceName = $this->getNodeArgs("sourceName");
-
-        $availableCharacters = Characters::getFiltered($activePlayerId, Characters::LOCATION_SUPPLY);
-
-        $types = $this->getNodeArgs("types", Character::getAllTypes());
-
-        $useDice = $this->getNodeArgs("useDice", false);
-        if ($useDice) {
-            foreach (Dice::getDice(Dice::DICE_TYPE_CHARACTER) as $die) {
-                if ($die == Dice::ANY) {
-                    $types = array_merge(
-                        Character::getAllTypes(),
-                        $types
-                    );
-                } else {
-                    $types[] = $die;
-                }
-            }
-        }
-
-        $availableCharacters = $availableCharacters->where("type", $types);
-
-        $availableCharacterTypes = $availableCharacters->pluck('type')->toArray();
-        $availableCharacterTypes = array_unique($availableCharacterTypes);
-
-        $args = [
-            "sourceName" => $sourceName,
-            "availableCharacterTypes" => $availableCharacterTypes
-        ];
-        return $args;
-    }
-
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actHireCharacter(int $activePlayerId, string $characterType)
-    {
-        Log::step();
-
-        $availableCharacterTypes = $this->getActionArgs($activePlayerId)["availableCharacterTypes"];
-        if (!in_array($characterType, $availableCharacterTypes)) {
-            throw new UserException("You cannot hire this character");
-        }
-
-        // TODO : check why LOCATION_INCOMING was used
-        //        $location = $this->getNodeArgs("location", Character::getCharacterIdleLocation($characterType));
-        $location = Character::getCharacterIdleLocation($characterType);
-        Characters::hire($characterType, $activePlayerId, $location);
-
-        $useDice = $this->getNodeArgs("useDice", false);
-        if ($useDice) {
-            $allDice = Dice::getDice(Dice::DICE_TYPE_CHARACTER);
-            $dice = array_values(array_filter($allDice, function ($die) use ($characterType) {
-                return $die == $characterType || $die == Dice::ANY;
-            }));
-
-            if (count($dice) == 1 || count($allDice) == 1) {
-                Dice::setDieUnavailable(Dice::DICE_TYPE_CHARACTER, $dice[0] ?? $allDice[0]);
-            } else {
-                Engine::insertAsChild([
-                    "state" => MakeDieUnavailable::class,
-                    "args" => [
-                        "dieType" => Dice::DICE_TYPE_CHARACTER,
-                        "sourceName" => clienttranslate("Hire Character")
-                    ]
-                ]);
-            }
-        }
-
-        return $this->resolve(["type" => $characterType]);
-    }
+    return $this->resolve(['type' => $characterType]);
+  }
 }

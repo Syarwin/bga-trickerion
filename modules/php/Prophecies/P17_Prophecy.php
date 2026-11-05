@@ -6,12 +6,10 @@ use Bga\Games\trickerionlegendsofillusion\Models\Prophecy;
 
 class P17_Prophecy extends Prophecy
 {
-    public function __construct($row)
-    {
-        parent::__construct($row);
-        $this->type = 'P17_Prophecy';
-        $this->ability = [
-            clienttranslate('You immediately receive 2 Fame when you set up an Optical Trick.')
-        ];
-    }
+  public function __construct($row)
+  {
+    parent::__construct($row);
+    $this->type = 'P17_Prophecy';
+    $this->ability = [clienttranslate('You immediately receive 2 Fame when you set up an Optical Trick.')];
+  }
 }

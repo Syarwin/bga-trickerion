@@ -62,7 +62,7 @@ class ParallelNode extends AbstractNode
     $independentChoices = array_values(
       \array_filter($choices, function ($choice) {
         return ($choice['independentAction'] ?? false) && !($choice['optionalAction'] ?? false);
-      })
+      }),
     );
     if (count($independentChoices)) {
       $choice = $independentChoices[0];

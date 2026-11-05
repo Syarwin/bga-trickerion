@@ -9,39 +9,39 @@ use Bga\Games\trickerionlegendsofillusion\Models\Prophecy;
 
 class Prophecies extends CachedPieces
 {
-    protected static ?Collection $datas = null;
-    protected static string $table = 'prophecy';
-    protected static string $prefix = 'prophecy_';
-    protected static array $customFields = ["prophecy_type"];
-    protected static bool $autoIncrement = true;
-    protected static bool $autoremovePrefix = false;
-    protected static bool $autoreshuffle = false;
-    protected static array $autoreshuffleCustom = [];
+  protected static ?Collection $datas = null;
+  protected static string $table = 'prophecy';
+  protected static string $prefix = 'prophecy_';
+  protected static array $customFields = ['prophecy_type'];
+  protected static bool $autoIncrement = true;
+  protected static bool $autoremovePrefix = false;
+  protected static bool $autoreshuffle = false;
+  protected static array $autoreshuffleCustom = [];
 
-    public static function autoreshuffleListener(string $location) {}
+  public static function autoreshuffleListener(string $location) {}
 
-    protected static function cast(array $raw): Prophecy
-    {
-        return self::getProphecyInstance($raw["prophecy_type"], $raw);
-    }
+  protected static function cast(array $raw): Prophecy
+  {
+    return self::getProphecyInstance($raw['prophecy_type'], $raw);
+  }
 
-    public static function getProphecyInstance(string $type, ?array $data = null): Prophecy
-    {
-        $className = "Bga\Games\\trickerionlegendsofillusion\Prophecies\\$type";
-        return new $className($data);
-    }
+  public static function getProphecyInstance(string $type, ?array $data = null): Prophecy
+  {
+    $className = "Bga\Games\\trickerionlegendsofillusion\Prophecies\\$type";
+    return new $className($data);
+  }
 
-    public static function getUiData(?int $playerId = null): array
-    {
-        return [
-            "pending" => self::getInLocation(self::LOCATION_PENDING)->toArray(),
-            "active" => self::getInLocation(self::LOCATION_ACTIVE)->toArray(),
-            "deckRemaining" => self::getInLocation(self::LOCATION_DECK)->count(),
-            "discarded" => self::getInLocationOrdered(self::LOCATION_DISCARD)->toArray(),
-        ];
-    }
+  public static function getUiData(?int $playerId = null): array
+  {
+    return [
+      'pending' => self::getInLocation(self::LOCATION_PENDING)->toArray(),
+      'active' => self::getInLocation(self::LOCATION_ACTIVE)->toArray(),
+      'deckRemaining' => self::getInLocation(self::LOCATION_DECK)->count(),
+      'discarded' => self::getInLocationOrdered(self::LOCATION_DISCARD)->toArray(),
+    ];
+  }
 
-    /*
+  /*
   ███████╗███████╗████████╗██╗   ██╗██████╗
   ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
   ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -50,36 +50,36 @@ class Prophecies extends CachedPieces
   ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
   */
 
-    /* Creation of the cards */
-    public static function setupNewGame()
-    {
-        if (!Globals::isIncludeProphecies()) {
-            return;
-        }
-
-        // Load list of cards
-        include dirname(__FILE__) . '/../Prophecies/list.php';
-
-        // Create cards
-        $prophecies = [];
-        foreach ($prophecyTypes as $type) {
-            $data = [
-                'prophecy_type' => $type,
-                'nbr' => 1,
-            ];
-
-            $prophecies[] = $data;
-        }
-
-        // Create the tricks
-        self::create($prophecies, self::LOCATION_DECK);
-        self::shuffle(self::LOCATION_DECK);
-
-        // Pending prophecies are revealed after the players pick magicians, tricks, components and characters
-        // see FinishSetup class
+  /* Creation of the cards */
+  public static function setupNewGame()
+  {
+    if (!Globals::isIncludeProphecies()) {
+      return;
     }
 
-    /*
+    // Load list of cards
+    include dirname(__FILE__) . '/../Prophecies/list.php';
+
+    // Create cards
+    $prophecies = [];
+    foreach ($prophecyTypes as $type) {
+      $data = [
+        'prophecy_type' => $type,
+        'nbr' => 1,
+      ];
+
+      $prophecies[] = $data;
+    }
+
+    // Create the tricks
+    self::create($prophecies, self::LOCATION_DECK);
+    self::shuffle(self::LOCATION_DECK);
+
+    // Pending prophecies are revealed after the players pick magicians, tricks, components and characters
+    // see FinishSetup class
+  }
+
+  /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
     ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -89,48 +89,52 @@ class Prophecies extends CachedPieces
 
     */
 
-    public static function roundMaintenance()
-    {
-        if (!Globals::isIncludeProphecies()) {
-            return;
-        }
-
-        // Active prophecies are discarded
-        $activeProphecy = self::getInLocation(self::LOCATION_ACTIVE)->first();
-        if ($activeProphecy) {
-            $activeProphecy->setLocation(self::LOCATION_DISCARD);
-            $activeProphecy->setState(0);
-
-            Game::get()->notify->all("activeProphecyDiscarded", clienttranslate('The active prophecy is discarded: ${prophecy}'), [
-                'prophecy' => $activeProphecy,
-            ]);
-        }
-
-        $newActiveProphecy = self::getTopOf(self::LOCATION_PENDING)->first();
-        if ($newActiveProphecy) {
-            $newActiveProphecy->setLocation(self::LOCATION_ACTIVE);
-            $newActiveProphecy->setState(0);
-
-            Game::get()->notify->all("activeProphecySet", clienttranslate('A new active prophecy: ${prophecy}'), [
-                'prophecy' => $newActiveProphecy,
-            ]);
-        }
-
-        $pendingProphecies = self::getInLocation(self::LOCATION_PENDING)->forEach(function ($prophecy) {
-            $prophecy->setState($prophecy->getState() + 1);
-        });
-
-        Game::get()->notify->all("pendingPropheciesRotated", clienttranslate('Pending prophecies have been rotated clockwise.'), [
-            "prophecies" => $pendingProphecies,
-        ]);
-
-        $newPendingProphecy = self::pickForLocation(1, self::LOCATION_DECK, self::LOCATION_PENDING, 1)->first();
-        Game::get()->notify->all("newPendingProphecyRevealed", clienttranslate('A new pending prophecy card is revealed: ${prophecy}'), [
-            "prophecy" => $newPendingProphecy,
-        ]);
+  public static function roundMaintenance()
+  {
+    if (!Globals::isIncludeProphecies()) {
+      return;
     }
 
-    /*
+    // Active prophecies are discarded
+    $activeProphecy = self::getInLocation(self::LOCATION_ACTIVE)->first();
+    if ($activeProphecy) {
+      $activeProphecy->setLocation(self::LOCATION_DISCARD);
+      $activeProphecy->setState(0);
+
+      Game::get()->notify->all('activeProphecyDiscarded', clienttranslate('The active prophecy is discarded: ${prophecy}'), [
+        'prophecy' => $activeProphecy,
+      ]);
+    }
+
+    $newActiveProphecy = self::getTopOf(self::LOCATION_PENDING)->first();
+    if ($newActiveProphecy) {
+      $newActiveProphecy->setLocation(self::LOCATION_ACTIVE);
+      $newActiveProphecy->setState(0);
+
+      Game::get()->notify->all('activeProphecySet', clienttranslate('A new active prophecy: ${prophecy}'), [
+        'prophecy' => $newActiveProphecy,
+      ]);
+    }
+
+    $pendingProphecies = self::getInLocation(self::LOCATION_PENDING)->forEach(function ($prophecy) {
+      $prophecy->setState($prophecy->getState() + 1);
+    });
+
+    Game::get()->notify->all('pendingPropheciesRotated', clienttranslate('Pending prophecies have been rotated clockwise.'), [
+      'prophecies' => $pendingProphecies,
+    ]);
+
+    $newPendingProphecy = self::pickForLocation(1, self::LOCATION_DECK, self::LOCATION_PENDING, 1)->first();
+    Game::get()->notify->all(
+      'newPendingProphecyRevealed',
+      clienttranslate('A new pending prophecy card is revealed: ${prophecy}'),
+      [
+        'prophecy' => $newPendingProphecy,
+      ],
+    );
+  }
+
+  /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
   ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
   ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
@@ -140,8 +144,8 @@ class Prophecies extends CachedPieces
 
   */
 
-    const LOCATION_DECK = 'deck';
-    const LOCATION_ACTIVE = 'active';
-    const LOCATION_PENDING = 'pending';
-    const LOCATION_DISCARD = 'discard';
+  const LOCATION_DECK = 'deck';
+  const LOCATION_ACTIVE = 'active';
+  const LOCATION_PENDING = 'pending';
+  const LOCATION_DISCARD = 'discard';
 }

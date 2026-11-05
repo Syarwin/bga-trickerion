@@ -20,125 +20,129 @@ use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class LearnTrick extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_LEARN_TRICK,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must learn a trick'),
-            descriptionMyTurn: clienttranslate('${you} must learn a trick'),
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_LEARN_TRICK,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must learn a trick'),
+      descriptionMyTurn: clienttranslate('${you} must learn a trick'),
+    );
+  }
+
+  public function getCustomStateDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'description' => clienttranslate('${actplayer} must learn a trick (${sourceName})'),
+        'descriptionMyTurn' => clienttranslate('${you} must learn a trick (${sourceName})'),
+      ];
+    }
+    return null;
+  }
+
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Learn a trick (${sourceName})'),
+        'args' => [
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
+    }
+    return clienttranslate('Learn a trick');
+  }
+
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $player = Players::get($activePlayerId);
+    $availableTricks = Tricks::getInLocation(Tricks::LOCATION_AVAILABLE);
+
+    $availableCategories = $this->getNodeArgs('categories', Trick::getAllCategories());
+
+    $canTakeFavoriteCategory = $this->getNodeArgs('canTakeFavoriteCategory', false);
+    if ($canTakeFavoriteCategory) {
+      $favoriteCategory = $player->getMagician()->getFavoriteTrickCategory();
+      if (!in_array($favoriteCategory, $availableCategories)) {
+        $availableCategories[] = $favoriteCategory;
+      }
+    }
+
+    $useDice = $this->getNodeArgs('useDice', false);
+    if ($useDice) {
+      foreach (Dice::getDice(Dice::DICE_TYPE_TRICK) as $die) {
+        if ($die == Dice::ANY) {
+          $availableCategories = array_merge(Trick::getAllCategories(), $availableCategories);
+        } else {
+          $availableCategories[] = $die;
+        }
+      }
+    }
+
+    $availableTricks = $availableTricks->where('category', $availableCategories);
+
+    $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getScore());
+
+    $args = [
+      'availableTricks' => $availableTricks->toArray(),
+      'sourceName' => $this->getNodeArgs('sourceName'),
+    ];
+    return $args;
+  }
+
+  /**
+   * Player must resolve the choice.
+   *
+   * @throws UserException
+   */
+  #[PossibleAction]
+  public function actLearnTrick(int $activePlayerId, int $trickId)
+  {
+    Log::step();
+    /* @var Trick $trick */
+    $trick = Tricks::get($trickId);
+    $availableTricks = $this->getActionArgs($activePlayerId)['availableTricks'];
+    if (!in_array($trick, $availableTricks, true)) {
+      throw new UserException(clienttranslate('You cannot take this trick.'));
+    }
+
+    $location = $this->getNodeArgs('location', Tricks::LOCATION_PLAYER_BOARD);
+
+    $trick->learnTrick($activePlayerId, $location);
+
+    $useDice = $this->getNodeArgs('useDice', false);
+    if ($useDice) {
+      $allDice = Dice::getDice(Dice::DICE_TYPE_TRICK);
+      $dice = array_values(
+        array_filter($allDice, function ($die) use ($trick) {
+          return $die == $trick->getCategory() || $die == Dice::ANY;
+        }),
+      );
+
+      if (count($dice) == 0) {
+        $this->notify->all(
+          'message',
+          clienttranslate('${player_name} learned trick from his favourite category so no die is turned to \'x\''),
+          [
+            'player_id' => $activePlayerId,
+          ],
         );
+      } elseif (count($dice) == 1 || count($allDice) == 1) {
+        Dice::setDieUnavailable(Dice::DICE_TYPE_TRICK, $dice[0] ?? $allDice[0]);
+      } else {
+        Engine::insertAsChild([
+          'state' => MakeDieUnavailable::class,
+          'args' => [
+            'dieType' => Dice::DICE_TYPE_TRICK,
+            'sourceName' => clienttranslate('Learn Trick'),
+          ],
+        ]);
+      }
     }
 
-    public function getCustomStateDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "description" => clienttranslate('${actplayer} must learn a trick (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must learn a trick (${sourceName})'),
-            ];
-        }
-        return null;
-    }
-
-    public function getDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Learn a trick (${sourceName})'),
-                "args" => [
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return clienttranslate('Learn a trick');
-    }
-
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $player = Players::get($activePlayerId);
-        $availableTricks = Tricks::getInLocation(Tricks::LOCATION_AVAILABLE);
-
-        $availableCategories = $this->getNodeArgs("categories", Trick::getAllCategories());
-
-        $canTakeFavoriteCategory = $this->getNodeArgs("canTakeFavoriteCategory", false);
-        if ($canTakeFavoriteCategory) {
-            $favoriteCategory = $player->getMagician()->getFavoriteTrickCategory();
-            if (!in_array($favoriteCategory, $availableCategories)) {
-                $availableCategories[] = $favoriteCategory;
-            }
-        }
-
-        $useDice = $this->getNodeArgs("useDice", false);
-        if ($useDice) {
-            foreach (Dice::getDice(Dice::DICE_TYPE_TRICK) as $die) {
-                if ($die == Dice::ANY) {
-                    $availableCategories = array_merge(
-                        Trick::getAllCategories(),
-                        $availableCategories
-                    );
-                } else {
-                    $availableCategories[] = $die;
-                }
-            }
-        }
-            
-        $availableTricks = $availableTricks->where("category", $availableCategories);
-
-        $availableTricks = $availableTricks->filter(fn($trick) => $trick->getThreshold() <= $player->getScore());
-
-        $args = [
-            "availableTricks" => $availableTricks->toArray(),
-            "sourceName" => $this->getNodeArgs("sourceName")
-        ];
-        return $args;
-    }    
-
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actLearnTrick(int $activePlayerId, int $trickId)
-    {
-        Log::step();
-        /* @var Trick $trick */
-        $trick = Tricks::get($trickId);
-        $availableTricks = $this->getActionArgs($activePlayerId)["availableTricks"];
-        if (!in_array($trick, $availableTricks, true)) {
-            throw new UserException(clienttranslate("You cannot take this trick."));
-        }
-
-        $location = $this->getNodeArgs("location", Tricks::LOCATION_PLAYER_BOARD);
-
-        $trick->learnTrick($activePlayerId, $location);
-
-        $useDice = $this->getNodeArgs("useDice", false);
-        if ($useDice) {
-            $allDice = Dice::getDice(Dice::DICE_TYPE_TRICK);
-            $dice = array_values(array_filter($allDice, function($die) use ($trick) {
-                return $die == $trick->getCategory() || $die == Dice::ANY;
-            }));
-
-            if (count($dice) == 0) {
-                $this->notify->all("message", clienttranslate('${player_name} learned trick from his favourite category so no die is turned to \'x\''), [
-                    "player_id" => $activePlayerId,
-                ]);
-            } else if (count($dice) == 1 || count($allDice) == 1) {
-                Dice::setDieUnavailable(Dice::DICE_TYPE_TRICK, $dice[0] ?? $allDice[0]);
-            } else {
-                Engine::insertAsChild([
-                    "state" => MakeDieUnavailable::class,
-                    "args" => [
-                        "dieType" => Dice::DICE_TYPE_TRICK,
-                        "sourceName" => clienttranslate("Learn Trick")
-                    ]
-                ]);
-            }
-        }
-
-        return $this->resolve(["trickId" => $trickId]);
-    }
+    return $this->resolve(['trickId' => $trickId]);
+  }
 }

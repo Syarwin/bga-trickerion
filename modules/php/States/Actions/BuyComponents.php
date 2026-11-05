@@ -18,10 +18,8 @@ use Bga\Games\trickerionlegendsofillusion\Managers\MarketRow;
 
 class BuyComponents extends ActionStateWithRevert
 {
-  function __construct(
-    protected Game $game,
-    protected ?AbstractNode $node = null
-  ) {
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
     parent::__construct(
       $game,
       node: $node,
@@ -34,10 +32,10 @@ class BuyComponents extends ActionStateWithRevert
 
   public function getCustomStateDescription()
   {
-    if (!is_null($this->getNodeArgs("sourceName"))) {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
       return [
-        "description" => clienttranslate('${actplayer} must buy components (${sourceName})'),
-        "descriptionMyTurn" => clienttranslate('${you} must buy components (${sourceName})'),
+        'description' => clienttranslate('${actplayer} must buy components (${sourceName})'),
+        'descriptionMyTurn' => clienttranslate('${you} must buy components (${sourceName})'),
       ];
     }
     return null;
@@ -45,12 +43,12 @@ class BuyComponents extends ActionStateWithRevert
 
   public function getDescription()
   {
-    if (!is_null($this->getNodeArgs("sourceName"))) {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
       return [
-        "log" => clienttranslate('Buy components (${sourceName})'),
-        "args" => [
-          "sourceName" => $this->getNodeArgs("sourceName", "")
-        ]
+        'log' => clienttranslate('Buy components (${sourceName})'),
+        'args' => [
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
       ];
     }
     return clienttranslate('Buy components');
@@ -61,8 +59,8 @@ class BuyComponents extends ActionStateWithRevert
     $buyableComponents = MarketRow::getBuyableComponents();
 
     $args = [
-      "remainingActionPoints" => LocationActions::getRemainingActionPoints(),
-      "availableComponents" => Components::getMaxCounts($buyableComponents, $activePlayerId),
+      'remainingActionPoints' => LocationActions::getRemainingActionPoints(),
+      'availableComponents' => Components::getMaxCounts($buyableComponents, $activePlayerId),
     ];
     return $args;
   }
@@ -73,27 +71,33 @@ class BuyComponents extends ActionStateWithRevert
    * @throws UserException
    */
   #[PossibleAction]
-  public function actBuyComponents(int $activePlayerId, array $args, string $component, string $locationId, int $count, int $bargain)
-  {
+  public function actBuyComponents(
+    int $activePlayerId,
+    array $args,
+    string $component,
+    string $locationId,
+    int $count,
+    int $bargain,
+  ) {
     Log::step();
-    if (!array_key_exists($component, $args["availableComponents"])) {
-      throw new UserException(clienttranslate("This component is not available to buy"));
+    if (!array_key_exists($component, $args['availableComponents'])) {
+      throw new UserException(clienttranslate('This component is not available to buy'));
     }
 
-    if (!array_key_exists($locationId, $args["availableComponents"][$component])) {
-      throw new UserException(clienttranslate("You cannot place this component at this location"));
+    if (!array_key_exists($locationId, $args['availableComponents'][$component])) {
+      throw new UserException(clienttranslate('You cannot place this component at this location'));
     }
 
-    if ($count < 1 || $count > $args["availableComponents"][$component][$locationId]["max"]) {
-      throw new UserException(clienttranslate("Invalid count"));
+    if ($count < 1 || $count > $args['availableComponents'][$component][$locationId]['max']) {
+      throw new UserException(clienttranslate('Invalid count'));
     }
 
-    $cost = $args["availableComponents"][$component][$locationId]["effectiveCost"] * $count;
-    if ($bargain > $args["remainingActionPoints"] || $bargain > $cost) {
-      throw new UserException(clienttranslate("Bargain is not correct"));
+    $cost = $args['availableComponents'][$component][$locationId]['effectiveCost'] * $count;
+    if ($bargain > $args['remainingActionPoints'] || $bargain > $cost) {
+      throw new UserException(clienttranslate('Bargain is not correct'));
     }
 
     Components::addComponent($activePlayerId, $component, $locationId, $count, $bargain);
-    return $this->resolve(["component" => $component, "locationId" => $locationId, "count" => $count]);
+    return $this->resolve(['component' => $component, 'locationId' => $locationId, 'count' => $count]);
   }
 }

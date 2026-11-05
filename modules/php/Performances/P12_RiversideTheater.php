@@ -6,52 +6,52 @@ use Bga\Games\trickerionlegendsofillusion\Models\Performance;
 
 class P12_RiversideTheater extends Performance
 {
-    public function __construct($row)
-    {
-        parent::__construct($row);
-        $this->type = 'P12_RiversideTheater';
-        $this->theater = Performance::THEATER_RIVERSIDE;
-        $this->name = clienttranslate('Riverside Theater');
-        $this->slots = [
-            "1.0" => [
-                "x" => 1,
-                "y" => 0,
-                "links" => [
-                    [
-                        "direction" => self::LINK_DIRECTION_DOWN,
-                        "shard" => true
-                    ]
-                ]
-            ],
-            "1.1" => [
-                "x" => 1,
-                "y" => 1,
-                "links" => [
-                    [
-                        "direction" => self::LINK_DIRECTION_UP,
-                        "shard" => true
-                    ],
-                    [
-                        "direction" => self::LINK_DIRECTION_LEFT,
-                        "shard" => false
-                    ],
-                ]
-            ],
-            "0.1" => [
-                "x" => 0,
-                "y" => 1,
-                "links" => [
-                    [
-                        "direction" => self::LINK_DIRECTION_RIGHT,
-                        "shard" => false
-                    ],
-                ]
-            ],
-        ];
-        $this->bonus = [
-            "fame" => 0,
-            "coins" => 0,
-            "shards" => 1
-        ];
-    }
+  public function __construct($row)
+  {
+    parent::__construct($row);
+    $this->type = 'P12_RiversideTheater';
+    $this->theater = Performance::THEATER_RIVERSIDE;
+    $this->name = clienttranslate('Riverside Theater');
+    $this->slots = [
+      '1.0' => [
+        'x' => 1,
+        'y' => 0,
+        'links' => [
+          [
+            'direction' => self::LINK_DIRECTION_DOWN,
+            'shard' => true,
+          ],
+        ],
+      ],
+      '1.1' => [
+        'x' => 1,
+        'y' => 1,
+        'links' => [
+          [
+            'direction' => self::LINK_DIRECTION_UP,
+            'shard' => true,
+          ],
+          [
+            'direction' => self::LINK_DIRECTION_LEFT,
+            'shard' => false,
+          ],
+        ],
+      ],
+      '0.1' => [
+        'x' => 0,
+        'y' => 1,
+        'links' => [
+          [
+            'direction' => self::LINK_DIRECTION_RIGHT,
+            'shard' => false,
+          ],
+        ],
+      ],
+    ];
+    $this->bonus = [
+      'fame' => 0,
+      'coins' => 0,
+      'shards' => 1,
+    ];
+  }
 }

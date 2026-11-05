@@ -9,57 +9,53 @@ import { onClick } from '../framework/event';
 const APPRENTICE_SLOT_SUFFIXES = ['apprentice-1', 'apprentice-2', 'apprentice-3'];
 
 export class MoveApprentice extends State {
-    onEnteringState(args: MoveApprenticeArgs, isCurrentPlayerActive: boolean) {
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
+  onEnteringState(args: MoveApprenticeArgs, isCurrentPlayerActive: boolean) {
+    this.onPlayerActivationChange(args, isCurrentPlayerActive);
+  }
+
+  onLeavingState(_args: MoveApprenticeArgs, _isCurrentPlayerActive: boolean) {
+    clearPossible();
+  }
+
+  onPlayerActivationChange(args: MoveApprenticeArgs, isCurrentPlayerActive: boolean) {
+    clearPossible();
+    if (!isCurrentPlayerActive) return;
+
+    this.bga.statusBar.removeActionButtons();
+
+    if (!args.isSlotAvailable) {
+      this.bga.statusBar.addActionButton(_('No slot available on assistant board'), () => {}, { disabled: true });
+      return;
     }
 
-    onLeavingState(_args: MoveApprenticeArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
+    const playerId = getCurrentPlayerId();
+
+    // Build a set of idle locations for quick lookup
+    const apprenticeLocations = new Set<string>();
+    for (const apprentice of args.availableApprentices) {
+      apprenticeLocations.add(apprentice.idleLocation);
     }
 
-    onPlayerActivationChange(args: MoveApprenticeArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-        if (!isCurrentPlayerActive) return;
+    // Highlight each apprentice slot that has an available apprentice
+    for (const suffix of APPRENTICE_SLOT_SUFFIXES) {
+      const idleLoc = `idle-${suffix}`;
+      if (!apprenticeLocations.has(idleLoc)) continue;
 
+      const domId = `idle-${playerId}-${suffix}`;
+      const el = $(domId);
+      if (!el) continue;
+
+      el.classList.add('selectable');
+      onClick(el, () => {
+        clearPossible();
         this.bga.statusBar.removeActionButtons();
 
-        if (!args.isSlotAvailable) {
-            this.bga.statusBar.addActionButton(
-                _('No slot available on assistant board'),
-                () => {},
-                { disabled: true }
-            );
-            return;
-        }
+        // Find the apprentice with this idleLocation
+        const apprentice = args.availableApprentices.find((a) => a.idleLocation === idleLoc);
+        if (!apprentice) return;
 
-        const playerId = getCurrentPlayerId();
-
-        // Build a set of idle locations for quick lookup
-        const apprenticeLocations = new Set<string>();
-        for (const apprentice of args.availableApprentices) {
-            apprenticeLocations.add(apprentice.idleLocation);
-        }
-
-        // Highlight each apprentice slot that has an available apprentice
-        for (const suffix of APPRENTICE_SLOT_SUFFIXES) {
-            const idleLoc = `idle-${suffix}`;
-            if (!apprenticeLocations.has(idleLoc)) continue;
-
-            const domId = `idle-${playerId}-${suffix}`;
-            const el = $(domId);
-            if (!el) continue;
-
-            el.classList.add('selectable');
-            onClick(el, () => {
-                clearPossible();
-                this.bga.statusBar.removeActionButtons();
-
-                // Find the apprentice with this idleLocation
-                const apprentice = args.availableApprentices.find((a) => a.idleLocation === idleLoc);
-                if (!apprentice) return;
-
-                this.bga.actions.performAction('actMoveApprentice', { apprenticeId: apprentice.id });
-            });
-        }
+        this.bga.actions.performAction('actMoveApprentice', { apprenticeId: apprentice.id });
+      });
     }
+  }
 }

@@ -31,7 +31,7 @@ class DB_Manager extends WithGame
         return static::cast($row);
       },
       static::$primary,
-      $log
+      $log,
     );
   }
 }

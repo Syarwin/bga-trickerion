@@ -1,844 +1,1141 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>Sprite Preview</title>
-<style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sprite Preview</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f8f8f8;
+        color: #333;
+        padding: 1rem;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+      }
+      .tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem;
+      }
+      .icon {
+        width: 100%;
+        max-width: 100px;
+        background-repeat: no-repeat;
+      }
+      .name {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+        word-break: break-all;
+      }
 
-    body {
-      font-family: sans-serif;
-      background: #f8f8f8;
-      color: #333;
-      padding: 1rem;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-    .tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 0.5rem;
-    }
-    .icon {
-      width: 100%;
-      max-width: 100px;
-      background-repeat: no-repeat;
-    }
-    .name {
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      text-align: center;
-      word-break: break-all;
-    }
-    
-.sprite-special-assignment-slot {
-  background-image: url('../img/slots.png');
-  background-size: 521.523810% auto;
-  background-position: 0.000000% 0.000000%;
-  aspect-ratio: 525/796;
-  background-repeat: no-repeat;
-}
-.sprite-modal-header {
-  background-image: url('../img/slots.png');
-  background-size: 362.649007% auto;
-  background-position: 26.777610% 0.000000%;
-  aspect-ratio: 755/91;
-  background-repeat: no-repeat;
-}
-.sprite-theater-action-slots {
-  background-image: url('../img/slots.png');
-  background-size: 453.311258% auto;
-  background-position: 24.882849% 4.729400%;
-  aspect-ratio: 604/685;
-  background-repeat: no-repeat;
-}
-.sprite-theater-perform {
-  background-image: url('../img/slots.png');
-  background-size: 1170.085470% auto;
-  background-position: 45.567093% 4.334227%;
-  aspect-ratio: 234/498;
-  background-repeat: no-repeat;
-}
-.sprite-market-costs-compact {
-  background-image: url('../img/slots.png');
-  background-size: 1582.658960% auto;
-  background-position: 53.840156% 4.233959%;
-  aspect-ratio: 173/445;
-  background-repeat: no-repeat;
-}
-.sprite-market-costs {
-  background-image: url('../img/slots.png');
-  background-size: 615.280899% auto;
-  background-position: 68.033144% 3.911290%;
-  aspect-ratio: 445/256;
-  background-repeat: no-repeat;
-}
-.sprite-prophecies {
-  background-image: url('../img/slots.png');
-  background-size: 622.272727% auto;
-  background-position: 0.000000% 33.782645%;
-  aspect-ratio: 440/362;
-  background-repeat: no-repeat;
-}
-.sprite-assignment-slot {
-  background-image: url('../img/slots.png');
-  background-size: 1041.064639% auto;
-  background-position: 0.000000% 50.042772%;
-  aspect-ratio: 263/398;
-  background-repeat: no-repeat;
-}
-.sprite-theater-link-bonus {
-  background-image: url('../img/slots.png');
-  background-size: 1170.085470% auto;
-  background-position: 10.742812% 49.893390%;
-  aspect-ratio: 234/391;
-  background-repeat: no-repeat;
-}
-.sprite-market-row-logo {
-  background-image: url('../img/slots.png');
-  background-size: 716.753927% auto;
-  background-position: 18.930390% 33.195364%;
-  aspect-ratio: 382/320;
-  background-repeat: no-repeat;
-}
-.sprite-dark-alley-logo {
-  background-image: url('../img/slots.png');
-  background-size: 720.526316% auto;
-  background-position: 35.368957% 33.195364%;
-  aspect-ratio: 380/320;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-logo {
-  background-image: url('../img/slots.png');
-  background-size: 720.526316% auto;
-  background-position: 51.738762% 33.195364%;
-  aspect-ratio: 380/320;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-logo {
-  background-image: url('../img/slots.png');
-  background-size: 720.526316% auto;
-  background-position: 68.108567% 33.195364%;
-  aspect-ratio: 380/320;
-  background-repeat: no-repeat;
-}
-.sprite-assignment-meeple-slot {
-  background-image: url('../img/slots.png');
-  background-size: 782.285714% auto;
-  background-position: 83.417085% 32.482787%;
-  aspect-ratio: 350/267;
-  background-repeat: no-repeat;
-}
-.sprite-assignment-assistant-meeple-slot {
-  background-image: url('../img/slots.png');
-  background-size: 782.285714% auto;
-  background-position: 98.324958% 32.482787%;
-  aspect-ratio: 350/267;
-  background-repeat: no-repeat;
-}
-.sprite-assignment-apprentice-meeple-slot {
-  background-image: url('../img/slots.png');
-  background-size: 782.285714% auto;
-  background-position: 21.314908% 47.387606%;
-  aspect-ratio: 350/267;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-prepare-bonus {
-  background-image: url('../img/slots.png');
-  background-size: 1077.952756% auto;
-  background-position: 0.000000% 65.802676%;
-  aspect-ratio: 254/344;
-  background-repeat: no-repeat;
-}
-.sprite-market-slot-3 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 10.500808% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-slot-1 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 21.324717% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-market-slot-1 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 32.148627% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-alley-slot-1 {
-  background-image: url('../img/slots.png');
-  background-size: 1041.064639% auto;
-  background-position: 42.989899% 64.192496%;
-  aspect-ratio: 263/284;
-  background-repeat: no-repeat;
-}
-.sprite-market-slot-4 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 53.836834% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-slot-2 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 64.660743% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-slot-4 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 75.484653% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-alley-slot-2 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 86.308562% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-alley-slot-3 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 97.132472% 64.192496%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-market-slot-2 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 0.000000% 78.466558%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-alley-slot-4 {
-  background-image: url('../img/slots.png');
-  background-size: 1041.064639% auto;
-  background-position: 10.828283% 78.466558%;
-  aspect-ratio: 263/284;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-slot-3 {
-  background-image: url('../img/slots.png');
-  background-size: 1045.038168% auto;
-  background-position: 21.688207% 78.466558%;
-  aspect-ratio: 262/284;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-slot-1 {
-  background-image: url('../img/slots.png');
-  background-size: 1041.064639% auto;
-  background-position: 34.949495% 47.234558%;
-  aspect-ratio: 263/259;
-  background-repeat: no-repeat;
-}
-.sprite-theater-logo {
-  background-image: url('../img/slots.png');
-  background-size: 1131.404959% auto;
-  background-position: 80.568910% 3.832477%;
-  aspect-ratio: 242/205;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-manager-component-slot {
-  background-image: url('../img/slots.png');
-  background-size: 1303.809524% auto;
-  background-position: 44.857595% 46.281646%;
-  aspect-ratio: 210/208;
-  background-repeat: no-repeat;
-}
-.sprite-optical {
-  background-image: url('../img/slots.png');
-  background-size: 1303.809524% auto;
-  background-position: 89.359177% 3.764067%;
-  aspect-ratio: 210/159;
-  background-repeat: no-repeat;
-}
-.sprite-escape {
-  background-image: url('../img/slots.png');
-  background-size: 1303.809524% auto;
-  background-position: 97.903481% 3.764067%;
-  aspect-ratio: 210/159;
-  background-repeat: no-repeat;
-}
-.sprite-mechanical {
-  background-image: url('../img/slots.png');
-  background-size: 1303.809524% auto;
-  background-position: 61.708861% 13.930927%;
-  aspect-ratio: 210/159;
-  background-repeat: no-repeat;
-}
-.sprite-spiritual {
-  background-image: url('../img/slots.png');
-  background-size: 1303.809524% auto;
-  background-position: 70.253165% 13.930927%;
-  aspect-ratio: 210/159;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-space {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 45.116647% 23.494918%;
-  aspect-ratio: 209/178;
-  background-repeat: no-repeat;
-}
-.sprite-alley-action-space {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 53.618031% 23.485737%;
-  aspect-ratio: 209/177;
-  background-repeat: no-repeat;
-}
-.sprite-market-component-slot {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 31.830763% 76.137713%;
-  aspect-ratio: 209/209;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-shard-boost {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 78.766311% 13.818322%;
-  aspect-ratio: 209/138;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-space {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 62.119415% 23.485737%;
-  aspect-ratio: 209/177;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-shard-boost {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 87.267695% 13.818322%;
-  aspect-ratio: 209/138;
-  background-repeat: no-repeat;
-}
-.sprite-market-shard-boost {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 95.769079% 13.818322%;
-  aspect-ratio: 209/138;
-  background-repeat: no-repeat;
-}
-.sprite-alley-shard-boost {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 70.620799% 23.133179%;
-  aspect-ratio: 209/138;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-space {
-  background-image: url('../img/slots.png');
-  background-size: 1310.047847% auto;
-  background-position: 53.380783% 45.738858%;
-  aspect-ratio: 209/178;
-  background-repeat: no-repeat;
-}
-.sprite-market-quick-order-slot {
-  background-image: url('../img/slots.png');
-  background-size: 1335.609756% auto;
-  background-position: 40.268456% 76.017384%;
-  aspect-ratio: 205/205;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-component-slot {
-  background-image: url('../img/slots.png');
-  background-size: 1426.041667% auto;
-  background-position: 48.350353% 75.569521%;
-  aspect-ratio: 192/190;
-  background-repeat: no-repeat;
-}
-.sprite-theater {
-  background-image: url('../img/slots.png');
-  background-size: 1433.507853% auto;
-  background-position: 61.444837% 45.173745%;
-  aspect-ratio: 191/146;
-  background-repeat: no-repeat;
-}
-.sprite-alley-action-draw-further-cards {
-  background-image: url('../img/slots.png');
-  background-size: 1480.000000% auto;
-  background-position: 50.607129% 0.000000%;
-  aspect-ratio: 185/87;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-space-extended {
-  background-image: url('../img/slots.png');
-  background-size: 1610.588235% auto;
-  background-position: 55.646417% 75.215012%;
-  aspect-ratio: 170/178;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-order {
-  background-image: url('../img/slots.png');
-  background-size: 1601.169591% auto;
-  background-position: 57.771718% 0.000000%;
-  aspect-ratio: 171/82;
-  background-repeat: no-repeat;
-}
-.sprite-market-row {
-  background-image: url('../img/slots.png');
-  background-size: 1601.169591% auto;
-  background-position: 77.950915% 23.053318%;
-  aspect-ratio: 171/129;
-  background-repeat: no-repeat;
-}
-.sprite-downtown {
-  background-image: url('../img/slots.png');
-  background-size: 1610.588235% auto;
-  background-position: 84.813084% 23.044479%;
-  aspect-ratio: 170/128;
-  background-repeat: no-repeat;
-}
-.sprite-workshop {
-  background-image: url('../img/slots.png');
-  background-size: 1610.588235% auto;
-  background-position: 91.666667% 23.018001%;
-  aspect-ratio: 170/125;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-set-die {
-  background-image: url('../img/slots.png');
-  background-size: 1629.761905% auto;
-  background-position: 98.443580% 22.877807%;
-  aspect-ratio: 168/109;
-  background-repeat: no-repeat;
-}
-.sprite-theater-action-reschedule {
-  background-image: url('../img/slots.png');
-  background-size: 1711.250000% auto;
-  background-position: 68.347556% 44.150943%;
-  aspect-ratio: 160/86;
-  background-repeat: no-repeat;
-}
-.sprite-alley-action-draw-first-card {
-  background-image: url('../img/slots.png');
-  background-size: 1722.012579% auto;
-  background-position: 19.736332% 54.473386%;
-  aspect-ratio: 159/87;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-hire-character {
-  background-image: url('../img/slots.png');
-  background-size: 1743.949045% auto;
-  background-position: 62.185200% 72.878788%;
-  aspect-ratio: 157/96;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-learn-trick {
-  background-image: url('../img/slots.png');
-  background-size: 1789.542484% auto;
-  background-position: 0.000000% 83.895415%;
-  aspect-ratio: 153/97;
-  background-repeat: no-repeat;
-}
-.sprite-theater-action-space {
-  background-image: url('../img/slots.png');
-  background-size: 1837.583893% auto;
-  background-position: 0.000000% 89.046887%;
-  aspect-ratio: 149/134;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-quick-order {
-  background-image: url('../img/slots.png');
-  background-size: 1850.000000% auto;
-  background-position: 68.262548% 72.851193%;
-  aspect-ratio: 148/95;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-move-apprentice {
-  background-image: url('../img/slots.png');
-  background-size: 1941.843972% auto;
-  background-position: 5.968425% 88.367658%;
-  aspect-ratio: 141/114;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-move-tricks {
-  background-image: url('../img/slots.png');
-  background-size: 1941.843972% auto;
-  background-position: 11.628802% 88.367658%;
-  aspect-ratio: 141/114;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-take-coins {
-  background-image: url('../img/slots.png');
-  background-size: 1984.057971% auto;
-  background-position: 74.153846% 44.150943%;
-  aspect-ratio: 138/86;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-bank-B {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 0.000000% 94.500000%;
-  aspect-ratio: 137/136;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-character-B {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 0.000000% 100.000000%;
-  aspect-ratio: 137/137;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-trick-A {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 5.497885% 100.000000%;
-  aspect-ratio: 137/137;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-character-A {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 10.995771% 100.000000%;
-  aspect-ratio: 137/137;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-trick-B {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 16.493656% 100.000000%;
-  aspect-ratio: 137/137;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-die-slot-bank-A {
-  background-image: url('../img/slots.png');
-  background-size: 1998.540146% auto;
-  background-position: 5.497885% 94.500000%;
-  aspect-ratio: 137/136;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-move-components {
-  background-image: url('../img/slots.png');
-  background-size: 2074.242424% auto;
-  background-position: 17.229470% 88.367658%;
-  aspect-ratio: 132/114;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-buy {
-  background-image: url('../img/slots.png');
-  background-size: 2190.400000% auto;
-  background-position: 63.528511% 0.000000%;
-  aspect-ratio: 125/62;
-  background-repeat: no-repeat;
-}
-.sprite-theater-no-shard-boost {
-  background-image: url('../img/slots.png');
-  background-size: 2208.064516% auto;
-  background-position: 79.265493% 44.084401%;
-  aspect-ratio: 124/82;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-reroll-die {
-  background-image: url('../img/slots.png');
-  background-size: 2244.262295% auto;
-  background-position: 25.764526% 54.473386%;
-  aspect-ratio: 122/87;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-prepare {
-  background-image: url('../img/slots.png');
-  background-size: 2710.891089% auto;
-  background-position: 100.000000% 13.723242%;
-  aspect-ratio: 101/120;
-  background-repeat: no-repeat;
-}
-.sprite-alley-action-fortune-telling {
-  background-image: url('../img/slots.png');
-  background-size: 2558.878505% auto;
-  background-position: 22.310908% 88.333969%;
-  aspect-ratio: 107/113;
-  background-repeat: no-repeat;
-}
-.sprite-market-quick-order-cost {
-  background-image: url('../img/slots.png');
-  background-size: 2710.891089% auto;
-  background-position: 72.885855% 72.823618%;
-  aspect-ratio: 101/94;
-  background-repeat: no-repeat;
-}
-.sprite-theater-action-set-up-trick {
-  background-image: url('../img/slots.png');
-  background-size: 2852.083333% auto;
-  background-position: 30.355791% 54.473386%;
-  aspect-ratio: 96/87;
-  background-repeat: no-repeat;
-}
-.sprite-component-basic {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 76.739788% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-petroleum {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 80.521936% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-animal {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 84.304085% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-fabric {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 88.086233% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-rope {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 91.868381% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-cog {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 95.650530% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-saw {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 99.432678% 72.823618%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-glass {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 6.013616% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-superior {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 9.795764% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-metal {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 13.577912% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-padlock {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 17.360061% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-mirror {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 21.142209% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-wood {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 24.924357% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-disguise {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 28.706505% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-component-advanced {
-  background-image: url('../img/slots.png');
-  background-size: 2912.765957% auto;
-  background-position: 32.488654% 83.800151%;
-  aspect-ratio: 94/94;
-  background-repeat: no-repeat;
-}
-.sprite-downtown-action-cost {
-  background-image: url('../img/slots.png');
-  background-size: 2976.086957% auto;
-  background-position: 36.243386% 83.736762%;
-  aspect-ratio: 92/92;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-cost {
-  background-image: url('../img/slots.png');
-  background-size: 2976.086957% auto;
-  background-position: 39.947090% 83.736762%;
-  aspect-ratio: 92/92;
-  background-repeat: no-repeat;
-}
-.sprite-workshop-action-cost {
-  background-image: url('../img/slots.png');
-  background-size: 2976.086957% auto;
-  background-position: 43.650794% 83.736762%;
-  aspect-ratio: 92/92;
-  background-repeat: no-repeat;
-}
-.sprite-alley-action-cost {
-  background-image: url('../img/slots.png');
-  background-size: 3008.791209% auto;
-  background-position: 47.336607% 83.705104%;
-  aspect-ratio: 91/91;
-  background-repeat: no-repeat;
-}
-.sprite-market-action-bargain {
-  background-image: url('../img/slots.png');
-  background-size: 3008.791209% auto;
-  background-position: 83.188515% 43.853073%;
-  aspect-ratio: 91/68;
-  background-repeat: no-repeat;
-}
-.sprite-theater-action-cost {
-  background-image: url('../img/slots.png');
-  background-size: 4212.307692% auto;
-  background-position: 86.008230% 43.803819%;
-  aspect-ratio: 65/65;
-  background-repeat: no-repeat;
-}
-</style>
-</head>
-<body>
-<h1>Sprite Preview</h1>
-<div class='grid'>
-<div class='tile'><div class='icon sprite-special-assignment-slot'></div><div class='name'>special-assignment-slot</div></div>
-<div class='tile'><div class='icon sprite-modal-header'></div><div class='name'>modal-header</div></div>
-<div class='tile'><div class='icon sprite-theater-action-slots'></div><div class='name'>theater-action-slots</div></div>
-<div class='tile'><div class='icon sprite-theater-perform'></div><div class='name'>theater-perform</div></div>
-<div class='tile'><div class='icon sprite-market-costs-compact'></div><div class='name'>market-costs-compact</div></div>
-<div class='tile'><div class='icon sprite-market-costs'></div><div class='name'>market-costs</div></div>
-<div class='tile'><div class='icon sprite-prophecies'></div><div class='name'>prophecies</div></div>
-<div class='tile'><div class='icon sprite-assignment-slot'></div><div class='name'>assignment-slot</div></div>
-<div class='tile'><div class='icon sprite-theater-link-bonus'></div><div class='name'>theater-link-bonus</div></div>
-<div class='tile'><div class='icon sprite-market-row-logo'></div><div class='name'>market-row-logo</div></div>
-<div class='tile'><div class='icon sprite-dark-alley-logo'></div><div class='name'>dark-alley-logo</div></div>
-<div class='tile'><div class='icon sprite-downtown-logo'></div><div class='name'>downtown-logo</div></div>
-<div class='tile'><div class='icon sprite-workshop-logo'></div><div class='name'>workshop-logo</div></div>
-<div class='tile'><div class='icon sprite-assignment-meeple-slot'></div><div class='name'>assignment-meeple-slot</div></div>
-<div class='tile'><div class='icon sprite-assignment-assistant-meeple-slot'></div><div class='name'>assignment-assistant-meeple-slot</div></div>
-<div class='tile'><div class='icon sprite-assignment-apprentice-meeple-slot'></div><div class='name'>assignment-apprentice-meeple-slot</div></div>
-<div class='tile'><div class='icon sprite-workshop-prepare-bonus'></div><div class='name'>workshop-prepare-bonus</div></div>
-<div class='tile'><div class='icon sprite-market-slot-3'></div><div class='name'>market-slot-3</div></div>
-<div class='tile'><div class='icon sprite-downtown-slot-1'></div><div class='name'>downtown-slot-1</div></div>
-<div class='tile'><div class='icon sprite-market-slot-1'></div><div class='name'>market-slot-1</div></div>
-<div class='tile'><div class='icon sprite-alley-slot-1'></div><div class='name'>alley-slot-1</div></div>
-<div class='tile'><div class='icon sprite-market-slot-4'></div><div class='name'>market-slot-4</div></div>
-<div class='tile'><div class='icon sprite-downtown-slot-2'></div><div class='name'>downtown-slot-2</div></div>
-<div class='tile'><div class='icon sprite-downtown-slot-4'></div><div class='name'>downtown-slot-4</div></div>
-<div class='tile'><div class='icon sprite-alley-slot-2'></div><div class='name'>alley-slot-2</div></div>
-<div class='tile'><div class='icon sprite-alley-slot-3'></div><div class='name'>alley-slot-3</div></div>
-<div class='tile'><div class='icon sprite-market-slot-2'></div><div class='name'>market-slot-2</div></div>
-<div class='tile'><div class='icon sprite-alley-slot-4'></div><div class='name'>alley-slot-4</div></div>
-<div class='tile'><div class='icon sprite-downtown-slot-3'></div><div class='name'>downtown-slot-3</div></div>
-<div class='tile'><div class='icon sprite-workshop-slot-1'></div><div class='name'>workshop-slot-1</div></div>
-<div class='tile'><div class='icon sprite-theater-logo'></div><div class='name'>theater-logo</div></div>
-<div class='tile'><div class='icon sprite-workshop-manager-component-slot'></div><div class='name'>workshop-manager-component-slot</div></div>
-<div class='tile'><div class='icon sprite-optical'></div><div class='name'>optical</div></div>
-<div class='tile'><div class='icon sprite-escape'></div><div class='name'>escape</div></div>
-<div class='tile'><div class='icon sprite-mechanical'></div><div class='name'>mechanical</div></div>
-<div class='tile'><div class='icon sprite-spiritual'></div><div class='name'>spiritual</div></div>
-<div class='tile'><div class='icon sprite-market-action-space'></div><div class='name'>market-action-space</div></div>
-<div class='tile'><div class='icon sprite-alley-action-space'></div><div class='name'>alley-action-space</div></div>
-<div class='tile'><div class='icon sprite-market-component-slot'></div><div class='name'>market-component-slot</div></div>
-<div class='tile'><div class='icon sprite-downtown-shard-boost'></div><div class='name'>downtown-shard-boost</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-space'></div><div class='name'>workshop-action-space</div></div>
-<div class='tile'><div class='icon sprite-workshop-shard-boost'></div><div class='name'>workshop-shard-boost</div></div>
-<div class='tile'><div class='icon sprite-market-shard-boost'></div><div class='name'>market-shard-boost</div></div>
-<div class='tile'><div class='icon sprite-alley-shard-boost'></div><div class='name'>alley-shard-boost</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-space'></div><div class='name'>downtown-action-space</div></div>
-<div class='tile'><div class='icon sprite-market-quick-order-slot'></div><div class='name'>market-quick-order-slot</div></div>
-<div class='tile'><div class='icon sprite-workshop-component-slot'></div><div class='name'>workshop-component-slot</div></div>
-<div class='tile'><div class='icon sprite-theater'></div><div class='name'>theater</div></div>
-<div class='tile'><div class='icon sprite-alley-action-draw-further-cards'></div><div class='name'>alley-action-draw-further-cards</div></div>
-<div class='tile'><div class='icon sprite-market-action-space-extended'></div><div class='name'>market-action-space-extended</div></div>
-<div class='tile'><div class='icon sprite-market-action-order'></div><div class='name'>market-action-order</div></div>
-<div class='tile'><div class='icon sprite-market-row'></div><div class='name'>market-row</div></div>
-<div class='tile'><div class='icon sprite-downtown'></div><div class='name'>downtown</div></div>
-<div class='tile'><div class='icon sprite-workshop'></div><div class='name'>workshop</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-set-die'></div><div class='name'>downtown-action-set-die</div></div>
-<div class='tile'><div class='icon sprite-theater-action-reschedule'></div><div class='name'>theater-action-reschedule</div></div>
-<div class='tile'><div class='icon sprite-alley-action-draw-first-card'></div><div class='name'>alley-action-draw-first-card</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-hire-character'></div><div class='name'>downtown-action-hire-character</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-learn-trick'></div><div class='name'>downtown-action-learn-trick</div></div>
-<div class='tile'><div class='icon sprite-theater-action-space'></div><div class='name'>theater-action-space</div></div>
-<div class='tile'><div class='icon sprite-market-action-quick-order'></div><div class='name'>market-action-quick-order</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-move-apprentice'></div><div class='name'>workshop-action-move-apprentice</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-move-tricks'></div><div class='name'>workshop-action-move-tricks</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-take-coins'></div><div class='name'>downtown-action-take-coins</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-bank-B'></div><div class='name'>downtown-die-slot-bank-B</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-character-B'></div><div class='name'>downtown-die-slot-character-B</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-trick-A'></div><div class='name'>downtown-die-slot-trick-A</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-character-A'></div><div class='name'>downtown-die-slot-character-A</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-trick-B'></div><div class='name'>downtown-die-slot-trick-B</div></div>
-<div class='tile'><div class='icon sprite-downtown-die-slot-bank-A'></div><div class='name'>downtown-die-slot-bank-A</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-move-components'></div><div class='name'>workshop-action-move-components</div></div>
-<div class='tile'><div class='icon sprite-market-action-buy'></div><div class='name'>market-action-buy</div></div>
-<div class='tile'><div class='icon sprite-theater-no-shard-boost'></div><div class='name'>theater-no-shard-boost</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-reroll-die'></div><div class='name'>downtown-action-reroll-die</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-prepare'></div><div class='name'>workshop-action-prepare</div></div>
-<div class='tile'><div class='icon sprite-alley-action-fortune-telling'></div><div class='name'>alley-action-fortune-telling</div></div>
-<div class='tile'><div class='icon sprite-market-quick-order-cost'></div><div class='name'>market-quick-order-cost</div></div>
-<div class='tile'><div class='icon sprite-theater-action-set-up-trick'></div><div class='name'>theater-action-set-up-trick</div></div>
-<div class='tile'><div class='icon sprite-component-basic'></div><div class='name'>component-basic</div></div>
-<div class='tile'><div class='icon sprite-component-petroleum'></div><div class='name'>component-petroleum</div></div>
-<div class='tile'><div class='icon sprite-component-animal'></div><div class='name'>component-animal</div></div>
-<div class='tile'><div class='icon sprite-component-fabric'></div><div class='name'>component-fabric</div></div>
-<div class='tile'><div class='icon sprite-component-rope'></div><div class='name'>component-rope</div></div>
-<div class='tile'><div class='icon sprite-component-cog'></div><div class='name'>component-cog</div></div>
-<div class='tile'><div class='icon sprite-component-saw'></div><div class='name'>component-saw</div></div>
-<div class='tile'><div class='icon sprite-component-glass'></div><div class='name'>component-glass</div></div>
-<div class='tile'><div class='icon sprite-component-superior'></div><div class='name'>component-superior</div></div>
-<div class='tile'><div class='icon sprite-component-metal'></div><div class='name'>component-metal</div></div>
-<div class='tile'><div class='icon sprite-component-padlock'></div><div class='name'>component-padlock</div></div>
-<div class='tile'><div class='icon sprite-component-mirror'></div><div class='name'>component-mirror</div></div>
-<div class='tile'><div class='icon sprite-component-wood'></div><div class='name'>component-wood</div></div>
-<div class='tile'><div class='icon sprite-component-disguise'></div><div class='name'>component-disguise</div></div>
-<div class='tile'><div class='icon sprite-component-advanced'></div><div class='name'>component-advanced</div></div>
-<div class='tile'><div class='icon sprite-downtown-action-cost'></div><div class='name'>downtown-action-cost</div></div>
-<div class='tile'><div class='icon sprite-market-action-cost'></div><div class='name'>market-action-cost</div></div>
-<div class='tile'><div class='icon sprite-workshop-action-cost'></div><div class='name'>workshop-action-cost</div></div>
-<div class='tile'><div class='icon sprite-alley-action-cost'></div><div class='name'>alley-action-cost</div></div>
-<div class='tile'><div class='icon sprite-market-action-bargain'></div><div class='name'>market-action-bargain</div></div>
-<div class='tile'><div class='icon sprite-theater-action-cost'></div><div class='name'>theater-action-cost</div></div>
-</div>
-</body></html>
+      .sprite-special-assignment-slot {
+        background-image: url('../img/slots.png');
+        background-size: 521.52381% auto;
+        background-position: 0% 0%;
+        aspect-ratio: 525/796;
+        background-repeat: no-repeat;
+      }
+      .sprite-modal-header {
+        background-image: url('../img/slots.png');
+        background-size: 362.649007% auto;
+        background-position: 26.77761% 0%;
+        aspect-ratio: 755/91;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-action-slots {
+        background-image: url('../img/slots.png');
+        background-size: 453.311258% auto;
+        background-position: 24.882849% 4.7294%;
+        aspect-ratio: 604/685;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-perform {
+        background-image: url('../img/slots.png');
+        background-size: 1170.08547% auto;
+        background-position: 45.567093% 4.334227%;
+        aspect-ratio: 234/498;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-costs-compact {
+        background-image: url('../img/slots.png');
+        background-size: 1582.65896% auto;
+        background-position: 53.840156% 4.233959%;
+        aspect-ratio: 173/445;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-costs {
+        background-image: url('../img/slots.png');
+        background-size: 615.280899% auto;
+        background-position: 68.033144% 3.91129%;
+        aspect-ratio: 445/256;
+        background-repeat: no-repeat;
+      }
+      .sprite-prophecies {
+        background-image: url('../img/slots.png');
+        background-size: 622.272727% auto;
+        background-position: 0% 33.782645%;
+        aspect-ratio: 440/362;
+        background-repeat: no-repeat;
+      }
+      .sprite-assignment-slot {
+        background-image: url('../img/slots.png');
+        background-size: 1041.064639% auto;
+        background-position: 0% 50.042772%;
+        aspect-ratio: 263/398;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-link-bonus {
+        background-image: url('../img/slots.png');
+        background-size: 1170.08547% auto;
+        background-position: 10.742812% 49.89339%;
+        aspect-ratio: 234/391;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-row-logo {
+        background-image: url('../img/slots.png');
+        background-size: 716.753927% auto;
+        background-position: 18.93039% 33.195364%;
+        aspect-ratio: 382/320;
+        background-repeat: no-repeat;
+      }
+      .sprite-dark-alley-logo {
+        background-image: url('../img/slots.png');
+        background-size: 720.526316% auto;
+        background-position: 35.368957% 33.195364%;
+        aspect-ratio: 380/320;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-logo {
+        background-image: url('../img/slots.png');
+        background-size: 720.526316% auto;
+        background-position: 51.738762% 33.195364%;
+        aspect-ratio: 380/320;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-logo {
+        background-image: url('../img/slots.png');
+        background-size: 720.526316% auto;
+        background-position: 68.108567% 33.195364%;
+        aspect-ratio: 380/320;
+        background-repeat: no-repeat;
+      }
+      .sprite-assignment-meeple-slot {
+        background-image: url('../img/slots.png');
+        background-size: 782.285714% auto;
+        background-position: 83.417085% 32.482787%;
+        aspect-ratio: 350/267;
+        background-repeat: no-repeat;
+      }
+      .sprite-assignment-assistant-meeple-slot {
+        background-image: url('../img/slots.png');
+        background-size: 782.285714% auto;
+        background-position: 98.324958% 32.482787%;
+        aspect-ratio: 350/267;
+        background-repeat: no-repeat;
+      }
+      .sprite-assignment-apprentice-meeple-slot {
+        background-image: url('../img/slots.png');
+        background-size: 782.285714% auto;
+        background-position: 21.314908% 47.387606%;
+        aspect-ratio: 350/267;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-prepare-bonus {
+        background-image: url('../img/slots.png');
+        background-size: 1077.952756% auto;
+        background-position: 0% 65.802676%;
+        aspect-ratio: 254/344;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-slot-3 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 10.500808% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-slot-1 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 21.324717% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-slot-1 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 32.148627% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-slot-1 {
+        background-image: url('../img/slots.png');
+        background-size: 1041.064639% auto;
+        background-position: 42.989899% 64.192496%;
+        aspect-ratio: 263/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-slot-4 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 53.836834% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-slot-2 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 64.660743% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-slot-4 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 75.484653% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-slot-2 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 86.308562% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-slot-3 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 97.132472% 64.192496%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-slot-2 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 0% 78.466558%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-slot-4 {
+        background-image: url('../img/slots.png');
+        background-size: 1041.064639% auto;
+        background-position: 10.828283% 78.466558%;
+        aspect-ratio: 263/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-slot-3 {
+        background-image: url('../img/slots.png');
+        background-size: 1045.038168% auto;
+        background-position: 21.688207% 78.466558%;
+        aspect-ratio: 262/284;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-slot-1 {
+        background-image: url('../img/slots.png');
+        background-size: 1041.064639% auto;
+        background-position: 34.949495% 47.234558%;
+        aspect-ratio: 263/259;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-logo {
+        background-image: url('../img/slots.png');
+        background-size: 1131.404959% auto;
+        background-position: 80.56891% 3.832477%;
+        aspect-ratio: 242/205;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-manager-component-slot {
+        background-image: url('../img/slots.png');
+        background-size: 1303.809524% auto;
+        background-position: 44.857595% 46.281646%;
+        aspect-ratio: 210/208;
+        background-repeat: no-repeat;
+      }
+      .sprite-optical {
+        background-image: url('../img/slots.png');
+        background-size: 1303.809524% auto;
+        background-position: 89.359177% 3.764067%;
+        aspect-ratio: 210/159;
+        background-repeat: no-repeat;
+      }
+      .sprite-escape {
+        background-image: url('../img/slots.png');
+        background-size: 1303.809524% auto;
+        background-position: 97.903481% 3.764067%;
+        aspect-ratio: 210/159;
+        background-repeat: no-repeat;
+      }
+      .sprite-mechanical {
+        background-image: url('../img/slots.png');
+        background-size: 1303.809524% auto;
+        background-position: 61.708861% 13.930927%;
+        aspect-ratio: 210/159;
+        background-repeat: no-repeat;
+      }
+      .sprite-spiritual {
+        background-image: url('../img/slots.png');
+        background-size: 1303.809524% auto;
+        background-position: 70.253165% 13.930927%;
+        aspect-ratio: 210/159;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-space {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 45.116647% 23.494918%;
+        aspect-ratio: 209/178;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-action-space {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 53.618031% 23.485737%;
+        aspect-ratio: 209/177;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-component-slot {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 31.830763% 76.137713%;
+        aspect-ratio: 209/209;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-shard-boost {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 78.766311% 13.818322%;
+        aspect-ratio: 209/138;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-space {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 62.119415% 23.485737%;
+        aspect-ratio: 209/177;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-shard-boost {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 87.267695% 13.818322%;
+        aspect-ratio: 209/138;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-shard-boost {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 95.769079% 13.818322%;
+        aspect-ratio: 209/138;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-shard-boost {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 70.620799% 23.133179%;
+        aspect-ratio: 209/138;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-space {
+        background-image: url('../img/slots.png');
+        background-size: 1310.047847% auto;
+        background-position: 53.380783% 45.738858%;
+        aspect-ratio: 209/178;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-quick-order-slot {
+        background-image: url('../img/slots.png');
+        background-size: 1335.609756% auto;
+        background-position: 40.268456% 76.017384%;
+        aspect-ratio: 205/205;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-component-slot {
+        background-image: url('../img/slots.png');
+        background-size: 1426.041667% auto;
+        background-position: 48.350353% 75.569521%;
+        aspect-ratio: 192/190;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater {
+        background-image: url('../img/slots.png');
+        background-size: 1433.507853% auto;
+        background-position: 61.444837% 45.173745%;
+        aspect-ratio: 191/146;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-action-draw-further-cards {
+        background-image: url('../img/slots.png');
+        background-size: 1480% auto;
+        background-position: 50.607129% 0%;
+        aspect-ratio: 185/87;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-space-extended {
+        background-image: url('../img/slots.png');
+        background-size: 1610.588235% auto;
+        background-position: 55.646417% 75.215012%;
+        aspect-ratio: 170/178;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-order {
+        background-image: url('../img/slots.png');
+        background-size: 1601.169591% auto;
+        background-position: 57.771718% 0%;
+        aspect-ratio: 171/82;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-row {
+        background-image: url('../img/slots.png');
+        background-size: 1601.169591% auto;
+        background-position: 77.950915% 23.053318%;
+        aspect-ratio: 171/129;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown {
+        background-image: url('../img/slots.png');
+        background-size: 1610.588235% auto;
+        background-position: 84.813084% 23.044479%;
+        aspect-ratio: 170/128;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop {
+        background-image: url('../img/slots.png');
+        background-size: 1610.588235% auto;
+        background-position: 91.666667% 23.018001%;
+        aspect-ratio: 170/125;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-set-die {
+        background-image: url('../img/slots.png');
+        background-size: 1629.761905% auto;
+        background-position: 98.44358% 22.877807%;
+        aspect-ratio: 168/109;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-action-reschedule {
+        background-image: url('../img/slots.png');
+        background-size: 1711.25% auto;
+        background-position: 68.347556% 44.150943%;
+        aspect-ratio: 160/86;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-action-draw-first-card {
+        background-image: url('../img/slots.png');
+        background-size: 1722.012579% auto;
+        background-position: 19.736332% 54.473386%;
+        aspect-ratio: 159/87;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-hire-character {
+        background-image: url('../img/slots.png');
+        background-size: 1743.949045% auto;
+        background-position: 62.1852% 72.878788%;
+        aspect-ratio: 157/96;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-learn-trick {
+        background-image: url('../img/slots.png');
+        background-size: 1789.542484% auto;
+        background-position: 0% 83.895415%;
+        aspect-ratio: 153/97;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-action-space {
+        background-image: url('../img/slots.png');
+        background-size: 1837.583893% auto;
+        background-position: 0% 89.046887%;
+        aspect-ratio: 149/134;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-quick-order {
+        background-image: url('../img/slots.png');
+        background-size: 1850% auto;
+        background-position: 68.262548% 72.851193%;
+        aspect-ratio: 148/95;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-move-apprentice {
+        background-image: url('../img/slots.png');
+        background-size: 1941.843972% auto;
+        background-position: 5.968425% 88.367658%;
+        aspect-ratio: 141/114;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-move-tricks {
+        background-image: url('../img/slots.png');
+        background-size: 1941.843972% auto;
+        background-position: 11.628802% 88.367658%;
+        aspect-ratio: 141/114;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-take-coins {
+        background-image: url('../img/slots.png');
+        background-size: 1984.057971% auto;
+        background-position: 74.153846% 44.150943%;
+        aspect-ratio: 138/86;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-bank-B {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 0% 94.5%;
+        aspect-ratio: 137/136;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-character-B {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 0% 100%;
+        aspect-ratio: 137/137;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-trick-A {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 5.497885% 100%;
+        aspect-ratio: 137/137;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-character-A {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 10.995771% 100%;
+        aspect-ratio: 137/137;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-trick-B {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 16.493656% 100%;
+        aspect-ratio: 137/137;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-die-slot-bank-A {
+        background-image: url('../img/slots.png');
+        background-size: 1998.540146% auto;
+        background-position: 5.497885% 94.5%;
+        aspect-ratio: 137/136;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-move-components {
+        background-image: url('../img/slots.png');
+        background-size: 2074.242424% auto;
+        background-position: 17.22947% 88.367658%;
+        aspect-ratio: 132/114;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-buy {
+        background-image: url('../img/slots.png');
+        background-size: 2190.4% auto;
+        background-position: 63.528511% 0%;
+        aspect-ratio: 125/62;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-no-shard-boost {
+        background-image: url('../img/slots.png');
+        background-size: 2208.064516% auto;
+        background-position: 79.265493% 44.084401%;
+        aspect-ratio: 124/82;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-reroll-die {
+        background-image: url('../img/slots.png');
+        background-size: 2244.262295% auto;
+        background-position: 25.764526% 54.473386%;
+        aspect-ratio: 122/87;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-prepare {
+        background-image: url('../img/slots.png');
+        background-size: 2710.891089% auto;
+        background-position: 100% 13.723242%;
+        aspect-ratio: 101/120;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-action-fortune-telling {
+        background-image: url('../img/slots.png');
+        background-size: 2558.878505% auto;
+        background-position: 22.310908% 88.333969%;
+        aspect-ratio: 107/113;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-quick-order-cost {
+        background-image: url('../img/slots.png');
+        background-size: 2710.891089% auto;
+        background-position: 72.885855% 72.823618%;
+        aspect-ratio: 101/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-action-set-up-trick {
+        background-image: url('../img/slots.png');
+        background-size: 2852.083333% auto;
+        background-position: 30.355791% 54.473386%;
+        aspect-ratio: 96/87;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-basic {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 76.739788% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-petroleum {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 80.521936% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-animal {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 84.304085% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-fabric {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 88.086233% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-rope {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 91.868381% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-cog {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 95.65053% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-saw {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 99.432678% 72.823618%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-glass {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 6.013616% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-superior {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 9.795764% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-metal {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 13.577912% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-padlock {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 17.360061% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-mirror {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 21.142209% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-wood {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 24.924357% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-disguise {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 28.706505% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-component-advanced {
+        background-image: url('../img/slots.png');
+        background-size: 2912.765957% auto;
+        background-position: 32.488654% 83.800151%;
+        aspect-ratio: 94/94;
+        background-repeat: no-repeat;
+      }
+      .sprite-downtown-action-cost {
+        background-image: url('../img/slots.png');
+        background-size: 2976.086957% auto;
+        background-position: 36.243386% 83.736762%;
+        aspect-ratio: 92/92;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-cost {
+        background-image: url('../img/slots.png');
+        background-size: 2976.086957% auto;
+        background-position: 39.94709% 83.736762%;
+        aspect-ratio: 92/92;
+        background-repeat: no-repeat;
+      }
+      .sprite-workshop-action-cost {
+        background-image: url('../img/slots.png');
+        background-size: 2976.086957% auto;
+        background-position: 43.650794% 83.736762%;
+        aspect-ratio: 92/92;
+        background-repeat: no-repeat;
+      }
+      .sprite-alley-action-cost {
+        background-image: url('../img/slots.png');
+        background-size: 3008.791209% auto;
+        background-position: 47.336607% 83.705104%;
+        aspect-ratio: 91/91;
+        background-repeat: no-repeat;
+      }
+      .sprite-market-action-bargain {
+        background-image: url('../img/slots.png');
+        background-size: 3008.791209% auto;
+        background-position: 83.188515% 43.853073%;
+        aspect-ratio: 91/68;
+        background-repeat: no-repeat;
+      }
+      .sprite-theater-action-cost {
+        background-image: url('../img/slots.png');
+        background-size: 4212.307692% auto;
+        background-position: 86.00823% 43.803819%;
+        aspect-ratio: 65/65;
+        background-repeat: no-repeat;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sprite Preview</h1>
+    <div class="grid">
+      <div class="tile">
+        <div class="icon sprite-special-assignment-slot"></div>
+        <div class="name">special-assignment-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-modal-header"></div>
+        <div class="name">modal-header</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-action-slots"></div>
+        <div class="name">theater-action-slots</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-perform"></div>
+        <div class="name">theater-perform</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-costs-compact"></div>
+        <div class="name">market-costs-compact</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-costs"></div>
+        <div class="name">market-costs</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-prophecies"></div>
+        <div class="name">prophecies</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-assignment-slot"></div>
+        <div class="name">assignment-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-link-bonus"></div>
+        <div class="name">theater-link-bonus</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-row-logo"></div>
+        <div class="name">market-row-logo</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-dark-alley-logo"></div>
+        <div class="name">dark-alley-logo</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-logo"></div>
+        <div class="name">downtown-logo</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-logo"></div>
+        <div class="name">workshop-logo</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-assignment-meeple-slot"></div>
+        <div class="name">assignment-meeple-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-assignment-assistant-meeple-slot"></div>
+        <div class="name">assignment-assistant-meeple-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-assignment-apprentice-meeple-slot"></div>
+        <div class="name">assignment-apprentice-meeple-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-prepare-bonus"></div>
+        <div class="name">workshop-prepare-bonus</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-slot-3"></div>
+        <div class="name">market-slot-3</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-slot-1"></div>
+        <div class="name">downtown-slot-1</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-slot-1"></div>
+        <div class="name">market-slot-1</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-slot-1"></div>
+        <div class="name">alley-slot-1</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-slot-4"></div>
+        <div class="name">market-slot-4</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-slot-2"></div>
+        <div class="name">downtown-slot-2</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-slot-4"></div>
+        <div class="name">downtown-slot-4</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-slot-2"></div>
+        <div class="name">alley-slot-2</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-slot-3"></div>
+        <div class="name">alley-slot-3</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-slot-2"></div>
+        <div class="name">market-slot-2</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-slot-4"></div>
+        <div class="name">alley-slot-4</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-slot-3"></div>
+        <div class="name">downtown-slot-3</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-slot-1"></div>
+        <div class="name">workshop-slot-1</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-logo"></div>
+        <div class="name">theater-logo</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-manager-component-slot"></div>
+        <div class="name">workshop-manager-component-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-optical"></div>
+        <div class="name">optical</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-escape"></div>
+        <div class="name">escape</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-mechanical"></div>
+        <div class="name">mechanical</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-spiritual"></div>
+        <div class="name">spiritual</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-space"></div>
+        <div class="name">market-action-space</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-action-space"></div>
+        <div class="name">alley-action-space</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-component-slot"></div>
+        <div class="name">market-component-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-shard-boost"></div>
+        <div class="name">downtown-shard-boost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-space"></div>
+        <div class="name">workshop-action-space</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-shard-boost"></div>
+        <div class="name">workshop-shard-boost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-shard-boost"></div>
+        <div class="name">market-shard-boost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-shard-boost"></div>
+        <div class="name">alley-shard-boost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-space"></div>
+        <div class="name">downtown-action-space</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-quick-order-slot"></div>
+        <div class="name">market-quick-order-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-component-slot"></div>
+        <div class="name">workshop-component-slot</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater"></div>
+        <div class="name">theater</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-action-draw-further-cards"></div>
+        <div class="name">alley-action-draw-further-cards</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-space-extended"></div>
+        <div class="name">market-action-space-extended</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-order"></div>
+        <div class="name">market-action-order</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-row"></div>
+        <div class="name">market-row</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown"></div>
+        <div class="name">downtown</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop"></div>
+        <div class="name">workshop</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-set-die"></div>
+        <div class="name">downtown-action-set-die</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-action-reschedule"></div>
+        <div class="name">theater-action-reschedule</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-action-draw-first-card"></div>
+        <div class="name">alley-action-draw-first-card</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-hire-character"></div>
+        <div class="name">downtown-action-hire-character</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-learn-trick"></div>
+        <div class="name">downtown-action-learn-trick</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-action-space"></div>
+        <div class="name">theater-action-space</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-quick-order"></div>
+        <div class="name">market-action-quick-order</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-move-apprentice"></div>
+        <div class="name">workshop-action-move-apprentice</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-move-tricks"></div>
+        <div class="name">workshop-action-move-tricks</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-take-coins"></div>
+        <div class="name">downtown-action-take-coins</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-bank-B"></div>
+        <div class="name">downtown-die-slot-bank-B</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-character-B"></div>
+        <div class="name">downtown-die-slot-character-B</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-trick-A"></div>
+        <div class="name">downtown-die-slot-trick-A</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-character-A"></div>
+        <div class="name">downtown-die-slot-character-A</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-trick-B"></div>
+        <div class="name">downtown-die-slot-trick-B</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-die-slot-bank-A"></div>
+        <div class="name">downtown-die-slot-bank-A</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-move-components"></div>
+        <div class="name">workshop-action-move-components</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-buy"></div>
+        <div class="name">market-action-buy</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-no-shard-boost"></div>
+        <div class="name">theater-no-shard-boost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-reroll-die"></div>
+        <div class="name">downtown-action-reroll-die</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-prepare"></div>
+        <div class="name">workshop-action-prepare</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-action-fortune-telling"></div>
+        <div class="name">alley-action-fortune-telling</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-quick-order-cost"></div>
+        <div class="name">market-quick-order-cost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-action-set-up-trick"></div>
+        <div class="name">theater-action-set-up-trick</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-basic"></div>
+        <div class="name">component-basic</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-petroleum"></div>
+        <div class="name">component-petroleum</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-animal"></div>
+        <div class="name">component-animal</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-fabric"></div>
+        <div class="name">component-fabric</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-rope"></div>
+        <div class="name">component-rope</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-cog"></div>
+        <div class="name">component-cog</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-saw"></div>
+        <div class="name">component-saw</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-glass"></div>
+        <div class="name">component-glass</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-superior"></div>
+        <div class="name">component-superior</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-metal"></div>
+        <div class="name">component-metal</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-padlock"></div>
+        <div class="name">component-padlock</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-mirror"></div>
+        <div class="name">component-mirror</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-wood"></div>
+        <div class="name">component-wood</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-disguise"></div>
+        <div class="name">component-disguise</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-component-advanced"></div>
+        <div class="name">component-advanced</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-downtown-action-cost"></div>
+        <div class="name">downtown-action-cost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-cost"></div>
+        <div class="name">market-action-cost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-workshop-action-cost"></div>
+        <div class="name">workshop-action-cost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-alley-action-cost"></div>
+        <div class="name">alley-action-cost</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-market-action-bargain"></div>
+        <div class="name">market-action-bargain</div>
+      </div>
+      <div class="tile">
+        <div class="icon sprite-theater-action-cost"></div>
+        <div class="name">theater-action-cost</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -18,52 +18,48 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\LearnTrick;
 
 class FinishEngineerSetup extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_FINISH_ENGINEER_SETUP,
-            type: StateType::GAME,
-        );
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_FINISH_ENGINEER_SETUP, type: StateType::GAME);
+  }
+
+  function onEnteringState(int $activePlayerId)
+  {
+    if (Globals::isBeginnersSetup()) {
+      return FinishSetup::class;
     }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        if (Globals::isBeginnersSetup()) {
-            return FinishSetup::class;
-        }
+    $playersWithEngineers = Characters::getAll()
+      ->where('location', Characters::LOCATION_IDLE_ANY)
+      ->where('type', Character::TYPE_ENGINEER)
+      ->pluck('playerId')
+      ->toArray();
 
-        $playersWithEngineers = Characters::getAll()
-            ->where("location", Characters::LOCATION_IDLE_ANY)
-            ->where("type", Character::TYPE_ENGINEER)
-            ->pluck("playerId")
-            ->toArray();
-
-        if (empty($playersWithEngineers)) {
-            return FinishSetup::class;
-        }
-
-        $turnOrder = Players::getTurnOrderFiltered($playersWithEngineers);
-
-        return TurnOrderManager::launch(
-            "engineerSetupTurn",
-            $turnOrder,
-            [self::class, 'startEngineerSetupTurn'],
-            FinishSetup::class,
-            false
-        );
+    if (empty($playersWithEngineers)) {
+      return FinishSetup::class;
     }
 
-    public static function startEngineerSetupTurn()
-    {
-        $node = [
-            "state" => LearnTrick::class,
-            "args" => [
-                "sourceName" => clienttranslate('after selecting engineer')
-            ]
-        ];
+    $turnOrder = Players::getTurnOrderFiltered($playersWithEngineers);
 
-        Engine::setup($node, ['order' => "engineerSetupTurn"]);
-        return Engine::proceed();
-    }
+    return TurnOrderManager::launch(
+      'engineerSetupTurn',
+      $turnOrder,
+      [self::class, 'startEngineerSetupTurn'],
+      FinishSetup::class,
+      false,
+    );
+  }
+
+  public static function startEngineerSetupTurn()
+  {
+    $node = [
+      'state' => LearnTrick::class,
+      'args' => [
+        'sourceName' => clienttranslate('after selecting engineer'),
+      ],
+    ];
+
+    Engine::setup($node, ['order' => 'engineerSetupTurn']);
+    return Engine::proceed();
+  }
 }

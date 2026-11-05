@@ -84,8 +84,8 @@ class QueryBuilder extends WithGame
 
     // Case 2: AUTO_INCREMENT primary key
     if ($this->insertPrimaryIndex === false) {
-      $firstId = (int) self::$game::getUniqueValueFromDB("SELECT LAST_INSERT_ID()");
-      $count   = count($rows);
+      $firstId = (int) self::$game::getUniqueValueFromDB('SELECT LAST_INSERT_ID()');
+      $count = count($rows);
 
       for ($i = 0; $i < $count; $i++) {
         $ids[] = $firstId + $i;

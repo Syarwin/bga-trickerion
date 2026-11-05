@@ -6,16 +6,18 @@ use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
 class A44_BusinessShare extends Assignment
 {
-    public function __construct($row)
-    {
-        parent::__construct($row);
-        $this->type = 'A44_BusinessShare';
-        $this->category = Assignment::CATEGORY_SPECIAL;
-        $this->name = clienttranslate('Business Share');
-        $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
-        $this->targetAction = Assignment::TARGET_ACTION_ANY;
-        $this->abilityText = [
-            clienttranslate('Whenever an opponent spends <coin> at the Market Row this turn after you placed this <disk>, those <coin> are paid to you.'),
-        ];
-    }
+  public function __construct($row)
+  {
+    parent::__construct($row);
+    $this->type = 'A44_BusinessShare';
+    $this->category = Assignment::CATEGORY_SPECIAL;
+    $this->name = clienttranslate('Business Share');
+    $this->boardLocation = Assignment::BOARD_LOCATION_MARKET_ROW;
+    $this->targetAction = Assignment::TARGET_ACTION_ANY;
+    $this->abilityText = [
+      clienttranslate(
+        'Whenever an opponent spends <coin> at the Market Row this turn after you placed this <disk>, those <coin> are paid to you.',
+      ),
+    ];
+  }
 }

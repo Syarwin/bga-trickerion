@@ -56,7 +56,12 @@ export class StateProcessor {
       }
     }
 
-    if (args?.anytimeActions && args?.anytimeActions.length > 0 && stateArgs.name !== 'client_selectAnytimeAction') {
+    if (
+      isCurrentPlayerActive() &&
+      args?.anytimeActions &&
+      args?.anytimeActions.length > 0 &&
+      stateArgs.name !== 'client_selectAnytimeAction'
+    ) {
       this.bga.statusBar.addAttachedActionButton(
         getRestartActionButtonsNode(),
         `<i class="fa fa-magic" aria-hidden="true"></i>`, //_('Free actions'),

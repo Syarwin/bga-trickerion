@@ -17,42 +17,44 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\Advertise;
 
 class TurnPreparation extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_TURN_PREPARATION,
-            type: StateType::GAME,
-        );
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_TURN_PREPARATION, type: StateType::GAME);
+  }
+
+  function onEnteringState(int $activePlayerId)
+  {
+    $turn = Globals::getCurrentTurn();
+    $this->notify->all('message', clienttranslate('Turn ${turn} begins'), ['turn' => $turn]);
+
+    //adjust initiative
+    $turn = Globals::getCurrentTurn();
+    if ($turn > 1) {
+      Players::adjustInitiative();
     }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $turn = Globals::getCurrentTurn();
-        $this->notify->all("message", clienttranslate('Turn ${turn} begins'), ["turn" => $turn]);
+    //roll dice
+    Dice::roll();
 
-        //adjust initiative
-        $turn = Globals::getCurrentTurn();
-        if ($turn > 1) {
-            Players::adjustInitiative();
-        }
+    //start advertising turn
+    return TurnOrderManager::launch(
+      'turn',
+      Players::getOrderByInitiative(),
+      [self::class, 'startAdvertiseTurn'],
+      StartAssignment::class,
+      false,
+    );
+  }
 
-        //roll dice
-        Dice::roll();
+  public static function startAdvertiseTurn()
+  {
+    Game::get()->giveExtraTime(Players::getActiveId());
+    $newNode = [
+      'state' => Advertise::class,
+      'args' => [],
+    ];
 
-        //start advertising turn
-        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startAdvertiseTurn"], StartAssignment::class, false);
-    }
-
-    public static function startAdvertiseTurn() {
-        Game::get()->giveExtraTime(Players::getActiveId());
-        $newNode = [
-            "state" => Advertise::class,
-            "args" => [
-            ]
-        ];
-
-        Engine::setup($newNode, ["order" => "turn"]);
-        return Engine::proceed();
-    }
+    Engine::setup($newNode, ['order' => 'turn']);
+    return Engine::proceed();
+  }
 }

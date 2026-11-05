@@ -16,59 +16,59 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Db\Log;
 
 class Performance extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_PERFORMANCE,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must choose a performance to perform for ${day}'),
-            descriptionMyTurn: clienttranslate('${you} must choose a performance to perform for ${day}'),
-        );
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_PERFORMANCE,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must choose a performance to perform for ${day}'),
+      descriptionMyTurn: clienttranslate('${you} must choose a performance to perform for ${day}'),
+    );
+  }
+
+  public function onEnteringState()
+  {
+    $skip = $this->getNodeArgs('skip') ?? false;
+    if ($skip) {
+      $this->bga->notify->all('message', clienttranslate('No player is performing for ${day}, skipping'), [
+        'day' => $this->getNodeArgs('day'),
+      ]);
+
+      return $this->resolve(['skipped' => true, 'automatic' => true]);
     }
+  }
 
-    public function onEnteringState() {
-        $skip = $this->getNodeArgs("skip") ?? false;
-        if ($skip) {
-            $this->bga->notify->all("message", clienttranslate('No player is performing for ${day}, skipping'), [
-                "day" => $this->getNodeArgs("day"),
-            ]);
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $args = [
+      'day' => $this->getNodeArgs('day'),
+      'availablePerformances' => Performances::getInLocation(Performances::LOCATION_ACTIVE)->toArray(),
+    ];
+    return $args;
+  }
 
-            return $this->resolve(["skipped" => true, "automatic" => true]);
-        }
+  /**
+   * Player must resolve the choice.
+   *
+   * @throws UserException
+   */
+  #[PossibleAction]
+  public function actSelectPerformance(int $activePlayerId, int $performanceId, array $args)
+  {
+    Log::step();
+    $performance = Performances::get($performanceId);
+    if (!in_array($performance, $args['availablePerformances'])) {
+      throw new UserException(clienttranslate('This performance is not available'));
     }
+    $this->bga->notify->all('performanceChosen', clienttranslate('${player_name} chooses performance ${performance}'), [
+      'player_id' => $activePlayerId,
+      'performance' => $performance,
+    ]);
 
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $args = [
-            "day" => $this->getNodeArgs("day"),
-            "availablePerformances" => Performances::getInLocation(Performances::LOCATION_ACTIVE)->toArray()
-        ];
-        return $args;
-    }    
+    $performance->perform($activePlayerId);
 
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actSelectPerformance(int $activePlayerId, int $performanceId, array $args)
-    {
-        Log::step();
-        $performance = Performances::get($performanceId);
-        if (!in_array($performance, $args["availablePerformances"])) {
-            throw new UserException(clienttranslate("This performance is not available"));
-        }
-        $this->bga->notify->all("performanceChosen", clienttranslate('${player_name} chooses performance ${performance}'), [
-            "player_id" => $activePlayerId,
-            "performance" => $performance,
-        ]);
-
-        $performance->perform($activePlayerId);
-
-        return $this->resolve(["performanceId" => $performanceId]);
-    }    
+    return $this->resolve(['performanceId' => $performanceId]);
+  }
 }

@@ -1,6 +1,6 @@
-import { State } from "../framework/State";
-import { cards } from "../Cards";
-import { attachRegisteredTooltips } from "../framework/utils";
+import { State } from '../framework/State';
+import { cards } from '../Cards';
+import { attachRegisteredTooltips } from '../framework/utils';
 
 /**
  * FinishSetup visual state.
@@ -9,31 +9,31 @@ import { attachRegisteredTooltips } from "../framework/utils";
  * on the Dark Alley board (if Dark Alley expansion is active).
  */
 export class FinishSetup extends State {
-    onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
-        // Transition state — UI setup is already complete from board.init()
+  onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
+    // Transition state — UI setup is already complete from board.init()
+  }
+
+  onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
+    // Nothing to clean up
+  }
+
+  onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
+    // Game state — not player-interactive
+  }
+
+  async notif_pendingProphecies(args: PendingPropheciesArgs) {
+    // Initial pending prophecies are revealed — render them in the Dark Alley area
+    const container = document.getElementById('alley-pending-prophecies');
+    if (!container) return;
+
+    container.innerHTML = '';
+    for (const prophecy of args.prophecies) {
+      container.insertAdjacentHTML('beforeend', cards.tplProphecy(prophecy));
     }
+    attachRegisteredTooltips();
 
-    onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
-        // Nothing to clean up
-    }
-
-    onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
-        // Game state — not player-interactive
-    }
-
-    async notif_pendingProphecies(args: PendingPropheciesArgs) {
-        // Initial pending prophecies are revealed — render them in the Dark Alley area
-        const container = document.getElementById('alley-pending-prophecies');
-        if (!container) return;
-
-        container.innerHTML = '';
-        for (const prophecy of args.prophecies) {
-            container.insertAdjacentHTML('beforeend', cards.tplProphecy(prophecy));
-        }
-        attachRegisteredTooltips();
-
-        // Update gamedatas
-        const gamedatas = this.bga.gameui.gamedatas as TrickerionGamedatas;
-        gamedatas.prophecies.pending = args.prophecies;
-    }
+    // Update gamedatas
+    const gamedatas = this.bga.gameui.gamedatas as TrickerionGamedatas;
+    gamedatas.prophecies.pending = args.prophecies;
+  }
 }

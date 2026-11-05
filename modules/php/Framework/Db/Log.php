@@ -19,7 +19,8 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
 class Log extends WithGame
 {
   private static $resetCallback = null;
-  public static function setResetCallback($callback) {
+  public static function setResetCallback($callback)
+  {
     self::$resetCallback = $callback;
   }
 
@@ -84,11 +85,7 @@ class Log extends WithGame
       $query = $query->where('type', 'checkpoint');
     }
 
-    $log = $query
-      ->orderBy('id', 'DESC')
-      ->limit(1)
-      ->get()
-      ->first();
+    $log = $query->orderBy('id', 'DESC')->limit(1)->get()->first();
 
     return is_null($log) ? 1 : $log['id'];
   }
@@ -122,10 +119,7 @@ class Log extends WithGame
   public static function undoToStep($stepId)
   {
     $query = new QueryBuilder('log', null, 'id');
-    $step = $query
-      ->where('id', '=', $stepId)
-      ->get()
-      ->first();
+    $step = $query->where('id', '=', $stepId)->get()->first();
     if (is_null($step)) {
       throw new VisibleSystemException('Cant undo here');
     }
@@ -189,10 +183,7 @@ class Log extends WithGame
 
     // Clear logs
     $query = new QueryBuilder('log', null, 'id');
-    $query
-      ->where('id', '>', $id)
-      ->delete()
-      ->run();
+    $query->where('id', '>', $id)->delete()->run();
 
     // Cancel the game notifications
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
@@ -201,8 +192,8 @@ class Log extends WithGame
       $packets = $query->whereIn('gamelog_move_id', $moveIds)->get();
       $notifIds = self::extractNotifIds($packets);
       self::$game->bga->notify->all('clearTurn', clienttranslate('${player_name} restarts their turn'), [
-          'player' => Players::getCurrent(),
-          'notifIds' => $notifIds,
+        'player' => Players::getCurrent(),
+        'notifIds' => $notifIds,
       ]);
     }
 
@@ -211,23 +202,19 @@ class Log extends WithGame
     }
 
     // Notify
-    Players::getAll()
-      ->forEach(function ($player) {
-          $data = self::$game->getAllDatas($player->getId());
-          self::$game->bga->notify->player($player->getId(), 'refreshUI', '', [
-              'data' => $data,
-          ]);
-      });
- 
+    Players::getAll()->forEach(function ($player) {
+      $data = self::$game->getAllDatas($player->getId());
+      self::$game->bga->notify->player($player->getId(), 'refreshUI', '', [
+        'data' => $data,
+      ]);
+    });
+
     // Force notif flush to be able to delete "restart turn" notif
     self::$game->sendNotifications();
     if (!empty($moveIds)) {
       // Delete notifications
       $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
-      $query
-        ->delete()
-        ->where('gamelog_move_id', '>=', min($moveIds))
-        ->run();
+      $query->delete()->where('gamelog_move_id', '>=', min($moveIds))->run();
     }
 
     return $moveIds;
@@ -298,7 +285,7 @@ class Log extends WithGame
           [
             'gamelog_notification' => addslashes(json_encode($notifs)),
           ],
-          $id
+          $id,
         );
       }
     }

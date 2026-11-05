@@ -18,48 +18,48 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players;
  */
 class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
-    protected $table = 'player';
-    protected $primary = 'player_id';
+  protected $table = 'player';
+  protected $primary = 'player_id';
 
-    protected $defaultAttributes = [
-        'id' => ['player_id', 'int'],
-        'no' => ['player_no', 'int'],
-        'name' => 'player_name',
-        'color' => 'player_color',
-        'eliminated' => 'player_eliminated',
-        'score' => ['player_score', 'int'],
-        'scoreAux' => ['player_score_aux', 'int'],
-        'zombie' => 'player_zombie',
-    ];
+  protected $defaultAttributes = [
+    'id' => ['player_id', 'int'],
+    'no' => ['player_no', 'int'],
+    'name' => 'player_name',
+    'color' => 'player_color',
+    'eliminated' => 'player_eliminated',
+    'score' => ['player_score', 'int'],
+    'scoreAux' => ['player_score_aux', 'int'],
+    'zombie' => 'player_zombie',
+  ];
 
-    protected $customAttributes = [];
-    
-    public function __construct($row)
-    {
-        $this->attributes = array_merge($this->defaultAttributes, $this->customAttributes);
-        parent::__construct($row);
-    }
-    
-    public function getUiData($currentPlayerId = null)
-    {
-        $data = parent::getUiData();
+  protected $customAttributes = [];
 
-        return $data;
-    }
+  public function __construct($row)
+  {
+    $this->attributes = array_merge($this->defaultAttributes, $this->customAttributes);
+    parent::__construct($row);
+  }
 
-    // public function getPref($prefId)
-    // {
-    //     return Preferences::get($this->id, $prefId);
-    // }
+  public function getUiData($currentPlayerId = null)
+  {
+    $data = parent::getUiData();
 
-    // public function getStat($name)
-    // {
-    //     $name = 'get' . \ucfirst($name);
-    //     return Stats::$name($this->id);
-    // }
+    return $data;
+  }
 
-    public function isCurrentPlayer()
-    {
-        return $this->id == Players::getCurrentId();
-    }
+  // public function getPref($prefId)
+  // {
+  //     return Preferences::get($this->id, $prefId);
+  // }
+
+  // public function getStat($name)
+  // {
+  //     $name = 'get' . \ucfirst($name);
+  //     return Stats::$name($this->id);
+  // }
+
+  public function isCurrentPlayer()
+  {
+    return $this->id == Players::getCurrentId();
+  }
 }

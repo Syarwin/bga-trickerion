@@ -7,26 +7,26 @@ use Bga\Games\trickerionlegendsofillusion\Models\Trick;
 
 class T32_WolfCage extends Trick
 {
-    public function __construct($row)
-    {
-        parent::__construct($row);
-        $this->type = 'T32_WolfCage';
-        $this->category = Trick::CATEGORY_ESCAPE;
-        $this->name = clienttranslate('Wolf Cage');
-        $this->componentRequirements = [
-            Component::PETROLEUM,
-            Component::ANIMAL,
-            Component::ANIMAL,
-            Component::METAL,
-            Component::METAL,
-        ];
-        $this->preparationCost = 1;
-        $this->slots = 1;
-        $this->level = 2;
-        $this->yields = [
-            "fame" => 3,
-            "coins" => 3,
-            "shards" => 1
-        ];
-    }
+  public function __construct($row)
+  {
+    parent::__construct($row);
+    $this->type = 'T32_WolfCage';
+    $this->category = Trick::CATEGORY_ESCAPE;
+    $this->name = clienttranslate('Wolf Cage');
+    $this->componentRequirements = [
+      Component::PETROLEUM,
+      Component::ANIMAL,
+      Component::ANIMAL,
+      Component::METAL,
+      Component::METAL,
+    ];
+    $this->preparationCost = 1;
+    $this->slots = 1;
+    $this->level = 2;
+    $this->yields = [
+      'fame' => 3,
+      'coins' => 3,
+      'shards' => 1,
+    ];
+  }
 }

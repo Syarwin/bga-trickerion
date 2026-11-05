@@ -13,39 +13,34 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 class GetFame extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_GET_FAME,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_GET_FAME, type: StateType::GAME);
+  }
 
-    public function getDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Get ${amount} fame (${sourceName})'),
-                "args" => [
-                    "amount" => $this->getNodeArgs("amount", 1),
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return [
-            "log" => clienttranslate('Get ${amount} fame'),
-            "args" => [
-                "amount" => $this->getNodeArgs("amount", 1),
-            ]
-        ];
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Get ${amount} fame (${sourceName})'),
+        'args' => [
+          'amount' => $this->getNodeArgs('amount', 1),
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
     }
+    return [
+      'log' => clienttranslate('Get ${amount} fame'),
+      'args' => [
+        'amount' => $this->getNodeArgs('amount', 1),
+      ],
+    ];
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $amount = $this->getNodeArgs("amount", 1);
-        Players::get($activePlayerId)->addFame($amount);
-        return $this->resolve();
-    }    
+  function onEnteringState(int $activePlayerId)
+  {
+    $amount = $this->getNodeArgs('amount', 1);
+    Players::get($activePlayerId)->addFame($amount);
+    return $this->resolve();
+  }
 }

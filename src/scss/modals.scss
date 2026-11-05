@@ -4,7 +4,7 @@
  *
  * Customise by replacing "custom_popin" with your configured `class` value.
  */
-@use "_slots.generated" as _slot;
+@use '_slots.generated' as _slot;
 
 .custom_popin {
   position: relative;
@@ -12,7 +12,7 @@
   min-width: 300px;
   width: 70%;
   box-sizing: border-box;
-  background: url("img/background.jpg");
+  background: url('img/background.jpg');
   border: 2px #891216 solid;
   border-radius: 15px;
   padding: 1%;
@@ -31,7 +31,7 @@
   transform: translateX(-50%);
   top: -36px;
   font-size: 25px;
-  font-family: "Brandon Text Bold";
+  font-family: 'Brandon Text Bold';
   text-align: center;
   text-transform: uppercase;
   color: #891216;
@@ -94,7 +94,7 @@
       border-bottom: none;
       background: #e8e8e8;
       cursor: pointer;
-      font-family: "Brandon Text Bold", sans-serif;
+      font-family: 'Brandon Text Bold', sans-serif;
       font-size: 18px;
       text-transform: capitalize;
       color: #555;
@@ -135,10 +135,10 @@
     }
   }
 
-  $categories: "spiritual" "mechanical" "escape" "optical";
+  $categories: 'spiritual' 'mechanical' 'escape' 'optical';
   @each $cat in $categories {
-    &[data-visible="#{$cat}"] {
-      #tricks-decks-tabs .tab[data-category="#{$cat}"] {
+    &[data-visible='#{$cat}'] {
+      #tricks-decks-tabs .tab[data-category='#{$cat}'] {
         background: #ffffffa8;
         color: black;
         border-bottom-color: white;

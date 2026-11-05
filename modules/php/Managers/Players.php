@@ -13,78 +13,79 @@ use Bga\Games\trickerionlegendsofillusion\Models\Player;
 
 class Players extends \Bga\Games\trickerionlegendsofillusion\Framework\Managers\Players
 {
-    protected static ?Collection $datas = null;
-    protected static function cast(array $row): Player
-    {
-        return new \Bga\Games\trickerionlegendsofillusion\Models\Player($row);
+  protected static ?Collection $datas = null;
+  protected static function cast(array $row): Player
+  {
+    return new \Bga\Games\trickerionlegendsofillusion\Models\Player($row);
+  }
+
+  public static function setupNewGame(array $players): void
+  {
+    parent::setupNewGame($players);
+    // do custom setup by using self::getAll() or similar
+    $coins = 10;
+    $initiative = 1;
+    foreach (self::getTurnOrder() as $pId) {
+      $player = self::get($pId);
+      $player->incCoins($coins);
+      $coins += 2;
+
+      $player->setInitiative($initiative);
+      $initiative += 1;
+
+      $player->setColorName(self::getColorName($player->getColor()));
+      $player->setShards(1);
+      $player->setScore(5);
     }
+  }
 
-    public static function setupNewGame(array $players): void
-    {
-        parent::setupNewGame($players);
-        // do custom setup by using self::getAll() or similar
-        $coins = 10;
-        $initiative = 1;
-        foreach (self::getTurnOrder() as $pId) {
-            $player = self::get($pId);
-            $player->incCoins($coins);
-            $coins += 2;
+  private static function getColorName($color)
+  {
+    return $colorNames =
+      [
+        '60aaa1' => 'blue',
+        'cf4a1f' => 'red',
+        'cc7f17' => 'orange',
+        '85902b' => 'green',
+      ][$color] ?? 'unknown';
+  }
 
-            $player->setInitiative($initiative);
-            $initiative += 1;
+  public static function getOrderByInitiative()
+  {
+    return self::getAll()->orderBy('initiative', 'ASC')->pluck('id')->toArray();
+  }
 
-            $player->setColorName(self::getColorName($player->getColor()));
-            $player->setShards(1);
-            $player->setScore(5);
-        }
-    }
+  public static function adjustInitiative()
+  {
+    $initiative = 1;
+    $players = self::getAll()
+      ->orderBy('initiative', 'ASC')
+      ->orderBy('score', 'ASC')
+      ->forEach(function ($player) use (&$initiative) {
+        $player->setInitiative($initiative);
+        $initiative += 1;
+      });
 
-    private static function getColorName($color)
-    {
-        return $colorNames = [
-            "60aaa1" => "blue",
-            "cf4a1f" => "red",
-            "cc7f17" => "orange",
-            "85902b" => "green",
-        ][$color] ?? "unknown";
-    }
+    Game::get()->bga->notify->all('initiativeAdjusted', clienttranslate('New initiative order: ${players_names}'), [
+      'players' => $players,
+      'newInitiatives' => $players->pluck('initiative')->toAssoc(),
+    ]);
+  }
 
-    public static function getOrderByInitiative()
-    {
-        return self::getAll()->orderBy("initiative", "ASC")->pluck("id")->toArray();
-    }
+  public static function score($scoringFunction, $message, $limitScore = 20)
+  {
+    Game::get()->bga->notify->all('message', $message, []);
+    self::getAll()->forEach(function ($player) use ($scoringFunction, $limitScore) {
+      if (is_callable($scoringFunction)) {
+        $score = $scoringFunction($player);
+      } else {
+        $score = $player->{$scoringFunction}();
+      }
 
-    public static function adjustInitiative()
-    {
-        $initiative = 1;
-        $players = self::getAll()
-            ->orderBy("initiative", "ASC")
-            ->orderBy("score", "ASC")
-            ->forEach(function ($player) use (&$initiative) {
-                $player->setInitiative($initiative);
-                $initiative += 1;
-            });
-
-        Game::get()->bga->notify->all("initiativeAdjusted", clienttranslate('New initiative order: ${players_names}'), [
-            "players" => $players,
-            "newInitiatives" => $players->pluck("initiative")->toAssoc()
-        ]);
-    }
-
-    public static function score($scoringFunction, $message, $limitScore = 20)
-    {
-        Game::get()->bga->notify->all("message", $message, []);
-        self::getAll()->forEach(function ($player) use ($scoringFunction, $limitScore) {
-            if (is_callable($scoringFunction)) {
-                $score = $scoringFunction($player);
-            } else {
-                $score = $player->{$scoringFunction}();
-            }
-
-            if ($limitScore) {
-                $score = min($score, $limitScore);
-            }
-            $player->addFame($score);
-        });
-    }
+      if ($limitScore) {
+        $score = min($score, $limitScore);
+      }
+      $player->addFame($score);
+    });
+  }
 }

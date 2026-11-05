@@ -12,38 +12,33 @@ use Bga\Games\trickerionlegendsofillusion\Framework\Engine\AutomaticActionState;
 
 class GetShards extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_GET_SHARDS,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_GET_SHARDS, type: StateType::GAME);
+  }
 
-    public function getDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Get ${amount} shards (${sourceName})'),
-                "args" => [
-                    "amount" => $this->getNodeArgs("amount", 1),
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return [
-            "log" => clienttranslate('Get ${amount} shards'),
-            "args" => [
-                "amount" => $this->getNodeArgs("amount", 1),
-            ]
-        ];
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Get ${amount} shards (${sourceName})'),
+        'args' => [
+          'amount' => $this->getNodeArgs('amount', 1),
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
     }
+    return [
+      'log' => clienttranslate('Get ${amount} shards'),
+      'args' => [
+        'amount' => $this->getNodeArgs('amount', 1),
+      ],
+    ];
+  }
 
-    function onEnteringState()
-    {
-        $this->getPlayer()->addShards(1);
-        return $this->resolve();
-    }    
+  function onEnteringState()
+  {
+    $this->getPlayer()->addShards(1);
+    return $this->resolve();
+  }
 }

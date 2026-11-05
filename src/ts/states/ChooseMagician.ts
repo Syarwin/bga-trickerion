@@ -3,27 +3,27 @@ import { cards } from '../Cards';
 import { attachRegisteredTooltips, onSelectN } from '../framework/utils';
 
 export class ChooseMagician extends State {
-    onEnteringState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
-        if (!isCurrentPlayerActive) return;
-        const isDarkAlley = this.game.gamedatas.globals.isDarkAlley;
+  onEnteringState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
+    const isDarkAlley = this.game.gamedatas.globals.isDarkAlley;
 
-        let elements = {};
-        for (const magician of args.availableMagicians) {
-            $('trickerion-pending').insertAdjacentHTML('beforeend', cards.tplMagician(magician, '', isDarkAlley));
-            elements[magician.id] = $(`${isDarkAlley? "alley-" : ""}magician-${magician.id}`);
-        }
-        attachRegisteredTooltips();
-
-        onSelectN({
-            elements,
-            n: 1,
-            callback: (selected) => {
-                this.bga.actions.performAction('actChooseMagician', { magicianId: selected[0] });
-            },
-        });
+    let elements = {};
+    for (const magician of args.availableMagicians) {
+      $('trickerion-pending').insertAdjacentHTML('beforeend', cards.tplMagician(magician, '', isDarkAlley));
+      elements[magician.id] = $(`${isDarkAlley ? 'alley-' : ''}magician-${magician.id}`);
     }
+    attachRegisteredTooltips();
 
-    onLeavingState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
-        $('trickerion-pending').innerHTML = '';
-    }
+    onSelectN({
+      elements,
+      n: 1,
+      callback: (selected) => {
+        this.bga.actions.performAction('actChooseMagician', { magicianId: selected[0] });
+      },
+    });
+  }
+
+  onLeavingState(args: ChooseMagicianArgs, isCurrentPlayerActive: boolean) {
+    $('trickerion-pending').innerHTML = '';
+  }
 }

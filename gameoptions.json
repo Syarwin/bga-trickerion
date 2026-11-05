@@ -1,51 +1,51 @@
 {
-    "110": {
-        "name": "First time setup for beginners",
-        "values": {
-            "0": {
-                "nobeginner": true,
-                "name": "No"
-            },
-            "1": {
-                "name": "Yes",
-                "tmdisplay": "Beginners' setup"
-            }
-        },
-        "default": 1
+  "110": {
+    "name": "First time setup for beginners",
+    "values": {
+      "0": {
+        "nobeginner": true,
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes",
+        "tmdisplay": "Beginners' setup"
+      }
     },
-    "120": {
-        "name": "Dark alley",
-        "values": {
-            "0": {
-                "name": "No"
-            },
-            "1": {
-                "name": "Yes",
-                "nobeginner": true,
-                "tmdisplay": "Dark alley"
-            }
-        },
-        "default": 0
+    "default": 1
+  },
+  "120": {
+    "name": "Dark alley",
+    "values": {
+      "0": {
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes",
+        "nobeginner": true,
+        "tmdisplay": "Dark alley"
+      }
     },
-    "125": {
-        "name": "Include prophecies",
-        "values": {
-            "0": {
-                "name": "No",
-                "tmdisplay": "No prophecies"
-            },
-            "1": {
-                "name": "Yes",
-                "nobeginner": true
-            }
-        },
-        "default": 1,
-        "displaycondition": [
-            {
-                "type": "otheroption",
-                "id": 120,
-                "value": 1
-            }
-        ]
-    }
+    "default": 0
+  },
+  "125": {
+    "name": "Include prophecies",
+    "values": {
+      "0": {
+        "name": "No",
+        "tmdisplay": "No prophecies"
+      },
+      "1": {
+        "name": "Yes",
+        "nobeginner": true
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 120,
+        "value": 1
+      }
+    ]
+  }
 }

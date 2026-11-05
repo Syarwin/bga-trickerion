@@ -194,7 +194,7 @@ abstract class DB_Model extends WithGame implements \JsonSerializable
         return $row;
       },
       $this->primary,
-      $log
+      $log,
     );
   }
 }

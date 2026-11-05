@@ -18,41 +18,35 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 
 class EndTurnPhase extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_END_TURN_PHASE,
-            type: StateType::GAME,
-        );
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_END_TURN_PHASE, type: StateType::GAME);
+  }
+
+  function onEnteringState()
+  {
+    Characters::payWages();
+    Characters::return();
+
+    MarketRow::ordersArrive();
+    MarketRow::clearQuickOrder();
+
+    Performances::roundMaintenenace();
+
+    Posters::return();
+
+    Prophecies::roundMaintenance();
+
+    Assignments::roundMaintenance();
+
+    $currentTurn = Globals::getCurrentTurn();
+
+    if ((Globals::isDarkAlley() && $currentTurn == 7) || (!Globals::isDarkAlley() && $currentTurn == 5)) {
+      return EndGameScoring::class;
     }
 
-    function onEnteringState()
-    {
-        Characters::payWages();
-        Characters::return();
-        
-        MarketRow::ordersArrive();
-        MarketRow::clearQuickOrder();
-        
-        Performances::roundMaintenenace();
+    Globals::incCurrentTurn(1);
 
-        Posters::return();
-
-        Prophecies::roundMaintenance();
-
-        Assignments::roundMaintenance();
-        
-        $currentTurn = Globals::getCurrentTurn();
-
-        if (Globals::isDarkAlley() && $currentTurn == 7
-            || !Globals::isDarkAlley() && $currentTurn == 5)
-        {
-            return EndGameScoring::class;
-        }
-
-        Globals::incCurrentTurn(1);
-
-        return TurnPreparation::class;
-    }
+    return TurnPreparation::class;
+  }
 }

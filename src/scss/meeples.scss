@@ -1,59 +1,59 @@
-@use "_meeples.generated";
+@use '_meeples.generated';
 
 // Meeple inside action status text
 #pagemaintitletext,
 #gameaction_status {
-    .trickerion-meeple {
-        position: absolute;
-        left: 50%;
-    }
+  .trickerion-meeple {
+    position: absolute;
+    left: 50%;
+  }
 
-    .icon-container .trickerion-meeple {
-        position: initial;
-    }
+  .icon-container .trickerion-meeple {
+    position: initial;
+  }
 }
 
 // Base meeple styling
 .trickerion-meeple {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    pointer-events: auto;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  pointer-events: auto;
 
-    &.meeple-character {
-        width: 5rem;
-        cursor: default;
-        transition: box-shadow 0.2s ease;
-        border-radius: 50%;
+  &.meeple-character {
+    width: 5rem;
+    cursor: default;
+    transition: box-shadow 0.2s ease;
+    border-radius: 50%;
 
-        &.selectable {
-            cursor: pointer;
-            box-shadow: 0 0 10px 4px rgba(219, 174, 0, 1);
-            &:hover {
-                width: 5.5rem;
-            }
-        }
-
-        &.selected {
-            box-shadow: 0 0 10px 4px rgba(60, 255, 0, 0.9);
-        }
+    &.selectable {
+      cursor: pointer;
+      box-shadow: 0 0 10px 4px rgba(219, 174, 0, 1);
+      &:hover {
+        width: 5.5rem;
+      }
     }
 
-    &.meeple-component {
-        width: 5rem;
-        border: 1px solid black;
-        box-shadow: 1px 1px 3px #000000b8;
-        border-radius: 3px;
+    &.selected {
+      box-shadow: 0 0 10px 4px rgba(60, 255, 0, 0.9);
     }
+  }
 
-    &.meeple-trick-marker {
-        width: 6.6em;
-        box-shadow:
-            1px 1px 3px rgba(0, 0, 0, 0.7215686275),
-            1px 1px 0px 1px gray,
-            inset 1px 1px 1px white;
-        border-radius: 3px;
-    }
+  &.meeple-component {
+    width: 5rem;
+    border: 1px solid black;
+    box-shadow: 1px 1px 3px #000000b8;
+    border-radius: 3px;
+  }
+
+  &.meeple-trick-marker {
+    width: 6.6em;
+    box-shadow:
+      1px 1px 3px rgba(0, 0, 0, 0.7215686275),
+      1px 1px 0px 1px gray,
+      inset 1px 1px 1px white;
+    border-radius: 3px;
+  }
 }
 
 // Meeple inside board slots — positioned absolutely to stack over slot icons
@@ -63,28 +63,28 @@
 [id^="idle-"] .trickerion-meeple,
 // Component slots inside magician board
 .component-slot .trickerion-meeple {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 // Count badge for components (rendered via ::before)
 .trickerion-meeple[data-count]::before {
-    content: attr(data-count);
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    background: #222;
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 1;
-    padding: 2px 5px;
-    border-radius: 8px;
-    border: 1px solid #fff;
-    z-index: 3;
-    min-width: 14px;
-    text-align: center;
+  content: attr(data-count);
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #222;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+  z-index: 3;
+  min-width: 14px;
+  text-align: center;
 }

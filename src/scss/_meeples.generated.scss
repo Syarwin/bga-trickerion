@@ -5,7 +5,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-petroleum {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 0.000000% 0.000000%;
+  background-position: 0% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -13,7 +13,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-animal {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 12.500000% 0.000000%;
+  background-position: 12.5% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -21,7 +21,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-fabric {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 25.000000% 0.000000%;
+  background-position: 25% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -29,7 +29,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-rope {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 37.500000% 0.000000%;
+  background-position: 37.5% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -37,7 +37,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-cog {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 50.000000% 0.000000%;
+  background-position: 50% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -45,7 +45,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-saw {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 62.500000% 0.000000%;
+  background-position: 62.5% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -53,7 +53,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-glass {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 75.000000% 0.000000%;
+  background-position: 75% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -61,7 +61,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-metal {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 87.500000% 0.000000%;
+  background-position: 87.5% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -69,7 +69,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-padlock {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 100.000000% 0.000000%;
+  background-position: 100% 0%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -77,7 +77,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-mirror {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 0.000000% 19.567980%;
+  background-position: 0% 19.56798%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -85,7 +85,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-wood {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 12.500000% 19.567980%;
+  background-position: 12.5% 19.56798%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -93,7 +93,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-component-disguise {
   background-image: url('img/meeples.png');
   background-size: 932.432432% auto;
-  background-position: 25.000000% 19.567980%;
+  background-position: 25% 19.56798%;
   background-repeat: no-repeat;
   aspect-ratio: 148/148;
 }
@@ -133,7 +133,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-yellow-magician {
   background-image: url('img/meeples.png');
   background-size: 958.333333% auto;
-  background-position: 85.922330% 19.469027%;
+  background-position: 85.92233% 19.469027%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
@@ -149,7 +149,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-blue-magician {
   background-image: url('img/meeples.png');
   background-size: 958.333333% auto;
-  background-position: 0.000000% 38.938053%;
+  background-position: 0% 38.938053%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
@@ -221,7 +221,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-green-assistant {
   background-image: url('img/meeples.png');
   background-size: 958.333333% auto;
-  background-position: 0.000000% 57.901391%;
+  background-position: 0% 57.901391%;
   background-repeat: no-repeat;
   aspect-ratio: 144/144;
 }
@@ -301,7 +301,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-trick-marker-yellow-clubs {
   background-image: url('img/meeples.png');
   background-size: 1314.285714% auto;
-  background-position: 0.000000% 73.253012%;
+  background-position: 0% 73.253012%;
   background-repeat: no-repeat;
   aspect-ratio: 105/105;
 }
@@ -397,7 +397,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-academy-marker-blue-hearts {
   background-image: url('img/meeples.png');
   background-size: 1314.285714% auto;
-  background-position: 0.000000% 86.626506%;
+  background-position: 0% 86.626506%;
   background-repeat: no-repeat;
   aspect-ratio: 105/105;
 }
@@ -493,7 +493,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-academy-marker-green-hearts {
   background-image: url('img/meeples.png');
   background-size: 1314.285714% auto;
-  background-position: 0.000000% 100.000000%;
+  background-position: 0% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 105/105;
 }
@@ -501,7 +501,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-academy-marker-yellow-spades {
   background-image: url('img/meeples.png');
   background-size: 1314.285714% auto;
-  background-position: 8.705882% 100.000000%;
+  background-position: 8.705882% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 105/105;
 }
@@ -509,7 +509,7 @@ $meeple-sprite-height: 935px;
 @mixin meeple-trick-marker-red-spades {
   background-image: url('img/meeples.png');
   background-size: 1314.285714% auto;
-  background-position: 17.411765% 100.000000%;
+  background-position: 17.411765% 100%;
   background-repeat: no-repeat;
   aspect-ratio: 105/105;
 }

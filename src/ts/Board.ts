@@ -6,76 +6,76 @@ import { getAnimationManager } from './libLoader';
 import { dice } from './Dice';
 
 export const board = {
-    _isDarkAlley: false,
-    _boardLayout: 'flex',
+  _isDarkAlley: false,
+  _boardLayout: 'flex',
 
-    isDarkAlley: function () {
-        return this._isDarkAlley;
-    },
+  isDarkAlley: function () {
+    return this._isDarkAlley;
+  },
 
-    getBoardLayout: function () {
-        return this._boardLayout;
-    },
+  getBoardLayout: function () {
+    return this._boardLayout;
+  },
 
-    setBoardLayout: function (layout: 'flex' | 'absolute', persist = true) {
-        this._boardLayout = layout;
-        const boardEl = document.getElementById('trickerion-board');
-        if (boardEl) {
-            boardEl.dataset.boardLayout = layout;
-        }
-        if (persist) {
-            localStorage.setItem('trickerion-board-layout', layout);
-        }
-        this.updateToggleButton();
-    },
+  setBoardLayout: function (layout: 'flex' | 'absolute', persist = true) {
+    this._boardLayout = layout;
+    const boardEl = document.getElementById('trickerion-board');
+    if (boardEl) {
+      boardEl.dataset.boardLayout = layout;
+    }
+    if (persist) {
+      localStorage.setItem('trickerion-board-layout', layout);
+    }
+    this.updateToggleButton();
+  },
 
-    isMobile: function () {
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    },
+  isMobile: function () {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  },
 
-    initBoardLayout: function () {
-        // Check localStorage first
-        const savedLayout = localStorage.getItem('trickerion-board-layout');
-        if (savedLayout === 'flex' || savedLayout === 'absolute') {
-            this._boardLayout = savedLayout;
-        } else {
-            // Default based on device
-            this._boardLayout = this.isMobile() ? 'flex' : 'absolute';
-        }
-        
-        // Apply to DOM
-        const boardEl = document.getElementById('trickerion-board');
-        if (boardEl) {
-            boardEl.dataset.boardLayout = this._boardLayout;
-        }
-    },
+  initBoardLayout: function () {
+    // Check localStorage first
+    const savedLayout = localStorage.getItem('trickerion-board-layout');
+    if (savedLayout === 'flex' || savedLayout === 'absolute') {
+      this._boardLayout = savedLayout;
+    } else {
+      // Default based on device
+      this._boardLayout = this.isMobile() ? 'flex' : 'absolute';
+    }
 
-    toggleBoardLayout: function () {
-        const newLayout = this._boardLayout === 'flex' ? 'absolute' : 'flex';
-        this.setBoardLayout(newLayout);
-        this.updateToggleButton();
-    },
+    // Apply to DOM
+    const boardEl = document.getElementById('trickerion-board');
+    if (boardEl) {
+      boardEl.dataset.boardLayout = this._boardLayout;
+    }
+  },
 
-    getAnimationManager: function () {
-        return getAnimationManager();
-    },
+  toggleBoardLayout: function () {
+    const newLayout = this._boardLayout === 'flex' ? 'absolute' : 'flex';
+    this.setBoardLayout(newLayout);
+    this.updateToggleButton();
+  },
 
-    init: async function (gamedatas: TrickerionGamedatas) {
-        this._dockedPlayerId = null;
-        this._isDarkAlley = gamedatas.globals.isDarkAlley;
-        this.initBoardLayout();
-        let nPlayers = Object.keys(gamedatas.players).length;
+  getAnimationManager: function () {
+    return getAnimationManager();
+  },
 
-        $('game_play_area').insertAdjacentHTML(
-            'beforeend',
-            `
+  init: async function (gamedatas: TrickerionGamedatas) {
+    this._dockedPlayerId = null;
+    this._isDarkAlley = gamedatas.globals.isDarkAlley;
+    this.initBoardLayout();
+    let nPlayers = Object.keys(gamedatas.players).length;
+
+    $('game_play_area').insertAdjacentHTML(
+      'beforeend',
+      `
 <div id="modals-content-holder"></div>
 <div id="trickerion-main-wrapper">
   <div id="trickerion-pending"></div>
   <div id="trickerion-main-container">
     <div id="trickerion-board-layout-toggle" class="board-layout-toggle"></div>
     <div id="trickerion-board-wrapper">
-      <div id="trickerion-board" data-dark-alley="${this._isDarkAlley? 1 : 0}">
+      <div id="trickerion-board" data-dark-alley="${this._isDarkAlley ? 1 : 0}">
         <div id="board-background"></div>
         <div id="board-downtown"></div>
         <div id="board-market-row"></div>
@@ -103,46 +103,46 @@ export const board = {
   </symbol>
 </svg>
 `
-        );
+    );
 
-        ////////////////////
-        // DOWNTOWN
-        const downtownActions = {
-            'hire-character': 3,
-            'learn-trick': 3,
-            'take-coins': 3,
-            'set-die': 2,
-            'reroll-die': 1,
-        };
-        let actionsHTML = '';
-        Object.entries(downtownActions).forEach(([action, cost]) => {
-            actionsHTML += `<div id="downtown-${action}" class="slot-downtown-action-space">
+    ////////////////////
+    // DOWNTOWN
+    const downtownActions = {
+      'hire-character': 3,
+      'learn-trick': 3,
+      'take-coins': 3,
+      'set-die': 2,
+      'reroll-die': 1,
+    };
+    let actionsHTML = '';
+    Object.entries(downtownActions).forEach(([action, cost]) => {
+      actionsHTML += `<div id="downtown-${action}" class="slot-downtown-action-space">
               <div class="slot-downtown-action-${action}"></div>
               <div class="slot-downtown-action-cost">${cost}${formatIcon('action-point')}</div>
             </div>`;
-        });
-        const downtownSlots = [2, 3, 4, 2];
-        let slotsHTML = '<div id="market-action-slots" class="action-slots">';
-        downtownSlots.forEach((n, i) => {
-            let j = i + 1;
-            if (n > nPlayers) return;
-            slotsHTML += `<div id="board-downtown-${j}" class="slot-downtown-slot-${j}"></div>`;
-        });
-        slotsHTML += '</div>';
+    });
+    const downtownSlots = [2, 3, 4, 2];
+    let slotsHTML = '<div id="market-action-slots" class="action-slots">';
+    downtownSlots.forEach((n, i) => {
+      let j = i + 1;
+      if (n > nPlayers) return;
+      slotsHTML += `<div id="board-downtown-${j}" class="slot-downtown-slot-${j}"></div>`;
+    });
+    slotsHTML += '</div>';
 
-        const trickDecks = ['mechanical', 'spiritual', 'escape', 'optical'];
-        let trickDecksHTML = '<div id="trick-decks">';
-        trickDecks.forEach((type) => {
-            trickDecksHTML += `<div id="trick-deck-${type}" class="trick-deck">
+    const trickDecks = ['mechanical', 'spiritual', 'escape', 'optical'];
+    let trickDecksHTML = '<div id="trick-decks">';
+    trickDecks.forEach((type) => {
+      trickDecksHTML += `<div id="trick-deck-${type}" class="trick-deck">
               <div class="trick-type slot-${type}"></div>
               <span class="trick-counter" id="trick-deck-${type}-counter">1</span> ${_('trick(s)')}
             </div>`;
-        });
-        trickDecksHTML += '</div>';
+    });
+    trickDecksHTML += '</div>';
 
-        $('board-downtown').insertAdjacentHTML(
-            'beforeend',
-            `
+    $('board-downtown').insertAdjacentHTML(
+      'beforeend',
+      `
         <div id="board-downtown-inner">
           <div id="downtown-logo" class="slot-downtown-logo"></div>
           <div id="dice-characters">
@@ -162,47 +162,47 @@ export const board = {
           ${slotsHTML}
           <div class="slot-downtown-shard-boost" id="downtown-shard-boost"></div>
         </div>`
-        );
+    );
 
-        ////////////////////
-        // MARKET ROW
-        const marketActions = {
-            buy: 1,
-            bargain: 1,
-            order: 1,
-            'quick-order': 2,
-        };
-        actionsHTML = '';
-        Object.entries(marketActions).forEach(([action, cost]) => {
-            actionsHTML += `<div id="market-${action}" class="slot-market-action-space">
+    ////////////////////
+    // MARKET ROW
+    const marketActions = {
+      buy: 1,
+      bargain: 1,
+      order: 1,
+      'quick-order': 2,
+    };
+    actionsHTML = '';
+    Object.entries(marketActions).forEach(([action, cost]) => {
+      actionsHTML += `<div id="market-${action}" class="slot-market-action-space">
               <div class="slot-market-action-${action}"></div>
               <div class="slot-market-action-cost">${cost}${formatIcon('action-point')}</div>
             </div>`;
-        });
-        const marketSlots = [2, 3, 4, 2];
-        slotsHTML = '<div id="market-action-slots" class="action-slots">';
-        marketSlots.forEach((n, i) => {
-            let j = i + 1;
-            if (n > nPlayers) return;
-            slotsHTML += `<div id="board-market-row-${j}" class="slot-market-slot-${j}"></div>`;
-        });
-        slotsHTML += '</div>';
+    });
+    const marketSlots = [2, 3, 4, 2];
+    slotsHTML = '<div id="market-action-slots" class="action-slots">';
+    marketSlots.forEach((n, i) => {
+      let j = i + 1;
+      if (n > nPlayers) return;
+      slotsHTML += `<div id="board-market-row-${j}" class="slot-market-slot-${j}"></div>`;
+    });
+    slotsHTML += '</div>';
 
-        let marketsHTML = '<div id="buy-area">';
-        for (let i = 0; i < 4; i++) {
-            marketsHTML += `<div id="buy-slot-${i}" class="slot-market-component-slot"></div>`;
-        }
-        marketsHTML += '</div>';
-        marketsHTML += '<div id="quick-order-slot" class="slot-market-quick-order-slot"></div>';
-        marketsHTML += '<div id="order-area">';
-        for (let i = 0; i < 4; i++) {
-            marketsHTML += `<div id="order-slot-${i}" class="slot-market-component-slot"></div>`;
-        }
-        marketsHTML += '</div>';
+    let marketsHTML = '<div id="buy-area">';
+    for (let i = 0; i < 4; i++) {
+      marketsHTML += `<div id="buy-slot-${i}" class="slot-market-component-slot"></div>`;
+    }
+    marketsHTML += '</div>';
+    marketsHTML += '<div id="quick-order-slot" class="slot-market-quick-order-slot"></div>';
+    marketsHTML += '<div id="order-area">';
+    for (let i = 0; i < 4; i++) {
+      marketsHTML += `<div id="order-slot-${i}" class="slot-market-component-slot"></div>`;
+    }
+    marketsHTML += '</div>';
 
-        $('board-market-row').insertAdjacentHTML(
-            'beforeend',
-            `
+    $('board-market-row').insertAdjacentHTML(
+      'beforeend',
+      `
         <div id="board-market-row-inner">
           <div id="market-logo" class="slot-market-row-logo"></div>
           <div class="slot-market-costs"></div>
@@ -212,46 +212,46 @@ export const board = {
           ${slotsHTML}
           ${marketsHTML}
         </div>`
-        );
+    );
 
-        ////////////////////
-        // DARK ALLEY
-        const isDarkAlley = this.isDarkAlley();
-        if (isDarkAlley) {
-            const alleyActions = {
-                'draw-first-card': 1,
-                'draw-further-cards': 2,
-                'fortune-telling': 1,
-            };
-            actionsHTML = '';
-            Object.entries(alleyActions).forEach(([action, cost]) => {
-                actionsHTML += `<div id="alley-${action}" class="slot-alley-action-space">
+    ////////////////////
+    // DARK ALLEY
+    const isDarkAlley = this.isDarkAlley();
+    if (isDarkAlley) {
+      const alleyActions = {
+        'draw-first-card': 1,
+        'draw-further-cards': 2,
+        'fortune-telling': 1,
+      };
+      actionsHTML = '';
+      Object.entries(alleyActions).forEach(([action, cost]) => {
+        actionsHTML += `<div id="alley-${action}" class="slot-alley-action-space">
               <div class="slot-alley-action-${action}"></div>
               <div class="slot-alley-action-cost">${cost}${formatIcon('action-point')}</div>
             </div>`;
-            });
-            const alleySlots = [2, 3, 4, 2];
-            slotsHTML = '<div id="alley-action-slots" class="action-slots">';
-            alleySlots.forEach((n, i) => {
-                let j = i + 1;
-                if (n > nPlayers) return;
-                slotsHTML += `<div id="board-dark-alley-${j}" class="slot-alley-slot-${j}"></div>`;
-            });
-            slotsHTML += '</div>';
+      });
+      const alleySlots = [2, 3, 4, 2];
+      slotsHTML = '<div id="alley-action-slots" class="action-slots">';
+      alleySlots.forEach((n, i) => {
+        let j = i + 1;
+        if (n > nPlayers) return;
+        slotsHTML += `<div id="board-dark-alley-${j}" class="slot-alley-slot-${j}"></div>`;
+      });
+      slotsHTML += '</div>';
 
-            const assignmentDecks = ['downtown', 'market-row', 'workshop', 'theater'];
-            let assignmentDecksHTML = '<div id="assignment-decks">';
-            assignmentDecks.forEach((type) => {
-                assignmentDecksHTML += `<div id="assignment-deck-${type}" class="assignment-deck">
+      const assignmentDecks = ['downtown', 'market-row', 'workshop', 'theater'];
+      let assignmentDecksHTML = '<div id="assignment-decks">';
+      assignmentDecks.forEach((type) => {
+        assignmentDecksHTML += `<div id="assignment-deck-${type}" class="assignment-deck">
               <div class="assignment-type slot-${type}"></div>
               <span class="assignment-counter" id="assignment-deck-${type}-counter">1</span> ${_('card(s)')}
             </div>`;
-            });
-            assignmentDecksHTML += '</div>';
+      });
+      assignmentDecksHTML += '</div>';
 
-            $('board-dark-alley').insertAdjacentHTML(
-                'beforeend',
-                `
+      $('board-dark-alley').insertAdjacentHTML(
+        'beforeend',
+        `
               <div id="board-dark-alley-inner">
                 <div id="alley-logo" class="slot-dark-alley-logo"></div>
                 <div class="slot-alley-shard-boost" id="alley-shard-boost"></div>
@@ -263,39 +263,39 @@ export const board = {
                   <div id="alley-pending-prophecies" class="alley-prophecy-slot pending"></div>
                 </div>
               </div>`
-            );
-        }
+      );
+    }
 
-        ////////////////////
-        // THEATER
-        const theaterActions = {
-            'set-up-trick': 1,
-            reschedule: 1,
-        };
-        actionsHTML = '';
-        Object.entries(theaterActions).forEach(([action, cost]) => {
-            actionsHTML += `<div id="theater-${action}" class="slot-theater-action-space">
+    ////////////////////
+    // THEATER
+    const theaterActions = {
+      'set-up-trick': 1,
+      reschedule: 1,
+    };
+    actionsHTML = '';
+    Object.entries(theaterActions).forEach(([action, cost]) => {
+      actionsHTML += `<div id="theater-${action}" class="slot-theater-action-space">
             <div class="slot-theater-action-${action}"></div>
             <div class="slot-theater-action-cost">${cost}${formatIcon('action-point')}</div>
           </div>`;
-        });
-        const theaterDays = ['thursday', 'friday', 'saturday', 'sunday'];
-        slotsHTML = '<div class="slot-theater-action-slots">';
-        ['basic-1', 'basic-2', 'magician'].forEach((type) => {
-            theaterDays.forEach((day) => {
-                slotsHTML += `<div id="board-theater-${day}-${type}" class="action-slot-theater"></div>`;
-            });
-        });
-        slotsHTML += '</div>';
+    });
+    const theaterDays = ['thursday', 'friday', 'saturday', 'sunday'];
+    slotsHTML = '<div class="slot-theater-action-slots">';
+    ['basic-1', 'basic-2', 'magician'].forEach((type) => {
+      theaterDays.forEach((day) => {
+        slotsHTML += `<div id="board-theater-${day}-${type}" class="action-slot-theater"></div>`;
+      });
+    });
+    slotsHTML += '</div>';
 
-        let performancesHTML = '';
-        for (let i = 1; i <= nPlayers; i++) {
-            performancesHTML += `<div class='performance-slot' id="performance-slot-${i}"></div>`;
-        }
+    let performancesHTML = '';
+    for (let i = 1; i <= nPlayers; i++) {
+      performancesHTML += `<div class='performance-slot' id="performance-slot-${i}"></div>`;
+    }
 
-        $('board-theater').insertAdjacentHTML(
-            'beforeend',
-            `
+    $('board-theater').insertAdjacentHTML(
+      'beforeend',
+      `
             <div id="board-theater-inner">
               <div id="board-theater-background"></div>
               <div id="theater-logo" class="slot-theater-logo"></div>
@@ -306,77 +306,80 @@ export const board = {
               ${actionsHTML}
               ${slotsHTML}
             </div>`
-        );
+    );
 
-        // Magician boards
-        console.log(gamedatas.characters);
-        Object.values(gamedatas.players).forEach((player) => {
-            this.setupMagicianBoard(player);
+    // Magician boards
+    console.log(gamedatas.characters);
+    Object.values(gamedatas.players).forEach((player) => {
+      this.setupMagicianBoard(player);
 
-            const specialists = gamedatas.characters.hiredSpecialists[player.id];
-            this.updateHiredSpecialists(player, specialists);
+      const specialists = gamedatas.characters.hiredSpecialists[player.id];
+      this.updateHiredSpecialists(player, specialists);
 
-            const magician = gamedatas.magicians.player[player.id];
-            if (magician) {
-                this.updateMagicianBoard(player, magician);
-            }
+      const magician = gamedatas.magicians.player[player.id];
+      if (magician) {
+        this.updateMagicianBoard(player, magician);
+      }
 
-            // Check if player has advertised and show poster overlay
-            this.updateAdvertisingPosterOverlay(player.id, gamedatas);
+      // Check if player has advertised and show poster overlay
+      this.updateAdvertisingPosterOverlay(player.id, gamedatas);
 
-            // Attach tooltips for per-player workshop actions
-            this.attachActionTooltips(player.id);
+      // Attach tooltips for per-player workshop actions
+      this.attachActionTooltips(player.id);
 
-            if (parseInt(player.id) === getCurrentPlayerId()) {
-                this.dockAssignments(player.id);
-            }
-        });
+      if (parseInt(player.id) === getCurrentPlayerId()) {
+        this.dockAssignments(player.id);
+      }
+    });
 
-        // Attach tooltips for board-level action spaces (downtown, market, alley, theater)
-        this.attachActionTooltips();
+    // Attach tooltips for board-level action spaces (downtown, market, alley, theater)
+    this.attachActionTooltips();
 
-        // Initialize dice display
-        this.getAnimationManager(); // kick off loading in background
-        dice.init(gamedatas);
+    // Initialize dice display
+    this.getAnimationManager(); // kick off loading in background
+    dice.init(gamedatas);
 
-        // Setup board layout toggle button
-        const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
-        if (toggleBtn) {
-            toggleBtn.onclick = () => this.toggleBoardLayout();
-            this.updateToggleButton();
-        }
+    // Setup board layout toggle button
+    const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
+    if (toggleBtn) {
+      toggleBtn.onclick = () => this.toggleBoardLayout();
+      this.updateToggleButton();
+    }
 
-        // Add resize listener to update default layout on orientation change
-        window.addEventListener('resize', () => {
-            // Only update if we're using the default (no saved preference)
-            const savedLayout = localStorage.getItem('trickerion-board-layout');
-            if (!savedLayout) {
-                this.setBoardLayout(this.isMobile() ? 'flex' : 'absolute', false);
-            }
-        });
-    },
+    // Add resize listener to update default layout on orientation change
+    window.addEventListener('resize', () => {
+      // Only update if we're using the default (no saved preference)
+      const savedLayout = localStorage.getItem('trickerion-board-layout');
+      if (!savedLayout) {
+        this.setBoardLayout(this.isMobile() ? 'flex' : 'absolute', false);
+      }
+    });
+  },
 
-    updateToggleButton: function () {
-        const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
-        if (toggleBtn) {
-            const currentLayout = this.getBoardLayout();
-            toggleBtn.textContent = currentLayout === 'flex' ? 'Switch to Full Board' : 'Switch to Flex Layout';
-            toggleBtn.title = currentLayout === 'flex' ? 'Switch to absolute positioned full board layout' : 'Switch to flexible individual boards layout';
-        }
-    },
+  updateToggleButton: function () {
+    const toggleBtn = document.getElementById('trickerion-board-layout-toggle');
+    if (toggleBtn) {
+      const currentLayout = this.getBoardLayout();
+      toggleBtn.textContent = currentLayout === 'flex' ? 'Switch to Full Board' : 'Switch to Flex Layout';
+      toggleBtn.title =
+        currentLayout === 'flex'
+          ? 'Switch to absolute positioned full board layout'
+          : 'Switch to flexible individual boards layout';
+    }
+  },
 
-    updateMagicianBoard(player: Player, magician: Magician) {
-        let oBoard = $(`magician-board-${player.id}`);
-        oBoard.dataset.magicianId = `${magician.id}`;
-        oBoard.querySelector('.magician-card-holder').innerHTML = cards.tplMagician(magician, '', this.isDarkAlley());
-    },
+  updateMagicianBoard(player: Player, magician: Magician) {
+    let oBoard = $(`magician-board-${player.id}`);
+    oBoard.dataset.magicianId = `${magician.id}`;
+    oBoard.querySelector('.magician-card-holder').innerHTML = cards.tplMagician(magician, '', this.isDarkAlley());
+  },
 
-    setupMagicianBoard(player: Player) {
-        const isDarkAlley = this.isDarkAlley();
+  setupMagicianBoard(player: Player) {
+    const isDarkAlley = this.isDarkAlley();
 
-        $('trickerion-player-board-wrapper').insertAdjacentHTML(
-            'beforeend',
-            `
+    $('trickerion-player-board-wrapper').insertAdjacentHTML(
+      'beforeend',
+      `
         <div class="magician-board" id="magician-board-${player.id}" data-magician-id="0">
           <div class="magician-board-inner" style="border-color:#${player.color}">
             <div class="player-name" style="border-color:#${player.color}; background-color:#${player.color}">
@@ -446,362 +449,355 @@ export const board = {
           </div>
         </div>
       `
-        );
+    );
 
-        [
-            'magician',
-            'apprentice-1',
-            'apprentice-2',
-            'apprentice-3',
-            'apprentice-assistant',
-            'engineer',
-            'manager',
-            'assistant',
-        ].forEach((typeId, i) => {
-            let container = $(`assignments-${player.id}`).querySelector(
-                i < 5 ? '.magician-assignments-main' : '.magician-assignments-specialists'
-            );
-            let type = typeId.split('-')[0];
-            let meepleSlotClass = type == 'apprentice' ? 'apprentice-meeple' : 'meeple';
-            let slotClass = 'assignment';
+    [
+      'magician',
+      'apprentice-1',
+      'apprentice-2',
+      'apprentice-3',
+      'apprentice-assistant',
+      'engineer',
+      'manager',
+      'assistant',
+    ].forEach((typeId, i) => {
+      let container = $(`assignments-${player.id}`).querySelector(
+        i < 5 ? '.magician-assignments-main' : '.magician-assignments-specialists'
+      );
+      let type = typeId.split('-')[0];
+      let meepleSlotClass = type == 'apprentice' ? 'apprentice-meeple' : 'meeple';
+      let slotClass = 'assignment';
 
-            // Assistant special slot
-            if (typeId === 'apprentice-assistant') {
-                meepleSlotClass = 'assistant-meeple';
-                slotClass = 'special-assignment';
-            }
+      // Assistant special slot
+      if (typeId === 'apprentice-assistant') {
+        meepleSlotClass = 'assistant-meeple';
+        slotClass = 'special-assignment';
+      }
 
-            container.insertAdjacentHTML(
-                'beforeend',
-                `<div class="assignment-slot-holder" id="assignment-slot-${player.id}-${typeId}">
+      container.insertAdjacentHTML(
+        'beforeend',
+        `<div class="assignment-slot-holder" id="assignment-slot-${player.id}-${typeId}">
                 <div class="assignment-slot-header">
                   <div id="idle-${player.id}-${typeId}" class="slot-assignment-${meepleSlotClass}-slot">${formatIcon(type)}</div>
                 </div>
                 <div class="assignment-slot slot-${slotClass}-slot"></div>
               </div>`
-            );
-        });
-    },
+      );
+    });
+  },
 
-    updateHiredSpecialists(player: Player, hiredSpecialists: CharacterType[]) {
-        let board = $(`magician-board-${player.id}`);
-        board.dataset.nSpecialists = '' + hiredSpecialists.length;
+  updateHiredSpecialists(player: Player, hiredSpecialists: CharacterType[]) {
+    let board = $(`magician-board-${player.id}`);
+    board.dataset.nSpecialists = '' + hiredSpecialists.length;
 
-        const characterTypes = ['engineer', 'manager', 'assistant'] satisfies CharacterType[];
-        characterTypes.forEach((characterType) => {
-            const hired = hiredSpecialists.includes(characterType);
-            board.querySelector(`.${characterType}-workshop`).classList.toggle('disabled', !hired);
-            $(`assignment-slot-${player.id}-${characterType}`).classList.toggle('disabled', !hired);
+    const characterTypes = ['engineer', 'manager', 'assistant'] satisfies CharacterType[];
+    characterTypes.forEach((characterType) => {
+      const hired = hiredSpecialists.includes(characterType);
+      board.querySelector(`.${characterType}-workshop`).classList.toggle('disabled', !hired);
+      $(`assignment-slot-${player.id}-${characterType}`).classList.toggle('disabled', !hired);
 
-            if (characterType === 'assistant') {
-                $(`assignment-slot-${player.id}-apprentice-assistant`).classList.toggle('disabled', !hired);
-            }
-        });
-    },
+      if (characterType === 'assistant') {
+        $(`assignment-slot-${player.id}-apprentice-assistant`).classList.toggle('disabled', !hired);
+      }
+    });
+  },
 
-    updateAdvertisingPosterOverlay(playerId: number, gamedatas: TrickerionGamedatas) {
-        // Check if player has a poster on the board (has advertised)
-        const hasAdvertised = gamedatas.posters.all.some(
-            (poster: any) => poster.playerId === playerId && poster.location === 'board'
-        );
+  updateAdvertisingPosterOverlay(playerId: number, gamedatas: TrickerionGamedatas) {
+    // Check if player has a poster on the board (has advertised)
+    const hasAdvertised = gamedatas.posters.all.some(
+      (poster: any) => poster.playerId === playerId && poster.location === 'board'
+    );
 
-        if (hasAdvertised) {
-            // Show poster overlay on magician card
-            const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
-            if (magicianCard) {
-                magicianCard.classList.add('visible');
-            }
+    if (hasAdvertised) {
+      // Show poster overlay on magician card
+      const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
+      if (magicianCard) {
+        magicianCard.classList.add('visible');
+      }
 
-            // Show poster overlay in player panel
-            const playerPanel = document.getElementById(`player_board_${playerId}`);
-            if (playerPanel) {
-                const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
-                if (panelPosterOverlay) {
-                    panelPosterOverlay.classList.add('visible');
-                } else {
-                    // Create poster overlay if it doesn't exist
-                    const overlay = document.createElement('div');
-                    overlay.className = 'player-panel-poster-overlay visible';
-                    playerPanel.prepend(overlay);
-                }
-            }
+      // Show poster overlay in player panel
+      const playerPanel = document.getElementById(`player_board_${playerId}`);
+      if (playerPanel) {
+        const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
+        if (panelPosterOverlay) {
+          panelPosterOverlay.classList.add('visible');
         } else {
-            // Hide poster overlay on magician card
-            const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
-            if (magicianCard) {
-                magicianCard.classList.remove('visible');
-            }
-
-            // Hide poster overlay in player panel
-            const playerPanel = document.getElementById(`player_board_${playerId}`);
-            if (playerPanel) {
-                const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
-                if (panelPosterOverlay) {
-                    panelPosterOverlay.classList.remove('visible');
-                }
-            }
+          // Create poster overlay if it doesn't exist
+          const overlay = document.createElement('div');
+          overlay.className = 'player-panel-poster-overlay visible';
+          playerPanel.prepend(overlay);
         }
-    },
+      }
+    } else {
+      // Hide poster overlay on magician card
+      const magicianCard = document.querySelector(`#magician-board-${playerId} .magician-poster-overlay`);
+      if (magicianCard) {
+        magicianCard.classList.remove('visible');
+      }
 
-
-    // Tooltip descriptions for action spaces — fill in the strings below
-    // Use <iconname> for icons (e.g. <coin>, <shard>, <action-point>, <fame>)
-    // Use {{text}} for emphasis
-    getActionTooltips(): Record<string, Array<string>> {
-        const tooltips = {
-            // Downtown
-            'downtown-learn-trick': [
-                _('{{Learn trick:}}'),
-                _(
-                    'The player chooses a Trick from the Dahlgaard Residence, puts it on an empty Trick slot in their Workshop, and places one of their unused Symbol markers on it.'
-                ),
-                _(
-                    "The category of the newly learned Trick must correspond with the symbol on one of the Dahlgaard Residence dice. The '?' symbol means that any Trick category can be chosen."
-                ),
-                _("After learning the Trick, set the corresponding die to its 'X' face."),
-                _(
-                    "The player can always choose to learn a Trick from their Magician's Favorite Trick category instead of the ones available. A chosen die still has to be set to its 'X' face if a Trick is learned this way."
-                ),
-            ],
-            'downtown-hire-character': [
-                _('{{Hire character:}}'),
-                _(
-                    'The player chooses an Inn die and places an unused Character corresponding to the die roll from their supply on the Inn.'
-                ),
-                _(
-                    "The chosen die is then set to its 'X' face. During the 'Return Characters' phase at the end of the turn, the hired Character is added to the player's team."
-                ),
-                _(
-                    "If it was a Specialist, its Board Extension is also added to the player's Game Board. A player may only hire one of each type of Specialist (Assistant, Engineer, Manager)."
-                ),
-            ],
-            'downtown-take-coins': [
-                _('{{Take coins:}}'),
-                _(
-                    "The player chooses a Bank die and takes Coins equal to the die roll from the supply. Then, the player sets the chosen die to its 'X' face."
-                ),
-            ],
-            'downtown-reroll-die': [
-                _('{{Reroll die:}}'),
-                _(
-                    'The player may reroll a Dahlgaard Residence, Inn or Bank die. As a result, the Tricks, Characters and Coins available in the Downtown may change.'
-                ),
-            ],
-            'downtown-set-die': [
-                _('{{Set die:}}'),
-                _(
-                    "The player may freely change the result of any one die roll (e.g. change an 'X' roll to a Manager to hire it later)."
-                ),
-            ],
-            // Market Row
-            'market-buy': [
-                _('{{Buy:}}'),
-                _(
-                    "For 1 Action Point, the player may buy up to three Components of the same type. They also have to pay the price of each Component bought (1/2/3 Coins per Basic/Advanced/Superior Component). Only Components in the Market Row's Buy area (the current stock) can be bought this way."
-                ),
-                _(
-                    'Acquired Components are placed on the Component slots on the Player Game Board. Different Components occupy separate slots, but multiples of the same type are piled onto each other. The maximum number a player may have of a Component is 3. Players may return Components to the general supply at any time to make room for new ones.'
-                ),
-            ],
-            'market-bargain': [
-                _('{{Bargain:}}'),
-                _(
-                    "You may only use Bargain together with a 'Buy' Action. You may decrease the total price of Components you buy by 1 Coin per Action Point spent on 'Bargain'. You may never decrease the total price to 0."
-                ),
-            ],
-            'market-order': [
-                _('{{Order:}}'),
-                _(
-                    'If players need a Component which is not currently available in the Market Row, they have to Order it. For 1 Action Point, the player may place a Component from the supply onto an open slot in the Order area (as long as the same Component type is not already there).'
-                ),
-                _(
-                    "These Components will be moved to the corresponding slot in the Buy area during the 'Orders Arrive' phase, and will be available for purchase in the following turn."
-                ),
-            ],
-            'market-quick-order': [
-                _('{{Quick order:}}'),
-                _(
-                    "In some situations, players can't afford to wait a turn for the desired Components. For 2 Action Points, a player may place any Component onto the Quick Order slot in the Market Row (if the slot isn't empty, return the Component there to the supply first)."
-                ),
-                _(
-                    "That Component becomes part of the Market Row's stock this turn (for all players), and can be acquired with the 'Buy' Action. The Coin price of the Component on the Quick Order slot is increased by 1. During the 'End Turn' phase, the Component on the Quick Order slot is returned to the supply"
-                ),
-            ],
-            // Dark Alley
-            'alley-draw-first-card': [
-                _('{{Draw first card:}}'),
-                _(
-                    'The player draws two cards from any Special Assignment deck in the Dark Alley, chooses one to keep, and puts the other at the bottom of the deck. A player may only take this Action once per Character placement.'
-                ),
-            ],
-            'alley-draw-further-cards': [
-                _('{{Draw further cards:}}'),
-                _("This Action is resolved the same way as the 'Draw First Card' Action, except it costs two Action Points."),
-            ],
-            'alley-fortune-telling': [
-                _('{{Fortune telling:}}'),
-                _('The player may move each Pending Prophecy one slot in a clockwise direction.'),
-            ],
-            // Theater
-            'theater-set-up-trick': [
-                _('{{Set up Trick:}}'),
-                _(
-                    'The player may move one of their Trick markers from a Trick in the Workshop onto a free slot on a Performance card of their choice – this Trick will be represented by the marker until it is either Performed or the Performance card is discarded at the end of a turn'
-                ),
-                _(
-                    "The Trick marker's corner that corresponds with the Trick's category must be in a Link circle connecting two slots. Two Trick markers of the same color AND the same symbol (e.g. two blue Spades) cannot be in the same Performance."
-                ),
-                _(
-                    'After setting up a Trick marker, if two of the same Trick category symbols are in the same Link circle, those two Tricks are linked. The player who created the Link(s) immediately receives a bonus for each Link, depending on the Level of the Trick they placed to create the Link.'
-                ),
-                _(
-                    'Additionally, if there is a Shard symbol in the Link circle where the Link is created, {{each player with a Trick marker}} in the Link also immediately receives one Trickerion Shard. If a player creates a Link over a Shard symbol with their own Trick, they only receive a single Shard, not two.'
-                ),
-                _(
-                    'It is possible to create multiple Links with a single Trick marker placement. Creating Links is not obligatory.'
-                ),
-            ],
-            'theater-reschedule': [
-                _('{{Reschedule:}}'),
-                _(
-                    "You may move one of your Trick markers from a Performance card to a free slot on the same or any other Performance card. Rules of Trick marker placement apply. You don't receive Link bonuses for moving a Trick marker this way."
-                ),
-            ],
-            // Workshop (per player — {playerId} is auto-replaced)
-            'workshop-{playerId}-prepare': [
-                _('{{Prepare:}}'),
-                _(
-                    "The number of Action Points required to Prepare each Trick is printed in a circle in the lower left box (the Trick marker slot). Like at other Locations, players may take multiple 'Prepare' Actions with one Character — the only limit is the number of Action Points they have."
-                ),
-                _(
-                    'When a Trick is Prepared, place a number of Trick markers on it equal to the number of overlapping squares in the lower left box. Use Trick markers with the same symbol as the Symbol marker placed on the Trick when it was learned. The maximum number of Trick markers a player can have in the game of a given symbol is 4.'
-                ),
-                _(
-                    'Important: Players can always Prepare a Trick as long as they meet its Component requirements AND have no Trick markers on the Trick card itself (even if they have some in the Theater).'
-                ),
-                _(
-                    "Very Important : {{Components are NOT spent when a Trick is prepared!}} The same Component stack can be used for multiple Tricks requiring it and for multiple 'Prepare' Actions."
-                ),
-            ],
-            'workshop-{playerId}-move-tricks': [
-                _('{{Move tricks:}}'),
-                _(
-                    "The player moves one of their Tricks to the Engineer's Trick slot or exchanges the Trick there with another of their own Tricks."
-                ),
-            ],
-            'workshop-{playerId}-move-components': [
-                _('{{Move components:}}'),
-                _(
-                    "The player moves one of their Component piles to the Manager's Multi Component slot or exchanges the pile there with another one of their Component piles."
-                ),
-            ],
-            'workshop-{playerId}-move-apprentice': [
-                _('{{Move apprentice:}}'),
-                _(
-                    "The player permanently reallocates one of their Apprentices and the Assignment card below it (if any) to the Assistant's Apprentice slot (if it's empty)."
-                ),
-            ],
-            // Shard bonuses
-            'slot-workshop-shard-boost': [
-                _(
-                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
-                ),
-            ],
-            'slot-downtown-shard-boost': [
-                _(
-                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
-                ),
-            ],
-            'slot-market-shard-boost': [
-                _(
-                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
-                ),
-            ],
-            'slot-alley-shard-boost': [
-                _(
-                    'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
-                ),
-            ],
-            'slot-theater-no-shard-boost': [_("You {{can't}} buy Action Point by paying a Trickerion Shard at the theater.")],
-            'slot-workshop-prepare-bonus': [
-                _("Tricks on the Engineer's Trick slot receive 1 additional Trick marker when Prepared."),
-            ],
-        };
-
-        return tooltips;
-    },
-
-    attachActionTooltips(playerId: number = null) {
-        const tooltips = this.getActionTooltips() as Record<string, Array<string>>;
-        Object.entries(tooltips).forEach(([id, text]) => {
-            if (!text) return;
-            const desc = text.map((t) => formatString(t)).join('<br />');
-
-            // For workshop actions, resolve playerId placeholder
-            const resolvedId = id.replace('{playerId}', String(playerId ?? 0));
-            const elt = $(resolvedId);
-            if (elt) {
-                addCustomTooltip(elt, desc);
-            } else {
-                document.querySelectorAll(`.${resolvedId}`).forEach((e) => addCustomTooltip(e as HTMLElement, desc));
-            }
-        });
-    },
-
-    /** Track which player's assignments are currently docked */
-    _dockedPlayerId: null,
-
-    dockAssignments(playerId) {
-        if (this._dockedPlayerId === playerId) return;
-        this.undockAssignments();
-
-        const el = $(`assignments-${playerId}`);
-        if (!el) return;
-
-        const wrapper = $('floating-assignments-wrapper');
-        const target = $('floating-assignments');
-        if (!wrapper || !target) return;
-
-        target.appendChild(el);
-        wrapper.classList.add('active');
-
-        const btn = $('floating-assignments-button');
-        if (btn) {
-            btn.onclick = () => {
-                const isOpen = wrapper.dataset.open !== undefined;
-                if (isOpen) {
-                    delete wrapper.dataset.open;
-                } else {
-                    wrapper.dataset.open = '';
-                }
-            };
+      // Hide poster overlay in player panel
+      const playerPanel = document.getElementById(`player_board_${playerId}`);
+      if (playerPanel) {
+        const panelPosterOverlay = playerPanel.querySelector('.player-panel-poster-overlay');
+        if (panelPosterOverlay) {
+          panelPosterOverlay.classList.remove('visible');
         }
+      }
+    }
+  },
 
-        this._dockedPlayerId = playerId;
-    },
+  // Tooltip descriptions for action spaces — fill in the strings below
+  // Use <iconname> for icons (e.g. <coin>, <shard>, <action-point>, <fame>)
+  // Use {{text}} for emphasis
+  getActionTooltips(): Record<string, Array<string>> {
+    const tooltips = {
+      // Downtown
+      'downtown-learn-trick': [
+        _('{{Learn trick:}}'),
+        _(
+          'The player chooses a Trick from the Dahlgaard Residence, puts it on an empty Trick slot in their Workshop, and places one of their unused Symbol markers on it.'
+        ),
+        _(
+          "The category of the newly learned Trick must correspond with the symbol on one of the Dahlgaard Residence dice. The '?' symbol means that any Trick category can be chosen."
+        ),
+        _("After learning the Trick, set the corresponding die to its 'X' face."),
+        _(
+          "The player can always choose to learn a Trick from their Magician's Favorite Trick category instead of the ones available. A chosen die still has to be set to its 'X' face if a Trick is learned this way."
+        ),
+      ],
+      'downtown-hire-character': [
+        _('{{Hire character:}}'),
+        _(
+          'The player chooses an Inn die and places an unused Character corresponding to the die roll from their supply on the Inn.'
+        ),
+        _(
+          "The chosen die is then set to its 'X' face. During the 'Return Characters' phase at the end of the turn, the hired Character is added to the player's team."
+        ),
+        _(
+          "If it was a Specialist, its Board Extension is also added to the player's Game Board. A player may only hire one of each type of Specialist (Assistant, Engineer, Manager)."
+        ),
+      ],
+      'downtown-take-coins': [
+        _('{{Take coins:}}'),
+        _(
+          "The player chooses a Bank die and takes Coins equal to the die roll from the supply. Then, the player sets the chosen die to its 'X' face."
+        ),
+      ],
+      'downtown-reroll-die': [
+        _('{{Reroll die:}}'),
+        _(
+          'The player may reroll a Dahlgaard Residence, Inn or Bank die. As a result, the Tricks, Characters and Coins available in the Downtown may change.'
+        ),
+      ],
+      'downtown-set-die': [
+        _('{{Set die:}}'),
+        _("The player may freely change the result of any one die roll (e.g. change an 'X' roll to a Manager to hire it later)."),
+      ],
+      // Market Row
+      'market-buy': [
+        _('{{Buy:}}'),
+        _(
+          "For 1 Action Point, the player may buy up to three Components of the same type. They also have to pay the price of each Component bought (1/2/3 Coins per Basic/Advanced/Superior Component). Only Components in the Market Row's Buy area (the current stock) can be bought this way."
+        ),
+        _(
+          'Acquired Components are placed on the Component slots on the Player Game Board. Different Components occupy separate slots, but multiples of the same type are piled onto each other. The maximum number a player may have of a Component is 3. Players may return Components to the general supply at any time to make room for new ones.'
+        ),
+      ],
+      'market-bargain': [
+        _('{{Bargain:}}'),
+        _(
+          "You may only use Bargain together with a 'Buy' Action. You may decrease the total price of Components you buy by 1 Coin per Action Point spent on 'Bargain'. You may never decrease the total price to 0."
+        ),
+      ],
+      'market-order': [
+        _('{{Order:}}'),
+        _(
+          'If players need a Component which is not currently available in the Market Row, they have to Order it. For 1 Action Point, the player may place a Component from the supply onto an open slot in the Order area (as long as the same Component type is not already there).'
+        ),
+        _(
+          "These Components will be moved to the corresponding slot in the Buy area during the 'Orders Arrive' phase, and will be available for purchase in the following turn."
+        ),
+      ],
+      'market-quick-order': [
+        _('{{Quick order:}}'),
+        _(
+          "In some situations, players can't afford to wait a turn for the desired Components. For 2 Action Points, a player may place any Component onto the Quick Order slot in the Market Row (if the slot isn't empty, return the Component there to the supply first)."
+        ),
+        _(
+          "That Component becomes part of the Market Row's stock this turn (for all players), and can be acquired with the 'Buy' Action. The Coin price of the Component on the Quick Order slot is increased by 1. During the 'End Turn' phase, the Component on the Quick Order slot is returned to the supply"
+        ),
+      ],
+      // Dark Alley
+      'alley-draw-first-card': [
+        _('{{Draw first card:}}'),
+        _(
+          'The player draws two cards from any Special Assignment deck in the Dark Alley, chooses one to keep, and puts the other at the bottom of the deck. A player may only take this Action once per Character placement.'
+        ),
+      ],
+      'alley-draw-further-cards': [
+        _('{{Draw further cards:}}'),
+        _("This Action is resolved the same way as the 'Draw First Card' Action, except it costs two Action Points."),
+      ],
+      'alley-fortune-telling': [
+        _('{{Fortune telling:}}'),
+        _('The player may move each Pending Prophecy one slot in a clockwise direction.'),
+      ],
+      // Theater
+      'theater-set-up-trick': [
+        _('{{Set up Trick:}}'),
+        _(
+          'The player may move one of their Trick markers from a Trick in the Workshop onto a free slot on a Performance card of their choice – this Trick will be represented by the marker until it is either Performed or the Performance card is discarded at the end of a turn'
+        ),
+        _(
+          "The Trick marker's corner that corresponds with the Trick's category must be in a Link circle connecting two slots. Two Trick markers of the same color AND the same symbol (e.g. two blue Spades) cannot be in the same Performance."
+        ),
+        _(
+          'After setting up a Trick marker, if two of the same Trick category symbols are in the same Link circle, those two Tricks are linked. The player who created the Link(s) immediately receives a bonus for each Link, depending on the Level of the Trick they placed to create the Link.'
+        ),
+        _(
+          'Additionally, if there is a Shard symbol in the Link circle where the Link is created, {{each player with a Trick marker}} in the Link also immediately receives one Trickerion Shard. If a player creates a Link over a Shard symbol with their own Trick, they only receive a single Shard, not two.'
+        ),
+        _('It is possible to create multiple Links with a single Trick marker placement. Creating Links is not obligatory.'),
+      ],
+      'theater-reschedule': [
+        _('{{Reschedule:}}'),
+        _(
+          "You may move one of your Trick markers from a Performance card to a free slot on the same or any other Performance card. Rules of Trick marker placement apply. You don't receive Link bonuses for moving a Trick marker this way."
+        ),
+      ],
+      // Workshop (per player — {playerId} is auto-replaced)
+      'workshop-{playerId}-prepare': [
+        _('{{Prepare:}}'),
+        _(
+          "The number of Action Points required to Prepare each Trick is printed in a circle in the lower left box (the Trick marker slot). Like at other Locations, players may take multiple 'Prepare' Actions with one Character — the only limit is the number of Action Points they have."
+        ),
+        _(
+          'When a Trick is Prepared, place a number of Trick markers on it equal to the number of overlapping squares in the lower left box. Use Trick markers with the same symbol as the Symbol marker placed on the Trick when it was learned. The maximum number of Trick markers a player can have in the game of a given symbol is 4.'
+        ),
+        _(
+          'Important: Players can always Prepare a Trick as long as they meet its Component requirements AND have no Trick markers on the Trick card itself (even if they have some in the Theater).'
+        ),
+        _(
+          "Very Important : {{Components are NOT spent when a Trick is prepared!}} The same Component stack can be used for multiple Tricks requiring it and for multiple 'Prepare' Actions."
+        ),
+      ],
+      'workshop-{playerId}-move-tricks': [
+        _('{{Move tricks:}}'),
+        _(
+          "The player moves one of their Tricks to the Engineer's Trick slot or exchanges the Trick there with another of their own Tricks."
+        ),
+      ],
+      'workshop-{playerId}-move-components': [
+        _('{{Move components:}}'),
+        _(
+          "The player moves one of their Component piles to the Manager's Multi Component slot or exchanges the pile there with another one of their Component piles."
+        ),
+      ],
+      'workshop-{playerId}-move-apprentice': [
+        _('{{Move apprentice:}}'),
+        _(
+          "The player permanently reallocates one of their Apprentices and the Assignment card below it (if any) to the Assistant's Apprentice slot (if it's empty)."
+        ),
+      ],
+      // Shard bonuses
+      'slot-workshop-shard-boost': [
+        _(
+          'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+        ),
+      ],
+      'slot-downtown-shard-boost': [
+        _(
+          'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+        ),
+      ],
+      'slot-market-shard-boost': [
+        _(
+          'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+        ),
+      ],
+      'slot-alley-shard-boost': [
+        _(
+          'You can buy +1 Action Point {{once}} by paying a Trickerion Shard. You may not buy more than 1 Action Point per Character placement this way.'
+        ),
+      ],
+      'slot-theater-no-shard-boost': [_("You {{can't}} buy Action Point by paying a Trickerion Shard at the theater.")],
+      'slot-workshop-prepare-bonus': [_("Tricks on the Engineer's Trick slot receive 1 additional Trick marker when Prepared.")],
+    };
 
-    undockAssignments() {
-        if (this._dockedPlayerId === null) return;
-        const playerId = this._dockedPlayerId;
+    return tooltips;
+  },
 
-        const el = $('floating-assignments')?.querySelector(`#assignments-${playerId}`);
-        if (!el) {
-            this._dockedPlayerId = null;
-            return;
+  attachActionTooltips(playerId: number = null) {
+    const tooltips = this.getActionTooltips() as Record<string, Array<string>>;
+    Object.entries(tooltips).forEach(([id, text]) => {
+      if (!text) return;
+      const desc = text.map((t) => formatString(t)).join('<br />');
+
+      // For workshop actions, resolve playerId placeholder
+      const resolvedId = id.replace('{playerId}', String(playerId ?? 0));
+      const elt = $(resolvedId);
+      if (elt) {
+        addCustomTooltip(elt, desc);
+      } else {
+        document.querySelectorAll(`.${resolvedId}`).forEach((e) => addCustomTooltip(e as HTMLElement, desc));
+      }
+    });
+  },
+
+  /** Track which player's assignments are currently docked */
+  _dockedPlayerId: null,
+
+  dockAssignments(playerId) {
+    if (this._dockedPlayerId === playerId) return;
+    this.undockAssignments();
+
+    const el = $(`assignments-${playerId}`);
+    if (!el) return;
+
+    const wrapper = $('floating-assignments-wrapper');
+    const target = $('floating-assignments');
+    if (!wrapper || !target) return;
+
+    target.appendChild(el);
+    wrapper.classList.add('active');
+
+    const btn = $('floating-assignments-button');
+    if (btn) {
+      btn.onclick = () => {
+        const isOpen = wrapper.dataset.open !== undefined;
+        if (isOpen) {
+          delete wrapper.dataset.open;
+        } else {
+          wrapper.dataset.open = '';
         }
+      };
+    }
 
-        const boardEl = $(`magician-board-${playerId}`);
-        const inner = boardEl?.querySelector('.magician-board-inner');
-        if (inner) {
-            inner.insertAdjacentElement('beforeend', el);
-        }
+    this._dockedPlayerId = playerId;
+  },
 
-        const wrapper = $('floating-assignments-wrapper');
-        if (wrapper) {
-            wrapper.classList.remove('active');
-            delete wrapper.dataset.open;
-        }
+  undockAssignments() {
+    if (this._dockedPlayerId === null) return;
+    const playerId = this._dockedPlayerId;
 
-        this._dockedPlayerId = null;
-    },
+    const el = $('floating-assignments')?.querySelector(`#assignments-${playerId}`);
+    if (!el) {
+      this._dockedPlayerId = null;
+      return;
+    }
+
+    const boardEl = $(`magician-board-${playerId}`);
+    const inner = boardEl?.querySelector('.magician-board-inner');
+    if (inner) {
+      inner.insertAdjacentElement('beforeend', el);
+    }
+
+    const wrapper = $('floating-assignments-wrapper');
+    if (wrapper) {
+      wrapper.classList.remove('active');
+      delete wrapper.dataset.open;
+    }
+
+    this._dockedPlayerId = null;
+  },
 };

@@ -18,135 +18,139 @@ use Bga\Games\trickerionlegendsofillusion\Constants\States;
 
 class AssignCharacters extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct(
-            $game,
-            id: States::ST_ASSIGN_CHARACTERS,
-            type: StateType::PRIVATE,
-            descriptionMyTurn: clienttranslate('${you} must assign your characters'),
-        );
+  function __construct(protected Game $game)
+  {
+    parent::__construct(
+      $game,
+      id: States::ST_ASSIGN_CHARACTERS,
+      type: StateType::PRIVATE,
+      descriptionMyTurn: clienttranslate('${you} must assign your characters'),
+    );
+  }
+
+  function getArgs(int $playerId): array
+  {
+    $availableAssignmentCards = Assignments::getFiltered($playerId, Assignments::LOCATION_HAND);
+
+    $assignedAssignments = Assignments::getFiltered($playerId, Assignments::LOCATION_ASSIGNED_ANY);
+    $usedCharacterIds = $assignedAssignments->pluck('state')->toArray();
+
+    // Also exclude characters that are already in pending assignments
+    $pending = Globals::getPendingAssignments();
+    $pendingForPlayer = $pending[$playerId] ?? [];
+    $pendingCharacterIds = array_map(fn($e) => $e['characterId'], $pendingForPlayer);
+
+    $unassignedCharacters = Characters::getFiltered($playerId, Characters::LOCATION_IDLE_ANY)
+      ->whereNot('id', $usedCharacterIds)
+      ->whereNot('id', $pendingCharacterIds);
+
+    return [
+      'availableAssignments' => $availableAssignmentCards->toArray(),
+      'availableCharacters' => $unassignedCharacters->toArray(),
+      'pendingAssignments' => $pendingForPlayer,
+    ];
+  }
+
+  #[PossibleAction]
+  public function actAssignCharacter(int $assignmentId, int $characterId, array $args, int $currentPlayerId)
+  {
+    $assignment = Assignments::get($assignmentId);
+    $character = Characters::get($characterId);
+
+    if (!in_array($assignment, $args['availableAssignments'])) {
+      throw new UserException('This assignment is not available');
     }
 
-    function getArgs(int $playerId): array
-    {
-        $availableAssignmentCards = Assignments::getFiltered($playerId, Assignments::LOCATION_HAND);
-
-        $assignedAssignments = Assignments::getFiltered($playerId, Assignments::LOCATION_ASSIGNED_ANY);
-        $usedCharacterIds = $assignedAssignments->pluck("state")->toArray();
-
-        // Also exclude characters that are already in pending assignments
-        $pending = Globals::getPendingAssignments();
-        $pendingForPlayer = $pending[$playerId] ?? [];
-        $pendingCharacterIds = array_map(fn($e) => $e['characterId'], $pendingForPlayer);
-
-        $unassignedCharacters = Characters::getFiltered($playerId, Characters::LOCATION_IDLE_ANY)
-            ->whereNot("id", $usedCharacterIds)
-            ->whereNot("id", $pendingCharacterIds);
-
-        return [
-            "availableAssignments" => $availableAssignmentCards->toArray(),
-            "availableCharacters" => $unassignedCharacters->toArray(),
-            "pendingAssignments" => $pendingForPlayer,
-        ];
+    if (!in_array($character, $args['availableCharacters'])) {
+      throw new UserException('This character is not available');
     }
 
-    #[PossibleAction]
-    public function actAssignCharacter(int $assignmentId, int $characterId, array $args, int $currentPlayerId)
-    {
-        $assignment = Assignments::get($assignmentId);
-        $character = Characters::get($characterId);
+    // Store in global
+    $pending = Globals::getPendingAssignments();
+    $pending[$currentPlayerId][] = [
+      'assignmentId' => $assignmentId,
+      'characterId' => $characterId,
+    ];
+    Globals::setPendingAssignments($pending);
 
-        if (!in_array($assignment, $args["availableAssignments"])) {
-            throw new UserException("This assignment is not available");
-        }
+    // Private notification for the assigning player (with card data for animation)
+    $this->notify->player(
+      $currentPlayerId,
+      'assignmentPending',
+      clienttranslate('You assign ${assignment_name} to ${characterName}'),
+      [
+        'player_id' => $currentPlayerId,
+        'characterName' => $character->getName(),
+        'characterId' => $characterId,
+        'assignment' => $assignment,
+        'assignment_name' => $assignment->getName(),
+        'i18n' => ['assignment_name'],
+      ],
+    );
+    $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+  }
 
-        if (!in_array($character, $args["availableCharacters"])) {
-            throw new UserException("This character is not available");
-        }
+  #[PossibleAction]
+  public function actUnassignCharacter(int $assignmentId, int $currentPlayerId)
+  {
+    $assignment = Assignments::get($assignmentId);
 
-        // Store in global
-        $pending = Globals::getPendingAssignments();
-        $pending[$currentPlayerId][] = [
-            'assignmentId' => $assignmentId,
-            'characterId' => $characterId,
-        ];
-        Globals::setPendingAssignments($pending);
-
-        // Private notification for the assigning player (with card data for animation)
-        $this->notify->player($currentPlayerId, 'assignmentPending', clienttranslate('You assign ${assignment_name} to ${characterName}'), [
-            'player_id' => $currentPlayerId,
-            'characterName' => $character->getName(),
-            'characterId' => $characterId,
-            'assignment' => $assignment,
-            'assignment_name' => $assignment->getName(),
-            'i18n' => ['assignment_name'],
-        ]);
-        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+    if ($assignment->getPlayerId() !== $currentPlayerId) {
+      throw new UserException('This is not your assignment');
     }
 
-    #[PossibleAction]
-    public function actUnassignCharacter(int $assignmentId, int $currentPlayerId)
-    {
-        $assignment = Assignments::get($assignmentId);
+    // Remove from global
+    $pending = Globals::getPendingAssignments();
+    $playerPending = $pending[$currentPlayerId] ?? [];
 
-        if ($assignment->getPlayerId() !== $currentPlayerId) {
-            throw new UserException("This is not your assignment");
-        }
-
-        // Remove from global
-        $pending = Globals::getPendingAssignments();
-        $playerPending = $pending[$currentPlayerId] ?? [];
-
-        $found = false;
-        foreach ($playerPending as $i => $entry) {
-            if ($entry['assignmentId'] === $assignmentId) {
-                array_splice($playerPending, $i, 1);
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            throw new UserException("This assignment is not in your pending list");
-        }
-
-        $pending[$currentPlayerId] = $playerPending;
-        Globals::setPendingAssignments($pending);
-
-        // Private notification to animate the card back
-        $this->notify->player($currentPlayerId, 'unassignmentPending', clienttranslate('You unassign ${assignment_name}'), [
-            'player_id' => $currentPlayerId,
-            'characterId' => $assignment->getState(),
-            'assignment' => $assignment,
-            'assignment_name' => $assignment->getName(),
-            'i18n' => ['assignment_name'],
-        ]);
-        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+    $found = false;
+    foreach ($playerPending as $i => $entry) {
+      if ($entry['assignmentId'] === $assignmentId) {
+        array_splice($playerPending, $i, 1);
+        $found = true;
+        break;
+      }
     }
 
-    #[PossibleAction]
-    public function actDone(int $currentPlayerId)
-    {
-        $this->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
-            'player_id' => $currentPlayerId,
-        ]);
-        $this->game->gamestate->setPlayerNonMultiactive($currentPlayerId, ResolveAssignments::class);
+    if (!$found) {
+      throw new UserException('This assignment is not in your pending list');
     }
 
-    #[PossibleAction]
-    public function actReset(int $currentPlayerId)
-    {
-        $pending = Globals::getPendingAssignments();
-        $pending[$currentPlayerId] = [];
-        Globals::setPendingAssignments($pending);
+    $pending[$currentPlayerId] = $playerPending;
+    Globals::setPendingAssignments($pending);
 
-        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
-    }
+    // Private notification to animate the card back
+    $this->notify->player($currentPlayerId, 'unassignmentPending', clienttranslate('You unassign ${assignment_name}'), [
+      'player_id' => $currentPlayerId,
+      'characterId' => $assignment->getState(),
+      'assignment' => $assignment,
+      'assignment_name' => $assignment->getName(),
+      'i18n' => ['assignment_name'],
+    ]);
+    $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+  }
 
-    function zombie(int $playerId)
-    {
-        $this->actDone($playerId);
-    }
+  #[PossibleAction]
+  public function actDone(int $currentPlayerId)
+  {
+    $this->notify->all('message', clienttranslate('${player_name} finished assigning the characters'), [
+      'player_id' => $currentPlayerId,
+    ]);
+    $this->game->gamestate->setPlayerNonMultiactive($currentPlayerId, ResolveAssignments::class);
+  }
+
+  #[PossibleAction]
+  public function actReset(int $currentPlayerId)
+  {
+    $pending = Globals::getPendingAssignments();
+    $pending[$currentPlayerId] = [];
+    Globals::setPendingAssignments($pending);
+
+    $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+  }
+
+  function zombie(int $playerId)
+  {
+    $this->actDone($playerId);
+  }
 }

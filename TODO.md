@@ -2,10 +2,10 @@
 
 ## Legend
 
--   🟢 Done - proper visual/interactive UI
--   🟡 Partial - basic buttons, needs visual/interactive upgrade
--   🔴 Empty/stub - no UI created at all
--   📢 Empty notification handler
+- 🟢 Done - proper visual/interactive UI
+- 🟡 Partial - basic buttons, needs visual/interactive upgrade
+- 🔴 Empty/stub - no UI created at all
+- 📢 Empty notification handler
 
 ---
 
@@ -50,7 +50,7 @@ All state files in `src/ts/states/` have at least a working UI. No 🔴 stubs re
 
 ### Framework states (all functional)
 
--   **ConfirmTurn.ts**, **ConfirmPartialTurn.ts**, **ResolveChoice.ts**, **DummyEnd.ts**, **AnytimeActions.ts**
+- **ConfirmTurn.ts**, **ConfirmPartialTurn.ts**, **ResolveChoice.ts**, **DummyEnd.ts**, **AnytimeActions.ts**
 
 ---
 
@@ -102,11 +102,13 @@ All state files in `src/ts/states/` have at least a working UI. No 🔴 stubs re
 ## 4. Current Feedback Items from Testing
 
 ### ✅ Resolved
+
 - **Trick Markers on Trick Cards**: Fixed display of trick markers on prepared tricks (Mechaniker, Great Optico, Priestess of Mysticism)
 - **Advertising Poster Overlay**: Added poster icon to magician card and player panel summary
 - **Assistant Assignment Highlight**: Fixed highlight for apprentice on assistant board
 
 ### 🔄 In Progress
+
 - **Component Display Issue**: Mechaniker shows Fabric instead of Metal, Great Optico shows Metal instead of Fabric
 - **Browser Refresh Issue**: Setup steps require browser refresh to display choices made by each player
 
@@ -128,55 +130,55 @@ Most frontend work is complete. Future priorities would be:
 
 ### Architecture
 
--   State files in `src/ts/states/`, registered in `Game.ts` via `bga.states.register('Name', new NameClass(this, bga))`
--   Notifications auto-wired: method `notif_xxx` handles notification `xxx` from PHP
--   All players in `notifications/index.ts` array; individual states can also have `notif_xxx` methods
--   State args typed in `src/ts/types.d.ts` as `XxxArgs` interfaces
--   Notification args typed in `src/ts/types.d.ts` as `XxxArgs` interfaces
+- State files in `src/ts/states/`, registered in `Game.ts` via `bga.states.register('Name', new NameClass(this, bga))`
+- Notifications auto-wired: method `notif_xxx` handles notification `xxx` from PHP
+- All players in `notifications/index.ts` array; individual states can also have `notif_xxx` methods
+- State args typed in `src/ts/types.d.ts` as `XxxArgs` interfaces
+- Notification args typed in `src/ts/types.d.ts` as `XxxArgs` interfaces
 
 ### UI Patterns
 
--   Use `cards.tplXxx()` for card templates (performance, assignment, trick, magician, prophecy, poster)
--   Use `meeples.addMeeple()` / `meeples.tplMeeple()` for character/component/trick-marker pieces
--   Use `bga.statusBar.addActionButton(label, callback, options?)` for action buttons
--   Use `onClick(element, callback)` from `framework/event.ts` for clickable DOM elements
--   Use `onSelectN({ elements, n, callback })` from `framework/utils.ts` for n-of-many selection
--   Use `board.getAnimationManager()` → `.slideAndAttach()` / `.slideFloatingElement()` for animations
--   Use `clearPossible()` on state leave to clean up hover/select states
--   Use `addCustomTooltip(element, html)` or `registerCustomTooltip(html, id) + attachRegisteredTooltips()` for tooltips
--   Use `formatIcon('name', count?)` for icons (coin, shard, fame, action-point, etc.)
--   Use `formatString(str)` for text with `<iconname>` replacement + `{{emphasis}}`
+- Use `cards.tplXxx()` for card templates (performance, assignment, trick, magician, prophecy, poster)
+- Use `meeples.addMeeple()` / `meeples.tplMeeple()` for character/component/trick-marker pieces
+- Use `bga.statusBar.addActionButton(label, callback, options?)` for action buttons
+- Use `onClick(element, callback)` from `framework/event.ts` for clickable DOM elements
+- Use `onSelectN({ elements, n, callback })` from `framework/utils.ts` for n-of-many selection
+- Use `board.getAnimationManager()` → `.slideAndAttach()` / `.slideFloatingElement()` for animations
+- Use `clearPossible()` on state leave to clean up hover/select states
+- Use `addCustomTooltip(element, html)` or `registerCustomTooltip(html, id) + attachRegisteredTooltips()` for tooltips
+- Use `formatIcon('name', count?)` for icons (coin, shard, fame, action-point, etc.)
+- Use `formatString(str)` for text with `<iconname>` replacement + `{{emphasis}}`
 
 ### Board DOM structure
 
--   Downtown: `#board-downtown-inner` with die slots, trick decks, action spaces, character slots
--   Market Row: `#board-market-row-inner` with buy area, order area, quick order, action spaces
--   Theater: `#board-theater-inner` with performance slots (`.performance-slot-{n}`), action slots, link bonus display
--   Dark Alley: `#board-dark-alley-inner` (only if isDarkAlley) with assignment decks, prophecy slots, action spaces
--   Dark Alley prophecies: `.slot-prophecies` container with `#alley-active-prophecy` and `#alley-pending-prophecies` children
--   Player boards: `#magician-board-{playerId}` with workshop, trick slots, component slots, assignment slots
--   Assignment slots: `#assignment-slot-{playerId}-{type}` where type is magician/apprentice-1/2/3/engineer/manager/assistant/apprentice-assistant
--   Pending area: `#trickerion-pending` — general-purpose container for temporary UI elements
--   Floating assignments: `#floating-assignments-wrapper` -> `#floating-assignments`
+- Downtown: `#board-downtown-inner` with die slots, trick decks, action spaces, character slots
+- Market Row: `#board-market-row-inner` with buy area, order area, quick order, action spaces
+- Theater: `#board-theater-inner` with performance slots (`.performance-slot-{n}`), action slots, link bonus display
+- Dark Alley: `#board-dark-alley-inner` (only if isDarkAlley) with assignment decks, prophecy slots, action spaces
+- Dark Alley prophecies: `.slot-prophecies` container with `#alley-active-prophecy` and `#alley-pending-prophecies` children
+- Player boards: `#magician-board-{playerId}` with workshop, trick slots, component slots, assignment slots
+- Assignment slots: `#assignment-slot-{playerId}-{type}` where type is magician/apprentice-1/2/3/engineer/manager/assistant/apprentice-assistant
+- Pending area: `#trickerion-pending` — general-purpose container for temporary UI elements
+- Floating assignments: `#floating-assignments-wrapper` -> `#floating-assignments`
 
 ### Meeples
 
--   Characters rendered in assignment idle slots (by `CharacterLocation`)
--   Components on player board component slots or manager component slots
--   Trick markers placed on performance card `.trick-marker-slot` elements (via `TrickMarkerNotifications`)
--   `meeples.getMeepleContainer(meeple)` maps backend location → DOM element
--   `meeples.addMeeple(meeple, container?)` creates and inserts a meeple DOM element
--   Trick marker meeple tooltips show trick name, player, and suit
+- Characters rendered in assignment idle slots (by `CharacterLocation`)
+- Components on player board component slots or manager component slots
+- Trick markers placed on performance card `.trick-marker-slot` elements (via `TrickMarkerNotifications`)
+- `meeples.getMeepleContainer(meeple)` maps backend location → DOM element
+- `meeples.addMeeple(meeple, container?)` creates and inserts a meeple DOM element
+- Trick marker meeple tooltips show trick name, player, and suit
 
 ### Dice
 
--   Uses `bga-dice` library via `useDice()` from libLoader
--   6 dice slots: character-0, character-1, trick-0, trick-1, money-0, money-1
--   Each die has 6 faces defined in `FACE_DEFS`
--   `dice.rollDie(slotKey, newFace)` for animated rolls
--   Tooltip shows all 6 faces with current one highlighted
+- Uses `bga-dice` library via `useDice()` from libLoader
+- 6 dice slots: character-0, character-1, trick-0, trick-1, money-0, money-1
+- Each die has 6 faces defined in `FACE_DEFS`
+- `dice.rollDie(slotKey, newFace)` for animated rolls
+- Tooltip shows all 6 faces with current one highlighted
 
 ### Not yet implemented on backend (no frontend needed yet):
 
--   Academy markers
--   Some Magician abilities (their effects come through the engine/anytime actions)
+- Academy markers
+- Some Magician abilities (their effects come through the engine/anytime actions)

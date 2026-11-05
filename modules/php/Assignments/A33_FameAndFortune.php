@@ -6,16 +6,14 @@ use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
 class A33_FameAndFortune extends Assignment
 {
-    public function __construct($row)
-    {
-        parent::__construct($row);
-        $this->type = 'A33_FameAndFortune';
-        $this->category = Assignment::CATEGORY_SPECIAL;
-        $this->name = clienttranslate('Fame and Fortune');
-        $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
-        $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
-        $this->abilityText = [
-            clienttranslate('You also gain <fame> equal to the amount of <coin> on the chosen die minus 1.'),
-        ];
-    }
+  public function __construct($row)
+  {
+    parent::__construct($row);
+    $this->type = 'A33_FameAndFortune';
+    $this->category = Assignment::CATEGORY_SPECIAL;
+    $this->name = clienttranslate('Fame and Fortune');
+    $this->boardLocation = Assignment::BOARD_LOCATION_DOWNTOWN;
+    $this->targetAction = Assignment::TARGET_ACTION_TAKE_COINS;
+    $this->abilityText = [clienttranslate('You also gain <fame> equal to the amount of <coin> on the chosen die minus 1.')];
+  }
 }

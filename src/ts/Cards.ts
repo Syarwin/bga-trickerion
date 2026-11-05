@@ -34,7 +34,9 @@ export const cards = {
 
     let slots = '';
     Object.entries(card.slots).forEach(([slotId, slot]) => {
-      slots += `<div class="trick-marker-slot" data-slotId="${slotId}" style="grid-row-start:${slot.y + 1}; grid-column-start:${slot.x + 1}"></div>`;
+      slots += `<div class="trick-marker-slot" data-slotId="${slotId}" style="grid-row-start:${slot.y + 1}; grid-column-start:${
+        slot.x + 1
+      }"></div>`;
     });
 
     let bonuses = '';
@@ -42,7 +44,9 @@ export const cards = {
     if (card.bonus.coins) bonuses += card.bonus.coins + formatIcon('coin');
     if (card.bonus.shards) bonuses += card.bonus.shards + formatIcon('shard');
 
-    return `<div id="${prefixId}performance-${card.id}" class="performance-card ${prefix}" data-type="${card.type}" data-theater="${card.theater}">
+    return `<div id="${prefixId}performance-${card.id}" class="performance-card ${prefix}" data-type="${
+      card.type
+    }" data-theater="${card.theater}">
         <div class="performance-card-inner">
           <div class="card-name"><span>${_(card.name)}</span></div>
           <div class="card-grid">
@@ -181,7 +185,9 @@ export const cards = {
             </div>`;
     }
 
-    return `<div id="${prefixId}assignment-card-${card.id}" class="assignment-card ${prefix}" data-type="${card.type}" data-asset="${assignmentAssetMap[card.type]}">
+    return `<div id="${prefixId}assignment-card-${card.id}" class="assignment-card ${prefix}" data-type="${
+      card.type
+    }" data-asset="${assignmentAssetMap[card.type]}">
         <div class="assignment-card-inner">
           ${content}
         </div>
@@ -359,7 +365,9 @@ export const cards = {
       const tab = document.createElement('div');
       tab.className = 'tab';
       tab.dataset.category = trickCategory;
-      tab.innerHTML = `<div class="slot slot-${trickCategory}"></div> ${_(trickCategory)} <div class="slot slot-${trickCategory}"></div>`;
+      tab.innerHTML = `<div class="slot slot-${trickCategory}"></div> ${_(
+        trickCategory
+      )} <div class="slot slot-${trickCategory}"></div>`;
       tab.addEventListener('click', () => ($('tricks-decks').dataset.visible = trickCategory));
       tabsBar.appendChild(tab);
 
@@ -485,7 +493,9 @@ export const cards = {
       registerCustomTooltip(tooltipContent, `${prefixId}magician-${card.id}`);
     }
 
-    return `<div id="${prefixId}magician-${card.id}" class="magician-card ${prefix}" data-type="${card.type + (isDarkAlley ? '_alley' : '')}">
+    return `<div id="${prefixId}magician-${card.id}" class="magician-card ${prefix}" data-type="${
+      card.type + (isDarkAlley ? '_alley' : '')
+    }">
         <div class="magician-card-inner">
           <div class="magician-name"><span>${_(card.name)}</span></div>
           <div class="magician-poster-overlay"></div>

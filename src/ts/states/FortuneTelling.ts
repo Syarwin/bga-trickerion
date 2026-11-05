@@ -1,7 +1,7 @@
-import { State } from "../framework/State";
-import { clearPossible, attachRegisteredTooltips, getCurrentPlayerId } from "../framework/utils";
-import { onClick } from "../framework/event";
-import { cards } from "../Cards";
+import { State } from '../framework/State';
+import { clearPossible, attachRegisteredTooltips, getCurrentPlayerId } from '../framework/utils';
+import { onClick } from '../framework/event';
+import { cards } from '../Cards';
 
 /**
  * FortuneTelling visual state.
@@ -12,45 +12,45 @@ import { cards } from "../Cards";
  * with a brief visual highlight on each.
  */
 export class FortuneTelling extends State {
-    onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
-        // This is an automatic state — nothing to do on enter
+  onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
+    // This is an automatic state — nothing to do on enter
+  }
+
+  onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
+    clearPossible();
+  }
+
+  onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
+    // Automatic action — no player interaction needed
+  }
+
+  async notif_propheciesUpdated(args: PropheciesUpdatedArgs) {
+    // Re-render all pending prophecies with a brief rotation animation
+    const container = document.getElementById('alley-pending-prophecies');
+    if (!container) return;
+
+    // Clear existing prophecies
+    container.innerHTML = '';
+
+    // Re-add each prophecy with a fade-in animation
+    for (const prophecy of args.updatedProphecies) {
+      const html = cards.tplProphecy(prophecy);
+      container.insertAdjacentHTML('beforeend', html);
+
+      // Add a brief rotation animation class
+      const lastEl = container.lastElementChild as HTMLElement;
+      if (lastEl) {
+        lastEl.classList.add('fortune-rotated');
+        setTimeout(() => {
+          lastEl.classList.remove('fortune-rotated');
+        }, 600);
+      }
     }
 
-    onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
+    attachRegisteredTooltips();
 
-    onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
-        // Automatic action — no player interaction needed
-    }
-
-    async notif_propheciesUpdated(args: PropheciesUpdatedArgs) {
-        // Re-render all pending prophecies with a brief rotation animation
-        const container = document.getElementById('alley-pending-prophecies');
-        if (!container) return;
-
-        // Clear existing prophecies
-        container.innerHTML = '';
-
-        // Re-add each prophecy with a fade-in animation
-        for (const prophecy of args.updatedProphecies) {
-            const html = cards.tplProphecy(prophecy);
-            container.insertAdjacentHTML('beforeend', html);
-
-            // Add a brief rotation animation class
-            const lastEl = container.lastElementChild as HTMLElement;
-            if (lastEl) {
-                lastEl.classList.add('fortune-rotated');
-                setTimeout(() => {
-                    lastEl.classList.remove('fortune-rotated');
-                }, 600);
-            }
-        }
-
-        attachRegisteredTooltips();
-
-        // Update gamedatas for consistency
-        const gamedatas = this.bga.gameui.gamedatas as TrickerionGamedatas;
-        gamedatas.prophecies.pending = args.updatedProphecies;
-    }
+    // Update gamedatas for consistency
+    const gamedatas = this.bga.gameui.gamedatas as TrickerionGamedatas;
+    gamedatas.prophecies.pending = args.updatedProphecies;
+  }
 }

@@ -13,39 +13,34 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 class GetCoins extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_GET_COINS,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_GET_COINS, type: StateType::GAME);
+  }
 
-    public function getDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Get ${amount} coins (${sourceName})'),
-                "args" => [
-                    "amount" => $this->getNodeArgs("amount", 1),
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return [
-            "log" => clienttranslate('Get ${amount} coins'),
-            "args" => [
-                "amount" => $this->getNodeArgs("amount", 1),
-            ]
-        ];
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Get ${amount} coins (${sourceName})'),
+        'args' => [
+          'amount' => $this->getNodeArgs('amount', 1),
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
     }
+    return [
+      'log' => clienttranslate('Get ${amount} coins'),
+      'args' => [
+        'amount' => $this->getNodeArgs('amount', 1),
+      ],
+    ];
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $amount = $this->getNodeArgs("amount", 1);
-        Players::get($activePlayerId)->addCoins($amount);
-        return $this->resolve();
-    }    
+  function onEnteringState(int $activePlayerId)
+  {
+    $amount = $this->getNodeArgs('amount', 1);
+    Players::get($activePlayerId)->addCoins($amount);
+    return $this->resolve();
+  }
 }

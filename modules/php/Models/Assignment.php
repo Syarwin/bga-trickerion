@@ -8,7 +8,7 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
 
 /**
  * Assignment: all utility functions concerning an assignment
- * 
+ *
  * @property int $id The id of the assignment
  * @property string $type The type of the assignment
  * @property int $location The location of the assignment
@@ -20,27 +20,27 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Assignments;
  * @property string $targetAction The target action of the assignment
  * @property object $abilityText The ability text of the assignment
  */
-class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
+class Assignment extends \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB_Model
 {
-    protected $table = 'assignment';
-    protected $primary = 'assignment_id';
-    protected $attributes = [
-        'id' => ['assignment_id', 'int'],
-        'type' => ['assignment_type', "string"],
-        'location' => ['assignment_location', 'string'],
-        'state' => ['assignment_state', 'int'],
-        'playerId' => ['player_id', 'int'],
-    ];
+  protected $table = 'assignment';
+  protected $primary = 'assignment_id';
+  protected $attributes = [
+    'id' => ['assignment_id', 'int'],
+    'type' => ['assignment_type', 'string'],
+    'location' => ['assignment_location', 'string'],
+    'state' => ['assignment_state', 'int'],
+    'playerId' => ['player_id', 'int'],
+  ];
 
-    protected $staticAttributes = [
-        ['boardLocation', 'str'],
-        ['category', 'str'],
-        ['name', 'str'],
-        ['targetAction', 'str'],
-        ['abilityText', 'obj'],
-    ];
+  protected $staticAttributes = [
+    ['boardLocation', 'str'],
+    ['category', 'str'],
+    ['name', 'str'],
+    ['targetAction', 'str'],
+    ['abilityText', 'obj'],
+  ];
 
-    /*
+  /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
     ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -50,26 +50,29 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
 
     */
 
-    public function assignToCharacter(Character $character) {
-        $this->setLocation(Assignments::LOCATION_ASSIGNED_FACEDOWN);
-        $this->setState($character->getId());
+  public function assignToCharacter(Character $character)
+  {
+    $this->setLocation(Assignments::LOCATION_ASSIGNED_FACEDOWN);
+    $this->setState($character->getId());
 
+    Game::get()->bga->notify->all('assignmentAssigned', clienttranslate('${player_name} assigned a card to ${characterName}'), [
+      'player_id' => $this->getPlayerId(),
+      'characterName' => $character->getName(),
+      'characterId' => $character->getId(),
+      '_private' => [
+        $this->getPlayerId() => new NotificationMessage(
+          clienttranslate('You assigned ${_private.assignment_name} to ${characterName}'),
+          [
+            'assignment' => $this,
+            'assignment_name' => $this->getName(),
+            'i18n' => ['assignment_name'],
+          ],
+        ),
+      ],
+    ]);
+  }
 
-        Game::get()->bga->notify->all('assignmentAssigned', clienttranslate('${player_name} assigned a card to ${characterName}'), [
-            'player_id' => $this->getPlayerId(),
-            'characterName' => $character->getName(),
-            'characterId' => $character->getId(),
-            '_private' => [
-                $this->getPlayerId() => new NotificationMessage(clienttranslate('You assigned ${_private.assignment_name} to ${characterName}'), [
-                    'assignment' => $this,
-                    'assignment_name' => $this->getName(),
-                    'i18n' => ['assignment_name']
-                ]),
-            ],
-        ]);
-    }
-
-    /*
+  /*
     ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
     ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
     ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
@@ -77,29 +80,29 @@ class Assignment extends  \Bga\Games\trickerionlegendsofillusion\Framework\Db\DB
     ╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║   ███████║
     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
-    */    
+    */
 
-    const BOARD_LOCATION_THEATER = 'theater';
-    const BOARD_LOCATION_DOWNTOWN = 'downtown';
-    const BOARD_LOCATION_MARKET_ROW = 'market-row';
-    const BOARD_LOCATION_WORKSHOP = 'workshop';
-    const BOARD_LOCATION_DARK_ALLEY = 'dark-alley';
+  const BOARD_LOCATION_THEATER = 'theater';
+  const BOARD_LOCATION_DOWNTOWN = 'downtown';
+  const BOARD_LOCATION_MARKET_ROW = 'market-row';
+  const BOARD_LOCATION_WORKSHOP = 'workshop';
+  const BOARD_LOCATION_DARK_ALLEY = 'dark-alley';
 
-    const CATEGORY_SPECIAL = 'special';
-    const CATEGORY_PERMANENT = 'permanent';
+  const CATEGORY_SPECIAL = 'special';
+  const CATEGORY_PERMANENT = 'permanent';
 
-    const TARGET_ACTION_ANY = 'any';
-    const TARGET_ACTION_SET_UP_TRICK = 'set-up-trick';
-    const TARGET_ACTION_PERFORM = 'perform';
-    const TARGET_ACTION_RESCHEDULE = 'reschedule';
-    const TARGET_ACTION_PREPARE = 'prepare';
-    const TARGET_ACTION_HIRE_CHARACTER = 'hire-character';
-    const TARGET_ACTION_LEARN_TRICK = 'learn-trick';
-    const TARGET_ACTION_TAKE_COINS = 'take-coins';
-    const TARGET_ACTION_BUY = 'buy';
-    const TARGET_ACTION_ORDER = 'order';
-    const TARGET_ACTION_QUICK_ORDER = 'quick-order';
+  const TARGET_ACTION_ANY = 'any';
+  const TARGET_ACTION_SET_UP_TRICK = 'set-up-trick';
+  const TARGET_ACTION_PERFORM = 'perform';
+  const TARGET_ACTION_RESCHEDULE = 'reschedule';
+  const TARGET_ACTION_PREPARE = 'prepare';
+  const TARGET_ACTION_HIRE_CHARACTER = 'hire-character';
+  const TARGET_ACTION_LEARN_TRICK = 'learn-trick';
+  const TARGET_ACTION_TAKE_COINS = 'take-coins';
+  const TARGET_ACTION_BUY = 'buy';
+  const TARGET_ACTION_ORDER = 'order';
+  const TARGET_ACTION_QUICK_ORDER = 'quick-order';
 
-    const STATE_FACE_DOWN = 10;
-    const STATE_FACE_UP = 20;
+  const STATE_FACE_DOWN = 10;
+  const STATE_FACE_UP = 20;
 }

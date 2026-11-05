@@ -9,37 +9,34 @@
 }
 
 // $pColors: "d1ac51" "95a0b2" "8d4129" "9374ad";
-$performanceCardTypes: "P01_RiversideTheater" "P02_RiversideTheater" "P03_RiversideTheater" "P04_RiversideTheater"
-  "P05_RiversideTheater" "P06_RiversideTheater" "P07_RiversideTheater" "P08_RiversideTheater" "P09_RiversideTheater"
-  "P10_RiversideTheater" "P11_RiversideTheater" "P12_RiversideTheater" "Back_RiversideTheate" "P13_GrandMagorian"
-  "P14_GrandMagorian" "P15_GrandMagorian" "P16_GrandMagorian" "P17_GrandMagorian" "P18_GrandMagorian"
-  "P19_GrandMagorian" "P20_GrandMagorian" "Back_GrandMagorian" "P21_MagnusPantheon" "P22_MagnusPantheon"
-  "P23_MagnusPantheon" "P24_MagnusPantheon" "P25_MagnusPantheon" "P26_MagnusPantheon" "P27_MagnusPantheon"
-  "P28_MagnusPantheon";
+$performanceCardTypes: 'P01_RiversideTheater' 'P02_RiversideTheater' 'P03_RiversideTheater' 'P04_RiversideTheater'
+  'P05_RiversideTheater' 'P06_RiversideTheater' 'P07_RiversideTheater' 'P08_RiversideTheater' 'P09_RiversideTheater'
+  'P10_RiversideTheater' 'P11_RiversideTheater' 'P12_RiversideTheater' 'Back_RiversideTheate' 'P13_GrandMagorian'
+  'P14_GrandMagorian' 'P15_GrandMagorian' 'P16_GrandMagorian' 'P17_GrandMagorian' 'P18_GrandMagorian' 'P19_GrandMagorian'
+  'P20_GrandMagorian' 'Back_GrandMagorian' 'P21_MagnusPantheon' 'P22_MagnusPantheon' 'P23_MagnusPantheon' 'P24_MagnusPantheon'
+  'P25_MagnusPantheon' 'P26_MagnusPantheon' 'P27_MagnusPantheon' 'P28_MagnusPantheon';
 
-$assignmentCardTypes: "Back" "A01_Theater" "A02_Downtown" "A03_MarketRow" "A04_Workshop" "A05_DarkAlley"
-  "A06_GuestPerformer" "A11_DurableComponents" "A14_StreetPerformance" "A16_TrickTweaking" "A25_Freelancer"
-  "A26_MassRecruitment" "A29_TrickOverhaul" "A32_Investments" "A35_Empower" "A36_ComponentSale" "A41_Logistics"
-  "A43_DubiousSources" "A44_BusinessShare";
+$assignmentCardTypes: 'Back' 'A01_Theater' 'A02_Downtown' 'A03_MarketRow' 'A04_Workshop' 'A05_DarkAlley' 'A06_GuestPerformer'
+  'A11_DurableComponents' 'A14_StreetPerformance' 'A16_TrickTweaking' 'A25_Freelancer' 'A26_MassRecruitment' 'A29_TrickOverhaul'
+  'A32_Investments' 'A35_Empower' 'A36_ComponentSale' 'A41_Logistics' 'A43_DubiousSources' 'A44_BusinessShare';
 
-$trickTypes: "T01_EnchantedButterflies" "T02_RabbitFromTheTopHat" "T03_PubInABottle" "T04_CardManipulation"
-  "T05_SelfDecapitation" "T06_PaperShred" "T07_ShatteredMirror" "T08_FishingInTheAir" "T09_Mutilation"
-  "T10_StairsOfWater" "T11_BeastWithin" "T12_VanishingElephant" "T13_MindReading" "T14_BreathOfLife" "T15_SpiritHand"
-  "T16_WindowToTheOtherworld" "T17_FloatingTable" "T18_FutureSight" "T19_PeppersGhost" "T20_GhostTrap"
-  "T21_BalsamosSkull" "T22_Séance" "T23_SkeletonDance" "T24_Metamorphosis" "T25_BarricadedBarrels" "T26_StocksEscape"
-  "T27_BurningMummy" "T28_WaterTankEscape" "T29_PrisonBreak" "T30_ZigZagLady" "T31_Walled" "T32_WolfCage"
-  "T33_BuriedAlive" "T34_AssistantsRevenge" "T35_IronMaiden" "T36_TransportedMan" "T37_LinkingRings" "T38_LivingPiano"
-  "T39_ChineseSticks" "T40_Levitation" "T41_MechanicalHornet" "T42_SawingTheAssistantInHalf" "T43_VanishingBirdCage"
-  "T44_BulletCatch" "T45_AztecLady" "T46_HorrorSaws" "T47_Automaton" "T48_Hellhound";
+$trickTypes: 'T01_EnchantedButterflies' 'T02_RabbitFromTheTopHat' 'T03_PubInABottle' 'T04_CardManipulation' 'T05_SelfDecapitation'
+  'T06_PaperShred' 'T07_ShatteredMirror' 'T08_FishingInTheAir' 'T09_Mutilation' 'T10_StairsOfWater' 'T11_BeastWithin'
+  'T12_VanishingElephant' 'T13_MindReading' 'T14_BreathOfLife' 'T15_SpiritHand' 'T16_WindowToTheOtherworld' 'T17_FloatingTable'
+  'T18_FutureSight' 'T19_PeppersGhost' 'T20_GhostTrap' 'T21_BalsamosSkull' 'T22_Séance' 'T23_SkeletonDance' 'T24_Metamorphosis'
+  'T25_BarricadedBarrels' 'T26_StocksEscape' 'T27_BurningMummy' 'T28_WaterTankEscape' 'T29_PrisonBreak' 'T30_ZigZagLady'
+  'T31_Walled' 'T32_WolfCage' 'T33_BuriedAlive' 'T34_AssistantsRevenge' 'T35_IronMaiden' 'T36_TransportedMan' 'T37_LinkingRings'
+  'T38_LivingPiano' 'T39_ChineseSticks' 'T40_Levitation' 'T41_MechanicalHornet' 'T42_SawingTheAssistantInHalf'
+  'T43_VanishingBirdCage' 'T44_BulletCatch' 'T45_AztecLady' 'T46_HorrorSaws' 'T47_Automaton' 'T48_Hellhound';
 
-$prophecyTypes: "Back" "P01_Prophecy" "P02_Prophecy" "P03_Prophecy" "P04_Prophecy" "P05_Prophecy" "P06_Prophecy"
-  "P07_Prophecy" "P08_Prophecy" "P09_Prophecy" "P10_Prophecy" "P12_Prophecy" "P13_Prophecy" "P14_Prophecy"
-  "P15_Prophecy" "P17_Prophecy" "P18_Prophecy" "P19_Prophecy" "P20_Prophecy" "P21_Prophecy" "P23_Prophecy"
-  "P24_Prophecy" "P25_Prophecy" "P26_Prophecy" "P27_Prophecy" "P16_Prophecy" "P22_Prophecy" "P11_Prophecy";
+$prophecyTypes: 'Back' 'P01_Prophecy' 'P02_Prophecy' 'P03_Prophecy' 'P04_Prophecy' 'P05_Prophecy' 'P06_Prophecy' 'P07_Prophecy'
+  'P08_Prophecy' 'P09_Prophecy' 'P10_Prophecy' 'P12_Prophecy' 'P13_Prophecy' 'P14_Prophecy' 'P15_Prophecy' 'P17_Prophecy'
+  'P18_Prophecy' 'P19_Prophecy' 'P20_Prophecy' 'P21_Prophecy' 'P23_Prophecy' 'P24_Prophecy' 'P25_Prophecy' 'P26_Prophecy'
+  'P27_Prophecy' 'P16_Prophecy' 'P22_Prophecy' 'P11_Prophecy';
 
-$magicianTypes: "M01_MasterOfChains" "M01_MasterOfChains_alley" "M02_TheGreatOptico" "M02_TheGreatOptico_alley"
-  "M03_PriestessOfMysticism" "M03_PriestessOfMysticism_alley" "M04_TheMechaniker" "M04_TheMechaniker_alley"
-  "M05_TheRedLotus" "M05_TheRedLotus_alley" "M06_TheGentleman" "M06_TheGentleman_alley" "M07_YorubaSpiritmaster"
-  "M07_YorubaSpiritmaster_alley" "M08_Electra" "M08_Electra_alley";
-$magicianPostersTypes: "M02_TheGreatOptico" "M01_MasterOfChains" "M04_TheMechaniker" "M03_PriestessOfMysticism"
-  "M06_TheGentleman" "M05_TheRedLotus" "M07_YorubaSpiritmaster" "M08_Electra";
+$magicianTypes: 'M01_MasterOfChains' 'M01_MasterOfChains_alley' 'M02_TheGreatOptico' 'M02_TheGreatOptico_alley'
+  'M03_PriestessOfMysticism' 'M03_PriestessOfMysticism_alley' 'M04_TheMechaniker' 'M04_TheMechaniker_alley' 'M05_TheRedLotus'
+  'M05_TheRedLotus_alley' 'M06_TheGentleman' 'M06_TheGentleman_alley' 'M07_YorubaSpiritmaster' 'M07_YorubaSpiritmaster_alley'
+  'M08_Electra' 'M08_Electra_alley';
+$magicianPostersTypes: 'M02_TheGreatOptico' 'M01_MasterOfChains' 'M04_TheMechaniker' 'M03_PriestessOfMysticism' 'M06_TheGentleman'
+  'M05_TheRedLotus' 'M07_YorubaSpiritmaster' 'M08_Electra';

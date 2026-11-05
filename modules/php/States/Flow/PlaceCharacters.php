@@ -16,37 +16,41 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\PlaceCharacter;
 
 class PlaceCharacters extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_PLACE_CHARACTERS,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_PLACE_CHARACTERS, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        //reveal characters
-        $revealedAssignments = Assignments::getInLocation(Assignments::LOCATION_ASSIGNED_FACEDOWN)
-            ->update("location", Assignments::LOCATION_ASSIGNED_FACEUP);
+  function onEnteringState(int $activePlayerId)
+  {
+    //reveal characters
+    $revealedAssignments = Assignments::getInLocation(Assignments::LOCATION_ASSIGNED_FACEDOWN)->update(
+      'location',
+      Assignments::LOCATION_ASSIGNED_FACEUP,
+    );
 
-        $this->notify->all("assignmentsRevealed", clienttranslate('All assignment cards are revealed'), [
-            "assignments" => $revealedAssignments->toArray(),
-        ]);
+    $this->notify->all('assignmentsRevealed', clienttranslate('All assignment cards are revealed'), [
+      'assignments' => $revealedAssignments->toArray(),
+    ]);
 
-        //start initiative turn order
-        return TurnOrderManager::launch("turn", Players::getOrderByInitiative(), [self::class, "startPlaceCharacterTurn"], PerformancePhase::class, true);
-    }
+    //start initiative turn order
+    return TurnOrderManager::launch(
+      'turn',
+      Players::getOrderByInitiative(),
+      [self::class, 'startPlaceCharacterTurn'],
+      PerformancePhase::class,
+      true,
+    );
+  }
 
-    public static function startPlaceCharacterTurn()
-    {
-        Game::get()->giveExtraTime(Players::getActiveId());
-        $node = [
-            "state" => PlaceCharacter::class
-        ];
+  public static function startPlaceCharacterTurn()
+  {
+    Game::get()->giveExtraTime(Players::getActiveId());
+    $node = [
+      'state' => PlaceCharacter::class,
+    ];
 
-        Engine::setup($node, ["order" => "turn"]);
-        return Engine::proceed();
-    }
+    Engine::setup($node, ['order' => 'turn']);
+    return Engine::proceed();
+  }
 }

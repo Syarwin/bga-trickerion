@@ -14,30 +14,31 @@ use Bga\Games\trickerionlegendsofillusion\Constants\States;
 
 class StartAssignment extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_START_ASSIGNMENT,
-            type: StateType::MULTIPLE_ACTIVE_PLAYER,
-            description: clienttranslate('Other players must assign their characters'),
-            descriptionMyTurn: clienttranslate('${you} must assign your characters'),
-            initialPrivate: AssignCharacters::class,
-        );
-    }
+  function __construct(protected Game $game)
+  {
+    parent::__construct(
+      $game,
+      id: States::ST_START_ASSIGNMENT,
+      type: StateType::MULTIPLE_ACTIVE_PLAYER,
+      description: clienttranslate('Other players must assign their characters'),
+      descriptionMyTurn: clienttranslate('${you} must assign your characters'),
+      initialPrivate: AssignCharacters::class,
+    );
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $this->gamestate->setAllPlayersMultiactive();
-        $this->gamestate->initializePrivateStateForAllActivePlayers(); 
-    }   
-    
-    #[PossibleAction]
-    #[CheckAction(false)]
-    public function actChangeAssignment(int $currentPlayerId) {
-        $this->gamestate->checkPossibleAction('actChangeAssignment');
-        $this->game->gamestate->setPlayersMultiactive([$currentPlayerId], "", false);
-        Assignments::resetAssignments($currentPlayerId);
-        $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
-    }
+  function onEnteringState(int $activePlayerId)
+  {
+    $this->gamestate->setAllPlayersMultiactive();
+    $this->gamestate->initializePrivateStateForAllActivePlayers();
+  }
+
+  #[PossibleAction]
+  #[CheckAction(false)]
+  public function actChangeAssignment(int $currentPlayerId)
+  {
+    $this->gamestate->checkPossibleAction('actChangeAssignment');
+    $this->game->gamestate->setPlayersMultiactive([$currentPlayerId], '', false);
+    Assignments::resetAssignments($currentPlayerId);
+    $this->game->gamestate->nextPrivateState($currentPlayerId, AssignCharacters::class);
+  }
 }

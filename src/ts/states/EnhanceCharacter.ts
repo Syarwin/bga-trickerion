@@ -1,4 +1,5 @@
-import { State } from "../framework/State";
+import { State } from '../framework/State';
+import { players } from '../Players';
 
 /**
  * EnhanceCharacter visual state.
@@ -8,20 +9,19 @@ import { State } from "../framework/State";
  * Currently this is a backend-driven auto state with no UI interaction needed.
  */
 export class EnhanceCharacter extends State {
-    onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
-        // Auto state — no user interaction needed
-    }
+  onEnteringState(_args: object, _isCurrentPlayerActive: boolean) {
+    // Auto state — no user interaction needed
+  }
 
-    onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
-        // Nothing to clean up
-    }
+  onLeavingState(_args: object, _isCurrentPlayerActive: boolean) {
+    // Nothing to clean up
+  }
 
-    onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
-        // Auto state — not player-interactive
-    }
+  onPlayerActivationChange(_args: object, _isCurrentPlayerActive: boolean) {
+    // Auto state — not player-interactive
+  }
 
-    async notif_characterEnhanced(_args: CharacterEnhancedArgs) {
-        // Enhancement effect is handled through game engine/anytime actions.
-        // Could add a brief visual flash on the magician card if needed.
-    }
+  async notif_characterEnhanced(_args: CharacterEnhancedArgs) {
+    await players.animatePlayerCounter(_args.player_id, 'shard', -1);
+  }
 }

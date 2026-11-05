@@ -13,120 +13,120 @@
  *
  */
 
-@use "nouislider";
-@use "variables";
-@use "icons";
-@use "meeples";
-@use "central-board";
-@use "player-board";
-@use "player-panel";
-@use "performance-cards";
-@use "assignment-cards";
-@use "tricks";
-@use "prophecies";
-@use "magicians";
-@use "modals";
-@use "log";
-@use "magician-board";
-@use "dice";
-@use "flip";
+@use 'nouislider';
+@use 'variables';
+@use 'icons';
+@use 'meeples';
+@use 'central-board';
+@use 'player-board';
+@use 'player-panel';
+@use 'performance-cards';
+@use 'assignment-cards';
+@use 'tricks';
+@use 'prophecies';
+@use 'magicians';
+@use 'modals';
+@use 'log';
+@use 'magician-board';
+@use 'dice';
+@use 'flip';
 
 html {
-    background-image: url("img/background.jpg");
-    // background-size: cover;
-    // background-attachment: fixed;
+  background-image: url('img/background.jpg');
+  // background-size: cover;
+  // background-attachment: fixed;
 }
 
 .emph {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .notransition {
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
-    transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }
 
 .phantom {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 #pagemaintitletext {
-    position: relative;
+  position: relative;
 }
 
 #generalactions-persistant,
 #generalactions-restart {
-    display: inline;
+  display: inline;
 }
 #generalactions-persistant {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 #restartAction {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 #btnUndoLastStep {
-    background: #d97050;
+  background: #d97050;
 }
 
-[data-undobuttons="0"] #btnUndoLastStep {
-    display: none;
+[data-undobuttons='0'] #btnUndoLastStep {
+  display: none;
 }
-[data-undobuttons="2"] #btnRestartTurn {
-    display: none;
+[data-undobuttons='2'] #btnRestartTurn {
+  display: none;
 }
 
 #pagesubtitle:not(:empty) {
-    padding: 3px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  padding: 3px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #maintitlebar_content {
-    .action-button ~ .action-button {
-        margin-left: 15px;
-    }
+  .action-button ~ .action-button {
+    margin-left: 15px;
+  }
 }
 
 #customActions .action-button.bgabutton,
 #customActions .bgabutton {
-    text-overflow: initial;
+  text-overflow: initial;
 }
 
 #ebd-body.help-mode {
-    .tooltipable {
-        cursor: help;
-    }
+  .tooltipable {
+    cursor: help;
+  }
 }
 
 .help-marker {
-    position: absolute;
-    top: 2px;
-    left: 2px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  z-index: 900;
+  border: 1px solid black;
+  border-radius: 50%;
+
+  svg {
     width: 20px;
     height: 20px;
-    z-index: 900;
-    border: 1px solid black;
-    border-radius: 50%;
-
-    svg {
-        width: 20px;
-        height: 20px;
-    }
+  }
 }
 
 #ebd-body:not(.help-mode) {
-    .help-marker {
-        opacity: 0;
-        pointer-events: none;
-    }
+  .help-marker {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 /* Hide the "You may note something for next time..." popup that would appear. */
 #turnBasedNotesIncent {
-    display: none;
+  display: none;
 }

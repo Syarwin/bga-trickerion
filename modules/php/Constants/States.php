@@ -6,53 +6,53 @@ namespace Bga\Games\trickerionlegendsofillusion\Constants;
 
 class States
 {
-    //MAIN FLOW
-    const ST_TURN_PREPARATION = 10;
-    const ST_START_ASSIGNMENT = 40;
-    const ST_ASSIGN_CHARACTERS = 50;
-    const ST_RESOLVE_ASSIGNMENTS = 55;
-    const ST_PLACE_CHARACTERS = 60;
-    const ST_PERFORMANCE_PHASE = 70;
-    const ST_END_TURN_PHASE = 80;
-    const ST_END_GAME_SCORING = 90;
+  //MAIN FLOW
+  const ST_TURN_PREPARATION = 10;
+  const ST_START_ASSIGNMENT = 40;
+  const ST_ASSIGN_CHARACTERS = 50;
+  const ST_RESOLVE_ASSIGNMENTS = 55;
+  const ST_PLACE_CHARACTERS = 60;
+  const ST_PERFORMANCE_PHASE = 70;
+  const ST_END_TURN_PHASE = 80;
+  const ST_END_GAME_SCORING = 90;
 
-    //SETUP STATES
-    const ST_SETUP_TURN = 810;
-    const ST_FINISH_ENGINEER_SETUP = 820;
-    const ST_FINISH_SETUP = 830;
+  //SETUP STATES
+  const ST_SETUP_TURN = 810;
+  const ST_FINISH_ENGINEER_SETUP = 820;
+  const ST_FINISH_SETUP = 830;
 
-    //ACTION STATES
-    const ST_ADVERTISE = 100;
-    const ST_PLACE_CHARACTER = 120;
-    const ST_PLAY_LOCATION_ACTIONS = 125;
-    const ST_PICK_COMPONENTS = 200;
-    const ST_LEARN_TRICK = 205;
-    const ST_HIRE_CHARACTER = 210;
-    const ST_HIRED_CHARACTER_SETUP = 211;
-    const ST_PREPARE_TRICK = 215;
-    const ST_DRAW_ASSIGNMENT_CARDS = 220;
-    const ST_ENHANCE_CHARACTER = 225;
-    const ST_FORTUNE_TELLING = 230;
-    const ST_MAKE_DIE_UNAVAILABLE = 235;
-    const ST_TAKE_COINS = 240;
-    const ST_REROLL_DIE = 245;
-    const ST_SET_DIE = 250;
-    const ST_BUY_COMPONENTS = 255;
-    const ST_ORDER_COMPONENT = 260;
-    const ST_QUICK_ORDER_COMPONENT = 265;
-    const ST_MOVE_COMPONENTS = 270;
-    const ST_MOVE_TRICK = 275;
-    const ST_MOVE_APPRENTICE = 280;
-    const ST_SETUP_TRICK = 285;
-    const ST_RESCHEDULE = 290;
-    const ST_GET_SHARDS = 295;
-    const ST_GET_COINS = 300;
-    const ST_GET_FAME = 305;
-    //free actions
-    const ST_DISCARD_COMPONENT = 700;
-    const ST_DISCARD_TRICK = 705;
-    //performance
-    const ST_PERFORMANCE = 600;
-    //setup
-    const ST_CHOOSE_MAGICIAN = 805;
+  //ACTION STATES
+  const ST_ADVERTISE = 100;
+  const ST_PLACE_CHARACTER = 120;
+  const ST_PLAY_LOCATION_ACTIONS = 125;
+  const ST_PICK_COMPONENTS = 200;
+  const ST_LEARN_TRICK = 205;
+  const ST_HIRE_CHARACTER = 210;
+  const ST_HIRED_CHARACTER_SETUP = 211;
+  const ST_PREPARE_TRICK = 215;
+  const ST_DRAW_ASSIGNMENT_CARDS = 220;
+  const ST_ENHANCE_CHARACTER = 225;
+  const ST_FORTUNE_TELLING = 230;
+  const ST_MAKE_DIE_UNAVAILABLE = 235;
+  const ST_TAKE_COINS = 240;
+  const ST_REROLL_DIE = 245;
+  const ST_SET_DIE = 250;
+  const ST_BUY_COMPONENTS = 255;
+  const ST_ORDER_COMPONENT = 260;
+  const ST_QUICK_ORDER_COMPONENT = 265;
+  const ST_MOVE_COMPONENTS = 270;
+  const ST_MOVE_TRICK = 275;
+  const ST_MOVE_APPRENTICE = 280;
+  const ST_SETUP_TRICK = 285;
+  const ST_RESCHEDULE = 290;
+  const ST_GET_SHARDS = 295;
+  const ST_GET_COINS = 300;
+  const ST_GET_FAME = 305;
+  //free actions
+  const ST_DISCARD_COMPONENT = 700;
+  const ST_DISCARD_TRICK = 705;
+  //performance
+  const ST_PERFORMANCE = 600;
+  //setup
+  const ST_CHOOSE_MAGICIAN = 805;
 }

@@ -1,96 +1,96 @@
 .player-board {
-    .fa.fa-star {
-        color: black;
-    }
+  .fa.fa-star {
+    color: black;
+  }
 
+  &[data-order]::before {
+    content: attr(data-order);
+    position: absolute;
+    background: #fff;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    z-index: 20;
+    top: 29px;
+    left: 3px;
+    font-size: 15px;
+    box-shadow: 0px 0px 1px black;
+    font-family: 'Brandon Text Black';
+    line-height: 17px;
+  }
+
+  &.inactive {
+    background: #cccaca;
+    opacity: 0.7;
     &[data-order]::before {
-        content: attr(data-order);
-        position: absolute;
-        background: #fff;
-        width: 18px;
-        height: 18px;
-        display: flex;
-        justify-content: center;
-        border-radius: 50%;
-        border: 1px solid black;
-        z-index: 20;
-        top: 29px;
-        left: 3px;
-        font-size: 15px;
-        box-shadow: 0px 0px 1px black;
-        font-family: "Brandon Text Black";
-        line-height: 17px;
+      background: #c0c0c0;
+    }
+  }
+
+  .player-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Brandon Text Black';
+
+    .player-coins,
+    .player-shards,
+    .player-fame {
+      padding: 1px 6px;
+      border: 1px solid black;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    &.inactive {
-        background: #cccaca;
-        opacity: 0.7;
-        &[data-order]::before {
-            background: #c0c0c0;
-        }
+    .player-shards {
+      gap: 6px;
     }
 
-    .player-info {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: "Brandon Text Black";
-
-        .player-coins,
-        .player-shards,
-        .player-fame {
-            padding: 1px 6px;
-            border: 1px solid black;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .player-shards {
-            gap: 6px;
-        }
-
-        .player-fame {
-            gap: 6px;
-        }
+    .player-fame {
+      gap: 6px;
     }
+  }
 }
 
 // Floating resource animation
 .animation-elt {
-    position: absolute;
-    z-index: 1000;
-    pointer-events: none;
-    padding: 2px 10px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    font-family: "Brandon Text Black";
-    border: 1px solid black;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  padding: 2px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  font-family: 'Brandon Text Black';
+  border: 1px solid black;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 // Poster overlay for player panel
 .player-panel-poster-overlay {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 30px;
-    height: 30px;
-    background-image: url("img/poster-icon.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 10;
-    pointer-events: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  background-image: url('img/poster-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
 
-    &.visible {
-        opacity: 1;
-    }
+  &.visible {
+    opacity: 1;
+  }
 }

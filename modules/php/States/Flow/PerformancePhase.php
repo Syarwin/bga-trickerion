@@ -14,36 +14,35 @@ use Bga\Games\trickerionlegendsofillusion\States\Actions\Performance;
 
 class PerformancePhase extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_PERFORMANCE_PHASE,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_PERFORMANCE_PHASE, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $this->notify->all("message", clienttranslate('Performance Phase begins'), []);
+  function onEnteringState(int $activePlayerId)
+  {
+    $this->notify->all('message', clienttranslate('Performance Phase begins'), []);
 
-        $performances = Characters::getPerformingPlayers();
+    $performances = Characters::getPerformingPlayers();
 
-        $node = [
-            "type" => Engine::NODE_SEQUENTIAL,
-            "children" => array_map(function($day) use ($performances) {
-                return [
-                    "state" => Performance::class,
-                    "playerId" => $performances[$day] ?? Engine::PLAYER_ID_AUTO,
-                    "args" => [ 
-                        "day" => $day,
-                        "skip" => !isset($performances[$day]),
-                    ]
-                ];
-            }, ["thursday", "friday", "saturday", "sunday"]),
-        ];
+    $node = [
+      'type' => Engine::NODE_SEQUENTIAL,
+      'children' => array_map(
+        function ($day) use ($performances) {
+          return [
+            'state' => Performance::class,
+            'playerId' => $performances[$day] ?? Engine::PLAYER_ID_AUTO,
+            'args' => [
+              'day' => $day,
+              'skip' => !isset($performances[$day]),
+            ],
+          ];
+        },
+        ['thursday', 'friday', 'saturday', 'sunday'],
+      ),
+    ];
 
-        Engine::setup($node, ["state" => EndTurnPhase::class]);
-        return Engine::proceed();
-    }
+    Engine::setup($node, ['state' => EndTurnPhase::class]);
+    return Engine::proceed();
+  }
 }

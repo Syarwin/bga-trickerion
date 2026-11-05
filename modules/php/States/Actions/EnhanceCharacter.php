@@ -14,26 +14,21 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 class EnhanceCharacter extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_ENHANCE_CHARACTER,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_ENHANCE_CHARACTER, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        Players::get($activePlayerId)->payShards(1);
-        LocationActions::incActionPoints(1);
-        
-        $this->notify->all("characterEnhanced", clienttranslate('${player_name} spends 1 shard to enhance a character (+1 AP)'), [
-            "player_id" => $activePlayerId,
-        ]);
+  function onEnteringState(int $activePlayerId)
+  {
+    Players::get($activePlayerId)->incShards(-1);
+    LocationActions::incActionPoints(1);
 
-        return $this->resolve();
-    }    
+    $this->notify->all('characterEnhanced', clienttranslate('${player_name} spends 1${shard} to enhance a character (+1 AP)'), [
+      'player_id' => $activePlayerId,
+      'shard' => clienttranslate('shard(s)'),
+    ]);
+
+    return $this->resolve();
+  }
 }

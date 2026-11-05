@@ -10,62 +10,64 @@ use Bga\Games\trickerionlegendsofillusion\Models\Assignment;
 
 class Assignments extends CachedPieces
 {
-    protected static ?Collection $datas = null;
-    protected static string $table = 'assignment';
-    protected static string $prefix = 'assignment_';
-    protected static array $customFields = ["assignment_type", "player_id"];
-    protected static bool $autoIncrement = true;
-    protected static bool $autoremovePrefix = false;
-    protected static bool $autoreshuffle = false;
-    protected static array $autoreshuffleCustom = [];
+  protected static ?Collection $datas = null;
+  protected static string $table = 'assignment';
+  protected static string $prefix = 'assignment_';
+  protected static array $customFields = ['assignment_type', 'player_id'];
+  protected static bool $autoIncrement = true;
+  protected static bool $autoremovePrefix = false;
+  protected static bool $autoreshuffle = false;
+  protected static array $autoreshuffleCustom = [];
 
-    public static function autoreshuffleListener(string $location) {}
+  public static function autoreshuffleListener(string $location) {}
 
-    protected static function cast(array $raw): Assignment
-    {
-        return self::getAssignmentInstance($raw["assignment_type"], $raw);
-    }
+  protected static function cast(array $raw): Assignment
+  {
+    return self::getAssignmentInstance($raw['assignment_type'], $raw);
+  }
 
-    public static function getAssignmentInstance(string $type, ?array $data = null): Assignment
-    {
-        $className = "Bga\Games\\trickerionlegendsofillusion\Assignments\\$type";
-        return new $className($data);
-    }
+  public static function getAssignmentInstance(string $type, ?array $data = null): Assignment
+  {
+    $className = "Bga\Games\\trickerionlegendsofillusion\Assignments\\$type";
+    return new $className($data);
+  }
 
-    public static function getUiData($playerId = null)
-    {
-        return [
-            "hand" => self::getFiltered($playerId, Assignments::LOCATION_HAND)->toArray(),
-            "deckRemaining" => [
-                self::LOCATION_DOWNTOWN_DECK => self::countInLocation(self::LOCATION_DOWNTOWN_DECK),
-                self::LOCATION_WORKSHOP_DECK => self::countInLocation(self::LOCATION_WORKSHOP_DECK),
-                self::LOCATION_MARKET_ROW_DECK => self::countInLocation(self::LOCATION_MARKET_ROW_DECK),
-                self::LOCATION_THEATER_DECK => self::countInLocation(self::LOCATION_THEATER_DECK),
-            ],
-            "discards" => [
-                self::LOCATION_DOWNTOWN_DISCARD => self::getInLocationOrdered(self::LOCATION_DOWNTOWN_DISCARD)->toArray(),
-                self::LOCATION_WORKSHOP_DISCARD => self::getInLocationOrdered(self::LOCATION_WORKSHOP_DISCARD)->toArray(),
-                self::LOCATION_MARKET_ROW_DISCARD => self::getInLocationOrdered(self::LOCATION_MARKET_ROW_DISCARD)->toArray(),
-                self::LOCATION_THEATER_DISCARD => self::getInLocationOrdered(self::LOCATION_THEATER_DISCARD)->toArray(),
-            ],
-            "assigned" => [
-                "my" => self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)->toArray(),
-                "other" => Players::getOpponents($playerId)->map(function ($opponent) {
-                    return [
-                        "revealed" => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEUP)->toArray(),
-                        "hidden" => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEDOWN)->map(function ($assignment) {
-                            return [
-                                "location" => $assignment->getLocation(),
-                                "state" => $assignment->getState(),
-                            ];
-                        })->toArray(),
-                    ];
-                })
-            ]
-        ];
-    }
+  public static function getUiData($playerId = null)
+  {
+    return [
+      'hand' => self::getFiltered($playerId, Assignments::LOCATION_HAND)->toArray(),
+      'deckRemaining' => [
+        self::LOCATION_DOWNTOWN_DECK => self::countInLocation(self::LOCATION_DOWNTOWN_DECK),
+        self::LOCATION_WORKSHOP_DECK => self::countInLocation(self::LOCATION_WORKSHOP_DECK),
+        self::LOCATION_MARKET_ROW_DECK => self::countInLocation(self::LOCATION_MARKET_ROW_DECK),
+        self::LOCATION_THEATER_DECK => self::countInLocation(self::LOCATION_THEATER_DECK),
+      ],
+      'discards' => [
+        self::LOCATION_DOWNTOWN_DISCARD => self::getInLocationOrdered(self::LOCATION_DOWNTOWN_DISCARD)->toArray(),
+        self::LOCATION_WORKSHOP_DISCARD => self::getInLocationOrdered(self::LOCATION_WORKSHOP_DISCARD)->toArray(),
+        self::LOCATION_MARKET_ROW_DISCARD => self::getInLocationOrdered(self::LOCATION_MARKET_ROW_DISCARD)->toArray(),
+        self::LOCATION_THEATER_DISCARD => self::getInLocationOrdered(self::LOCATION_THEATER_DISCARD)->toArray(),
+      ],
+      'assigned' => [
+        'my' => self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)->toArray(),
+        'other' => Players::getOpponents($playerId)->map(function ($opponent) {
+          return [
+            'revealed' => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEUP)->toArray(),
+            'hidden' => self::getFiltered($opponent->id, self::LOCATION_ASSIGNED_FACEDOWN)
+              ->map(function ($assignment) {
+                return [
+                  'location' => $assignment->getLocation(),
+                  'state' => $assignment->getState(),
+                ];
+              })
+              ->toArray(),
+          ];
+        }),
+      ],
+    ];
+  }
 
-    /*
+  /*
   ███████╗███████╗████████╗██╗   ██╗██████╗
   ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
   ███████╗█████╗     ██║   ██║   ██║██████╔╝
@@ -74,49 +76,49 @@ class Assignments extends CachedPieces
   ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
   */
 
-    /* Creation of the cards */
-    public static function setupNewGame()
-    {
-        // Load list of cards
-        include dirname(__FILE__) . '/../Assignments/list.php';
+  /* Creation of the cards */
+  public static function setupNewGame()
+  {
+    // Load list of cards
+    include dirname(__FILE__) . '/../Assignments/list.php';
 
-        // Create cards
-        $assignments = [];
-        foreach ($assignmentTypes as $type) {
-            $assignment = self::getAssignmentInstance($type);
+    // Create cards
+    $assignments = [];
+    foreach ($assignmentTypes as $type) {
+      $assignment = self::getAssignmentInstance($type);
 
-            $initialData = self::getInitialData($assignment);
+      $initialData = self::getInitialData($assignment);
 
-            if (!Globals::isDarkAlley() && $assignment->getBoardLocation() === Assignment::BOARD_LOCATION_DARK_ALLEY) {
-                continue;
-            }
+      if (!Globals::isDarkAlley() && $assignment->getBoardLocation() === Assignment::BOARD_LOCATION_DARK_ALLEY) {
+        continue;
+      }
 
-            $data = [
-                'assignment_type' => $type,
-                'location' => $initialData['location'],
-                'nbr' => $initialData['nbr'],
-            ];
+      $data = [
+        'assignment_type' => $type,
+        'location' => $initialData['location'],
+        'nbr' => $initialData['nbr'],
+      ];
 
-            if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
-                $assignments[] = $data;
-            } else {
-                foreach (Players::getAll() as $playerId => $_) {
-                    $data['player_id'] = $playerId;
-                    $assignments[] = $data;
-                }
-            }
+      if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
+        $assignments[] = $data;
+      } else {
+        foreach (Players::getAll() as $playerId => $_) {
+          $data['player_id'] = $playerId;
+          $assignments[] = $data;
         }
-
-        // Create the assignments
-        self::create($assignments, null);
-
-        self::shuffle(self::LOCATION_THEATER_DECK);
-        self::shuffle(self::LOCATION_DOWNTOWN_DECK);
-        self::shuffle(self::LOCATION_WORKSHOP_DECK);
-        self::shuffle(self::LOCATION_MARKET_ROW_DECK);
+      }
     }
 
-    /*
+    // Create the assignments
+    self::create($assignments, null);
+
+    self::shuffle(self::LOCATION_THEATER_DECK);
+    self::shuffle(self::LOCATION_DOWNTOWN_DECK);
+    self::shuffle(self::LOCATION_WORKSHOP_DECK);
+    self::shuffle(self::LOCATION_MARKET_ROW_DECK);
+  }
+
+  /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
     ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -126,131 +128,136 @@ class Assignments extends CachedPieces
 
     */
 
-    public static function resetAssignments(int $playerId)
-    {
-        $assignments = self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)
-            ->ForEach(function (Assignment $assignment) {
-                $assignment->setLocation(self::LOCATION_HAND);
-            });
+  public static function resetAssignments(int $playerId)
+  {
+    $assignments = self::getFiltered($playerId, self::LOCATION_ASSIGNED_ANY)->ForEach(function (Assignment $assignment) {
+      $assignment->setLocation(self::LOCATION_HAND);
+    });
 
-        Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
-            'player_id' => $playerId,
-            '_private' => [
-                $playerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
-                    "assignments" => $assignments->toArray()
-                ]),
-            ],
-        ]);
+    Game::get()->bga->notify->all('assignmentsReset', clienttranslate('${player_name} decided to reassign the characters'), [
+      'player_id' => $playerId,
+      '_private' => [
+        $playerId => new NotificationMessage(clienttranslate('You decided to reassign the characters'), [
+          'assignments' => $assignments->toArray(),
+        ]),
+      ],
+    ]);
+  }
+
+  private static function getInitialData(Assignment $assignment)
+  {
+    if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
+      return [
+        'location' => self::getSpecialAssignmentInitialLocation($assignment->getBoardLocation()),
+        'nbr' => 1,
+      ];
+    } else {
+      return [
+        'location' => self::LOCATION_HAND,
+        'nbr' => self::getPermanentAssignmentInitialCopies($assignment->getBoardLocation()),
+      ];
+    }
+  }
+
+  public static function getSpecialAssignmentInitialLocation(string $boardLocation)
+  {
+    return [
+      Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DECK,
+      Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DECK,
+      Assignment::BOARD_LOCATION_WORKSHOP => self::LOCATION_WORKSHOP_DECK,
+      Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DECK,
+    ][$boardLocation];
+  }
+
+  public static function getSpecialAssignmentDiscardLocation(string $boardLocation)
+  {
+    return [
+      Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DISCARD,
+      Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DISCARD,
+      Assignment::BOARD_LOCATION_WORKSHOP => self::LOCATION_WORKSHOP_DISCARD,
+      Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DISCARD,
+    ][$boardLocation];
+  }
+
+  private static function getPermanentAssignmentInitialCopies(string $boardLocation)
+  {
+    if (!Globals::isDarkAlley()) {
+      return [
+        Assignment::BOARD_LOCATION_THEATER => 3,
+        Assignment::BOARD_LOCATION_DOWNTOWN => 2,
+        Assignment::BOARD_LOCATION_WORKSHOP => 2,
+        Assignment::BOARD_LOCATION_MARKET_ROW => 2,
+        Assignment::BOARD_LOCATION_DARK_ALLEY => 0,
+      ][$boardLocation];
     }
 
-    private static function getInitialData(Assignment $assignment)
-    {
-        if ($assignment->getCategory() === Assignment::CATEGORY_SPECIAL) {
-            return [
-                "location" => self::getSpecialAssignmentInitialLocation($assignment->getBoardLocation()),
-                "nbr" => 1
-            ];
-        } else {
-            return [
-                'location' => self::LOCATION_HAND,
-                'nbr' => self::getPermanentAssignmentInitialCopies($assignment->getBoardLocation()),
-            ];
-        }
+    return [
+      Assignment::BOARD_LOCATION_THEATER => 2,
+      Assignment::BOARD_LOCATION_DOWNTOWN => 1,
+      Assignment::BOARD_LOCATION_WORKSHOP => 1,
+      Assignment::BOARD_LOCATION_MARKET_ROW => 1,
+      Assignment::BOARD_LOCATION_DARK_ALLEY => 1,
+    ][$boardLocation];
+  }
+
+  public static function getAvailableAssignments($playerId = null)
+  {
+    $facupAssignments = self::getInLocation(self::LOCATION_ASSIGNED_FACEUP);
+    if ($playerId !== null) {
+      $facupAssignments = $facupAssignments->where('playerId', $playerId);
     }
 
-    public static function getSpecialAssignmentInitialLocation(string $boardLocation)
-    {
+    return $facupAssignments
+      ->filter(function (Assignment $assignment) {
+        return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
+          ->where('id', $assignment->getState())
+          ->count() > 0;
+      })
+      ->map(function (Assignment $assignment) {
+        $character = Characters::get($assignment->getState());
+        $possibleLocations = $character->getPossibleLocations($assignment->getBoardLocation());
+
         return [
-            Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DECK,
-            Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DECK,
-            Assignment::BOARD_LOCATION_WORKSHOP => self::LOCATION_WORKSHOP_DECK,
-            Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DECK,
-        ][$boardLocation];
-    }
+          'assignment' => $assignment,
+          'character' => $character,
+          'possibleLocations' => $possibleLocations,
+        ];
+      })
+      ->toArray();
+  }
 
-    public static function getSpecialAssignmentDiscardLocation(string $boardLocation)
-    {
-        return [
-            Assignment::BOARD_LOCATION_THEATER => self::LOCATION_THEATER_DISCARD,
-            Assignment::BOARD_LOCATION_DOWNTOWN => self::LOCATION_DOWNTOWN_DISCARD,
-            Assignment::BOARD_LOCATION_WORKSHOP => self::LOCATION_WORKSHOP_DISCARD,
-            Assignment::BOARD_LOCATION_MARKET_ROW => self::LOCATION_MARKET_ROW_DISCARD,
-        ][$boardLocation];
-    }
+  public static function roundMaintenance()
+  {
+    $playedAssignments = self::getInLocation(self::LOCATION_ASSIGNED_ANY);
 
-    private static function getPermanentAssignmentInitialCopies(string $boardLocation)
-    {
-        if (!Globals::isDarkAlley()) {
-            return [
-                Assignment::BOARD_LOCATION_THEATER => 3,
-                Assignment::BOARD_LOCATION_DOWNTOWN => 2,
-                Assignment::BOARD_LOCATION_WORKSHOP => 2,
-                Assignment::BOARD_LOCATION_MARKET_ROW => 2,
-                Assignment::BOARD_LOCATION_DARK_ALLEY => 0,
-            ][$boardLocation];
-        }
+    $permanentAssignments = $playedAssignments->where('category', Assignment::CATEGORY_PERMANENT);
+    $specialAssignments = $playedAssignments->where('category', Assignment::CATEGORY_SPECIAL);
+    $facedownSpecialAssignments = $specialAssignments->where('location', self::LOCATION_ASSIGNED_FACEDOWN);
 
-        return [
-            Assignment::BOARD_LOCATION_THEATER => 2,
-            Assignment::BOARD_LOCATION_DOWNTOWN => 1,
-            Assignment::BOARD_LOCATION_WORKSHOP => 1,
-            Assignment::BOARD_LOCATION_MARKET_ROW => 1,
-            Assignment::BOARD_LOCATION_DARK_ALLEY => 1,
-        ][$boardLocation];
-    }
+    $permanentAssignments->merge($facedownSpecialAssignments)->update('location', self::LOCATION_HAND)->update('state', 0);
 
-    public static function getAvailableAssignments($playerId = null)
-    {
-        $facupAssignments = self::getInLocation(self::LOCATION_ASSIGNED_FACEUP);
-        if ($playerId !== null) {
-            $facupAssignments = $facupAssignments->where("playerId", $playerId);
-        }
+    Game::get()->bga->notify->all(
+      'assignmentsReturned',
+      clienttranslate('All permanent and face-down assignment cards are returned to player hands'),
+      [],
+    );
 
-        return $facupAssignments
-            ->filter(function (Assignment $assignment) {
-                return Characters::getFiltered($assignment->getPlayerId(), Characters::LOCATION_IDLE_ANY)
-                    ->where("id", $assignment->getState())
-                    ->count() > 0;
-            })
-            ->map(function (Assignment $assignment) {
-                $character = Characters::get($assignment->getState());
-                $possibleLocations = $character->getPossibleLocations($assignment->getBoardLocation());
+    $faceupSpecialAssignments = $specialAssignments->where('location', self::LOCATION_ASSIGNED_FACEUP);
+    $faceupSpecialAssignments
+      ->update('location', function ($assignment) {
+        return self::getSpecialAssignmentDiscardLocation($assignment->getBoardLocation());
+      })
+      ->update('state', 0)
+      ->update('playerId', null);
 
-                return [
-                    "assignment" => $assignment,
-                    "character" => $character,
-                    "possibleLocations" => $possibleLocations
-                ];
-            })->toArray();
-    }
+    Game::get()->bga->notify->all(
+      'assignmentsDiscarded',
+      clienttranslate('All faceup special assignment cards are discarded'),
+      [],
+    );
+  }
 
-    public static function roundMaintenance()
-    {
-        $playedAssignments = self::getInLocation(self::LOCATION_ASSIGNED_ANY);
-
-        $permanentAssignments = $playedAssignments->where("category", Assignment::CATEGORY_PERMANENT);
-        $specialAssignments = $playedAssignments->where("category", Assignment::CATEGORY_SPECIAL);
-        $facedownSpecialAssignments = $specialAssignments->where("location", self::LOCATION_ASSIGNED_FACEDOWN);
-
-        $permanentAssignments
-            ->merge($facedownSpecialAssignments)
-            ->update("location", self::LOCATION_HAND)
-            ->update("state", 0);
-
-        Game::get()->bga->notify->all('assignmentsReturned', clienttranslate('All permanent and face-down assignment cards are returned to player hands'), []);
-
-        $faceupSpecialAssignments = $specialAssignments->where("location", self::LOCATION_ASSIGNED_FACEUP);
-        $faceupSpecialAssignments
-            ->update("location", function ($assignment) {
-                return self::getSpecialAssignmentDiscardLocation($assignment->getBoardLocation());
-            })
-            ->update("state", 0)
-            ->update("playerId", null);
-
-        Game::get()->bga->notify->all('assignmentsDiscarded', clienttranslate('All faceup special assignment cards are discarded'), []);
-    }
-
-    /*
+  /*
    ██████╗ ██████╗ ███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗███████╗
   ██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝██╔════╝
   ██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║   ███████╗
@@ -260,17 +267,17 @@ class Assignments extends CachedPieces
 
   */
 
-    const LOCATION_HAND = 'hand';
-    const LOCATION_THEATER_DECK = 'theater_deck';
-    const LOCATION_DOWNTOWN_DECK = 'downtown_deck';
-    const LOCATION_WORKSHOP_DECK = 'workshop_deck';
-    const LOCATION_MARKET_ROW_DECK = 'market_row_deck';
-    const LOCATION_THEATER_DISCARD = 'theater_discard';
-    const LOCATION_DOWNTOWN_DISCARD = 'downtown_discard';
-    const LOCATION_WORKSHOP_DISCARD = 'workshop_discard';
-    const LOCATION_MARKET_ROW_DISCARD = 'market_row_discard';
-    const LOCATION_ASSIGNED_FACEUP = 'assigned-faceup';
-    const LOCATION_ASSIGNED_FACEDOWN = 'assigned-facedown';
-    const LOCATION_ASSIGNED_ANY = "assigned-%";
-    const LOCATION_DRAWN = 'drawn';
+  const LOCATION_HAND = 'hand';
+  const LOCATION_THEATER_DECK = 'theater_deck';
+  const LOCATION_DOWNTOWN_DECK = 'downtown_deck';
+  const LOCATION_WORKSHOP_DECK = 'workshop_deck';
+  const LOCATION_MARKET_ROW_DECK = 'market_row_deck';
+  const LOCATION_THEATER_DISCARD = 'theater_discard';
+  const LOCATION_DOWNTOWN_DISCARD = 'downtown_discard';
+  const LOCATION_WORKSHOP_DISCARD = 'workshop_discard';
+  const LOCATION_MARKET_ROW_DISCARD = 'market_row_discard';
+  const LOCATION_ASSIGNED_FACEUP = 'assigned-faceup';
+  const LOCATION_ASSIGNED_FACEDOWN = 'assigned-facedown';
+  const LOCATION_ASSIGNED_ANY = 'assigned-%';
+  const LOCATION_DRAWN = 'drawn';
 }

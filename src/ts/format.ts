@@ -74,7 +74,9 @@ export const formatIcon = function (name: string, n = null, lowerCase = true) {
     return text + icon;
   }
 
-  return `${noText ? text : ''}<div class="icon-container icon-container-${type}"><div class="trickerion-meeple meeple-${type}">${noText ? '' : text}</div></div>`;
+  return `${noText ? text : ''}<div class="icon-container icon-container-${type}"><div class="trickerion-meeple meeple-${type}">${
+    noText ? '' : text
+  }</div></div>`;
 };
 
 export const formatString = function (str: string) {
@@ -91,6 +93,9 @@ export const formatString = function (str: string) {
 export const logOverride = {
   coin: (args: { coin: string }) => {
     return formatIcon('coin');
+  },
+  shard: (args: { coin: string }) => {
+    return formatIcon('shard');
   },
   AP: (args: { AP: string }) => {
     return formatIcon('action-point');

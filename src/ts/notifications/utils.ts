@@ -1,6 +1,6 @@
 /**
  * Notifications Utilities
- * 
+ *
  * Provides uniform formatting for notifications involving tricks, components, characters, etc.
  * Handles i18n translation, icon display, and proper formatting.
  */
@@ -15,14 +15,14 @@ const playerColors: Record<number, string> = {};
  * @param gamedatas - The game data containing player information
  */
 export function initPlayerColors(gamedatas: any): void {
-    if (gamedatas?.players) {
-        for (const playerId in gamedatas.players) {
-            const player = gamedatas.players[playerId];
-            if (player?.color) {
-                playerColors[parseInt(playerId)] = player.color;
-            }
-        }
+  if (gamedatas?.players) {
+    for (const playerId in gamedatas.players) {
+      const player = gamedatas.players[playerId];
+      if (player?.color) {
+        playerColors[parseInt(playerId)] = player.color;
+      }
     }
+  }
 }
 
 /**
@@ -31,7 +31,7 @@ export function initPlayerColors(gamedatas: any): void {
  * @returns The player's color hex code
  */
 export function getPlayerColor(playerId: number): string {
-    return playerColors[playerId] || '#666666'; // Default gray if not found
+  return playerColors[playerId] || '#666666'; // Default gray if not found
 }
 
 /**
@@ -40,37 +40,37 @@ export function getPlayerColor(playerId: number): string {
  * @returns Formatted HTML string with trick name, category icon, and suit icon
  */
 export function formatTrick(trick: any): string {
-    if (!trick) return 'unknown';
-    
-    // Get the trick type and name
-    const type = trick.type || 'unknown';
-    const name = trick.name || '';
-    const suit = trick.suit || '';
-    const category = trick.category || '';
-    
-    // Build the formatted string with icons
-    let result = '';
-    
-    // Add category icon if available
-    if (category) {
-        result += `<i class='svgicon-${category.toLowerCase()}'></i> `;
-    }
-    
-    // Add the trick name/translation
-    if (name) {
-        // If we have a name, use it (BGA will handle translation if it's a translation key)
-        result += (typeof _ !== 'undefined' ? _(name) : name);
-    } else {
-        // Use type which BGA will translate
-        result += type;
-    }
-    
-    // Add suit icon if available
-    if (suit) {
-        result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
-    }
-    
-    return result;
+  if (!trick) return 'unknown';
+
+  // Get the trick type and name
+  const type = trick.type || 'unknown';
+  const name = trick.name || '';
+  const suit = trick.suit || '';
+  const category = trick.category || '';
+
+  // Build the formatted string with icons
+  let result = '';
+
+  // Add category icon if available
+  if (category) {
+    result += `<i class='svgicon-${category.toLowerCase()}'></i> `;
+  }
+
+  // Add the trick name/translation
+  if (name) {
+    // If we have a name, use it (BGA will handle translation if it's a translation key)
+    result += typeof _ !== 'undefined' ? _(name) : name;
+  } else {
+    // Use type which BGA will translate
+    result += type;
+  }
+
+  // Add suit icon if available
+  if (suit) {
+    result += ` <i class='svgicon-${suit.toLowerCase()}'></i>`;
+  }
+
+  return result;
 }
 
 /**
@@ -79,18 +79,18 @@ export function formatTrick(trick: any): string {
  * @returns Formatted HTML string with colored suit icon
  */
 export function formatTrickMarker(marker: any): string {
-    if (!marker) return 'Trick marker';
-    
-    const suit = marker.suit || '';
-    const playerId = marker.playerId;
-    
-    // If we have suit, show the suit icon with player color
-    if (suit) {
-        const color = playerId ? getPlayerColor(playerId) : '#666666';
-        return `<i class='svgicon-${suit.toLowerCase()}' style='color: ${color}'></i>`;
-    }
-    
-    return 'Trick marker';
+  if (!marker) return 'Trick marker';
+
+  const suit = marker.suit || '';
+  const playerId = marker.playerId;
+
+  // If we have suit, show the suit icon with player color
+  if (suit) {
+    const color = playerId ? getPlayerColor(playerId) : '#666666';
+    return `<i class='svgicon-${suit.toLowerCase()}' style='color: ${color}'></i>`;
+  }
+
+  return 'Trick marker';
 }
 
 /**
@@ -100,15 +100,15 @@ export function formatTrickMarker(marker: any): string {
  * @returns Formatted string describing the markers
  */
 export function formatTrickMarkers(markers: any[], count?: number): string {
-    if (!markers || markers.length === 0) return '';
-    
-    const markerCount = count ?? markers.length;
-    
-    if (markerCount === 1 && markers[0]) {
-        return formatTrickMarker(markers[0]);
-    } else {
-        return `${markerCount} trick markers`;
-    }
+  if (!markers || markers.length === 0) return '';
+
+  const markerCount = count ?? markers.length;
+
+  if (markerCount === 1 && markers[0]) {
+    return formatTrickMarker(markers[0]);
+  } else {
+    return `${markerCount} trick markers`;
+  }
 }
 
 /**
@@ -117,13 +117,13 @@ export function formatTrickMarkers(markers: any[], count?: number): string {
  * @returns Formatted HTML string with component icon and name
  */
 export function formatComponent(component: any): string {
-    if (!component) return 'Component';
-    
-    const type = component.type || component || 'unknown';
-    const icon = formatIcon(type, null, false);
-    const name = typeof _ !== 'undefined' ? _(type) : type;
-    
-    return icon + ' ' + name;
+  if (!component) return 'Component';
+
+  const type = component.type || component || 'unknown';
+  const icon = formatIcon(type, null, false);
+  const name = typeof _ !== 'undefined' ? _(type) : type;
+
+  return icon + ' ' + name;
 }
 
 /**
@@ -132,13 +132,13 @@ export function formatComponent(component: any): string {
  * @returns Formatted HTML string with character icon and name
  */
 export function formatCharacter(character: any): string {
-    if (!character) return 'Character';
-    
-    const type = character.type || character || 'unknown';
-    const icon = formatIcon(type, null, false);
-    const name = typeof _ !== 'undefined' ? _(type) : type;
-    
-    return icon + ' ' + name;
+  if (!character) return 'Character';
+
+  const type = character.type || character || 'unknown';
+  const icon = formatIcon(type, null, false);
+  const name = typeof _ !== 'undefined' ? _(type) : type;
+
+  return icon + ' ' + name;
 }
 
 /**
@@ -146,20 +146,20 @@ export function formatCharacter(character: any): string {
  * This can be used in logOverride or in custom notification handlers
  */
 export const trickFormatter = {
-    format: formatTrick,
-    formatMarker: formatTrickMarker,
-    formatMarkers: formatTrickMarkers,
-    
-    /**
-     * Format for logOverride - returns a string that replaces ${trick} in messages
-     */
-    forLog: (args: { trick: any }) => formatTrick(args.trick),
-    
-    /**
-     * Format for previousTrick in logOverride
-     */
-    forPreviousTrickLog: (args: { previousTrick?: any }) => {
-        const trick = args.previousTrick;
-        return trick ? formatTrick(trick) : 'unknown';
-    }
+  format: formatTrick,
+  formatMarker: formatTrickMarker,
+  formatMarkers: formatTrickMarkers,
+
+  /**
+   * Format for logOverride - returns a string that replaces ${trick} in messages
+   */
+  forLog: (args: { trick: any }) => formatTrick(args.trick),
+
+  /**
+   * Format for previousTrick in logOverride
+   */
+  forPreviousTrickLog: (args: { previousTrick?: any }) => {
+    const trick = args.previousTrick;
+    return trick ? formatTrick(trick) : 'unknown';
+  },
 };

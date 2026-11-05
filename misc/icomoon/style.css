@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?996wkd');
-  src:  url('fonts/icomoon.eot?996wkd#iefix') format('embedded-opentype'),
+  src: url('fonts/icomoon.eot?996wkd');
+  src:
+    url('fonts/icomoon.eot?996wkd#iefix') format('embedded-opentype'),
     url('fonts/icomoon.ttf?996wkd') format('truetype'),
     url('fonts/icomoon.woff?996wkd') format('woff'),
     url('fonts/icomoon.svg?996wkd#icomoon') format('svg');
@@ -10,7 +11,8 @@
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -26,110 +28,110 @@
 }
 
 .icon-escape:before {
-  content: "\e911";
+  content: '\e911';
 }
 .icon-mechanical:before {
-  content: "\e912";
+  content: '\e912';
 }
 .icon-spiritual:before {
-  content: "\e913";
+  content: '\e913';
 }
 .icon-optical:before {
-  content: "\e914";
+  content: '\e914';
 }
 .icon-end:before {
-  content: "\e910";
+  content: '\e910';
 }
 .icon-disk:before {
-  content: "\e90a";
+  content: '\e90a';
 }
 .icon-disk-apprentice:before {
-  content: "\e90b";
+  content: '\e90b';
 }
 .icon-disk-assistant:before {
-  content: "\e90c";
+  content: '\e90c';
 }
 .icon-disk-engineer:before {
-  content: "\e90d";
+  content: '\e90d';
 }
 .icon-disk-magician:before {
-  content: "\e90e";
+  content: '\e90e';
 }
 .icon-disk-manager:before {
-  content: "\e90f";
+  content: '\e90f';
 }
 .icon-other-players:before {
-  content: "\e91e";
+  content: '\e91e';
 }
 .icon-action-point:before {
-  content: "\e900";
+  content: '\e900';
 }
 .icon-active-player:before {
-  content: "\e901";
+  content: '\e901';
 }
 .icon-advertise:before {
-  content: "\e902";
+  content: '\e902';
 }
 .icon-apprentice:before {
-  content: "\e903";
+  content: '\e903';
 }
 .icon-assignment:before {
-  content: "\e904";
+  content: '\e904';
 }
 .icon-assistant:before {
-  content: "\e905";
+  content: '\e905';
 }
 .icon-coin:before {
-  content: "\e906";
+  content: '\e906';
 }
 .icon-component:before {
-  content: "\e907";
+  content: '\e907';
 }
 .icon-diamond-ring:before {
-  content: "\e908";
+  content: '\e908';
 }
 .icon-die:before {
-  content: "\e909";
+  content: '\e909';
 }
 .icon-engineer:before {
-  content: "\e917";
+  content: '\e917';
 }
 .icon-fame:before {
-  content: "\e918";
+  content: '\e918';
 }
 .icon-fame-threshold:before {
-  content: "\e919";
+  content: '\e919';
 }
 .icon-link:before {
-  content: "\e91a";
+  content: '\e91a';
 }
 .icon-link-shard:before {
-  content: "\e91b";
+  content: '\e91b';
 }
 .icon-magician:before {
-  content: "\e91c";
+  content: '\e91c';
 }
 .icon-manager:before {
-  content: "\e91d";
+  content: '\e91d';
 }
 .icon-perform:before {
-  content: "\e91f";
+  content: '\e91f';
 }
 .icon-performance:before {
-  content: "\e920";
+  content: '\e920';
 }
 .icon-shard:before {
-  content: "\e921";
+  content: '\e921';
 }
 .icon-special-assignment:before {
-  content: "\e922";
+  content: '\e922';
 }
 .icon-spend:before {
-  content: "\e923";
+  content: '\e923';
 }
 .icon-trick:before {
-  content: "\e924";
+  content: '\e924';
 }
 .icon-trick-marker:before {
-  content: "\e925";
+  content: '\e925';
 }

@@ -6,18 +6,18 @@ window.$ = (id) => document.getElementById(id);
 window._ = (t) => t;
 let container;
 let addSection = (section, title) => {
-    $('game_play_area').insertAdjacentHTML(
-        'beforeend',
-        `<div class="wrapper" id='${section}-wrapper'>
+  $('game_play_area').insertAdjacentHTML(
+    'beforeend',
+    `<div class="wrapper" id='${section}-wrapper'>
       <h2>${title}</h2>
       <div class="holder" id="${section}-holder"></div>
     </div>`
-    );
-    $('menu').insertAdjacentHTML('beforeend', `<a href="#${section}-wrapper">${title}</a>`);
-    $(`${section}-wrapper`).addEventListener('click', function () {
-        this.classList.toggle('hidden');
-    });
-    return $(`${section}-holder`);
+  );
+  $('menu').insertAdjacentHTML('beforeend', `<a href="#${section}-wrapper">${title}</a>`);
+  $(`${section}-wrapper`).addEventListener('click', function () {
+    this.classList.toggle('hidden');
+  });
+  return $(`${section}-holder`);
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -32,9 +32,9 @@ console.log('## Reconstructing performance cards ##', staticData.performances);
 container = addSection('performance-cards', 'Performance Cards');
 
 Object.entries(staticData.performances).forEach(([cardType, card]) => {
-    card.id = cardType;
-    card.type = cardType;
-    container.insertAdjacentHTML('beforeend', cards.tplPerformanceCard(card));
+  card.id = cardType;
+  card.type = cardType;
+  container.insertAdjacentHTML('beforeend', cards.tplPerformanceCard(card));
 });
 
 ///////////////////////////////////////////////////////////////
@@ -50,9 +50,9 @@ console.log('## Reconstructing assignment cards ##', staticData.assignments);
 container = addSection('assignment-cards', 'Assignment Cards');
 
 Object.entries(staticData.assignments).forEach(([cardType, card]) => {
-    card.id = cardType;
-    card.type = cardType;
-    container.insertAdjacentHTML('beforeend', cards.tplAssignmentCard(card));
+  card.id = cardType;
+  card.type = cardType;
+  container.insertAdjacentHTML('beforeend', cards.tplAssignmentCard(card));
 });
 
 ////////////////////////////////
@@ -67,9 +67,9 @@ console.log('## Reconstructing trick cards ##', staticData.tricks);
 container = addSection('tricks-cards', 'Trick Cards');
 
 Object.entries(staticData.tricks).forEach(([cardType, card]) => {
-    card.id = cardType;
-    card.type = cardType;
-    container.insertAdjacentHTML('beforeend', cards.tplTrickCard(card));
+  card.id = cardType;
+  card.type = cardType;
+  container.insertAdjacentHTML('beforeend', cards.tplTrickCard(card));
 });
 
 /////////////////////////////////////////////////////////
@@ -85,9 +85,9 @@ console.log('## Reconstructing prophecies cards ##', staticData.prophecies);
 container = addSection('prophecies', 'Prophecies');
 
 Object.entries(staticData.prophecies).forEach(([cardType, card]) => {
-    card.id = cardType;
-    card.type = cardType;
-    container.insertAdjacentHTML('beforeend', cards.tplProphecy(card));
+  card.id = cardType;
+  card.type = cardType;
+  container.insertAdjacentHTML('beforeend', cards.tplProphecy(card));
 });
 
 /////////////////////////////////////////////////////////
@@ -103,11 +103,11 @@ console.log('## Reconstructing magician cards ##', staticData.magicians);
 container = addSection('magicians', 'Magicians');
 
 Object.entries(staticData.magicians).forEach(([cardType, card]) => {
-    card.id = cardType;
-    card.type = cardType;
-    container.insertAdjacentHTML('beforeend', cards.tplMagician(card));
-    container.insertAdjacentHTML('beforeend', cards.tplMagician(card, '', true));
-    container.insertAdjacentHTML('beforeend', cards.tplMagicianPoster(card));
+  card.id = cardType;
+  card.type = cardType;
+  container.insertAdjacentHTML('beforeend', cards.tplMagician(card));
+  container.insertAdjacentHTML('beforeend', cards.tplMagician(card, '', true));
+  container.insertAdjacentHTML('beforeend', cards.tplMagicianPoster(card));
 });
 
 /////////////////////////////////////////////////////////

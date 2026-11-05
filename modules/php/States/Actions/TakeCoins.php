@@ -17,78 +17,81 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Players;
 
 class TakeCoins extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_TAKE_COINS,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must take coins'),
-            descriptionMyTurn: clienttranslate('${you} must take coins'),
-        );
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_TAKE_COINS,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must take coins'),
+      descriptionMyTurn: clienttranslate('${you} must take coins'),
+    );
+  }
+
+  public function getCustomStateDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'description' => clienttranslate('${actplayer} must take coins (${sourceName})'),
+        'descriptionMyTurn' => clienttranslate('${you} must take coins (${sourceName})'),
+      ];
+    }
+    return null;
+  }
+
+  public function getDescription()
+  {
+    if (!is_null($this->getNodeArgs('sourceName'))) {
+      return [
+        'log' => clienttranslate('Take coins (${sourceName})'),
+        'args' => [
+          'sourceName' => $this->getNodeArgs('sourceName', ''),
+        ],
+      ];
+    }
+    return clienttranslate('Take coins');
+  }
+
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $sourceName = $this->getNodeArgs('sourceName');
+
+    $availableCoins = Dice::getDice(Dice::DICE_TYPE_MONEY);
+
+    $args = [
+      'sourceName' => $sourceName,
+      'availableCoins' => $availableCoins,
+    ];
+    return $args;
+  }
+
+  /**
+   * Player must resolve the choice.
+   *
+   * @throws UserException
+   */
+  #[PossibleAction]
+  public function actTakeCoins(int $activePlayerId, int $coins)
+  {
+    Log::step();
+
+    $availableCoins = $this->getActionArgs($activePlayerId)['availableCoins'];
+    if (!in_array($coins, $availableCoins)) {
+      throw new UserException('You cannot take this amount of coins');
     }
 
-    public function getCustomStateDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "description" => clienttranslate('${actplayer} must take coins (${sourceName})'),
-                "descriptionMyTurn" => clienttranslate('${you} must take coins (${sourceName})'),
-            ];
-        }
-        return null;
-    }
+    $player = Players::get($activePlayerId);
+    $player->addCoins($coins);
 
-    public function getDescription() {
-        if (!is_null($this->getNodeArgs("sourceName"))) {
-            return [
-                "log" => clienttranslate('Take coins (${sourceName})'),
-                "args" => [
-                    "sourceName" => $this->getNodeArgs("sourceName", "")
-                ]
-            ];
-        }
-        return clienttranslate('Take coins');
-    }
+    $allDice = Dice::getDice(Dice::DICE_TYPE_MONEY);
+    $dice = array_values(
+      array_filter($allDice, function ($die) use ($coins) {
+        return $die == $coins || $die == Dice::ANY;
+      }),
+    );
+    Dice::setDieUnavailable(Dice::DICE_TYPE_MONEY, $dice[0]);
 
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $sourceName = $this->getNodeArgs("sourceName");
-
-        $availableCoins = Dice::getDice(Dice::DICE_TYPE_MONEY);
-        
-        $args = [
-            "sourceName" => $sourceName,
-            "availableCoins" => $availableCoins
-        ];
-        return $args;
-    }    
-
-    /**
-     * Player must resolve the choice.
-     *
-     * @throws UserException
-     */
-    #[PossibleAction]
-    public function actTakeCoins(int $activePlayerId, int $coins)
-    {
-        Log::step();
-
-        $availableCoins = $this->getActionArgs($activePlayerId)["availableCoins"];
-        if (!in_array($coins, $availableCoins)) {
-            throw new UserException("You cannot take this amount of coins");
-        }
-
-        $player = Players::get($activePlayerId);
-        $player->addCoins($coins);
-
-        $allDice = Dice::getDice(Dice::DICE_TYPE_MONEY);
-        $dice = array_values(array_filter($allDice, function($die) use ($coins) {
-            return $die == $coins || $die == Dice::ANY;
-        }));
-        Dice::setDieUnavailable(Dice::DICE_TYPE_MONEY, $dice[0]);
-
-        return $this->resolve(["coins" => $coins]);
-    }
+    return $this->resolve(['coins' => $coins]);
+  }
 }

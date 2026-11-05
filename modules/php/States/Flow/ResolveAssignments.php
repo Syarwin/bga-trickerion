@@ -14,14 +14,9 @@ use Bga\Games\trickerionlegendsofillusion\Constants\States;
 
 class ResolveAssignments extends GameState
 {
-  function __construct(
-    protected Game $game,
-  ) {
-    parent::__construct(
-      $game,
-      id: States::ST_RESOLVE_ASSIGNMENTS,
-      type: StateType::GAME,
-    );
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_RESOLVE_ASSIGNMENTS, type: StateType::GAME);
   }
 
   function onEnteringState()

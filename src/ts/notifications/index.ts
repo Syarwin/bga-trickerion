@@ -11,15 +11,15 @@ import { TrickMarkerNotifications } from './TrickMarkerNotifications';
 import { TrickNotifications } from './TrickNotifications';
 
 export default [
-    new AssignmentNotifications(),
-    new CharacterNotifications(),
-    new ComponentNotifications(),
-    new DieNotifications(),
-    new MarketRowNotifications(),
-    new PerformanceNotifications(),
-    new PlayerNotifications(),
-    new PosterNotifications(),
-    new ProphecyNotifications(),
-    new TrickNotifications(),
-    new TrickMarkerNotifications(),
+  new AssignmentNotifications(),
+  new CharacterNotifications(),
+  new ComponentNotifications(),
+  new DieNotifications(),
+  new MarketRowNotifications(),
+  new PerformanceNotifications(),
+  new PlayerNotifications(),
+  new PosterNotifications(),
+  new ProphecyNotifications(),
+  new TrickNotifications(),
+  new TrickMarkerNotifications(),
 ];

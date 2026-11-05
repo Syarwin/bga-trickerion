@@ -15,18 +15,18 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
  */
 class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Player
 {
-    protected $table = 'player';
-    protected $primary = 'player_id';
-    protected $customAttributes = [
-        "shards" => ["player_shards", "int"],
-        "coins" => ["player_coins", "int"],
-        "initiative" => ["player_initiative", "int"],
-        "colorName" => ["player_color_name", "str"],
-    ];
+  protected $table = 'player';
+  protected $primary = 'player_id';
+  protected $customAttributes = [
+    'shards' => ['player_shards', 'int'],
+    'coins' => ['player_coins', 'int'],
+    'initiative' => ['player_initiative', 'int'],
+    'colorName' => ['player_color_name', 'str'],
+  ];
 
-    protected $staticAttributes = [];
+  protected $staticAttributes = [];
 
-    /*
+  /*
     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
     ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
     ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -36,111 +36,119 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     */
 
-    public function incComponent(string $component, int $count, string $defaultLocation)
-    {
-        $component = Components::getFiltered($this->id, null, $component)
-            ->first();
+  public function incComponent(string $component, int $count, string $defaultLocation)
+  {
+    $component = Components::getFiltered($this->id, null, $component)->first();
 
-        if ($component->getCount() === 0) {
-            $component->setLocation($defaultLocation);
-        }
-
-        $component->incCount($count);
-
-        Game::get()->bga->notify->all("componentChanged", clienttranslate('${player_name} gets ${n} ${component}'), [
-            "player_id" => $this->id,
-            'n' => $count,
-            "count" => $component->getCount(),
-            "component" => $component,
-        ]);
+    if ($component->getCount() === 0) {
+      $component->setLocation($defaultLocation);
     }
 
-    public function hasEnoughComponents(string $componentType, int $count): bool
-    {
-        $component = Components::getFiltered($this->id, null, $componentType)
-            ->first();
+    $component->incCount($count);
 
-        return $component->getEffectiveCount() >= $count;
-    }
+    Game::get()->bga->notify->all('componentChanged', clienttranslate('${player_name} gets ${n} ${component}'), [
+      'player_id' => $this->id,
+      'n' => $count,
+      'count' => $component->getCount(),
+      'component' => $component,
+    ]);
+  }
 
-    public function getMagician()
-    {
-        return Magicians::getFiltered($this->getId(), Magicians::LOCATION_PLAYER)->first();
-    }
+  public function hasEnoughComponents(string $componentType, int $count): bool
+  {
+    $component = Components::getFiltered($this->id, null, $componentType)->first();
 
-    public function addCoins(int $count)
-    {
-        $this->incCoins($count);
+    return $component->getEffectiveCount() >= $count;
+  }
 
-        Game::get()->bga->notify->all("coinsChanged", clienttranslate('${player_name} gets ${coins} coins'), [
-            "player_id" => $this->id,
-            "coins" => $count,
-            "newValue" => $this->getCoins(),
-        ]);
-    }
+  public function getMagician()
+  {
+    return Magicians::getFiltered($this->getId(), Magicians::LOCATION_PLAYER)->first();
+  }
 
-    public function payCoins(int $count, ?string $msg = null, array $datas = [])
-    {
-        $this->incCoins(-$count);
+  public function addCoins(int $count)
+  {
+    $this->incCoins($count);
 
-        Game::get()->bga->notify->all("coinsChanged", $msg ?? clienttranslate('${player_name} pays ${abs_coins}${coin}'), $datas + [
-            "player_id" => $this->id,
-            "abs_coins" => $count,
-            "coins" => -$count,
-            "coin" => clienttranslate("coin(s)"),
-            "newValue" => $this->getCoins(),
-        ]);
-    }
+    Game::get()->bga->notify->all('coinsChanged', clienttranslate('${player_name} gets ${abs_coins}${coin}'), [
+      'player_id' => $this->id,
+      'abs_coins' => abs($count),
+      'coins' => $count,
+      'coin' => clienttranslate('coin(s)'),
+      'newValue' => $this->getCoins(),
+    ]);
+  }
 
-    public function addShards(int $count)
-    {
-        $this->incShards($count);
+  public function payCoins(int $count, ?string $msg = null, array $datas = [])
+  {
+    $this->incCoins(-$count);
 
-        Game::get()->bga->notify->all("shardsChanged", clienttranslate('${player_name} gets ${shards} shards'), [
-            "player_id" => $this->id,
-            "shards" => $count,
-            "newValue" => $this->getShards(),
-        ]);
-    }
+    Game::get()->bga->notify->all(
+      'coinsChanged',
+      $msg ?? clienttranslate('${player_name} pays ${abs_coins}${coin}'),
+      $datas + [
+        'player_id' => $this->id,
+        'abs_coins' => abs($count),
+        'coins' => -$count,
+        'coin' => clienttranslate('coin(s)'),
+        'newValue' => $this->getCoins(),
+      ],
+    );
+  }
 
-    public function payShards(int $count)
-    {
-        $this->incShards(-$count);
+  public function addShards(int $count)
+  {
+    $this->incShards($count);
 
-        Game::get()->bga->notify->all("shardsChanged", clienttranslate('${player_name} pays ${shards} shards'), [
-            "player_id" => $this->id,
-            "shards" => $count,
-            "newValue" => $this->getShards(),
-        ]);
-    }
+    Game::get()->bga->notify->all('shardsChanged', clienttranslate('${player_name} gets ${abs_shards}${shard}'), [
+      'player_id' => $this->id,
+      'abs_shards' => abs($count),
+      'shards' => $count,
+      'shard' => clienttranslate('shard(s)'),
+      'newValue' => $this->getShards(),
+    ]);
+  }
 
-    public function addFame(int $count)
-    {
-        $this->incScore($count);
+  public function payShards(int $count)
+  {
+    $this->incShards(-$count);
 
-        Game::get()->bga->notify->all("fameChanged", clienttranslate('${player_name} gets ${fame} fame'), [
-            "player_id" => $this->id,
-            "fame" => $count,
-            "newValue" => $this->getScore(),
-        ]);
-    }
+    Game::get()->bga->notify->all('shardsChanged', clienttranslate('${player_name} pays ${abs_shards}${shard}'), [
+      'player_id' => $this->id,
+      'abs_shards' => abs($count),
+      'shards' => $count,
+      'shard' => clienttranslate('shard(s)'),
+      'newValue' => $this->getShards(),
+    ]);
+  }
 
-    public function addYields(array $yields)
-    {
-        $this->addFame($yields["fame"] ?? 0);
-        $this->addCoins($yields["coins"] ?? 0);
-        $this->addShards($yields["shards"] ?? 0);
-    }
+  public function addFame(int $count)
+  {
+    $this->incScore($count);
 
-    public function hasSpecialist(string $characterType): bool
-    {
-        return Characters::getFiltered($this->id, null, $characterType)
-            ->if("specialist")
-            ->whereNot('location', [Characters::LOCATION_SUPPLY, Characters::LOCATION_INCOMING])
-            ->count() > 0;
-    }
+    Game::get()->bga->notify->all('fameChanged', clienttranslate('${player_name} gets ${fame} fame'), [
+      'player_id' => $this->id,
+      'fame' => $count,
+      'newValue' => $this->getScore(),
+    ]);
+  }
 
-    /*
+  public function addYields(array $yields)
+  {
+    $this->addFame($yields['fame'] ?? 0);
+    $this->addCoins($yields['coins'] ?? 0);
+    $this->addShards($yields['shards'] ?? 0);
+  }
+
+  public function hasSpecialist(string $characterType): bool
+  {
+    return Characters::getFiltered($this->id, null, $characterType)
+      ->if('specialist')
+      ->whereNot('location', [Characters::LOCATION_SUPPLY, Characters::LOCATION_INCOMING])
+      ->count() > 0;
+  }
+
+  /*
     ███████╗ ██████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗
     ██╔════╝██╔════╝██╔═══██╗██╔══██╗██║████╗  ██║██╔════╝
     ███████╗██║     ██║   ██║██████╔╝██║██╔██╗ ██║██║  ███╗
@@ -150,43 +158,39 @@ class Player extends \Bga\Games\trickerionlegendsofillusion\Framework\Models\Pla
 
     */
 
-    public function scoreShards()
-    {
-        return $this->getShards();
-    }
+  public function scoreShards()
+  {
+    return $this->getShards();
+  }
 
-    public function scoreCoins()
-    {
-        return floor($this->getCoins() / 3);
-    }
+  public function scoreCoins()
+  {
+    return floor($this->getCoins() / 3);
+  }
 
-    public function scoreApprentices()
-    {
-        return Characters::getFiltered($this->id, null, Character::TYPE_APPRENTICE)
-            ->whereNot("location", Characters::LOCATION_SUPPLY)
-            ->count() * 2;
-    }
+  public function scoreApprentices()
+  {
+    return Characters::getFiltered($this->id, null, Character::TYPE_APPRENTICE)
+      ->whereNot('location', Characters::LOCATION_SUPPLY)
+      ->count() * 2;
+  }
 
-    public function scoreSpecialists()
-    {
-        return Characters::getFiltered($this->id)
-            ->if("specialist")
-            ->whereNot("location", Characters::LOCATION_SUPPLY)
-            ->count() * 3;
-    }
+  public function scoreSpecialists()
+  {
+    return Characters::getFiltered($this->id)->if('specialist')->whereNot('location', Characters::LOCATION_SUPPLY)->count() * 3;
+  }
 
-    public function scoreSpecialAssignments()
-    {
-        return Assignments::getFiltered($this->id, Assignments::LOCATION_HAND)
-            ->where("category", Assignment::CATEGORY_SPECIAL)
-            ->count() * 2;
-    }
+  public function scoreSpecialAssignments()
+  {
+    return Assignments::getFiltered($this->id, Assignments::LOCATION_HAND)
+      ->where('category', Assignment::CATEGORY_SPECIAL)
+      ->count() * 2;
+  }
 
-    public function scoreTricks()
-    {
-        return Tricks::getFiltered($this->id, Tricks::LOCATION_PLAYER_ALL)
-            ->reduce(function ($total, $trick) {
-                return $total + $trick->score();
-            }, 0);
-    }
+  public function scoreTricks()
+  {
+    return Tricks::getFiltered($this->id, Tricks::LOCATION_PLAYER_ALL)->reduce(function ($total, $trick) {
+      return $total + $trick->score();
+    }, 0);
+  }
 }

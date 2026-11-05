@@ -11,15 +11,10 @@ use Bga\Games\trickerionlegendsofillusion\Game;
 
 class GenericGameState extends GameState
 {
-    function __construct(
-        protected Game $game,
-    ) {
-        parent::__construct($game,
-            id: States::ST_GENERIC_GAME_STATE,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game)
+  {
+    parent::__construct($game, id: States::ST_GENERIC_GAME_STATE, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId) {
-    }
+  function onEnteringState(int $activePlayerId) {}
 }

@@ -13,33 +13,30 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 
 class FortuneTelling extends AutomaticActionState
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct($game,
-            node: $node,
-            id: States::ST_FORTUNE_TELLING,
-            type: StateType::GAME,
-        );
-    }
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct($game, node: $node, id: States::ST_FORTUNE_TELLING, type: StateType::GAME);
+  }
 
-    function onEnteringState(int $activePlayerId)
-    {
-        $UpdatedProphecies = Prophecies::getInLocation(Prophecies::LOCATION_PENDING)
-            ->forEach(function ($prophecy) {
-                $prophecy->incState(-1);
+  function onEnteringState(int $activePlayerId)
+  {
+    $UpdatedProphecies = Prophecies::getInLocation(Prophecies::LOCATION_PENDING)->forEach(function ($prophecy) {
+      $prophecy->incState(-1);
 
-                if ($prophecy->getState() <= 0) {
-                    $prophecy->setState(3);
-                }
-            });
+      if ($prophecy->getState() <= 0) {
+        $prophecy->setState(3);
+      }
+    });
 
-        $this->notify->all("propheciesUpdated", clienttranslate('${player_name} use fortune telling and rotated all pending prophecies clockwise'), [
-            "player_id" => $activePlayerId,
-            "updatedProphecies" => $UpdatedProphecies->toArray(),
-        ]);
+    $this->notify->all(
+      'propheciesUpdated',
+      clienttranslate('${player_name} use fortune telling and rotated all pending prophecies clockwise'),
+      [
+        'player_id' => $activePlayerId,
+        'updatedProphecies' => $UpdatedProphecies->toArray(),
+      ],
+    );
 
-        return $this->resolve();
-    }    
+    return $this->resolve();
+  }
 }

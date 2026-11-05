@@ -74,7 +74,7 @@ class AbstractNode
       throw new VisibleSystemException('Trying to insert a brother of the root');
     }
     // Ensure parent is a seq node
-    if (!$this->parent instanceof SequentialNode) {
+    if (!($this->parent instanceof SequentialNode)) {
       $newParent = new SequentialNode([], []);
       $newParent = $this->parent->replaceAtPos($newParent, $index);
       $newParent->pushChild($this);
@@ -91,7 +91,7 @@ class AbstractNode
     }
 
     // Ensure parent is a seq node
-    if (!$this->parent instanceof SequentialNode) {
+    if (!($this->parent instanceof SequentialNode)) {
       $newParent = new SequentialNode([], []);
       $newParent = $this->parent->replaceAtPos($newParent, $index);
       $newParent->pushChild($this);
@@ -144,7 +144,7 @@ class AbstractNode
       function ($acc, $child) use ($callable) {
         return $acc && $callable($child);
       },
-      true
+      true,
     );
   }
 
@@ -155,7 +155,7 @@ class AbstractNode
       function ($acc, $child) use ($callable) {
         return $acc || $callable($child);
       },
-      false
+      false,
     );
   }
 
@@ -199,7 +199,8 @@ class AbstractNode
   /***********************
    *** Getters (sugar) ***
    ***********************/
-  public function getInfo() {
+  public function getInfo()
+  {
     return $this->info;
   }
 
@@ -228,7 +229,8 @@ class AbstractNode
     return $this->info['args'] ?? null;
   }
 
-  public function setArgs($newArgs) {
+  public function setArgs($newArgs)
+  {
     $this->info['args'] = $newArgs;
   }
 
@@ -320,7 +322,7 @@ class AbstractNode
   {
     return $this->info['optional'] ?? $this->parent != null && $this->parent->areChildrenOptional();
   }
-  
+
   public function isCancellable()
   {
     return $this->info['cancellable'] ?? false;
@@ -345,7 +347,8 @@ class AbstractNode
   {
     $choice = null;
     $choices = [];
-    $children = $this->getType() == Engine::NODE_SEQUENTIAL && !empty($this->children) ? [0 => $this->children[0]] : $this->children;
+    $children =
+      $this->getType() == Engine::NODE_SEQUENTIAL && !empty($this->children) ? [0 => $this->children[0]] : $this->children;
 
     foreach ($children as $id => $child) {
       if (!$child->isResolved() && ($displayAllChoices || $child->isDoable($player))) {

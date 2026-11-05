@@ -16,53 +16,51 @@ use Bga\Games\trickerionlegendsofillusion\Managers\LocationActions;
 
 class PlayLocationAction extends ActionStateWithRevert
 {
-    function __construct(
-        protected Game $game,
-        protected ?AbstractNode $node = null
-    ) {
-        parent::__construct(
-            $game,
-            node: $node,
-            id: States::ST_PLAY_LOCATION_ACTIONS,
-            type: StateType::ACTIVE_PLAYER,
-            description: clienttranslate('${actplayer} must play location actions (remaining AP: ${remainingAps})'),
-            descriptionMyTurn: clienttranslate('${you} must play location actions (remaining AP: ${remainingAps})'),
-        );
+  function __construct(protected Game $game, protected ?AbstractNode $node = null)
+  {
+    parent::__construct(
+      $game,
+      node: $node,
+      id: States::ST_PLAY_LOCATION_ACTIONS,
+      type: StateType::ACTIVE_PLAYER,
+      description: clienttranslate('${actplayer} must play location actions (remaining AP: ${remainingAps})'),
+      descriptionMyTurn: clienttranslate('${you} must play location actions (remaining AP: ${remainingAps})'),
+    );
+  }
+
+  public function isOptional()
+  {
+    return true;
+  }
+
+  public function getActionArgs(int $activePlayerId): array
+  {
+    $args = [];
+    $args['availableActions'] = LocationActions::getActions($activePlayerId);
+    $args['remainingAps'] = LocationActions::getRemainingActionPoints();
+    $args['locationId'] = LocationActions::getLocationId();
+    return $args;
+  }
+
+  public function onEnteringState(array $args, int $activePlayerId)
+  {
+    if (count($args['availableActions']) == 0) {
+      return $this->resolve([
+        'automatic' => true,
+      ]);
     }
+  }
 
-    public function isOptional()
-    {
-        return true;
-    }
+  #[PossibleAction]
+  public function actPlayAction(int $activePlayerId, array $args, string $actionId)
+  {
+    Log::step();
+    LocationActions::playAction($activePlayerId, $actionId);
 
-    public function getActionArgs(int $activePlayerId): array
-    {
-        $args = [];
-        $args["availableActions"] = LocationActions::getActions($activePlayerId);
-        $args["remainingAps"] = LocationActions::getRemainingActionPoints();
-        $args["locationId"] = LocationActions::getLocationId();
-        return $args;
-    }
+    Engine::insertAsSibling([
+      'state' => PlayLocationAction::class,
+    ]);
 
-    public function onEnteringState(array $args, int $activePlayerId)
-    {
-        if (count($args["availableActions"]) == 0) {
-            return $this->resolve([
-                "automatic" => true
-            ]);
-        }
-    }
-
-    #[PossibleAction]
-    public function actPlayAction(int $activePlayerId, array $args, string $actionId)
-    {
-        Log::step();
-        LocationActions::playAction($activePlayerId, $actionId);
-
-        Engine::insertAsSibling([
-            "state" => PlayLocationAction::class
-        ]);
-
-        return $this->resolve(["actionId" => $actionId]);
-    }
+    return $this->resolve(['actionId' => $actionId]);
+  }
 }
