@@ -20,7 +20,8 @@ class OrderComponent extends ActionStateWithRevert
         protected Game $game,
         protected ?AbstractNode $node = null
     ) {
-        parent::__construct($game,
+        parent::__construct(
+            $game,
             node: $node,
             id: States::ST_ORDER_COMPONENT,
             type: StateType::ACTIVE_PLAYER,
@@ -29,7 +30,8 @@ class OrderComponent extends ActionStateWithRevert
         );
     }
 
-    public function getCustomStateDescription() {
+    public function getCustomStateDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "description" => clienttranslate('${actplayer} must order components (${sourceName})'),
@@ -39,7 +41,8 @@ class OrderComponent extends ActionStateWithRevert
         return null;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         if (!is_null($this->getNodeArgs("sourceName"))) {
             return [
                 "log" => clienttranslate('Order components (${sourceName})'),
@@ -61,7 +64,7 @@ class OrderComponent extends ActionStateWithRevert
             "availableComponents" => $availableComponents
         ];
         return $args;
-    }    
+    }
 
     /**
      * Player must resolve the choice.
@@ -69,18 +72,18 @@ class OrderComponent extends ActionStateWithRevert
      * @throws UserException
      */
     #[PossibleAction]
-    public function actOrderComponents(int $activePlayerId, array $args, string $component, int $slotId)
+    public function actOrderComponents(int $activePlayerId, array $args, string $componentType, int $slotId)
     {
         Log::step();
-        if (!in_array($component, $args["availableComponents"])) {
+        if (!in_array($componentType, $args["availableComponents"])) {
             throw new UserException(clienttranslate("This component is not available to order"));
         }
         if (!in_array($slotId, $args["availableOrderSlots"])) {
             throw new UserException(clienttranslate("This order slot is not available"));
         }
 
-        MarketRow::addToOrder($component, $slotId);
+        MarketRow::addToOrder($componentType, $slotId);
 
-        return $this->resolve(["component" => $component, "slotId" => $slotId]);
+        return $this->resolve(["componentType" => $componentType, "slotId" => $slotId]);
     }
 }

@@ -55,26 +55,14 @@ export class MarketRowNotifications {
 
   async notif_componentOrdered(args: ComponentOrderedArgs) {
     const gamedatas = bga.gameui.gamedatas as TrickerionGamedatas;
-    gamedatas.globals.marketRow.orderArea[args.slot] = args.component;
+    gamedatas.globals.marketRow.orderArea[args.slot] = args.component.type;
 
-    const slotId = ORDER_SLOT_IDS[args.slot];
-    const el = $(slotId);
-    if (el) {
-      // Remove old meeple if exists
-      const oldMeeple = el.querySelector('.trickerion-meeple');
-      if (oldMeeple) oldMeeple.remove();
-
-      el.dataset.component = args.component;
-
-      // Create new order component meeple
-      const component: any = {
-        id: `market-order-${args.slot}`,
-        type: args.component,
-        location: slotId,
-        count: 1,
-      };
-      meeples.addMeeple(component, el);
-    }
+    const el = $(ORDER_SLOT_IDS[args.slot]);
+    // Remove old meeple if exists
+    const oldMeeple = el.querySelector('.trickerion-meeple');
+    if (oldMeeple) oldMeeple.remove();
+    // Create new order component meeple
+    meeples.addMeeple(args.component, el);
   }
 
   async notif_componentArrived(args: ComponentArrivedArgs) {

@@ -613,9 +613,8 @@ interface QuickOrderSetArgs {
 
 interface ComponentOrderedArgs {
   player_id: number;
-  componentName: string;
   slot: number;
-  component: ComponentType;
+  component: Component;
 }
 
 interface ComponentArrivedArgs {

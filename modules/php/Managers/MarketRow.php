@@ -97,15 +97,15 @@ class MarketRow
         return array_values(array_diff($allSlots, $usedSlots));
     }
 
-    public static function addToOrder(string $component, int $slot)
+    public static function addToOrder(string $componentType, int $slot)
     {
         $marketRow = Globals::getMarketRow();
-        $marketRow["orderArea"][$slot] = $component;
+        $marketRow["orderArea"][$slot] = $componentType;
         Globals::setMarketRow($marketRow);
+        $component = new Component(['component_id' => "order-$slot", 'component_type' => $componentType]);
 
-        Game::get()->bga->notify->all("componentOrdered", clienttranslate('${player_name} ordered ${componentName}'), [
+        Game::get()->bga->notify->all("componentOrdered", clienttranslate('${player_name} ordered ${component}'), [
             "player_id" => Players::getActiveId(),
-            "componentName" => Component::getComponentName($component),
             "slot" => $slot,
             "component" => $component
         ]);

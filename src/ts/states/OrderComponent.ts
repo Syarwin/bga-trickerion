@@ -1,70 +1,50 @@
 import { State } from '../framework/State';
 import { clearPossible } from '../framework/utils';
 import { onClick } from '../framework/event';
-import { formatIcon } from '../format';
+import { formatIcon, getComponentDisplayName } from '../format';
 
 /** Map order slot index → DOM element id */
 const ORDER_SLOT_IDS = ['order-slot-0', 'order-slot-1', 'order-slot-2', 'order-slot-3'];
 
+// ========== Server State: Phase 1 - Select Component Type ==========
+
 export class OrderComponent extends State {
-    private _currentArgs: OrderComponentArgs | null = null;
+  onEnteringState(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
+    if (!isCurrentPlayerActive) return;
 
-    onEnteringState(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
-        this._currentArgs = args;
-        this.onPlayerActivationChange(args, isCurrentPlayerActive);
+    // Phase 1: Show available component types as buttons
+    for (const componentType of args.availableComponents) {
+      const comp = getComponentDisplayName(componentType);
+      this.bga.statusBar.addActionButton(comp, () => {
+        this.bga.states.setClientState('client_orderComponentSlot', {
+          descriptionmyturn: _('Where do you want to order the ${comp}?'),
+          args: {
+            availableOrderSlots: args.availableOrderSlots,
+            comp,
+            selectedComponent: componentType,
+          },
+        });
+      });
+    }
+  }
+}
+
+// ========== Client State: Phase 2 - Select Order Slot ==========
+
+interface ClientOrderComponentSlotArgs extends OrderComponentArgs {
+  selectedComponent: string;
+}
+
+export class ClientOrderComponentSlot extends State {
+  onEnteringState(args: ClientOrderComponentSlotArgs, isCurrentPlayerActive: boolean) {
+    for (const slot of args.availableOrderSlots) {
+      const domId = ORDER_SLOT_IDS[slot];
+      this.actionOnClick($(domId), 'actOrderComponents', {
+        componentType: args.selectedComponent,
+        slotId: slot,
+      });
     }
 
-    onLeavingState(_args: OrderComponentArgs, _isCurrentPlayerActive: boolean) {
-        clearPossible();
-    }
-
-    onPlayerActivationChange(args: OrderComponentArgs, isCurrentPlayerActive: boolean) {
-        clearPossible();
-        if (!isCurrentPlayerActive) return;
-
-        this._currentArgs = args;
-        this.bga.statusBar.removeActionButtons();
-
-        // Phase 1: Show available component types as buttons
-        for (const component of args.availableComponents) {
-            const label = `${formatIcon(component)} ${_(component)}`;
-            this.bga.statusBar.addActionButton(
-                label,
-                () => {
-                    clearPossible();
-                    this.bga.statusBar.removeActionButtons();
-                    this._showOrderSlots(args, component);
-                }
-            );
-        }
-    }
-
-    /** Phase 2: highlight empty order slots on the board + Cancel */
-    private _showOrderSlots(args: OrderComponentArgs, component: string) {
-        for (const slot of args.availableOrderSlots) {
-            const domId = ORDER_SLOT_IDS[slot];
-            if (!domId) continue;
-
-            const el = $(domId);
-            if (!el) continue;
-
-            el.classList.add('selectable');
-            onClick(el, () => {
-                clearPossible();
-                this.bga.statusBar.removeActionButtons();
-                this.bga.actions.performAction('actOrderComponents', { component, slotId: slot });
-            });
-        }
-
-        // Cancel back to Phase 1
-        this.bga.statusBar.addActionButton(
-            _('Cancel'),
-            () => {
-                clearPossible();
-                this.bga.statusBar.removeActionButtons();
-                if (this._currentArgs) this.onPlayerActivationChange(this._currentArgs, true);
-            },
-            { color: 'alert' }
-        );
-    }
+    this.addCancelStateBtn();
+  }
 }
