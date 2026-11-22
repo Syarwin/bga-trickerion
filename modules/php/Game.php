@@ -35,6 +35,8 @@ use Bga\Games\trickerionlegendsofillusion\Managers\Posters;
 use Bga\Games\trickerionlegendsofillusion\Managers\Prophecies;
 use Bga\Games\trickerionlegendsofillusion\Managers\TrickMarkers;
 use Bga\Games\trickerionlegendsofillusion\Managers\Tricks;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime\DiscardComponents;
+use Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime\DiscardTrick;
 use Bga\Games\trickerionlegendsofillusion\States\Flow\FinishEngineerSetup;
 use Bga\Games\trickerionlegendsofillusion\States\Flow\SetupTurn;
 
@@ -44,6 +46,14 @@ class Game extends \Bga\GameFramework\Table
   public static function get(): Game
   {
     return self::$instance;
+  }
+
+  public static function getAnytimeActions(): array
+  {
+    return [
+      DiscardComponents::class,
+      DiscardTrick::class
+    ];
   }
 
   /**

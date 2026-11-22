@@ -80,12 +80,9 @@ class ActionState extends AutomaticActionState
       return [];
     }
 
-    $freeActionsDir = __DIR__ . '/../../States/Actions/Anytime/';
-    $namespace = 'Bga\Games\trickerionlegendsofillusion\States\Actions\Anytime\\';
-
     $actions = [];
-    foreach (glob($freeActionsDir . '*.php') as $file) {
-      $actions[] = ['state' => $namespace . basename($file, '.php')];
+    foreach (Game::getAnytimeActions() as $action) {
+      $actions[] = ['state' => $action];
     }
 
     $anytimeActions = [];
